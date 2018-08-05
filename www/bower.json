@@ -1,0 +1,21 @@
+{
+  "name": "nks-html",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/resources/js/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fancybox": "*",
+    "owl.carousel": "*",
+    "jquery-ui": "*"
+  }
+}
