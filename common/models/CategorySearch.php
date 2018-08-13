@@ -19,7 +19,7 @@ public function rules()
 {
 return [
 [['id', 'type', 'created_at', 'updated_at', 'sort_order', 'parent_id', 'priority'], 'integer'],
-            [['name', 'alias', 'features', 'aksses_ids', 'text_advice', 'descr', 'image_catalog', 'image_menu', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords', 'seo_description'], 'safe'],
+            [['name', 'alias', 'text_advice', 'descr', 'image_catalog', 'image_menu', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords', 'seo_description'], 'safe'],
 ];
 }
 
@@ -44,7 +44,7 @@ public function search($params)
 $query = Category::find()->orderBy(['sort_order' => SORT_DESC]);
 
 $dataProvider = new ActiveDataProvider([
-'query' => $query,
+    'query' => $query,
 ]);
 
 $this->load($params);
@@ -67,8 +67,6 @@ $query->andFilterWhere([
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'alias', $this->alias])
-            ->andFilterWhere(['like', 'features', $this->features])
-            ->andFilterWhere(['like', 'aksses_ids', $this->aksses_ids])
             ->andFilterWhere(['like', 'text_advice', $this->text_advice])
             ->andFilterWhere(['like', 'descr', $this->descr])
             ->andFilterWhere(['like', 'image_catalog', $this->image_catalog])

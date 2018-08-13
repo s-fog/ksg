@@ -5,13 +5,28 @@ namespace common\models;
 use Yii;
 use \common\models\base\Product as BaseProduct;
 use yii\helpers\ArrayHelper;
+use yz\shoppingcart\CartPositionInterface;
+use yz\shoppingcart\CartPositionTrait;
 
 /**
  * This is the model class for table "product".
  */
-class Product extends BaseProduct
+class Product extends BaseProduct implements CartPositionInterface
 {
+    use CartPositionTrait;
+
     public $categories_ids;
+    public $params;
+
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    public function getId()
+    {
+        return md5(serialize([$this->id, $this->params]));
+    }
 
     public function behaviors()
     {
@@ -32,10 +47,10 @@ class Product extends BaseProduct
     public function rules()
     {
         return [
-            [['name', 'hit', 'parent_id', 'brand_id', 'supplier', 'price', 'currency_id', 'description', 'disallow_xml', 'available'], 'required'],
-            [['hit', 'parent_id', 'brand_id', 'supplier', 'price', 'price_old', 'currency_id', 'adviser_id', 'sort_order', 'available'], 'integer'],
+            [['name', 'hit', 'parent_id', 'brand_id', 'supplier', 'price', 'currency_id', 'description', 'disallow_xml'], 'required'],
+            [['hit', 'parent_id', 'brand_id', 'supplier', 'price', 'price_old', 'currency_id', 'adviser_id', 'sort_order'], 'integer'],
             [['description', 'adviser_text', 'seo_description'], 'string'],
-            [['name', 'alias', 'code', 'artikul', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255],
+            [['name', 'alias', 'code', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255],
             [['code'], 'unique'],
             [['parent_id'], 'compare', 'compareValue' => 0, 'operator' => '!=', 'type' => 'number'],
             [['instruction'], 'file']

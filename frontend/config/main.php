@@ -41,6 +41,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '<alias>' => 'site/index',
+                'product/<alias>' => 'catalog/view',
             ],
         ],
     ],

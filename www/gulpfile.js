@@ -40,8 +40,9 @@ gulp.task('scripts', function () {
 
 gulp.task('scripts.vendor', function () {
     return gulp.src([
+        'js/vendor/jquery-ui/jquery-ui.min.js',
         'js/vendor/fancybox/dist/jquery.fancybox.js',
-        'js/vendor/owl.carousel/dist/owl.carousel.min.js'
+        'js/vendor/owl.carousel/dist/owl.carousel.js'
         ])
         .pipe(concat('vendor.js'))
         .pipe(plumber())

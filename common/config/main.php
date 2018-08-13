@@ -10,6 +10,10 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'cart' => [
+            'class' => 'yz\shoppingcart\ShoppingCart',
+            'cartId' => 'my_application_cart',
+        ],
         'i18n' => [
             'translations' => [
                 'models*' => [

@@ -7,8 +7,8 @@ use yii\helpers\Html;
 
 <header class="main-header">
     <a class="logo" href="/admin/site/index">
-        <span class="logo-mini">Vidmaster</span>
-        <span class="logo-lg">Vidmaster</span>
+        <span class="logo-mini">KSG</span>
+        <span class="logo-lg">KSG</span>
     </a>
     <nav class="navbar navbar-static-top" role="navigation">
         <div class="navbar-custom-menu">

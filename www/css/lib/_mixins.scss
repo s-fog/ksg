@@ -1,0 +1,13 @@
+@import "../settings";
+
+@function calc-grid-item-width($items, $gap: $grid-gap, $container-width: $site-width) {
+  @return floor(($container-width - ($items - 1) * $gap) / $items);
+}
+
+@function text-shadow($color) {
+  @return 0 0 1px lighten($color, 40%);
+}
+
+.transition {
+  transition: all 0.1s linear;
+}

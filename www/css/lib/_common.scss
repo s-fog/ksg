@@ -1,0 +1,623 @@
+@import "media";
+@import "mixins";
+@import "../settings";
+
+sub {
+  vertical-align: sub;
+  font-size: small;
+}
+
+form {
+  margin: 0;
+}
+
+sup {
+  vertical-align: super;
+  font-size: small;
+}
+
+p {
+  margin: 1em 0;
+  line-height: 1.3;
+}
+
+button,
+input[type="submit"] {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font-family: $font-family !important;
+}
+
+/* IE 10+ */
+
+.field-bc {
+  display: none;
+}
+
+.ul-reset {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+body {
+  font-family: $font-family;
+  font-size: $font-size;
+  color: $textColor;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.invisible {
+  opacity: 0 !important;
+}
+
+.fade {
+  display: none;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.smaller {
+  font-size: 90%;
+}
+
+:focus {
+  outline: none;
+}
+
+:focus::-webkit-input-placeholder {
+  color: transparent
+}
+
+:focus::-moz-placeholder {
+  color: transparent
+}
+
+:focus:-moz-placeholder {
+  color: transparent
+}
+
+:focus:-ms-input-placeholder {
+  color: transparent
+}
+
+/* Micro ClearFix Mixin */
+.clearfix {
+  zoom: 1;
+  &:before, &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE/Edge */
+  user-select: none;
+  /* non-prefixed version, currently
+                         not supported by any browser */
+}
+
+.grid {
+  margin: 0 -$grid-gap/2;
+
+  > .item {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 $grid-gap/2 $grid-gap;
+    box-sizing: border-box;
+  }
+}
+
+.flex-grid {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin: 0 -$grid-gap/2;
+
+  &__item {
+    margin: 0 $grid-gap/2 $grid-gap;
+    box-sizing: border-box;
+
+    @include respond-to(mobile) {
+      width: 100%;
+    }
+  }
+}
+
+.flex-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  img {
+    align-self: flex-start;
+  }
+}
+
+.container {
+  @extend .block-center;
+  max-width: $site-width;
+  width: 100%;
+  position: relative;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.block-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mrg {
+  @extend .mrg-top;
+  @extend .mrg-bottom;
+}
+
+.mrg-top {
+  margin-top: $margin;
+}
+
+.mrg-bottom {
+  margin-bottom: $margin;
+}
+
+input[name='BC'] {
+  display: none;
+}
+
+form .form-group {
+  display: inline-block;
+  vertical-align: top;
+}
+
+input, textarea {
+  font-family: $font-family;
+}
+
+
+.link {
+  border-bottom: 1px solid;
+  color: inherit;
+  text-decoration: none;
+  @extend .transition;
+
+  &:hover {
+    border-color: transparent;
+  }
+}
+
+.linkReverse {
+  border-bottom: 1px solid transparent;
+  color: inherit;
+  text-decoration: none;
+  @extend .transition;
+
+  &:hover {
+    border-color: inherit;
+  }
+}
+
+.linkSpan {
+  color: inherit;
+  text-decoration: none;
+
+  span {
+    border-bottom: 1px solid;
+    @extend .transition;
+  }
+
+  &:hover {
+    span {
+      border-color: transparent;
+    }
+  }
+}
+
+.linkSpanReverse {
+  color: inherit;
+  text-decoration: none;
+
+  span {
+    border-bottom: 1px solid transparent;
+    @extend .transition;
+  }
+
+  &:hover {
+    span {
+      border-color: inherit;
+    }
+  }
+}
+
+.fancybox-container {
+  font-family: $font-family;
+}
+
+button {
+  padding-top: 0 !important;
+}
+
+.button {
+  display: block;
+  position: relative;
+  text-align: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: lowercase;
+  @extend .transition;
+
+  svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    @extend .transition;
+
+    polygon {
+      @extend .transition;
+    }
+  }
+
+  span {
+    position: relative;
+    color: #fff;
+    z-index: 2;
+  }
+}
+
+.button1 {
+  width: 227px;
+  height: 41px;
+  padding-top: 13px;
+  font-size: 14px;
+  color: #fff;
+
+  &:hover {
+    svg {
+      polygon {
+        fill: $lightRedColor;
+      }
+    }
+  }
+
+  svg {
+
+    polygon {
+      fill: transparent;
+      stroke: $lightRedColor;
+      stroke-miterlimit: 10;
+    }
+  }
+}
+
+.button2 {
+  width: 87px;
+  height: 31px;
+  padding-top: 7px;
+  font-size: 14px;
+  color: #fff;
+
+  &:hover {
+    svg {
+      polygon {
+        fill: $lightRedColor;
+      }
+    }
+  }
+
+  svg {
+
+    polygon {
+      fill: transparent;
+      stroke: $lightRedColor;
+      stroke-width: 3px;
+    }
+  }
+}
+
+.button3 {
+  width: 227px;
+  height: 41px;
+  padding-top: 11px;
+  @extend .semibold;
+  font-size: 14px;
+  color: #fff;
+
+  &:hover {
+    svg {
+      filter: drop-shadow(2px 2px 3px transparent );
+
+      polygon {
+        fill: $lightRedColorHover;
+      }
+    }
+  }
+
+  svg {
+    filter: drop-shadow(2px 2px 3px #bbb);
+
+    polygon {
+      fill: #e8394a;
+    }
+  }
+}
+
+.button4 {
+  width: 140px;
+  height: 34px;
+  padding-top: 8px;
+  @extend .semibold;
+  font-size: 18px;
+  color: #fff;
+
+  &:hover {
+    svg {
+      filter: drop-shadow(2px 2px 3px transparent );
+
+      polygon {
+        fill: $lightRedColorHover;
+      }
+    }
+  }
+
+  svg {
+    filter: drop-shadow(2px 2px 3px #bbb);
+
+    polygon {
+      fill: $lightRedColor;
+    }
+  }
+}
+
+.button5 {
+  width: 103px;
+  height: 34px;
+  padding-top: 7px;
+  @extend .semibold;
+  font-size: 18px;
+  color: #fff;
+
+  &:hover {
+    svg {
+      filter: drop-shadow(2px 2px 3px transparent );
+
+      polygon {
+        fill: $lightRedColorHover;
+      }
+    }
+  }
+
+  svg {
+    filter: drop-shadow(2px 2px 3px #bbb);
+
+    polygon {
+      fill: $lightRedColor;
+    }
+  }
+}
+
+.button6 {
+  width: 143px;
+  height: 37px;
+  padding-top: 7px;
+  @extend .semibold;
+  font-size: 18px;
+  color: #fff;
+
+  &:hover {
+    svg {
+      filter: drop-shadow(2px 2px 3px transparent );
+
+      polygon {
+        fill: $lightRedColorHover;
+      }
+    }
+  }
+
+  svg {
+    filter: drop-shadow(2px 2px 3px #bbb);
+
+    polygon {
+      fill: #e8394a;
+    }
+  }
+}
+
+.button7 {
+  width: 132px;
+  height: 50px;
+  padding-top: 17px;
+  font-family: 'uni_sansheavy_caps', sans-serif !important;
+  font-size: 18px;
+  color: #fff;
+
+  &:hover {
+    svg {
+      filter: drop-shadow(2px 2px 3px transparent );
+
+      polygon {
+        fill: $lightRedColorHover;
+      }
+    }
+  }
+
+  svg {
+    filter: drop-shadow(2px 2px 3px #bbb);
+
+    polygon {
+      fill: #e8394a;
+    }
+  }
+}
+
+.button222 {
+  width: 219px;
+  height: 34px;
+  padding-top: 7px;
+  @extend .semibold;
+  font-size: 18px;
+  color: #fff;
+
+  &:hover {
+    svg {
+      filter: drop-shadow(2px 2px 3px transparent );
+
+      polygon {
+        fill: $lightRedColorHover;
+      }
+    }
+  }
+
+  svg {
+    filter: drop-shadow(2px 2px 3px #bbb);
+
+    polygon {
+      fill: #e8394a;
+    }
+  }
+}
+
+.header {
+  position: relative;
+  margin: 90px 0 85px;
+  @extend .sportsWorld;
+  font-size: 48px;
+  color: $darkColor;
+  text-align: center;
+  line-height: 1.2;
+  @include respond-to(500) {
+    font-size: 36px;
+  }
+
+  &:before, &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100px;
+    height: 50px;
+    background-size: 100px 50px;
+  }
+
+  &:before {
+    top: -45px;
+    background-image: url(../img/header-top.svg);
+    transform: translate(22px, 0);
+  }
+
+  &:after {
+    bottom: -45px;
+    background-image: url(../img/header-bottom.svg);
+    transform: translate(-22px, 0);
+  }
+
+  &_white {
+    color: #fff;
+  }
+}
+
+.header2 {
+  margin: 50px 0;
+  @extend .sportsWorld;
+  font-size: 32px;
+  color: $darkColor;
+  text-align: center;
+  line-height: 1.2;
+  @include respond-to(500) {
+    font-size: 26px;
+  }
+}
+
+.lightRedColor {
+  color: $lightRedColor;
+}
+
+.greenColor {
+  color: $greenColor;
+}
+
+.columns {
+  columns: 2;
+  column-gap: 10px;
+  @include respond-to(800) {
+    columns: 1;
+  }
+
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+h1 {
+  margin: 40px 0;
+  @extend .sportsWorld;
+  font-size: 24px;
+  text-align: center;
+}
+
+em.rubl {
+  font-style: normal;
+}
+
+.ui-front {
+  z-index: 55555555;
+}
+
+.inline-block {
+  display: inline-block !important;
+}

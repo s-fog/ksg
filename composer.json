@@ -35,7 +35,10 @@
         "bilginnet/yii2-cropper": "dev-master",
         "2amigos/yii2-file-upload-widget": "~1.0",
         "unclead/yii2-multiple-input": "~2.0",
-        "kidzen/yii2-dynamicform": "*"
+        "kidzen/yii2-dynamicform": "*",
+        "omnilight/yii2-shopping-cart": "*",
+        "kroshilin/yii2-yandex-kassa": "*",
+        "yandex-money/yandex-checkout-sdk-php": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

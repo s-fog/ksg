@@ -12,12 +12,18 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
+        'js/vendor/jquery-ui/themes/base/base.css',
+        'js/vendor/owl.carousel/dist/assets/owl.carousel.min.css',
+        'js/vendor/fancybox/dist/jquery.fancybox.min.css',
+        'css/jquery.kladr.min.css',
+        'css/styles.css',
     ];
     public $js = [
+        'js/vendor.js',
+        'js/flex-grid-add-elements.js',
+        'js/script.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
     ];
 }

@@ -21,7 +21,9 @@ use yii\helpers\ArrayHelper;
 
 <?php
 $parents = Category::getCategoryChain();
-echo $form->field($model, 'parent_id')->dropDownList($parents);
+echo $form->field($model, 'parent_id')->widget(Select2::classname(), [
+    'data' => $parents
+]);
 ?>
 
 <?php if (!$model->isNewRecord) { ?>
@@ -74,12 +76,12 @@ echo '<br>';
 
 <!-- attribute brand_id -->
 <?= $form->field($model, 'brand_id')->dropDownList(
-    ArrayHelper::map(Brand::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name')
+    array_merge(['' => 'Ничего не выбрано'], ArrayHelper::map(Brand::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'))
 ) ?>
 
 <!-- attribute supplier -->
 <?= $form->field($model, 'supplier')->dropDownList(
-    ArrayHelper::map(Supplier::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name')
+    array_merge(['' => 'Ничего не выбрано'], ArrayHelper::map(Supplier::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'))
 ) ?>
 
 <!-- attribute price -->
@@ -87,8 +89,6 @@ echo '<br>';
 
 <!-- attribute price_old -->
 <?= $form->field($model, 'price_old')->textInput() ?>
-
-<?= $form->field($model, 'available')->textInput() ?>
 
 <?= $form->field($model, 'currency_id')->dropDownList(
     ArrayHelper::map(Currency::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name')
@@ -109,16 +109,13 @@ echo '<br>';
 ]) ?>
 
 <?= $form->field($model, 'adviser_id')->dropDownList(
-    ArrayHelper::map(Adviser::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name')
+    array_merge(['' => 'Ничего не выбрано'], ArrayHelper::map(Adviser::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'))
 ) ?>
 <!-- attribute adviser_text -->
 <?= $form->field($model, 'adviser_text')->textarea(['rows' => 6]) ?>
 
 <!-- attribute code -->
 <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
-
-<!-- attribute artikul -->
-<?= $form->field($model, 'artikul')->textInput(['maxlength' => true]) ?>
 
 <div style="border: 1px solid #000;border-radius: 10px;padding: 10px;">
 <?php

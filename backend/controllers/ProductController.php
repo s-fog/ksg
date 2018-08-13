@@ -88,6 +88,7 @@ class ProductController extends \backend\controllers\base\ProductController
             }
 
             if ($valid) {
+
                 foreach($modelsReview as $index => $modelReview) {
                     $modelReview->date = strtotime($_POST['ProductReview'][$index]['date']);
                 }
@@ -107,7 +108,7 @@ class ProductController extends \backend\controllers\base\ProductController
                         $index,
                         "[{$index}]image",
                         "[{$index}]image",
-                        ['770x553']
+                        ['770x553', '350x300']
                     );
                 }
 
@@ -333,7 +334,7 @@ class ProductController extends \backend\controllers\base\ProductController
                             $index,
                             "[{$index}]image",
                             "[{$index}]image",
-                            ['770x553']
+                            ['770x553', '350x300']
                         );
                     } else {
                         if ($images[$modelImage->id]) {

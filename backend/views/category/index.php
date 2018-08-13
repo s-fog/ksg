@@ -11,7 +11,6 @@ use himiklab\sortablegrid\SortableGridView;
 * @var yii\data\ActiveDataProvider $dataProvider
     * @var common\models\CategorySearch $searchModel
 */
-
 $this->title = Yii::t('models', 'Categories');
 
 if (isset($actionColumnTemplates)) {
@@ -49,14 +48,14 @@ $types = Yii::$app->params['categoryTypes'];
         <?= SortableGridView::widget([
         'dataProvider' => $dataProvider,
         'pager' => [
-        'class' => yii\widgets\LinkPager::className(),
-        'firstPageLabel' => 'First',
-        'lastPageLabel' => 'Last',
+            'class' => yii\widgets\LinkPager::className(),
+            'firstPageLabel' => 'First',
+            'lastPageLabel' => 'Last',
         ],
-                    'filterModel' => $searchModel,
-                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
-        'headerRowOptions' => ['class'=>'x'],
-        'columns' => [
+            'filterModel' => $searchModel,
+            'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
+            'headerRowOptions' => ['class'=>'x'],
+            'columns' => [
                 [
             'class' => 'yii\grid\ActionColumn',
             'template' => $actionColumnTemplateString,

@@ -1,6 +1,9 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Brand;
+use common\models\Mainpage;
+use common\models\Textpage;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -70,16 +73,57 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($alias = '')
     {
-        return $this->render('index');
-    }
+        if (!empty($alias)) {
+            $textpage = Textpage::findOne(['alias' => $alias]);
 
-    /**
-     * Logs in a user.
-     *
-     * @return mixed
-     */
+            switch($textpage->id) {
+                case 1: {
+                    break;
+                }
+                case 2: {
+                    $this->layout = 'textpage';
+                    $view = 'brands';
+                    $result = [];
+                    $brands = Brand::find()->all();
+                    $alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','V','X','Y','Z','А-Я'];
+                    $russianAlphabet = ['А','Б','В','Г','Д','Е','Ж','З','И','К','Д','М','Н','О','П','Р','С','Т','У','Ф','Ч','Ц','Ч','Ш','Щ','Э','Ю','Я'];
+
+                    foreach($brands as $brand) {
+                        foreach($alphabet as $letter) {
+                            if ($letter == 'А-Я') {
+                                if (in_array(mb_strtoupper(mb_substr($brand->name, 0, 1)), $russianAlphabet)) {
+                                    $result[$letter][] = $brand;
+                                }
+                            } else {
+                                if (stristr($brand->name[0], $letter)) {
+                                    $result[$letter][] = $brand;
+                                }
+                            }
+                        }
+                    }
+
+                    return $this->render('@frontend/views/textpage/brands', [
+                        'model' => $textpage,
+                        'result' => $result,
+                    ]);
+                }
+            }
+
+            return $this->render('@frontend/views/textpage/'.$view, [
+                'model' => $textpage,
+            ]);
+        }
+
+
+        $model = Mainpage::findOne(1);
+
+        return $this->render('index', [
+            'model' => $model,
+        ]);
+    }
+    /*
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -98,11 +142,6 @@ class SiteController extends Controller
         }
     }
 
-    /**
-     * Logs out the current user.
-     *
-     * @return mixed
-     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -110,11 +149,6 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
     public function actionContact()
     {
         $model = new ContactForm();
@@ -133,21 +167,11 @@ class SiteController extends Controller
         }
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
     public function actionAbout()
     {
         return $this->render('about');
     }
 
-    /**
-     * Signs user up.
-     *
-     * @return mixed
-     */
     public function actionSignup()
     {
         $model = new SignupForm();
@@ -164,11 +188,6 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Requests password reset.
-     *
-     * @return mixed
-     */
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
@@ -187,13 +206,6 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Resets password.
-     *
-     * @param string $token
-     * @return mixed
-     * @throws BadRequestHttpException
-     */
     public function actionResetPassword($token)
     {
         try {
@@ -211,5 +223,5 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
-    }
+    }*/
 }

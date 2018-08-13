@@ -13,7 +13,7 @@ use yii\helpers\Html;
     'widgetContainer' => 'dynamicform_wrapper_params', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
     'widgetBody' => '.container-params', // required: css class selector
     'widgetItem' => '.params-item', // required: css class
-    'min' => 0, // 0 or 1 (default 1)
+    'min' => 1, // 0 or 1 (default 1)
     'insertButton' => '.add-params', // css class
     'deleteButton' => '.remove-params', // css class
     'model' => $modelsParams[0],
@@ -23,7 +23,7 @@ use yii\helpers\Html;
         'available',
         'params',
         'image_number',
-    ],
+    ]
 ]); ?>
 
     <div class="panel panel-default">
@@ -82,7 +82,8 @@ $script = <<< JS
         $(".dynamicform_wrapper_params").on("afterInsert", function(e, item) {
             var index = $(item).index();
             
-            
+            $('#productparam-'+index+'-available').val(0);
+            $('#productparam-'+index+'-image_number').val(0);
         });
     });
 JS;

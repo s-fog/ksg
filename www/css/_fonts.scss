@@ -1,0 +1,212 @@
+@font-face {
+  font-family:'PT Sans';
+  src: url('fonts/PT Sans.eot');
+  src: url('fonts/PT Sans.eot?#iefix') format('embedded-opentype'),
+  url('fonts/PT Sans.woff2') format('woff2'),
+  url('fonts/PT Sans.woff') format('woff'),
+  url('fonts/PT Sans.ttf') format('truetype'),
+  url('fonts/PT Sans.otf') format('opentype'),
+  url('fonts/PT Sans.svg#PT Sans') format('svg');
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  unicode-range: U+0020-F6D4;
+}
+
+
+.rubl {
+  font-family:'PT Sans', sans-serif;
+  font-weight: bold !important;
+  font-style: normal !important;
+  font-stretch: normal !important;
+  unicode-range: U+0020-F6D4 !important;
+}
+
+@font-face {
+  font-family:'Sports World';
+  src: url('fonts/Sports World.eot');
+  src: url('fonts/Sports World.eot?#iefix') format('embedded-opentype'),
+  url('fonts/Sports World.woff2') format('woff2'),
+  url('fonts/Sports World.woff') format('woff'),
+  url('fonts/Sports World.ttf') format('truetype'),
+  url('fonts/Sports World.otf') format('opentype'),
+  url('fonts/Sports World.svg#Sports World') format('svg');
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: squinchy;
+  unicode-range: U+0020-04F9;
+}
+
+.sportsWorld {
+  font-family:'Sports World', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: squinchy;
+}
+
+@font-face {
+  font-family:'c';
+  src: url('fonts/c.eot');
+  src: url('fonts/c.eot?#iefix') format('embedded-opentype'),
+  url('fonts/c.woff2') format('woff2'),
+  url('fonts/c.woff') format('woff'),
+  url('fonts/c.svg#c') format('svg');
+  font-weight: 300;
+  font-style: italic;
+  font-stretch: normal;
+  unicode-range: U+0020-0451;
+}
+
+.light-italic {
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Uni Sans Light Italic';
+  src: url('fonts/UniSansLightItalic.eot');
+  src: url('fonts/UniSansLightItalic.eot?#iefix') format('embedded-opentype'),
+  url('fonts/UniSansLightItalic.woff') format('woff'),
+  url('fonts/UniSansLightItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family:'Uni Sans';
+  src: url('fonts/c.eot');
+  src: url('fonts/c.eot?#iefix') format('embedded-opentype'),
+  url('fonts/c.woff2') format('woff2'),
+  url('fonts/c.woff') format('woff'),
+  url('fonts/c.ttf') format('truetype'),
+  url('fonts/c.otf') format('opentype'),
+  url('fonts/c.svg#c') format('svg');
+  font-weight: 400;
+  font-style: italic;
+  font-stretch: normal;
+  unicode-range: U+0020-0451;
+}
+
+.italic {
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family:'Uni Sans';
+  src: url('fonts/c.eot');
+  src: url('fonts/c.eot?#iefix') format('embedded-opentype'),
+  url('fonts/c.woff2') format('woff2'),
+  url('fonts/c.woff') format('woff'),
+  url('fonts/c.ttf') format('truetype'),
+  url('fonts/c.otf') format('opentype'),
+  url('fonts/c.svg#c') format('svg');
+  font-weight: 600;
+  font-style: italic;
+  font-stretch: normal;
+  unicode-range: U+0020-0451;
+}
+
+.semibold-italic {
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family:'Uni Sans';
+  src: url('fonts/d.eot');
+  src: url('fonts/d.eot?#iefix') format('embedded-opentype'),
+  url('fonts/d.woff2') format('woff2'),
+  url('fonts/d.woff') format('woff'),
+  url('fonts/d.ttf') format('truetype'),
+  url('fonts/d.otf') format('opentype'),
+  url('fonts/d.svg#d') format('svg');
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  unicode-range: U+0020-0451;
+}
+
+.semibold {
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family:'Uni Sans';
+  src: url('fonts/n.eot');
+  src: url('fonts/n.eot?#iefix') format('embedded-opentype'),
+  url('fonts/n.woff2') format('woff2'),
+  url('fonts/n.woff') format('woff'),
+  url('fonts/n.ttf') format('truetype'),
+  url('fonts/n.otf') format('opentype'),
+  url('fonts/n.svg#n') format('svg');
+  font-weight: 250;
+  font-style: normal;
+  font-stretch: normal;
+  unicode-range: U+0020-0451;
+}
+
+.thin {
+  font-weight: 250;
+  font-style: normal;
+}
+
+@font-face {
+  font-family:'Uni Sans';
+  src: url('fonts/r.eot');
+  src: url('fonts/r.eot?#iefix') format('embedded-opentype'),
+  url('fonts/r.woff2') format('woff2'),
+  url('fonts/r.woff') format('woff'),
+  url('fonts/r.ttf') format('truetype'),
+  url('fonts/r.otf') format('opentype'),
+  url('fonts/r.svg#r') format('svg');
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  unicode-range: U+0020-0451;
+}
+
+.regular {
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family:'Uni Sans';
+  src: url('fonts/t.eot');
+  src: url('fonts/t.eot?#iefix') format('embedded-opentype'),
+  url('fonts/t.woff2') format('woff2'),
+  url('fonts/t.woff') format('woff'),
+  url('fonts/t.ttf') format('fonts/truetype'),
+  url('fonts/t.otf') format('opentype'),
+  url('fonts/t.svg#t') format('svg');
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  unicode-range: U+0020-0451;
+}
+
+.light {
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'uni_sansheavy_caps';
+  src: url('fonts/unisansheavycaps-webfont.eot');
+  src: url('fonts/unisansheavycaps-webfont.eot?#iefix') format('embedded-opentype'),
+  url('fonts/unisansheavycaps-webfont.woff2') format('woff2'),
+  url('fonts/unisansheavycaps-webfont.woff') format('woff'),
+  url('fonts/unisansheavycaps-webfont.ttf') format('truetype'),
+  url('fonts/unisansheavycaps-webfont.svg#uni_sansheavy_caps') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+.heavyCaps {
+  font-family:'uni_sansheavy_caps', sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
