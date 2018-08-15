@@ -763,9 +763,9 @@ class Adding {
             mainHeader__popupSuccess_compare: $('.mainHeader__popupSuccess_compare'),
             mainHeader__popupSuccess_favourite: $('.mainHeader__popupSuccess_favourite'),
             mainHeader__popupSuccessTriangle: $('.mainHeader__popupSuccessTriangle'),
-            catalog__itemCart: $('.catalog__itemCart'),
-            catalog__itemCompare: $('.catalog__itemCompare'),
-            catalog__itemFavourite: $('.catalog__itemFavourite'),
+            catalog__itemCart: $('.js-add-to-cart'),
+            catalog__itemCompare: $('.js-add-to-compare'),
+            catalog__itemFavourite: $('.js-add-to-favourite'),
         }
     }
 
@@ -777,59 +777,74 @@ class Adding {
         this.nodes.catalog__itemCart.click((event) => {
             let thisElement = $(event.currentTarget);
 
-            this.nodes.mainHeader__popupSuccess_cart.addClass('unhidden');
-            this.nodes.mainHeader__popupSuccess_cart.addClass('active');
-            this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-            this.nodes.mainHeader.removeClass('hide');
+            let id = thisElement.data('id');
+            let paramsV = thisElement.data('paramsV');
+            let quantity = thisElement.data('quantity');
+            let data = `id=${id}&paramsV=${paramsV}&quantity=${quantity}`;
 
-            setTimeout(() => {
-                this.nodes.mainHeader__popupSuccess_cart.removeClass('active');
-                this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+            $.post('/ajax/add-to-cart', data, (response) => {
+                this.nodes.mainHeader__popupSuccess_cart.addClass('unhidden');
+                this.nodes.mainHeader__popupSuccess_cart.addClass('active');
+                this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                this.nodes.mainHeader.removeClass('hide');
 
                 setTimeout(() => {
-                    this.nodes.mainHeader__popupSuccess_cart.removeClass('unhidden');
-                }, 500)
-            }, 2000);
+                    this.nodes.mainHeader__popupSuccess_cart.removeClass('active');
+                    this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+
+                    setTimeout(() => {
+                        this.nodes.mainHeader__popupSuccess_cart.removeClass('unhidden');
+                    }, 500)
+                }, 2000);
+            });
 
             return false;
         });
 
         this.nodes.catalog__itemCompare.click((event) => {
             let thisElement = $(event.currentTarget);
+            let id = thisElement.data('id');
+            let data = `id=${id}`;
 
-            this.nodes.mainHeader__popupSuccess_compare.addClass('unhidden');
-            this.nodes.mainHeader__popupSuccess_compare.addClass('active');
-            this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-            this.nodes.mainHeader.removeClass('hide');
-
-            setTimeout(() => {
-                this.nodes.mainHeader__popupSuccess_compare.removeClass('active');
-                this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+            $.post('/compare/add', data, (response) => {
+                this.nodes.mainHeader__popupSuccess_compare.addClass('unhidden');
+                this.nodes.mainHeader__popupSuccess_compare.addClass('active');
+                this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                this.nodes.mainHeader.removeClass('hide');
 
                 setTimeout(() => {
-                    this.nodes.mainHeader__popupSuccess_compare.removeClass('unhidden');
-                }, 500)
-            }, 2000);
+                    this.nodes.mainHeader__popupSuccess_compare.removeClass('active');
+                    this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+
+                    setTimeout(() => {
+                        this.nodes.mainHeader__popupSuccess_compare.removeClass('unhidden');
+                    }, 500)
+                }, 2000);
+            });
 
             return false;
         });
 
         this.nodes.catalog__itemFavourite.click((event) => {
             let thisElement = $(event.currentTarget);
+            let id = thisElement.data('id');
+            let data = `id=${id}`;
 
-            this.nodes.mainHeader__popupSuccess_favourite.addClass('unhidden');
-            this.nodes.mainHeader__popupSuccess_favourite.addClass('active');
-            this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-            this.nodes.mainHeader.removeClass('hide');
-
-            setTimeout(() => {
-                this.nodes.mainHeader__popupSuccess_favourite.removeClass('active');
-                this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+            $.post('/favourite/add', data, (response) => {
+                this.nodes.mainHeader__popupSuccess_favourite.addClass('unhidden');
+                this.nodes.mainHeader__popupSuccess_favourite.addClass('active');
+                this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                this.nodes.mainHeader.removeClass('hide');
 
                 setTimeout(() => {
-                    this.nodes.mainHeader__popupSuccess_favourite.removeClass('unhidden');
-                }, 500)
-            }, 2000);
+                    this.nodes.mainHeader__popupSuccess_favourite.removeClass('active');
+                    this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+
+                    setTimeout(() => {
+                        this.nodes.mainHeader__popupSuccess_favourite.removeClass('unhidden');
+                    }, 500)
+                }, 2000);
+            });
 
             return false;
         });
@@ -1447,10 +1462,10 @@ class Application {
             $('.infs__content').eq($(this).index()).addClass('active');
         });
 
-        $('.addToCart__tocart').click(function() {
+        /*$('.addToCart__tocart').click(function() {
             $('.addToCart__bottomTop').addClass('hide');
             $('.addToCart__bottomBottom').addClass('active');
-        });
+        });*/
 
         $('.addToCart__continue').click(function() {
             $.fancybox.close();

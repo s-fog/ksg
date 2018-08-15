@@ -1,21 +1,9 @@
 <?php
 namespace frontend\controllers;
 
-use common\models\base\Product;
-use common\models\Brand;
-use common\models\Mainpage;
-use common\models\Textpage;
+use common\models\Product;
 use Yii;
-use yii\base\InvalidParamException;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
-use frontend\models\ContactForm;
 use yii\web\NotFoundHttpException;
 use yz\shoppingcart\ShoppingCart;
 
@@ -28,12 +16,12 @@ class AjaxController extends Controller
     {
         $id = $_POST['id'];
         $count = $_POST['quantity'];
-        $params = $_POST['params'];
+        $paramsV = $_POST['paramsV'];
 
         $cart = new ShoppingCart();
 
         $model = Product::findOne($id);
-        $model->params = $params;
+        $model->paramsV = $paramsV;
 
         if ($model) {
             $cart->put($model, $count);
@@ -43,7 +31,7 @@ class AjaxController extends Controller
         throw new NotFoundHttpException();
     }
 
-    public function actionUpdateCount()
+    public function actionUpdateCartCount()
     {
         $id = $_POST['id'];
         $count = $_POST['quantity'];

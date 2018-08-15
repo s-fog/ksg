@@ -16,7 +16,7 @@ class Product extends BaseProduct implements CartPositionInterface
     use CartPositionTrait;
 
     public $categories_ids;
-    public $params;
+    public $paramsV;
 
     public function getPrice()
     {
@@ -25,7 +25,7 @@ class Product extends BaseProduct implements CartPositionInterface
 
     public function getId()
     {
-        return md5(serialize([$this->id, $this->params]));
+        return md5(serialize([$this->id, $this->paramsV]));
     }
 
     public function behaviors()

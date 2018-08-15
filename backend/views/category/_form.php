@@ -39,7 +39,14 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
             <?php
 
             $parents = Category::getCategoryChain($model);
-            echo $form->field($model, 'parent_id')->dropDownList($parents);
+            echo $form->field($model, 'parent_id')->widget(Select2::classname(), [
+                'data' => $parents,
+                'options' => ['placeholder' => 'Выберите категорию'],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'multiple' => false
+                ],
+            ]);
 
             if (!$model->isNewRecord) {
                 if ($model->type == 0) {

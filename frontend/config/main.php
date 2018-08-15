@@ -41,6 +41,12 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'favourite/add' => 'favourite/add',
+                'favourite/delete' => 'favourite/delete',
+                'favourite/count' => 'favourite/count',
+                'compare/add' => 'compare/add',
+                'compare/delete' => 'compare/delete',
+                'compare/count' => 'compare/count',
                 '<alias>' => 'site/index',
                 'product/<alias>' => 'catalog/view',
             ],

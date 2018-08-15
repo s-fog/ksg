@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Category;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
@@ -97,7 +98,18 @@ $types = Yii::$app->params['categoryTypes'];
                         return $parent->chain;
                     }
                 },
-                'filter' => Category::getCategoryChain(NULL)
+                'filter' => Select2::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'parent_id',
+                    'data' => Category::getCategoryChain(NULL),
+                    'options' => [
+                        'placeholder' => 'Начните набирать ...',
+                        'multiple' => false,
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]),
             ],
         ],
         ]); ?>
