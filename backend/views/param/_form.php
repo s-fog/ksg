@@ -31,6 +31,8 @@ use yii\helpers\StringHelper;
 <!-- attribute name -->
 			<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+			<?= $form->field($model, 'name_en')->textInput(['maxlength' => true]) ?>
+
 <!-- attribute variants -->
 			<?php
                 if (!empty($model->variants)) {

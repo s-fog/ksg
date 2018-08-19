@@ -25,10 +25,11 @@ class Param extends BaseParam
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name', 'name_en'], 'required'],
+            [['name', 'name_en'], 'unique'],
             [['variants'], 'safe'],
             [['sort_order'], 'integer'],
-            [['name'], 'string', 'max' => 255]
+            [['name', 'name_en'], 'string', 'max' => 255]
         ];
     }
 

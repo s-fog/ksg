@@ -13,6 +13,7 @@ use himiklab\sortablegrid\SortableGridBehavior;
  *
  * @property integer $id
  * @property string $name
+ * @property string $name_en
  * @property string $variants
  * @property integer $sort_order
  * @property integer $created_at
@@ -54,10 +55,10 @@ abstract class Param extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'variants'], 'required'],
+            [['name', 'name_en', 'variants'], 'required'],
             [['variants'], 'string'],
             [['sort_order'], 'integer'],
-            [['name'], 'string', 'max' => 255]
+            [['name', 'name_en'], 'string', 'max' => 255]
         ];
     }
 
@@ -69,6 +70,7 @@ abstract class Param extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Параметр',
+            'name_en' => 'Название параметра для кода',
             'variants' => 'Значения',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
