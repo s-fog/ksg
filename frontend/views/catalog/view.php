@@ -1,5 +1,7 @@
 <?php
 
+use common\models\Param;
+
 $this->params['seo_title'] = $model->seo_title;
 $this->params['seo_description'] = $model->seo_description;
 $this->params['seo_keywords'] = $model->seo_keywords;
@@ -139,23 +141,29 @@ $this->params['name'] = $model->name;
                 <input type="hidden" name="id" value="1">
                 <div class="product__buyOneClick" data-fancybox="oneClick" data-src="#oneClick"><span>купить в один клик</span></div>-->
                 <div class="product__selects">
-                    <?php foreach($selects as $name => $values) { ?>
+                    <?php foreach($selects as $name => $values) {
+                        $param = Param::findOne(['name' => $name]);
+                        ?>
                         <div class="product__select">
                             <span><?=$name?>:</span>
                             <div></div>
-                            <select name="color" class="select-color-jquery-ui">
-                                <option value="1" data-color="#000">Черный</option>
-                                <option value="2" data-color="#542">Какой-то</option>
+                            <select name="<?=$param->name_en?>" class="select-color-jquery-ui">
+                                <?php foreach($values as $value) { ?>
+                                    <option value="<?=$value?>"><?=$value?></option>
+                                <?php } ?>
                             </select>
                         </div>
                     <?php } ?>
                 </div>
             </form>
-            <div class="product__bottomLeft">
-                <img src="/img/woman.png" alt="" class="product__adviceImage">
-                <div class="product__adviceHeader">Совет от двухкратной чемпионки Европы Дарьи Клишиной</div>
-                <div class="product__adviceText">Это отличное решение для всей семьи: в тренажёр встроенна память на 7 персон, которая запоминает не только программу тренеровок, но и параметры нагрузок!</div>
-            </div>
+            <?php if ($adviser) { ?>
+                <div class="product__bottomLeft">
+                    <?php $filename = explode('.', basename($adviser->image)); ?>
+                    <img src="/images/thumbs/<?=$filename[0]?>-130-175.<?=$filename[1]?>" alt="" class="product__adviceImage">
+                    <div class="product__adviceHeader"><?=$adviser->header?></div>
+                    <div class="product__adviceText"><?=$model->adviser_text?></div>
+                </div>
+            <?php } ?>
             <div class="product__bottomRight">
                 <div class="product__features">
                     <div class="product__featureItem">
@@ -191,115 +199,60 @@ $this->params['name'] = $model->name;
     <div class="properties__tabs">
         <div class="properties__tab active"><span>Описание</span></div>
         <div class="properties__tab"><span>характеристики</span></div>
-        <div class="properties__tab"><span>видео обзор</span></div>
+        <?php if (!empty($model->video)) { ?>
+            <div class="properties__tab"><span>видео обзор</span></div>
+        <?php } ?>
         <div class="properties__tab"><span>отзывы</span></div>
         <svg class="properties__tabUnderline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 7.7"><defs></defs><g><polygon points="1.7 0 0 1.4 0 3 39.7 3 44.5 7.7 49.3 3 87.3 3 89 1.5 89 0 1.7 0"></polygon></g></svg>
     </div>
     <div class="properties__contents">
         <div class="properties__content properties__descr content active">
             <div class="properties__descrInner">
-                <p>Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-                <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati</p>
-                <p>Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-                <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati</p>
+                <?=$model->description?>
             </div>
         </div>
         <div class="properties__content properties__features">
             <div class="properties__featuresInner">
-                <div class="properties__feature active">
-                    <div class="properties__featurePlus"></div>
-                    <div class="properties__featureHeader"><span>Технические характеристики</span></div>
-                    <ul class="properties__featureList" style="display: block;">
-                        <li>
-                            <div class="properties__featureName">Тип дорожки</div>
-                            <div class="properties__featureMiddle"></div>
-                            <div class="properties__featureValue">Электрическая</div>
-                        </li>
-                        <li>
-                            <div class="properties__featureName">Изменение угла наклона беговой дорожки</div>
-                            <div class="properties__featureMiddle"></div>
-                            <div class="properties__featureValue">3-15 %</div>
-                        </li>
-                        <li>
-                            <div class="properties__featureName">Максимальный вес пользователя</div>
-                            <div class="properties__featureMiddle"></div>
-                            <div class="properties__featureValue">3-15 %</div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="properties__feature">
-                    <div class="properties__featurePlus"></div>
-                    <div class="properties__featureHeader"><span>Программы</span></div>
-                    <ul class="properties__featureList">
-                        <li>
-                            <div class="properties__featureName">Тип дорожки</div>
-                            <div class="properties__featureMiddle"></div>
-                            <div class="properties__featureValue">Электрическая</div>
-                        </li>
-                        <li>
-                            <div class="properties__featureName">Изменение угла наклона беговой дорожки</div>
-                            <div class="properties__featureMiddle"></div>
-                            <div class="properties__featureValue">3-15 %</div>
-                        </li>
-                        <li>
-                            <div class="properties__featureName">Максимальный вес пользователя</div>
-                            <div class="properties__featureMiddle"></div>
-                            <div class="properties__featureValue">3-15 %</div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="properties__feature">
-                    <div class="properties__featurePlus"></div>
-                    <div class="properties__featureHeader"><span>Общие характеристики</span></div>
-                    <ul class="properties__featureList">
-                        <li>
-                            <div class="properties__featureName">Тип дорожки</div>
-                            <div class="properties__featureMiddle"></div>
-                            <div class="properties__featureValue">Электрическая</div>
-                        </li>
-                        <li>
-                            <div class="properties__featureName">Изменение угла наклона беговой дорожки</div>
-                            <div class="properties__featureMiddle"></div>
-                            <div class="properties__featureValue">3-15 %</div>
-                        </li>
-                        <li>
-                            <div class="properties__featureName">Максимальный вес пользователя</div>
-                            <div class="properties__featureMiddle"></div>
-                            <div class="properties__featureValue">3-15 %</div>
-                        </li>
-                    </ul>
-                </div>
+                <?php foreach($features as $item) { ?>
+                    <div class="properties__feature">
+                        <div class="properties__featurePlus"></div>
+                        <div class="properties__featureHeader"><span><?=$item['feature']->header?></span></div>
+                        <ul class="properties__featureList">
+                            <?php foreach($item['values'] as $values) { ?>
+                                <li>
+                                    <div class="properties__featureName"><?=$values['name']?></div>
+                                    <div class="properties__featureMiddle"></div>
+                                    <div class="properties__featureValue"><?=$values['value']?></div>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                <?php } ?>
             </div>
             <a href="#" target="_blank" class="properties__featureInstruction"><span>Смотреть инструкцию</span></a>
         </div>
-        <div class="properties__content properties__video">
-            <div class="properties__videoInner">
-                <iframe src="https://www.youtube.com/embed/LArIawtf60o?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <?php if (!empty($model->video)) { ?>
+            <div class="properties__content properties__video">
+                <div class="properties__videoInner">
+                    <iframe src="https://www.youtube.com/embed/<?=$model->video?>?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
             </div>
-        </div>
+        <?php } ?>
         <div class="properties__content properties__reviews">
             <div class="properties__reviewsInner">
-                <div class="properties__reviewsItem">
-                    <div class="properties__reviewsHeader">
-                        <div class="properties__reviewsName">Артур гаспорян </div>
-                        <div class="properties__reviewsDate">{12.06.20}</div>
-                    </div>
-                    <div class="properties__reviewsText">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                </div>
-                <div class="properties__reviewsItem">
-                    <div class="properties__reviewsHeader">
-                        <div class="properties__reviewsName">Артур гаспорян </div>
-                        <div class="properties__reviewsDate">{12.06.20}</div>
-                    </div>
-                    <div class="properties__reviewsText">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-                </div>
-                <div class="properties__reviewsItem">
-                    <div class="properties__reviewsHeader">
-                        <div class="properties__reviewsName">Артур гаспорян </div>
-                        <div class="properties__reviewsDate">{12.06.20}</div>
-                    </div>
-                    <div class="properties__reviewsText">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                </div>
+                <?php if ($model->reviews) { ?>
+                    <?php foreach($model->reviews as $review) { ?>
+                        <div class="properties__reviewsItem">
+                            <div class="properties__reviewsHeader">
+                                <div class="properties__reviewsName"><?=$review->name?></div>
+                                <div class="properties__reviewsDate">{<?=$review->date?>}</div>
+                            </div>
+                            <div class="properties__reviewsText"><?=$review->text?></div>
+                        </div>
+                    <?php } ?>
+                <?php } else { ?>
+                    <p>Отзывов нет</p>
+                <?php } ?>
                 <form class="reviewForm">
                     <div class="form-group">
                         <input type="text" name="name" placeholder="Ваше имя" class="reviewForm__input">

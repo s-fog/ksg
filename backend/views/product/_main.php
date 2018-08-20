@@ -109,7 +109,9 @@ echo '<br>';
 ]) ?>
 
 <?= $form->field($model, 'adviser_id')->dropDownList(
-    array_merge(['' => 'Ничего не выбрано'], ArrayHelper::map(Adviser::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'))
+    array_merge(
+        ['' => 'Ничего не выбрано'],
+        ArrayHelper::map(Adviser::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'))
 ) ?>
 <!-- attribute adviser_text -->
 <?= $form->field($model, 'adviser_text')->textarea(['rows' => 6]) ?>

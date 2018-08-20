@@ -1,7 +1,9 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Adviser;
 use common\models\Brand;
+use common\models\FeatureValue;
 use common\models\Product;
 use common\models\ProductParam;
 use common\models\Textpage;
@@ -27,6 +29,17 @@ class CatalogController extends Controller
         $brand = Brand::findOne($model->brand_id);
         $firstVariant = ProductParam::find()->where(['product_id' => $model->id])->orderBy(['id' => SORT_ASC])->one();
         $variants = $model->params;
+        $adviser = Adviser::findOne($model->adviser_id);
+        $features = [];
+        
+        foreach($model->features as $index => $feature) {
+            $features[$index]['feature'] = $feature;
+
+            foreach(FeatureValue::find()->where(['feature_id' => $feature->id])->all() as $i => $fv) {
+                $features[$index]['values'][$i]['name'] = $fv->name;
+                $features[$index]['values'][$i]['value'] = $fv->value;
+            }
+        }
 
         $selects = [];
 
@@ -47,6 +60,8 @@ class CatalogController extends Controller
             'firstVariant' => $firstVariant,
             'variants' => $variants,
             'selects' => $selects,
+            'adviser' => $adviser,
+            'features' => $features,
         ]);
     }
 }
