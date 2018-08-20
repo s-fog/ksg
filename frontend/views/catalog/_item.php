@@ -18,8 +18,11 @@ foreach($variants as $variant) {
         break;
     }
 }
-
-$paramsV0 = implode('|', $variants[0]->params);
+if ($variants[0]->params) {
+    $paramsV0 = implode('|', $variants[0]->params);
+} else {
+    $paramsV0 = '';
+}
 
 
 ?>
