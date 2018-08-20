@@ -44,12 +44,14 @@ class CatalogController extends Controller
         $selects = [];
 
         foreach($variants as $variant) {
-            foreach($variant->params as $param) {
-                $name = explode(' -> ', $param)[0];
-                $value = explode(' -> ', $param)[1];
+            if ($variant->params) {
+                foreach($variant->params as $param) {
+                    $name = explode(' -> ', $param)[0];
+                    $value = explode(' -> ', $param)[1];
 
-                if (!isset($selects[$name]) || !in_array($value, $selects[$name])) {
-                    $selects[$name][] = $value;
+                    if (!isset($selects[$name]) || !in_array($value, $selects[$name])) {
+                        $selects[$name][] = $value;
+                    }
                 }
             }
         }
