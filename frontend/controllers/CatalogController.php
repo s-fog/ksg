@@ -35,7 +35,10 @@ class CatalogController extends Controller
         foreach($model->features as $index => $feature) {
             $features[$index]['feature'] = $feature;
 
-            foreach(FeatureValue::find()->where(['feature_id' => $feature->id])->all() as $i => $fv) {
+            foreach(FeatureValue::find()
+                ->where(['feature_id' => $feature->id])
+                ->orderBy(['sort_order' => SORT_ASC])
+                ->all() as $i => $fv) {
                 $features[$index]['values'][$i]['name'] = $fv->name;
                 $features[$index]['values'][$i]['value'] = $fv->value;
             }
