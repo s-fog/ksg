@@ -332,9 +332,13 @@ class Header {
                 }, 500);
             }
             //////////////////////////////////////////////////////
-            let windowHeight = $(window).height();
+            let windowHeight = window.innerHeight;
             let mainHeaderHeight = this.nodes.mainHeader.height();
             let height = windowHeight - mainHeaderHeight;
+
+            console.log(windowHeight);
+            console.log(mainHeaderHeight);
+            console.log(height);
 
             popup.css('max-height', `${height}px`);
         } else {
