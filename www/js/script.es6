@@ -134,9 +134,9 @@ class Header {
 
         this.nodes.js_popup.click((event) => {
             let active = $('.js-popup.active');
+            alert(1111);
 
             if (active.get(0)) {
-                alert(1111);
                 let popup = $('.mainHeader__popup.active');
                 if (popup.get(0)) {
                     popup.removeClass('active');
@@ -155,7 +155,6 @@ class Header {
                     }, 200);
                 }
             } else {
-                alert(2222);
                 let popup = $('.mainHeader__popup.active');
                 if (popup.get(0)) {
                     popup.removeClass('active');
