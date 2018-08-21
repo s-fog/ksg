@@ -6,7 +6,7 @@ use common\models\Image;
 use common\models\ProductParam;
 use yii\helpers\Url;
 
-$imageModel = Image::find()->where(['product_id' => $model->id])->orderBy(['id' => SORT_ASC])->one();
+$imageModel = $model->images[0];
 $filename = explode('.', basename($imageModel->image));
 $url = Url::to(['catalog/view', 'alias' => $model->alias]);
 $variants = ProductParam::find()->where(['product_id' => $model->id])->orderBy(['id' => SORT_ASC])->all();

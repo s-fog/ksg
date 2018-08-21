@@ -79,6 +79,7 @@ class Header {
         });
 
         $('html').click((event) => {
+            alert(12111);
             if (this.nodes.mainHeader__popup.hasClass('active')) {
                 if (
                     !$(event.target).parents('.mainHeader__popup').get(0)
@@ -134,7 +135,6 @@ class Header {
 
         this.nodes.js_popup.click((event) => {
             let active = $('.js-popup.active');
-            alert(1111);
 
             if (active.get(0)) {
                 let popup = $('.mainHeader__popup.active');
