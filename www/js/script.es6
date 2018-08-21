@@ -93,7 +93,6 @@ class Header {
                     &&
                     !$(event.target).data('popup')
                 ) {
-                    alert(11111);
                     this.nodes.mainHeader__popup.removeClass('active');
                     setTimeout(() => {
                         this.nodes.mainHeader__popup.removeClass('unhidden');
@@ -137,6 +136,7 @@ class Header {
             let active = $('.js-popup.active');
 
             if (active.get(0)) {
+                alert(1111);
                 let popup = $('.mainHeader__popup.active');
                 if (popup.get(0)) {
                     popup.removeClass('active');
@@ -155,6 +155,7 @@ class Header {
                     }, 200);
                 }
             } else {
+                alert(2222);
                 let popup = $('.mainHeader__popup.active');
                 if (popup.get(0)) {
                     popup.removeClass('active');
