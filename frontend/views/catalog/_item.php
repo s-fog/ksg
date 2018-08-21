@@ -53,11 +53,11 @@ if ($variants[0]->params) {
         <div class="catalog__itemBottomLeft">
             <div class="catalog__itemBottomLeftTop">
                 <?php if (!empty($model->price_old)) { ?>
-                    <span class="catalog__itemOldPrice"><?=number_format($model->price_old, 2, '', ' ')?> <span class="rubl">₽</span></span>
+                    <span class="catalog__itemOldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></span>
                     &nbsp;&nbsp;/&nbsp;&nbsp;
-                    <span class="catalog__itemPrice"><?=number_format($model->price, 2, '', ' ')?> <span class="rubl">₽</span></span>
+                    <span class="catalog__itemPrice"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></span>
                 <?php } else { ?>
-                    <span class="catalog__itemPrice"><?=number_format($model->price, 2, '', ' ')?> <span class="rubl">₽</span></span>
+                    <span class="catalog__itemPrice"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></span>
                 <?php } ?>
             </div>
             <?php if ($available) { ?>

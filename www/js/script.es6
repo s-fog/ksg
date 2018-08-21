@@ -79,7 +79,6 @@ class Header {
         });
 
         $('html').click((event) => {
-            alert(12111);
             if (this.nodes.mainHeader__popup.hasClass('active')) {
                 if (
                     !$(event.target).parents('.mainHeader__popup').get(0)
@@ -124,14 +123,35 @@ class Header {
             }
         });
 
-        this.nodes.js_hovered.hover(
-            (event) => {
-                this.onHover($(event.currentTarget));
-            },
-            (event) => {
-                this.onUnHover($(event.currentTarget));
+        var ua = navigator.userAgent.toLowerCase();
+        var isSafari = false;
+        try {
+            isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+        }
+        catch(err) {}
+        isSafari = (isSafari || ((ua.indexOf('safari') != -1)&& (!(ua.indexOf('chrome')!= -1) && (ua.indexOf('version/')!= -1))));
+
+        if ($(window).width() < 980) {
+            if (!isSafari) {
+                this.nodes.js_hovered.hover(
+                    (event) => {
+                        this.onHover($(event.currentTarget));
+                    },
+                    (event) => {
+                        this.onUnHover($(event.currentTarget));
+                    }
+                );
             }
-        );
+        } else {
+            this.nodes.js_hovered.hover(
+                (event) => {
+                    this.onHover($(event.currentTarget));
+                },
+                (event) => {
+                    this.onUnHover($(event.currentTarget));
+                }
+            );
+        }
 
         this.nodes.js_popup.click((event) => {
             let active = $('.js-popup.active');
