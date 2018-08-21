@@ -93,6 +93,7 @@ class Header {
                     &&
                     !$(event.target).data('popup')
                 ) {
+                    alert(11111);
                     this.nodes.mainHeader__popup.removeClass('active');
                     setTimeout(() => {
                         this.nodes.mainHeader__popup.removeClass('unhidden');

@@ -6,6 +6,7 @@ $script = <<< JS
          
         sortable.sortable({
             items: '.fv-item',
+            placeholder: "ui-state-highlight",
             axis: 'y',
             update: function () {
                 var hasNewElements = false;
@@ -51,6 +52,7 @@ $script = <<< JS
          
         sortable.sortable({
             items: '.features-item',
+            placeholder: "ui-state-highlight",
             axis: 'y',
             update: function () {
                 var hasNewElements = false;
@@ -96,6 +98,7 @@ $script = <<< JS
          
         sortable.sortable({
             items: '.images-item',
+            placeholder: "ui-state-highlight",
             axis: 'y',
             update: function () {
                 var hasNewElements = false;
@@ -135,5 +138,7 @@ $script = <<< JS
         }).disableSelection();
     });
 JS;
+$css = '.ui-state-highlight {background-color: #000 !important;}';
 $this->registerJs($script);
+$this->registerCss($css);
 ?>
