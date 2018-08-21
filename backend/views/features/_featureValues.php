@@ -31,7 +31,7 @@ use yii\helpers\Html;
     </thead>
     <tbody class="container-fv">
     <?php foreach ($modelsFeatureValue as $indexFeatureValue => $modelFeatureValue): ?>
-        <tr class="fv-item">
+        <tr class="fv-item" data-id="<?=$modelFeatureValue->id?>">
             <td class="vcenter">
                 <?php
                 // necessary for update action.

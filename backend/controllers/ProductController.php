@@ -45,7 +45,7 @@ class ProductController extends \backend\controllers\base\ProductController
             Model::loadMultiple($modelsReview, Yii::$app->request->post());
             $modelsFeature = Model::createMultiple(Feature::classname());
             Model::loadMultiple($modelsFeature, Yii::$app->request->post());
-            $modelsParams = Model::createMultiple(Feature::classname());
+            $modelsParams = Model::createMultiple(ProductParam::classname());
             Model::loadMultiple($modelsParams, Yii::$app->request->post());
 
             $model->instruction = UploadedFile::getInstance($model, "instruction");

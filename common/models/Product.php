@@ -60,13 +60,20 @@ class Product extends BaseProduct implements CartPositionInterface
     public function getImages() {
         return Image::find()
             ->where(['product_id' => $this->id])
-            ->orderBy(['id' => SORT_ASC])
+            ->orderBy(['sort_order' => SORT_ASC])
             ->all();
     }
 
     public function getReviews() {
         return ProductReview::find()
             ->where(['product_id' => $this->id])
+            ->orderBy(['id' => SORT_ASC])
+            ->all();
+    }
+
+    public function getActiveReviews() {
+        return ProductReview::find()
+            ->where(['product_id' => $this->id, 'active' => 1])
             ->orderBy(['id' => SORT_ASC])
             ->all();
     }
@@ -131,7 +138,7 @@ class Product extends BaseProduct implements CartPositionInterface
     public function getFeatures() {
         return Feature::find()
             ->where(['product_id' => $this->id])
-            ->orderBy(['id' => SORT_ASC])
+            ->orderBy(['sort_order' => SORT_ASC])
             ->all();
     }
 

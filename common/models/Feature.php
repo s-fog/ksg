@@ -33,7 +33,7 @@ class Feature extends BaseFeature
     public function getFeaturevalues() {
         return FeatureValue::find()
             ->where(['feature_id' => $this->id])
-            ->orderBy(['id' => SORT_ASC])
+            ->orderBy(['sort_order' => SORT_ASC])
             ->all();
     }
 }

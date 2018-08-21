@@ -28,9 +28,9 @@ use yii\helpers\Html;
             <div class="panel-body">
                 <div class="container-images"><!-- widgetContainer -->
                     <?php foreach ($modelsImage as $i => $modelImage): ?>
-                        <div class="images-item panel panel-default"><!-- widgetBody -->
+                        <div class="images-item panel panel-default" data-id="<?=$modelImage->id?>"><!-- widgetBody -->
                             <div class="panel-heading">
-                                <h3 class="panel-title pull-left">Изображение</h3>
+                                <h3 class="panel-title pull-left">Изображение, номер <b><?=$i?></b></h3>
                                 <div class="pull-right">
                                     <button type="button" class="remove-images btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
                                 </div>
@@ -42,31 +42,25 @@ use yii\helpers\Html;
                                         echo Html::activeHiddenInput($modelImage, "[{$i}]id");
                                     }
                                 ?>
-
-                                <?php
-                                    if ($modelImage->image) {
-                                        echo '
-                                            <div class="form-group">
-                                                <div>
-                                                    ' . Html::img($modelImage->image, ['width' => 250]) . '
-                                                </div>
-                                            </div>
-                                        ';
-                                    }
-                                ?>
-                                <?=$form->field($modelImage, "[{$i}]image")->widget(FileInput::className(), [
-                                    'pluginOptions' => [
-                                    'showCaption' => false,
-                                    'showRemove' => false,
-                                    'showUpload' => false,
-                                    'browseClass' => 'btn btn-primary btn-block',
-                                    'browseIcon' => '<i class="glyphicon glyphicon-camera"></i>',
-                                    'browseLabel' =>  'Выберите изображение'
-                                    ],
-                                    'options' => ['accept' => 'image/*']
-                                    ]);
-                                    ?>
-
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <?=Html::img($modelImage->image, ['width' => 250])?>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <?=$form->field($modelImage, "[{$i}]image")->widget(FileInput::className(), [
+                                            'pluginOptions' => [
+                                                'showCaption' => false,
+                                                'showRemove' => false,
+                                                'showUpload' => false,
+                                                'browseClass' => 'btn btn-primary btn-block',
+                                                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i>',
+                                                'browseLabel' =>  'Выберите изображение'
+                                            ],
+                                            'options' => ['accept' => 'image/*']
+                                        ]);
+                                        ?>
+                                    </div>
+                                </div>
                                 <?= $form->field($modelImage, "[{$i}]text")->textInput(['maxlength' => true]) ?>
                             </div>
                         </div>

@@ -116,7 +116,7 @@ class Category extends BaseCategory
     public function getFeatures() {
         return Feature::find()
             ->where(['category_id' => $this->id])
-            ->orderBy(['id' => SORT_ASC])
+            ->orderBy(['sort_order' => SORT_ASC])
             ->all();
     }
 }

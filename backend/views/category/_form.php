@@ -195,3 +195,5 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
 
 </div>
 
+
+<?=$this->render('@backend/views/features/_sortableJs')?>

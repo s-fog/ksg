@@ -8,6 +8,7 @@ use common\models\Supplier;
 use kartik\checkbox\CheckboxX;
 use kartik\widgets\FileInput;
 use kartik\widgets\Select2;
+use mihaildev\ckeditor\CKEditor;
 use unclead\multipleinput\MultipleInput;
 use yii\helpers\ArrayHelper;
 
@@ -94,7 +95,7 @@ echo '<br>';
     ArrayHelper::map(Currency::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name')
 ) ?>
 <!-- attribute description -->
-<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+<?= $form->field($model, 'description')->widget(CKEditor::className()) ?>
 
 <?= $form->field($model, 'disallow_xml')->widget(CheckboxX::classname(), [
     'pluginOptions' => [
@@ -145,3 +146,5 @@ if ($model->instruction) {
 
 <!-- attribute video -->
 <?= $form->field($model, 'video')->textInput(['maxlength' => true]) ?>
+
+<?=$this->render('@backend/views/features/_sortableJs')?>

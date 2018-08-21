@@ -29,10 +29,12 @@ $this->params['name'] = $model->name;
                 <?php } ?>
             </div>
             <div class="product__images">
-                <?php $filename = explode('.', basename($model->images[0]->image)); ?>
+                <?php
+                $image0 = $model->images[0];
+                $filename = explode('.', basename($image0->image)); ?>
                 <div class="product__mainImage"
                      data-header="<?=$model->name?>"
-                     data-text="<?=$model->description?>"
+                     data-text="<?=$image0->text?>"
                      data-image="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
                      data-fancybox="productImages"
                      data-src="#productImages">
@@ -118,9 +120,9 @@ $this->params['name'] = $model->name;
                 <div class="product__toCart">
                     <div class="product__toCartLeft">
                         <?php if (!empty($model->price_old)) { ?>
-                            <div class="product__oldPrice"><?=number_format($model->price_old, 2, '', ' ')?> <span class="rubl">₽</span></div>
+                            <div class="product__oldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></div>
                         <?php } ?>
-                        <div class="product__price"><?=number_format($model->price, 2, '', ' ')?> <span class="rubl">₽</span></div>
+                        <div class="product__price"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
                     </div>
                     <?php if (!$empty) { ?>
                         <div class="product__toCartRight">
@@ -213,11 +215,11 @@ $this->params['name'] = $model->name;
         </div>
         <div class="properties__content properties__features">
             <div class="properties__featuresInner">
-                <?php foreach($features as $item) { ?>
-                    <div class="properties__feature">
+                <?php foreach($features as $index => $item) { ?>
+                    <div class="properties__feature<?=($index == 0) ? ' active' : ''?>">
                         <div class="properties__featurePlus"></div>
                         <div class="properties__featureHeader"><span><?=$item['feature']->header?></span></div>
-                        <ul class="properties__featureList">
+                        <ul class="properties__featureList"<?=($index == 0) ? ' style="display: block;"' : ''?>>
                             <?php foreach($item['values'] as $values) { ?>
                                 <li>
                                     <div class="properties__featureName"><?=$values['name']?></div>
@@ -229,7 +231,6 @@ $this->params['name'] = $model->name;
                     </div>
                 <?php } ?>
             </div>
-            <a href="#" target="_blank" class="properties__featureInstruction"><span>Смотреть инструкцию</span></a>
         </div>
         <?php if (!empty($model->video)) { ?>
             <div class="properties__content properties__video">
@@ -240,8 +241,8 @@ $this->params['name'] = $model->name;
         <?php } ?>
         <div class="properties__content properties__reviews">
             <div class="properties__reviewsInner">
-                <?php if ($model->reviews) { ?>
-                    <?php foreach($model->reviews as $review) { ?>
+                <?php if ($model->activeReviews) { ?>
+                    <?php foreach($model->activeReviews as $review) { ?>
                         <div class="properties__reviewsItem">
                             <div class="properties__reviewsHeader">
                                 <div class="properties__reviewsName"><?=$review->name?></div>
