@@ -336,16 +336,14 @@ class Header {
             let mainHeaderHeight = this.nodes.mainHeader.height();
             let height = windowHeight - mainHeaderHeight;
 
-            console.log(windowHeight);
-            console.log(mainHeaderHeight);
-            console.log(height);
-
             popup.css('max-height', `${height}px`);
         } else {
             popup.removeClass('active');
+
             setTimeout(() => {
                 popup.removeClass('unhidden');
             }, 500);
+
             this.nodes.mainHeader__popupTriangle.removeClass('active');
             element.removeClass('active');
         }

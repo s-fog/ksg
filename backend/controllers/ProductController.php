@@ -169,7 +169,7 @@ class ProductController extends \backend\controllers\base\ProductController
                             $category = Category::findOne($model->parent_id);
                             $categoryFeatures = Feature::find()
                                 ->where(['category_id' => $category->id])
-                                ->orderBy(['id' => SORT_ASC])
+                                ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])
                                 ->all();
 
                             if ($categoryFeatures) {
@@ -177,11 +177,12 @@ class ProductController extends \backend\controllers\base\ProductController
                                     $feature = new Feature();
                                     $feature->header = $categoryFeature->header;
                                     $feature->product_id = $model->id;
+                                    $feature->sort_order = $categoryFeature->sort_order;
                                     $feature->save();
 
                                     $categoryFeatureValues = FeatureValue::find()
                                         ->where(['feature_id' => $categoryFeature->id])
-                                        ->orderBy(['id' => SORT_ASC])
+                                        ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])
                                         ->all();
 
                                     if ($categoryFeatureValues) {
@@ -190,6 +191,7 @@ class ProductController extends \backend\controllers\base\ProductController
                                             $featureValue->name = $categoryFeatureValue->name;
                                             $featureValue->value = $categoryFeatureValue->value;
                                             $featureValue->feature_id = $feature->id;
+                                            $featureValue->sort_order = $categoryFeatureValue->sort_order;
                                             $featureValue->save();
                                         }
                                     }

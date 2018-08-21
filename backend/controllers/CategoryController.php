@@ -200,7 +200,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
                         $model,
                         Category::findOne($model->id),
                         'image_menu',
-                        'image_menu',
+                        'image_menu'
                         ['134x134']
                     );
                 } else {

@@ -16,6 +16,7 @@ use yii\helpers\Html;
     'formId' => $formId,
     'formFields' => [
         'header',
+        'sort_order',
     ],
 ]); ?>
     <table class="table table-bordered table-striped">
@@ -31,7 +32,7 @@ use yii\helpers\Html;
         <tbody class="container-features">
         <?php foreach ($modelsFeature as $indexFeature => $modelFeature): ?>
             <tr class="features-item" data-id="<?=$modelFeature->id?>">
-                <td class="vcenter">
+                <td class="vcenter" style="width: 25%;">
                     <?php
                     // necessary for update action.
                     if (! $modelFeature->isNewRecord) {
@@ -39,8 +40,9 @@ use yii\helpers\Html;
                     }
                     ?>
                     <?= $form->field($modelFeature, "[{$indexFeature}]header")->label(false)->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($modelFeature, "[{$indexFeature}]sort_order")->label('Порядок сортировки')->textInput(['maxlength' => true]) ?>
                 </td>
-                <td>
+                <td style="width: 75%;">
                     <?= $this->render('@backend/views/features/_featureValues', [
                         'form' => $form,
                         'indexFeature' => $indexFeature,
