@@ -6,7 +6,6 @@ $this->params['seo_title'] = $model->seo_title;
 $this->params['seo_description'] = $model->seo_description;
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
-var_dump($brand);
 ?>
 
 <div class="product">

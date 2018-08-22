@@ -85,9 +85,13 @@ foreach(ArrayHelper::map(Brand::find()->orderBy(['name' => SORT_ASC])->all(), 'i
 <?= $form->field($model, 'brand_id')->dropDownList($brands) ?>
 
 <!-- attribute supplier -->
-<?= $form->field($model, 'supplier')->dropDownList(
-    array_merge(['' => 'Ничего не выбрано'], ArrayHelper::map(Supplier::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'))
-) ?>
+<?php
+$suppliers[''] = 'Ничего не выбрано';
+foreach(ArrayHelper::map(Supplier::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name') as $id => $name) {
+    $suppliers[$id] = $name;
+}
+?>
+<?= $form->field($model, 'supplier')->dropDownList($suppliers) ?>
 
 <!-- attribute price -->
 <?= $form->field($model, 'price')->textInput() ?>
