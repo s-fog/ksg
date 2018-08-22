@@ -76,9 +76,13 @@ echo '<br>';
 
 
 <!-- attribute brand_id -->
-<?= $form->field($model, 'brand_id')->dropDownList(
-    array_merge(['' => 'Ничего не выбрано'], ArrayHelper::map(Brand::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'))
-) ?>
+<?php
+$brands[''] = 'Ничего не выбрано';
+foreach(ArrayHelper::map(Brand::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name') as $id => $name) {
+    $brands[$id] = $name;
+}
+?>
+<?= $form->field($model, 'brand_id')->dropDownList($brands) ?>
 
 <!-- attribute supplier -->
 <?= $form->field($model, 'supplier')->dropDownList(
