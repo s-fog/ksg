@@ -6,6 +6,7 @@ use common\models\Brand;
 use common\models\Category;
 use common\models\FeatureValue;
 use common\models\Product;
+use common\models\ProductHasCategory;
 use common\models\ProductParam;
 use common\models\Textpage;
 use Yii;
@@ -16,17 +17,57 @@ class CatalogController extends Controller
 {
     public function actionIndex($alias = '', $alias2 = '', $alias3 = '', $alias4 = '')
     {
-        if (!empty($alias)) {
-            $category = Category::findOne(['alias' => $alias]);
-            $innerIds = $category->getInnerIds();
+        if (empty($alias) && empty($alias2) && empty($alias3) && empty($alias4)) {
+            $model = Textpage::findOne(1);
+
+            return $this->render('outer', [
+                'model' => $model
+            ]);
+        } else {
+            $model = '';
+            $innerIdsWhere = [];
+
+            if (!empty($alias3)) {
+                $model = Category::findOne(['alias' => $alias3]);
+            } else if (!empty($alias2)) {
+                $model = Category::findOne(['alias' => $alias2]);
+            } else if (!empty($alias)) {
+                $model = Category::findOne(['alias' => $alias]);
+            }
+
+            /////////////////////////////////////////////////////////
+            $innerIds = $model->getInnerIds();
+
+            if (!empty($innerIds)) {
+                $innerIdsWhere = ['parent_id' => $innerIds];
+            }
+            /////////////////////////////////////////////////////////
+            $otherIds = [];
+            $otherIdsWhere = [];
+
+            foreach($innerIds as $category_id) {
+                foreach(ProductHasCategory::findAll(['category_id' => $category_id]) as $productHasCategory) {
+                    $otherIds[] = $productHasCategory->product_id;
+                }
+            }
+
+            if (!empty($otherIds)) {
+                $otherIdsWhere = ['id' => $otherIds];
+            }
+            /////////////////////////////////////////////////////////
+
+            $products = Product::find()
+                ->orWhere($otherIdsWhere)
+                ->orWhere($innerIdsWhere)
+                ->orderBy(['id' => SORT_DESC])
+                ->all();
+
+            return $this->render('index', [
+                'model' => $model,
+                'products' => $products
+            ]);
         }
 
-        $products = Product::find()->orderBy(['id' => SORT_DESC])->all();
-        $model = Textpage::findOne(1);
-
-        return $this->render('outer', [
-            'model' => $model
-        ]);
     }
     public function actionView($alias)
     {

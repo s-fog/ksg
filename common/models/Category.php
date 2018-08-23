@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use \common\models\base\Category as BaseCategory;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "category".
@@ -121,19 +122,105 @@ class Category extends BaseCategory
     }
 
     public function getInnerIds() {
-        var_dump($this->getInnerCategories());
-        die();
+        $ids = [];
+        $innerCategories = $this->getInnerCategories();
+
+        foreach($innerCategories as $ccc) {
+            $ids[] = $ccc->id;
+        }
+
+        return $ids;
     }
 
     public function getInnerCategories() {
         $categories = [];
+        $level = $this->getLevel();
 
-        while ($cats = Category::findAll(['parent_id' => $this->id])) {
-            foreach($cats as $cat) {
-                $categories[] = $cat;
+        if ($level) {
+            if ($level == 3) {
+                $categories[] = $this;
+            } else if ($level == 2) {
+                $categories[] = $this;
+                $cats = Category::findAll(['parent_id' => $this->id]);
+
+                foreach($cats as $cat) {
+                    $categories[] = $cat;
+                }
+            } else if ($level == 1) {
+                $categories[] = $this;
+                $cats = Category::findAll(['parent_id' => $this->id]);
+
+                foreach($cats as $cat) {
+                    $categories[] = $cat;
+
+                    foreach(Category::findAll(['parent_id' => $cat->id]) as $item) {
+                        $categories[] = $item;
+                    }
+                }
+            } else {
+                return false;
             }
+        } else {
+            return false;
         }
 
         return $categories;
+    }
+    
+    public function getLevel() {
+        if ($this->type != 0) {
+            return false;//Не Категория
+        }
+
+        if ($this->parent_id == 0) {
+            return 1;
+        } else {
+            $cat = Category::find()->where(['id' => $this->parent_id, 'type' => 0])->one();
+
+            if ($cat->parent_id == 0) {
+                return 2;
+            } else {
+                $cat = Category::find()->where(['id' => $this->parent_id, 'type' => 0])->one();
+
+                if ($cat->parent_id == 0) {
+                    return 3;
+                }
+            }
+
+            return false;
+        }
+    }
+    public function getBreadcrumbs() {
+        $items = ['/catalog' => 'Каталог'];
+        $level = $this->getLevel();
+
+        if ($level) {
+            if ($level == 3) {
+                //////////////////////////////////////////////
+                $cat = Category::findOne(['id' => $this->parent_id]);
+                $cat2 = Category::findOne(['id' => $cat->parent_id]);
+                $cat2Url = Url::to(['catalog/index', 'alias' => $cat2->alias]);
+                $catUrl = Url::to(['catalog/index', 'alias' => $cat2->alias, 'alias2' => $cat->alias]);
+                $items[$cat2Url] = $cat2->name;
+                $items[$catUrl] = $cat->name;
+                //////////////////////////////////////////////
+                $items[0] = $this->name;
+            } else if ($level == 2) {
+                //////////////////////////////////////////////
+                $cat = Category::findOne(['id' => $this->parent_id]);
+                $catUrl = Url::to(['catalog/index', 'alias' => $cat->alias]);
+                $items[$catUrl] = $cat->name;
+                //////////////////////////////////////////////
+                $items[0] = $this->name;
+            } else if ($level == 1) {
+                $items[0] = $this->name;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        return $items;
     }
 }
