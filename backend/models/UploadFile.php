@@ -12,6 +12,7 @@ use yii\web\UploadedFile;
 class UploadFile extends \yii\base\Model
 {
     public static function upload($model, $currentModel, $attribute, $attributeFile, $thumbs = array(), $watermark = false) {
+        var_dump($attributeFile);die();
         $file = UploadedFile::getInstance($model, $attributeFile);
 
         $modelClassName = str_replace('\\', '/', $model->className());
