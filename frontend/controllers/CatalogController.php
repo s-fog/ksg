@@ -15,12 +15,11 @@ class CatalogController extends Controller
 {
     public function actionIndex($alias = '', $alias2 = '', $alias3 = '', $alias4 = '')
     {
-        $model = Textpage::findOne(1);
         $products = Product::find()->orderBy(['id' => SORT_DESC])->all();
+        $model = Textpage::findOne(1);
 
-        return $this->render('index', [
-            'model' => $model,
-            'products' => $products
+        return $this->render('outer', [
+            'model' => $model
         ]);
     }
     public function actionView($alias)
