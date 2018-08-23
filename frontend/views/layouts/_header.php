@@ -1,6 +1,6 @@
 <?php
 
-
+use common\models\Category;
 
 ?>
 
@@ -74,10 +74,16 @@
                 <div class="mainHeader__popupMenuInner">
                     <svg class="mainHeader__popupMenuPicked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 3"><title>some-2</title><g id="Слой_2" data-name="Слой 2"><g id="Слой_1-2" data-name="Слой 1"><polygon points="1.7 0 0 1.4 0 3 87.3 3 89 1.5 89 0 1.7 0"/></g></g></svg>
                     <div class="mainHeader__popupMenuTabs">
-                        <div class="mainHeader__popupMenuTab active"><span>ТРЕНАЖЕРЫ</span></div>
-                        <div class="mainHeader__popupMenuTab"><span>велоспорт</span></div>
-                        <div class="mainHeader__popupMenuTab"><span>настольный теннис</span></div>
-                        <div class="mainHeader__popupMenuTab"><span>единоборства</span></div>
+                        <?php
+                        foreach(Category::find()->where(['parent_id' => 0])->all() as $index => $category) {
+                                $active = '';
+
+                                if ($index == 0) {
+                                    $active = ' active';
+                                }
+                                echo '<div class="mainHeader__popupMenuTab active"><span>'.$category->name.'</span></div>';
+                            }
+                        ?>
                     </div>
                     <div class="mainHeader__popupMenuContent">
                         <div class="mainHeader__popupMenuItems active">
