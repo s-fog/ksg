@@ -101,40 +101,41 @@ use yii\helpers\Url;
                             $secondLevelCategories = Category::find()
                                 ->where(['parent_id' => $firstLevelCategory->id])
                                 ->all();
+                            echo '<div class="mainHeader__popupMenuItems'.$active.'">';
 
                             foreach($secondLevelCategories as $secondLevelCategory) {
                                 $thirdLevelCategories = Category::find()
                                     ->where(['parent_id' => $secondLevelCategory->id])
                                     ->all();
                                 ?>
-                                <div class="mainHeader__popupMenuItems">
-                                    <div class="mainHeader__popupMenuItem">
-                                        <a href="<?=Url::to([
-                                            'catalog/index',
-                                            'alias' => $firstLevelCategory->alias,
-                                            'alias2' => $secondLevelCategory->alias,
-                                        ])?>" class="mainHeader__popupMenuItemHeader"><span><?=$secondLevelCategory->name?></span></a>
-                                        <ul class="mainHeader__popupMenuItemMenu">
-                                            <?php foreach($thirdLevelCategories as $index => $thirdLevelCategory) {
-                                                $active = '';
-                                                $url = Url::to([
-                                                    'catalog/index',
-                                                    'alias' => $firstLevelCategory->alias,
-                                                    'alias2' => $secondLevelCategory->alias,
-                                                    'alias3' => $thirdLevelCategory->alias,
-                                                ]);
+                                <div class="mainHeader__popupMenuItem">
+                                    <a href="<?=Url::to([
+                                        'catalog/index',
+                                        'alias' => $firstLevelCategory->alias,
+                                        'alias2' => $secondLevelCategory->alias,
+                                    ])?>" class="mainHeader__popupMenuItemHeader"><span><?=$secondLevelCategory->name?></span></a>
+                                    <ul class="mainHeader__popupMenuItemMenu">
+                                        <?php foreach($thirdLevelCategories as $index => $thirdLevelCategory) {
+                                            $active = '';
+                                            $url = Url::to([
+                                                'catalog/index',
+                                                'alias' => $firstLevelCategory->alias,
+                                                'alias2' => $secondLevelCategory->alias,
+                                                'alias3' => $thirdLevelCategory->alias,
+                                            ]);
 
-                                                if ($_SERVER['REQUEST_URI'] == $url) {
-                                                    $active = ' active';
-                                                }
-                                                ?>
-                                                <li><a href="<?=$url?>" class="mainHeader__popupMenuItemMenuLink<?=$active?>"><?=$thirdLevelCategory->name?></a></li>
-                                            <?php } ?>
-                                        </ul>
-                                    </div>
+                                            if ($_SERVER['REQUEST_URI'] == $url) {
+                                                $active = ' active';
+                                            }
+                                            ?>
+                                            <li><a href="<?=$url?>" class="mainHeader__popupMenuItemMenuLink<?=$active?>"><?=$thirdLevelCategory->name?></a></li>
+                                        <?php } ?>
+                                    </ul>
                                 </div>
                         <?php
                             }
+
+                            echo '</div>';
                         }
                         ?>
 
