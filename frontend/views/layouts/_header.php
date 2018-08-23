@@ -108,7 +108,7 @@ use yii\helpers\Url;
                                     ->where(['parent_id' => $secondLevelCategory->id])
                                     ->all();
                                 ?>
-                                <div class="mainHeader__popupMenuItems<?=$active?>">
+                                <div class="mainHeader__popupMenuItems">
                                     <div class="mainHeader__popupMenuItem">
                                         <a href="<?=Url::to([
                                             'catalog/index',
