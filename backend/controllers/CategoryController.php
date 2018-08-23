@@ -195,13 +195,14 @@ class CategoryController extends \backend\controllers\base\CategoryController
                 } else {
                     $model->image_catalog = $image_catalog;
                 }
+
                 if (!empty($_FILES['Category']['name']['image_menu'])) {
                     $model->image_menu = UploadFile::upload(
                         $model,
                         Category::findOne($model->id),
                         'image_menu',
                         'image_menu',
-                        ['1600x250']
+                        ['134x134']
                     );
                 } else {
                     $model->image_menu = $image_menu;
