@@ -224,4 +224,45 @@ class Category extends BaseCategory
 
         return $items;
     }
+
+    public function getChildrenCategories() {
+        $categories = Category::find()->where(['parent_id' => $this->id, 'type' => 0])->all();
+
+        if (!empty($categories)) {
+            return $categories;
+        } else {
+            return false;
+        }
+    }
+
+    public function getUrl() {
+        if ($this->type == 0) {
+            $level = $this->level;
+
+            switch($level) {
+                case 1: {
+                    return Url::to(['catalog/index', 'alias' => $this->alias]);
+                }
+                case 2: {
+                    $category1level = Category::findOne(['id' => $this->parent_id]);
+                    return Url::to(['catalog/index', 'alias' => $category1level->alias, 'alias2' => $this->alias]);
+                }
+                case 3: {
+                    $category2level = Category::findOne(['id' => $this->parent_id]);
+                    $category1level = Category::findOne(['id' => $category2level->parent_id]);
+                    return Url::to([
+                        'catalog/index',
+                        'alias' => $category1level->alias,
+                        'alias2' => $category2level->alias,
+                        'alias3' => $this->alias
+                    ]);
+                }
+                default: {
+                    return 0;
+                }
+            }
+        } else {
+            return '';
+        }
+    }
 }

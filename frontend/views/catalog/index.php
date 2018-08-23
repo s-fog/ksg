@@ -4,6 +4,9 @@ $this->params['seo_title'] = $model->seo_title;
 $this->params['seo_description'] = $model->seo_description;
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
+
+$childrenCategories = $model->getChildrenCategories();
+
 ?>
 
 <?=$this->render('@frontend/views/blocks/breadcrumbs', ['items' => $model->getBreadcrumbs()])?>
@@ -1132,6 +1135,75 @@ $this->params['name'] = $model->name;
     <div class="container">
         <h1 class="infs__header"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
         <div class="infs__text">
+        </div>
+    </div>
+</div>
+
+<div class="category">
+    <div class="container">
+        <?php if ($childrenCategories) { ?>
+            <div class="category__slider owl-carousel">
+                <?php foreach($childrenCategories as $childrenCategory) {
+                    $filename = explode('.', basename($childrenCategory->image_menu));
+
+                    if (empty($filename[1])) {
+                        $filename[1] = '';
+                    }
+                    ?>
+                    <a href="<?=$childrenCategory->url?>" class="category__sliderItem">
+                        <span class="category__sliderItemImage" style="background-image: url(/images/thumbs/<?=$filename[0]?>-134-134.<?=$filename[1]?>);"></span>
+                        <span class="category__sliderItemName"><span><?=$childrenCategory->name?></span></span>
+                    </a>
+                <?php } ?>
+            </div>
+        <?php } ?>
+        <div class="sorting">
+            <div class="sorting__perpage">
+                <span class="sorting__text">показывать по </span>
+                <label class="sorting__label">
+                    <input type="radio" name="perPage" value="1"
+                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=1')">
+                    <span>1</span>
+                </label>
+                <label class="sorting__label">
+                    <input type="radio" name="perPage" value="5"
+                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=5')">
+                    <span>5</span>
+                </label>
+                <label class="sorting__label">
+                    <input type="radio" name="perPage" value="10"
+                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=10')">
+                    <span>10</span>
+                </label>
+                <label class="sorting__label">
+                    <input type="radio" name="perPage" value="20" checked="">
+                    <span>20</span>
+                </label>
+                <label class="sorting__label">
+                    <input type="radio" name="perPage" value="40"
+                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=40')">
+                    <span>40</span>
+                </label>
+                <label class="sorting__label">
+                    <input type="radio" name="perPage" value="60"
+                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=60')">
+                    <span>60</span>
+                </label>
+                <label class="sorting__label">
+                    <input type="radio" name="perPage" value="120"
+                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=120')">
+                    <span>120</span>
+                </label>
+            </div>
+            <div class="sorting__delimiter">|</div>
+            <div class="sorting__sort">
+                <span class="sorting__text">сортировать</span>
+                <select name="ss" class="select-jquery-ui" id="ui-id-1" style="">
+                    <option selected="" value="/catalog/trenazhery/kardiotrenazhery/?sort=popularity">по популярности</option>
+                    <option value="/catalog/trenazhery/kardiotrenazhery/?sort=price-asc">сначала недорогие</option>
+                    <option value="/catalog/trenazhery/kardiotrenazhery/?sort=price-desc">сначала дорогие</option>
+                </select>
+            </div>
         </div>
     </div>
 </div>
