@@ -144,6 +144,8 @@ class CategoryController extends \backend\controllers\base\CategoryController
         }
 
         if ($model->load(Yii::$app->request->post())) {
+
+            var_dump($_FILES);die();
             $modelsFeatureValue = [];
 
             $oldIDs = ArrayHelper::map($modelsFeature, 'id', 'id');
