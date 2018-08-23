@@ -172,6 +172,7 @@ class Category extends BaseCategory
             return false;//Не Категория
         }
 
+
         if ($this->parent_id == 0) {
             return 1;
         } else {
@@ -180,7 +181,7 @@ class Category extends BaseCategory
             if ($cat->parent_id == 0) {
                 return 2;
             } else {
-                $cat = Category::find()->where(['id' => $this->parent_id, 'type' => 0])->one();
+                $cat = Category::find()->where(['id' => $cat->parent_id, 'type' => 0])->one();
 
                 if ($cat->parent_id == 0) {
                     return 3;
