@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Category;
+use yii\helpers\Url;
 
 ?>
 
@@ -75,79 +76,68 @@ use common\models\Category;
                     <svg class="mainHeader__popupMenuPicked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 3"><title>some-2</title><g id="Слой_2" data-name="Слой 2"><g id="Слой_1-2" data-name="Слой 1"><polygon points="1.7 0 0 1.4 0 3 87.3 3 89 1.5 89 0 1.7 0"/></g></g></svg>
                     <div class="mainHeader__popupMenuTabs">
                         <?php
-                        foreach(Category::find()->where(['parent_id' => 0])->all() as $index => $category) {
-                                $active = '';
+                        $firstLevelCategories = Category::find()->where(['parent_id' => 0])->all();
 
-                                if ($index == 0) {
-                                    $active = ' active';
-                                }
-                                echo '<div class="mainHeader__popupMenuTab active"><span>'.$category->name.'</span></div>';
+                        foreach($firstLevelCategories as $index => $firstLevelCategory) {
+                            $active = '';
+
+                            if ($index == 0) {
+                                $active = ' active';
                             }
+
+                            echo '<div class="mainHeader__popupMenuTab'.$active.'"><span>'.$firstLevelCategory->name.'</span></div>';
+                        }
                         ?>
                     </div>
                     <div class="mainHeader__popupMenuContent">
-                        <div class="mainHeader__popupMenuItems active">
-                            <div class="mainHeader__popupMenuItem">
-                                <a href="#" class="mainHeader__popupMenuItemHeader"><span>КАРДИО ТРЕНАЖЕРЫ</span></a>
-                                <ul class="mainHeader__popupMenuItemMenu">
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink active">Беговые дорожки</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Велотренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Эллиптические тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Степперы</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Виброплатформы</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Акватренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Гребные тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Горнолыжные тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Детские тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Аксессуары</a></li>
-                                </ul>
-                            </div>
-                            <div class="mainHeader__popupMenuItem">
-                                <a href="#" class="mainHeader__popupMenuItemHeader"><span>КАРДИО ТРЕНАЖЕРЫ</span></a>
-                                <ul class="mainHeader__popupMenuItemMenu">
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Беговые дорожки</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Велотренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Эллиптические тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Степперы</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Виброплатформы</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Акватренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Гребные тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Горнолыжные тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Детские тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Аксессуары</a></li>
-                                </ul>
-                            </div>
-                            <div class="mainHeader__popupMenuItem">
-                                <a href="#" class="mainHeader__popupMenuItemHeader"><span>КАРДИО ТРЕНАЖЕРЫ</span></a>
-                                <ul class="mainHeader__popupMenuItemMenu">
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Беговые дорожки</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Велотренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Эллиптические тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Степперы</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Виброплатформы</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Акватренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Гребные тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Горнолыжные тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Детские тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Аксессуары</a></li>
-                                </ul>
-                            </div>
-                            <div class="mainHeader__popupMenuItem">
-                                <a href="#" class="mainHeader__popupMenuItemHeader"><span>КАРДИО ТРЕНАЖЕРЫ</span></a>
-                                <ul class="mainHeader__popupMenuItemMenu">
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Беговые дорожки</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Велотренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Эллиптические тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Степперы</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Виброплатформы</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Акватренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Гребные тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Горнолыжные тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Детские тренажеры</a></li>
-                                    <li><a href="#" class="mainHeader__popupMenuItemMenuLink">Аксессуары</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <?php
+                        foreach($firstLevelCategories as $index => $firstLevelCategory) {
+                            $active = '';
+
+                            if ($index == 0) {
+                                $active = ' active';
+                            }
+
+                            $secondLevelCategories = Category::find()
+                                ->where(['parent_id' => $firstLevelCategory->id])
+                                ->all();
+
+                            foreach($secondLevelCategories as $secondLevelCategory) {
+                                $thirdLevelCategories = Category::find()
+                                    ->where(['parent_id' => $secondLevelCategory->id])
+                                    ->all();
+                                ?>
+                                <div class="mainHeader__popupMenuItems<?=$active?>">
+                                    <div class="mainHeader__popupMenuItem">
+                                        <a href="<?=Url::to([
+                                            'catalog/index',
+                                            'alias' => $firstLevelCategory->alias,
+                                            'alias2' => $secondLevelCategory->alias,
+                                        ])?>" class="mainHeader__popupMenuItemHeader"><span><?=$secondLevelCategory->name?></span></a>
+                                        <ul class="mainHeader__popupMenuItemMenu">
+                                            <?php foreach($thirdLevelCategories as $index => $thirdLevelCategory) {
+                                                $active = '';
+                                                $url = Url::to([
+                                                    'catalog/index',
+                                                    'alias' => $firstLevelCategory->alias,
+                                                    'alias2' => $secondLevelCategory->alias,
+                                                    'alias3' => $thirdLevelCategory->alias,
+                                                ]);
+
+                                                if ($_SERVER['REQUEST_URI'] == $url) {
+                                                    $active = ' active';
+                                                }
+                                                ?>
+                                                <li><a href="<?=$url?>" class="mainHeader__popupMenuItemMenuLink<?=$active?>"><?=$thirdLevelCategory->name?></a></li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                        <?php
+                            }
+                        }
+                        ?>
+
                         <div class="mainHeader__popupMenuItems">
                             <div class="mainHeader__popupMenuItem">
                                 <a href="#" class="mainHeader__popupMenuItemHeader"><span>КАРДИО ТРЕНАЖЕРЫ</span></a>
