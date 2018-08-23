@@ -119,4 +119,21 @@ class Category extends BaseCategory
             ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])
             ->all();
     }
+
+    public function getInnerIds() {
+        var_dump($this->getInnerCategories());
+        die();
+    }
+
+    public function getInnerCategories() {
+        $categories = [];
+
+        while ($cats = Category::findAll(['parent_id' => $this->id])) {
+            foreach($cats as $cat) {
+                $categories[] = $cat;
+            }
+        }
+
+        return $categories;
+    }
 }

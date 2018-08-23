@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\models\Adviser;
 use common\models\Brand;
+use common\models\Category;
 use common\models\FeatureValue;
 use common\models\Product;
 use common\models\ProductParam;
@@ -15,6 +16,11 @@ class CatalogController extends Controller
 {
     public function actionIndex($alias = '', $alias2 = '', $alias3 = '', $alias4 = '')
     {
+        if (!empty($alias)) {
+            $category = Category::findOne(['alias' => $alias]);
+            $innerIds = $category->getInnerIds();
+        }
+
         $products = Product::find()->orderBy(['id' => SORT_DESC])->all();
         $model = Textpage::findOne(1);
 
