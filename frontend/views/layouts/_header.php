@@ -101,9 +101,9 @@ use yii\helpers\Url;
                             $secondLevelCategories = Category::find()
                                 ->where(['parent_id' => $firstLevelCategory->id])
                                 ->all();
-                            var_dump($secondLevelCategories);
 
                             foreach($secondLevelCategories as $secondLevelCategory) {
+                                var_dump($secondLevelCategory);
                                 $thirdLevelCategories = Category::find()
                                     ->where(['parent_id' => $secondLevelCategory->id])
                                     ->all();
