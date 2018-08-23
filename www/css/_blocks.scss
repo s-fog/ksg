@@ -8,10 +8,9 @@ body {
   z-index: 55555;
   box-shadow: 0 3px 10px 0 #000;
   width: 100%;
-  transition: all 0.5s ease-in-out;
+  transition: top 0.5s ease-in-out;
 
   &.hide {
-    //transform: translate(0, -70px);
     top: -50px;
   }
 
