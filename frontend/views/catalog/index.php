@@ -1245,3 +1245,5 @@ $childrenCategories = $model->getChildrenCategories();
         </div>
     </div>
 </div>
+
+<?=$pagination['html']?>

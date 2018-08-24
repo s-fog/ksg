@@ -9,6 +9,7 @@ use common\models\Product;
 use common\models\ProductHasCategory;
 use common\models\ProductParam;
 use common\models\Textpage;
+use frontend\models\Pagination;
 use Yii;
 use yii\web\Controller;
 
@@ -76,11 +77,12 @@ class CatalogController extends Controller
             }
             /////////////////////////////////////////////////////////
 
-            $Allproducts = Product::find()
+            $allproducts = Product::find()
                 ->orWhere($otherIdsWhere)
                 ->orWhere($innerIdsWhere)
                 ->orderBy($orderBy)
                 ->all();
+
             $products = Product::find()
                 ->orWhere($otherIdsWhere)
                 ->orWhere($innerIdsWhere)
@@ -91,9 +93,12 @@ class CatalogController extends Controller
 
             $products = Product::sortAvailable($products);
 
+            $pagination = Pagination::pagination(count($allproducts), $page, $limit);
+
             return $this->render('index', [
                 'model' => $model,
-                'products' => $products
+                'products' => $products,
+                'pagination' => $pagination,
             ]);
         }
 
