@@ -12,6 +12,7 @@ use common\models\Textpage;
 use frontend\models\Pagination;
 use Yii;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 
 class CatalogController extends Controller
@@ -34,6 +35,10 @@ class CatalogController extends Controller
                 $model = Category::findOne(['alias' => $alias2]);
             } else if (!empty($alias)) {
                 $model = Category::findOne(['alias' => $alias]);
+            }
+
+            if (!$model) {
+                throw new NotFoundHttpException;
             }
 
             /////////////////////////////////////////////////////////
