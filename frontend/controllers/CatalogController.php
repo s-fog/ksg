@@ -36,6 +36,10 @@ class CatalogController extends Controller
             }
 
             /////////////////////////////////////////////////////////
+            $page = (!empty($_GET['page']))? $_GET['page']: 1;
+            $limit = (!empty($_GET['per_page']))? $_GET['per_page']: 20;
+            $offset = ($page == 1)? 0 : $page * $limit - $limit;
+            /////////////////////////////////////////////////////////
             $innerIds = $model->getInnerIds();
 
             if (!empty($innerIds)) {
@@ -55,12 +59,37 @@ class CatalogController extends Controller
                 $otherIdsWhere = ['id' => $otherIds];
             }
             /////////////////////////////////////////////////////////
+            $orderBy = [];
 
+            if (isset($_GET['sort'])) {
+                $sort = explode('_', $_GET['sort']);
+
+                if ($sort[0] == 'price') {
+                    if ($sort[1] == 'desc') {
+                        $orderBy = [$sort[0] => SORT_DESC];
+                    } else if ($sort[1] == 'asc') {
+                        $orderBy = [$sort[0] => SORT_ASC];
+                    }
+                }
+            } else {
+                $orderBy = ['popular' => SORT_DESC];
+            }
+            /////////////////////////////////////////////////////////
+
+            $Allproducts = Product::find()
+                ->orWhere($otherIdsWhere)
+                ->orWhere($innerIdsWhere)
+                ->orderBy($orderBy)
+                ->all();
             $products = Product::find()
                 ->orWhere($otherIdsWhere)
                 ->orWhere($innerIdsWhere)
-                ->orderBy(['id' => SORT_DESC])
+                ->limit($limit)
+                ->offset($offset)
+                ->orderBy($orderBy)
                 ->all();
+
+            $products = Product::sortAvailable($products);
 
             return $this->render('index', [
                 'model' => $model,
@@ -104,6 +133,9 @@ class CatalogController extends Controller
                 }
             }
         }
+
+        $model->popular = $model->popular + 1;
+        $model->save();
 
         return $this->render('view', [
             'model' => $model,

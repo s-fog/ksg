@@ -48,7 +48,7 @@ class Product extends BaseProduct implements CartPositionInterface
     {
         return [
             [['name', 'hit', 'parent_id', 'brand_id', 'supplier', 'price', 'currency_id', 'description', 'disallow_xml'], 'required'],
-            [['hit', 'parent_id', 'brand_id', 'supplier', 'price', 'price_old', 'currency_id', 'adviser_id', 'sort_order'], 'integer'],
+            [['hit', 'parent_id', 'brand_id', 'supplier', 'price', 'price_old', 'currency_id', 'adviser_id', 'sort_order', 'popular'], 'integer'],
             [['description', 'adviser_text', 'seo_description'], 'string'],
             [['name', 'alias', 'code', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255],
             [['code'], 'unique'],
@@ -147,5 +147,30 @@ class Product extends BaseProduct implements CartPositionInterface
             ->where(['product_id' => $this->id])
             ->orderBy(['id' => SORT_ASC])
             ->all();
+    }
+
+    public static function sortAvailable($products) {
+        $availableItems = [];
+        $unAvailableItems = [];
+
+        foreach($products as $product) {
+            $productsParam = ProductParam::findAll(['product_id' => $product->id]);
+            $availableBoolean = false;
+
+            foreach($productsParam as $productParam) {
+
+                if ($productParam->available > 0) {
+                    $availableBoolean = true;
+                }
+            }
+
+            if ($availableBoolean) {
+                $availableItems[] = $product;
+            } else {
+                $unAvailableItems[] = $product;
+            }
+        }
+
+        return array_merge($availableItems, $unAvailableItems);
     }
 }

@@ -19,10 +19,8 @@ use himiklab\sortablegrid\SortableGridBehavior;
  * @property integer $parent_id
  * @property integer $brand_id
  * @property integer $supplier
- * @property string $artikul
  * @property integer $price
  * @property integer $price_old
- * @property integer $available
  * @property integer $currency_id
  * @property string $description
  * @property integer $adviser_id
@@ -35,6 +33,7 @@ use himiklab\sortablegrid\SortableGridBehavior;
  * @property string $seo_keywords
  * @property string $seo_description
  * @property integer $sort_order
+ * @property integer $popular
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $aliasModel
@@ -74,10 +73,10 @@ abstract class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'hit', 'parent_id', 'brand_id', 'supplier', 'price', 'available', 'currency_id', 'description', 'disallow_xml'], 'required'],
-            [['hit', 'parent_id', 'brand_id', 'supplier', 'price', 'price_old', 'available', 'currency_id', 'adviser_id', 'sort_order'], 'integer'],
+            [['name', 'hit', 'parent_id', 'brand_id', 'supplier', 'price', 'currency_id', 'description', 'disallow_xml'], 'required'],
+            [['hit', 'parent_id', 'brand_id', 'supplier', 'price', 'price_old', 'currency_id', 'adviser_id', 'sort_order', 'popular'], 'integer'],
             [['description', 'adviser_text', 'seo_description'], 'string'],
-            [['name', 'alias', 'code', 'artikul', 'instruction', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255]
+            [['name', 'alias', 'code', 'instruction', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255]
         ];
     }
 
@@ -95,10 +94,8 @@ abstract class Product extends \yii\db\ActiveRecord
             'parent_id' => 'Выберите родительскую категорию',
             'brand_id' => 'Бренд',
             'supplier' => 'Поставщик',
-            'artikul' => 'Артикул поставщика',
             'price' => 'Цена',
             'price_old' => 'Старая цена',
-            'available' => 'Кол-во в наличии',
             'currency_id' => 'Валюта',
             'description' => 'Описание товара',
             'adviser_id' => 'Советчик',
@@ -113,6 +110,7 @@ abstract class Product extends \yii\db\ActiveRecord
             'seo_keywords' => 'Seo Keywords',
             'seo_description' => 'Seo Description',
             'sort_order' => 'Sort Order',
+            'popular' => 'Popular',
         ];
     }
 

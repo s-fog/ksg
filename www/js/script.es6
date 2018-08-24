@@ -891,6 +891,51 @@ class Adding {
         });
     }
 }
+class Sorting {
+    constructor(root) {
+        this.root = root;
+
+        this._cacheNodes();
+        this._bindEvents();
+        this._ready();
+    }
+
+    _cacheNodes() {
+        this.nodes = {
+            per_page: $('[name="per_page"]'),
+            sort: $('[name="sort"]'),
+            sorting: $('.sorting'),
+        }
+    }
+
+    _bindEvents() {
+        this.nodes.per_page.change(() => {
+            this.nodes.sorting.submit();
+        });
+
+        this.nodes.sort.on( "selectmenuchange", () => {
+            this.nodes.sorting.submit();
+        });
+
+        this.nodes.sorting.submit(() => {
+            let sortVal = this.nodes.sort.val();
+            let perPageVal = $('[name="per_page"]:checked').val();
+            let data = `per_page=${perPageVal}`;
+
+            if (sortVal.length > 1) {
+                data += `&sort=${sortVal}`;
+            }
+
+            location = `${location.pathname}?${data}`;
+
+            return false;
+        });
+    }
+
+    _ready() {
+
+    }
+}
 
 class Filter {
     constructor(root) {
@@ -1588,6 +1633,7 @@ class Application {
         new Cart();
         new Filter();
         new Adding();
+        new Sorting();
         if ($('.compare').get(0)) {
             new Compare();
         }

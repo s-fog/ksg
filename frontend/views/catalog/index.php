@@ -1156,55 +1156,81 @@ $childrenCategories = $model->getChildrenCategories();
                     </a>
                 <?php } ?>
             </div>
-        <?php } ?>
-        <div class="sorting">
+        <?php }
+        $per_page = 0;
+        if (isset($_GET['per_page']))
+            $per_page = $_GET['per_page'];
+        ?>
+        <form action="" method="get" class="sorting">
             <div class="sorting__perpage">
                 <span class="sorting__text">показывать по </span>
                 <label class="sorting__label">
-                    <input type="radio" name="perPage" value="1"
-                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=1')">
+                    <input
+                        type="radio"
+                        name="per_page"
+                        value="1"
+                        <?=($per_page == 1) ? ' checked' : ''?>>
                     <span>1</span>
                 </label>
                 <label class="sorting__label">
-                    <input type="radio" name="perPage" value="5"
-                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=5')">
+                    <input
+                        type="radio"
+                        name="per_page"
+                        value="5"
+                        <?=($per_page == 5) ? ' checked' : ''?>>
                     <span>5</span>
                 </label>
                 <label class="sorting__label">
-                    <input type="radio" name="perPage" value="10"
-                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=10')">
+                    <input
+                        type="radio"
+                        name="per_page"
+                        value="10"
+                        <?=($per_page == 10) ? ' checked' : ''?>>
                     <span>10</span>
                 </label>
                 <label class="sorting__label">
-                    <input type="radio" name="perPage" value="20" checked="">
+                    <input
+                        type="radio"
+                        name="per_page"
+                        value="20"
+                        <?=($per_page == 20 || $per_page == 0) ? ' checked' : ''?>>
                     <span>20</span>
                 </label>
                 <label class="sorting__label">
-                    <input type="radio" name="perPage" value="40"
-                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=40')">
+                    <input
+                        type="radio"
+                        name="per_page"
+                        value="40"
+                        <?=($per_page == 40) ? ' checked' : ''?>>
                     <span>40</span>
                 </label>
                 <label class="sorting__label">
-                    <input type="radio" name="perPage" value="60"
-                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=60')">
+                    <input
+                        type="radio"
+                        name="per_page"
+                        value="60"
+                        <?=($per_page == 60) ? ' checked' : ''?>>
                     <span>60</span>
                 </label>
                 <label class="sorting__label">
-                    <input type="radio" name="perPage" value="120"
-                           onclick="CheckedCountItems('/catalog/trenazhery/kardiotrenazhery/?count-item=120')">
+                    <input
+                        type="radio"
+                        name="per_page"
+                        value="120"
+                        <?=($per_page == 120) ? ' checked' : ''?>>
                     <span>120</span>
                 </label>
             </div>
             <div class="sorting__delimiter">|</div>
             <div class="sorting__sort">
                 <span class="sorting__text">сортировать</span>
-                <select name="ss" class="select-jquery-ui" id="ui-id-1" style="">
-                    <option selected="" value="/catalog/trenazhery/kardiotrenazhery/?sort=popularity">по популярности</option>
-                    <option value="/catalog/trenazhery/kardiotrenazhery/?sort=price-asc">сначала недорогие</option>
-                    <option value="/catalog/trenazhery/kardiotrenazhery/?sort=price-desc">сначала дорогие</option>
+                <select name="sort" class="select-jquery-ui">
+                    <option value=""<?=(!isset($_GET['sort'])) ? ' selected' : ''?>>по популярности</option>
+                    <option value="price_asc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'price_asc') ? ' selected' : ''?>>сначала недорогие</option>
+                    <option value="price_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? ' selected' : ''?>>сначала дорогие</option>
                 </select>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
