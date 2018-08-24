@@ -76,7 +76,10 @@ use yii\helpers\Url;
                     <svg class="mainHeader__popupMenuPicked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 3"><title>some-2</title><g id="Слой_2" data-name="Слой 2"><g id="Слой_1-2" data-name="Слой 1"><polygon points="1.7 0 0 1.4 0 3 87.3 3 89 1.5 89 0 1.7 0"/></g></g></svg>
                     <div class="mainHeader__popupMenuTabs">
                         <?php
-                        $firstLevelCategories = Category::find()->where(['parent_id' => 0, 'type' => 0])->all();
+                        $firstLevelCategories = Category::find()
+                            ->where(['parent_id' => 0, 'type' => 0])
+                            ->orderBy(['sort_order' => SORT_DESC])
+                            ->all();
 
                         foreach($firstLevelCategories as $index => $firstLevelCategory) {
                             $active = '';
@@ -100,12 +103,14 @@ use yii\helpers\Url;
 
                             $secondLevelCategories = Category::find()
                                 ->where(['parent_id' => $firstLevelCategory->id, 'type' => 0])
+                                ->orderBy(['sort_order' => SORT_DESC])
                                 ->all();
                             echo '<div class="mainHeader__popupMenuItems'.$active.'">';
 
                             foreach($secondLevelCategories as $secondLevelCategory) {
                                 $thirdLevelCategories = Category::find()
                                     ->where(['parent_id' => $secondLevelCategory->id, 'type' => 0])
+                                    ->orderBy(['sort_order' => SORT_DESC])
                                     ->all();
                                 ?>
                                 <div class="mainHeader__popupMenuItem">

@@ -23,6 +23,19 @@ Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphic
 }
 $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
 $types = Yii::$app->params['categoryTypes'];
+
+$gridType = 0;
+if (
+    isset($_GET['CategorySearch']['parent_id'])
+    &&
+    !empty($_GET['CategorySearch']['parent_id'])
+    &&
+    isset($_GET['CategorySearch']['type'])
+    &&
+    $_GET['CategorySearch']['type'] == 0
+) {
+    $gridType = 1;
+}
 ?>
 <div class="giiant-crud category-index">
 
@@ -46,73 +59,79 @@ $types = Yii::$app->params['categoryTypes'];
     <hr />
 
     <div class="table-responsive">
-        <?= SortableGridView::widget([
-        'dataProvider' => $dataProvider,
-        'pager' => [
-            'class' => yii\widgets\LinkPager::className(),
-            'firstPageLabel' => 'First',
-            'lastPageLabel' => 'Last',
-        ],
+        <?php
+        $opts = [
+            'dataProvider' => $dataProvider,
+            'pager' => [
+                'class' => yii\widgets\LinkPager::className(),
+                'firstPageLabel' => 'First',
+                'lastPageLabel' => 'Last',
+            ],
             'filterModel' => $searchModel,
             'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
             'headerRowOptions' => ['class'=>'x'],
             'columns' => [
                 [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => $actionColumnTemplateString,
-            'buttons' => [
-                'view' => function ($url, $model, $key) {
-                    $options = [
-                        'title' => Yii::t('cruds', 'View'),
-                        'aria-label' => Yii::t('cruds', 'View'),
-                        'data-pjax' => '0',
-                    ];
-                    return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
-                }
-            ],
-            'urlCreator' => function($action, $model, $key, $index) {
-                // using the column name as key, not mapping to 'id' like the standard generator
-                $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
-                $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
-                return Url::toRoute($params);
-            },
-            'contentOptions' => ['nowrap'=>'nowrap']
-        ],
-			'name',
-			'alias',
-            [
-                'attribute' => 'type',
-                'content' => function($data) use ($types) {
-                    return $types[$data->type];
-                },
-                'filter' => $types
-            ],
-            [
-                'attribute' => 'parent_id',
-                'content' => function($data) {
-                    $parent = Category::findOne($data->parent_id);
-
-                    if (!$parent) {
-                        return 'Нет родителя';
-                    } else {
-                        return $parent->chain;
-                    }
-                },
-                'filter' => Select2::widget([
-                    'model' => $searchModel,
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => $actionColumnTemplateString,
+                    'buttons' => [
+                        'view' => function ($url, $model, $key) {
+                            $options = [
+                                'title' => Yii::t('cruds', 'View'),
+                                'aria-label' => Yii::t('cruds', 'View'),
+                                'data-pjax' => '0',
+                            ];
+                            return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                        }
+                    ],
+                    'urlCreator' => function($action, $model, $key, $index) {
+                        // using the column name as key, not mapping to 'id' like the standard generator
+                        $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+                        $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+                        return Url::toRoute($params);
+                    },
+                    'contentOptions' => ['nowrap'=>'nowrap']
+                ],
+                'name',
+                'alias',
+                [
+                    'attribute' => 'type',
+                    'content' => function($data) use ($types) {
+                        return $types[$data->type];
+                    },
+                    'filter' => $types
+                ],
+                [
                     'attribute' => 'parent_id',
-                    'data' => Category::getCategoryChain(NULL),
-                    'options' => [
-                        'placeholder' => 'Начните набирать ...',
-                        'multiple' => false,
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]),
+                    'content' => function($data) {
+                        $parent = Category::findOne($data->parent_id);
+
+                        if (!$parent) {
+                            return 'Нет родителя';
+                        } else {
+                            return $parent->chain;
+                        }
+                    },
+                    'filter' => Select2::widget([
+                        'model' => $searchModel,
+                        'attribute' => 'parent_id',
+                        'data' => Category::getCategoryChain(NULL),
+                        'options' => [
+                            'placeholder' => 'Начните набирать ...',
+                            'multiple' => false,
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]),
+                ],
             ],
-        ],
-        ]); ?>
+        ];
+        if ($gridType == 0) { ?>
+            <?= GridView::widget($opts); ?>
+        <?php } else { ?>
+            <?= SortableGridView::widget($opts); ?>
+        <?php } ?>
     </div>
 
 </div>
