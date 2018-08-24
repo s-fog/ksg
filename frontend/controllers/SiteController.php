@@ -15,6 +15,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\NotFoundHttpException;
 
 /**
  * Site controller
@@ -60,6 +61,7 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
+                'layout' => 'error'
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
@@ -77,6 +79,10 @@ class SiteController extends Controller
     {
         if (!empty($alias)) {
             $textpage = Textpage::findOne(['alias' => $alias]);
+
+            if (!$textpage) {
+                throw new NotFoundHttpException;
+            }
 
             switch($textpage->id) {
                 case 1: {
