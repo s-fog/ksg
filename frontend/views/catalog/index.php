@@ -1,5 +1,9 @@
 <?php
 
+use common\models\Category;
+use common\models\Textpage;
+use yii\helpers\Url;
+
 $this->params['seo_title'] = $model->seo_h1;
 $this->params['seo_description'] = $model->seo_description;
 $this->params['seo_keywords'] = $model->seo_keywords;
@@ -1133,7 +1137,18 @@ $childrenCategories = $model->getChildrenCategories();
 
 <div class="infs">
     <div class="container">
-        <h1 class="infs__header"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
+        <?php
+            $page = (isset($_GET['page'])) ? $_GET['page'] : '1';
+            $h1 = '';
+            $pagePart = ($page != 1) ? ' - Страница '.$page : '';
+
+            if (empty($model->seo_h1)) {
+                $h1 = $model->name.$pagePart;
+            } else {
+                $h1 = $model->seo_h1.$pagePart;
+            }
+        ?>
+        <h1 class="infs__header"><?=$h1?></h1>
         <div class="infs__text">
         </div>
     </div>
@@ -1278,8 +1293,33 @@ $childrenCategories = $model->getChildrenCategories();
         <div class="container">
             <?php foreach($tags as $tag) { ?>
                 <a href="<?=$tag->url?>" class="category__tag"><span><?=$tag->name?></span></a>
-            <?php } ?>
-            <a href="#" class="category__tagSeeAll"><span>посмотреть все-&gt;</span></a>
+            <?php }
+            if (count($tags) > 10) {
+                echo '<a href="#" class="category__tagSeeAll"><span>посмотреть все-&gt;</span></a>';
+            }
+            ?>
         </div>
     </div>
 <?php } ?>
+
+<div class="brands">
+    <div class="container">
+        <div class="brands__header"><?=$bHeader?></div>
+        <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(2)->alias])?>" class="brands__link linkSpan"><span>смотреть все бренды</span></a>
+        <div class="brands__inner owl-carousel">
+            <?php foreach($productsBrands as $brand) {
+                echo $this->render('@frontend/views/brand/_item', ['model' => $brand]);
+            } ?>
+        </div>
+    </div>
+    <div class="brands__list">
+        <div class="textBlock">
+            <div class="brands__listInner">
+                <?php foreach($brands as $brand) { ?>
+                    <a href="<?=$brand->url?>" class="brands__listItem"><span><?=$brand->name?></span></a>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>
+

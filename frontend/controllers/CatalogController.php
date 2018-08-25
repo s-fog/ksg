@@ -73,10 +73,17 @@ class CatalogController extends Controller
                 $orderBy = ['popular' => SORT_DESC];
             }
             /////////////////////////////////////////////////////////
+            $tags = [];
+            $brands = [];
+
             if ($model->type == 0) {//Если категория
                 $tags = Category::find()
                     ->where(['parent_id' => $model->id, 'type' => 1])
                     ->orderBy(['sort_order' => SORT_DESC])
+                    ->all();
+                $brands = Category::find()
+                    ->where(['parent_id' => $model->id, 'type' => 2])
+                    ->orderBy(['name' => SORT_DESC])
                     ->all();
 
                 $allproducts = Product::find()
@@ -100,6 +107,10 @@ class CatalogController extends Controller
                         ->where(['parent_id' => $parent->id, 'type' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
+                    $brands = Category::find()
+                        ->where(['parent_id' => $parent->id, 'type' => 2])
+                        ->orderBy(['name' => SORT_DESC])
+                        ->all();
                 }
 
                 if ($model->type == 3) {// Если серия бренда
@@ -109,6 +120,10 @@ class CatalogController extends Controller
                     $tags = Category::find()
                         ->where(['parent_id' => $parent->id, 'type' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
+                    $brands = Category::find()
+                        ->where(['parent_id' => $parent->id, 'type' => 2])
+                        ->orderBy(['name' => SORT_DESC])
                         ->all();
                 }
                 ////////////////////////////////////////////////////////////
@@ -136,9 +151,22 @@ class CatalogController extends Controller
                     ->all();
             }
             /////////////////////////////////////////////////////////
+            $bHeader = $model->seo_h1 . ' по брендам';
 
+            if (in_array($model->type, [1, 2, 4])) {
+                $parent = Category::findOne($model->parent_id);
+                $bHeader = $parent->seo_h1 . ' по брендам';
+            }
+
+            if ($model->type == 3) {
+                $parent = Category::findOne($model->parent_id);
+                $parent2 = Category::findOne($parent->parent_id);
+                $bHeader = $parent2->seo_h1 . ' по брендам';
+            }
+            /////////////////////////////////////////////////////////
+
+            $productsBrands = Product::getBrandsByProducts($products);
             $products = Product::sortAvailable($products);
-
             $pagination = Pagination::pagination(count($allproducts), $page, $limit);
 
             return $this->render('index', [
@@ -146,6 +174,9 @@ class CatalogController extends Controller
                 'products' => $products,
                 'pagination' => $pagination,
                 'tags' => $tags,
+                'productsBrands' => $productsBrands,
+                'brands' => $brands,
+                'bHeader' => $bHeader,
             ]);
         }
 

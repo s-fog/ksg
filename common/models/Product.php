@@ -173,4 +173,18 @@ class Product extends BaseProduct implements CartPositionInterface
 
         return array_merge($availableItems, $unAvailableItems);
     }
+
+    public static function getBrandsByProducts($products) {
+        $brands = [];
+
+        foreach($products as $product) {
+            $brand = Brand::findOne($product->brand_id);
+
+            if (!array_key_exists ($brand->id, $brands)) {
+                $brands[$brand->id] = $brand;
+            }
+        }
+
+        return $brands;
+    }
 }

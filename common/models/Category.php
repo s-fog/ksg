@@ -82,7 +82,7 @@ class Category extends BaseCategory
             }
         }
 
-        sort($parents, SORT_STRING);
+        asort($parents, SORT_STRING);
 
         return $parents;
     }
@@ -117,7 +117,7 @@ class Category extends BaseCategory
 
         foreach($result as $name => $gg) {
             $arr = $gg;
-            sort($arr, SORT_STRING);
+            asort($arr, SORT_STRING);
             $sortedResult[$name] = $arr;
         }
 
@@ -204,61 +204,66 @@ class Category extends BaseCategory
     public function getBreadcrumbs() {
         //$items = ['/catalog' => 'Каталог'];
         $items = [];
-        $level = $this->getLevel();
+        $parent0 = Category::findOne(['id' => $this->parent_id]);
 
-        if ($level) {
-            if ($level == 3) {
-                //////////////////////////////////////////////
-                $cat = Category::findOne(['id' => $this->parent_id]);
-                $cat2 = Category::findOne(['id' => $cat->parent_id]);
-                $cat2Url = Url::to(['catalog/index', 'alias' => $cat2->alias]);
-                $catUrl = Url::to(['catalog/index', 'alias' => $cat2->alias, 'alias2' => $cat->alias]);
-                $items[$cat2Url] = $cat2->name;
-                $items[$catUrl] = $cat->name;
-                //////////////////////////////////////////////
-                $items[0] = $this->name;
-            } else if ($level == 2) {
-                //////////////////////////////////////////////
-                $cat = Category::findOne(['id' => $this->parent_id]);
-                $catUrl = Url::to(['catalog/index', 'alias' => $cat->alias]);
-                $items[$catUrl] = $cat->name;
-                //////////////////////////////////////////////
-                $items[0] = $this->name;
-            } else if ($level == 1) {
-                $items[0] = $this->name;
-            } else {
-                return false;
-            }
-        } else {
-            $parent0 = Category::findOne(['id' => $this->parent_id]);
-            $parent1 = Category::findOne(['id' => $parent0->parent_id]);
-            $parent2 = Category::findOne(['id' => $parent1->parent_id]);
-            $parent0Url = Url::to(['catalog/index', 'alias' => $parent2->alias, 'alias2' => $parent1->alias, 'alias3' => $parent0->alias]);
-            $parent1Url = Url::to(['catalog/index', 'alias' => $parent2->alias, 'alias2' => $parent1->alias]);
-            $parent2Url = Url::to(['catalog/index', 'alias' => $parent2->alias]);
+        if (!$parent0) {
+            $items[0] = $this->name;
+            return $items;
+        }
 
-            $items[$parent2Url] = $parent2->name;
-            $items[$parent1Url] = $parent1->name;
+        if ($parent0->parent_id == 0) {
+            $parent0Url = Url::to(['catalog/index', 'alias' => $parent0->alias]);
             $items[$parent0Url] = $parent0->name;
+        } else {
+            $parent1 = Category::findOne(['id' => $parent0->parent_id]);
+            $items = [];
 
-            if (in_array($this->type, [1, 2, 4])) {
-                $items[0] = $this->name;
-            }
+            if ($parent1->parent_id == 0) {
+                $parent1Url = Url::to(['catalog/index', 'alias' => $parent1->alias]);
+                $parent0Url = Url::to(['catalog/index', 'alias' => $parent1->alias, 'alias2' => $parent0->alias]);
+                $items[$parent1Url] = $parent1->name;
+                $items[$parent0Url] = $parent0->name;
+            } else {
+                $parent2 = Category::findOne(['id' => $parent1->parent_id]);
+                $items = [];
 
-            if ($this->type == 3) {
-                $parent3 = Category::findOne(['id' => $parent2->parent_id]);
-                $parent3Url = Url::to([
-                    'catalog/index',
-                    'alias' => $parent3->alias,
-                    'alias2' => $parent2->alias,
-                    'alias3' => $parent1->alias,
-                    'alias4' => $parent0->alias,
-                ]);
-                $items[$parent3Url] = $parent3->name;
-                $items[0] = $this->name;
+                if ($parent2->parent_id == 0) {
+                    $parent2Url = Url::to(['catalog/index', 'alias' => $parent2->alias]);
+                    $parent1Url = Url::to(['catalog/index', 'alias' => $parent2->alias, 'alias2' => $parent1->alias]);
+                    $parent0Url = Url::to(['catalog/index', 'alias' => $parent2->alias, 'alias2' => $parent1->alias, 'alias3' => $parent0->alias]);
+                    $items[$parent2Url] = $parent2->name;
+                    $items[$parent1Url] = $parent1->name;
+                    $items[$parent0Url] = $parent0->name;
+                } else {
+                    $parent3 = Category::findOne(['id' => $parent2->parent_id]);
+                    $items = [];
+
+                    if ($parent3->parent_id == 0) {
+                        $parent3Url = Url::to(['catalog/index', 'alias' => $parent3->alias]);
+                        $parent2Url = Url::to(['catalog/index', 'alias' => $parent3->alias, 'alias2' => $parent2->alias]);
+                        $parent1Url = Url::to([
+                            'catalog/index',
+                            'alias' => $parent3->alias,
+                            'alias2' => $parent2->alias,
+                            'alias3' => $parent1->alias
+                        ]);
+                        $parent0Url = Url::to([
+                            'catalog/index',
+                            'alias' => $parent3->alias,
+                            'alias2' => $parent2->alias,
+                            'alias3' => $parent1->alias,
+                            'alias4' => $parent0->alias,
+                        ]);
+                        $items[$parent3Url] = $parent3->name;
+                        $items[$parent2Url] = $parent2->name;
+                        $items[$parent1Url] = $parent1->name;
+                        $items[$parent0Url] = $parent0->name;
+                    }
+                }
             }
         }
 
+        $items[0] = $this->name;
         return $items;
     }
 
@@ -273,32 +278,7 @@ class Category extends BaseCategory
     }
 
     public function getUrl() {
-        if ($this->type == 0) {
-            $level = $this->level;
-
-            switch($level) {
-                case 1: {
-                    return Url::to(['catalog/index', 'alias' => $this->alias]);
-                }
-                case 2: {
-                    $category1level = Category::findOne(['id' => $this->parent_id]);
-                    return Url::to(['catalog/index', 'alias' => $category1level->alias, 'alias2' => $this->alias]);
-                }
-                case 3: {
-                    $category2level = Category::findOne(['id' => $this->parent_id]);
-                    $category1level = Category::findOne(['id' => $category2level->parent_id]);
-                    return Url::to([
-                        'catalog/index',
-                        'alias' => $category1level->alias,
-                        'alias2' => $category2level->alias,
-                        'alias3' => $this->alias
-                    ]);
-                }
-                default: {
-                    return 0;
-                }
-            }
-        } else if ($this->type == 1) {
+        if ($this->type == 1) {
             $parent0 = Category::findOne(['id' => $this->parent_id]);
 
             if ($parent0->parent_id == 0) {
@@ -335,7 +315,51 @@ class Category extends BaseCategory
                 ]);
             }
         } else {
-            return '';
+            $parent0 = Category::findOne(['id' => $this->parent_id]);
+
+            if ($parent0->parent_id == 0) {
+                return Url::to([
+                    'catalog/index',
+                    'alias' => $parent0->alias,
+                    'alias2' => $this->alias,
+                ]);
+            }
+            ////////////////////////////////////////////////////////////
+            $parent1 = Category::findOne(['id' => $parent0->parent_id]);
+
+            if ($parent1->parent_id == 0) {
+                return Url::to([
+                    'catalog/index',
+                    'alias' => $parent1->alias,
+                    'alias2' => $parent0->alias,
+                    'alias3' => $this->alias,
+                ]);
+            }
+            ////////////////////////////////////////////////////////////
+            $parent2 = Category::findOne(['id' => $parent1->parent_id]);
+
+            if ($parent2->parent_id == 0) {
+                return Url::to([
+                    'catalog/index',
+                    'alias' => $parent2->alias,
+                    'alias2' => $parent1->alias,
+                    'alias3' => $parent0->alias,
+                    'alias4' => $this->alias,
+                ]);
+            }
+            ////////////////////////////////////////////////////////////
+            $parent3 = Category::findOne(['id' => $parent2->parent_id]);
+
+            if ($parent3->parent_id == 0) {
+                return Url::to([
+                    'catalog/index',
+                    'alias' => $parent3->alias,
+                    'alias2' => $parent2->alias,
+                    'alias3' => $parent1->alias,
+                    'alias4' => $parent0->alias,
+                    'alias5' => $this->alias,
+                ]);
+            }
         }
     }
 
