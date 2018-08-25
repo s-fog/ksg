@@ -1249,7 +1249,9 @@ $childrenCategories = $model->getChildrenCategories();
                     echo '<div class="catalog__item advice">
                             <div class="advice__inner">
                                 <div class="advice__header">Совет от KSG</div>
-                                '.$model->text_advice.'
+                                <div class="advice__html content">
+                                    '.$model->text_advice.'
+                                </div>
                                 <div class="advice__brands">
                                     <a href="#" class="advice__brandsLink">Cube</a>
                                     <a href="#" class="advice__brandsLink">Stels</a>
