@@ -27,7 +27,6 @@ class CatalogController extends Controller
             ]);
         } else {
             $model = Category::getCurrentCategory([$alias, $alias2, $alias3, $alias4, $alias5, $alias6, $alias7]);
-            echo $model->type;
             $innerIdsWhere = [];
 
             if (!$model) {
