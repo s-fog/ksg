@@ -1123,7 +1123,7 @@ body {
   }
 
   &__item {
-    margin: 50px 20px;
+    margin: 25px 20px;
     flex: 0 0 350px;
     width: 350px;
     @include respond-to(500) {
@@ -3461,6 +3461,12 @@ body {
 
   img {
     max-width: 100%;
+  }
+
+  ul {
+    li {
+      margin: 15px 0;
+    }
   }
 }
 

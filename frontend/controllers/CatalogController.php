@@ -17,16 +17,16 @@ use yii\web\NotFoundHttpException;
 
 class CatalogController extends Controller
 {
-    public function actionIndex($alias = '', $alias2 = '', $alias3 = '', $alias4 = '', $alias5 = '', $alias6 = '', $alias7 = '')
+    public function actionIndex($alias = '', $alias2 = '', $alias3 = '', $alias4 = '', $alias5 = '')
     {
-        if (Category::isAliasesEmpty([$alias, $alias2, $alias3, $alias4, $alias5, $alias6, $alias7])) {
+        if (Category::isAliasesEmpty([$alias, $alias2, $alias3, $alias4, $alias5])) {
             $model = Textpage::findOne(1);
 
             return $this->render('outer', [
                 'model' => $model
             ]);
         } else {
-            $model = Category::getCurrentCategory([$alias, $alias2, $alias3, $alias4, $alias5, $alias6, $alias7]);
+            $model = Category::getCurrentCategory([$alias, $alias2, $alias3, $alias4, $alias5]);
             $innerIdsWhere = [];
 
             if (!$model) {
@@ -73,25 +73,69 @@ class CatalogController extends Controller
                 $orderBy = ['popular' => SORT_DESC];
             }
             /////////////////////////////////////////////////////////
-            $tags = Category::find()
-                ->where(['parent_id' => $model->id, 'type' => 1])
-                ->orderBy(['sort_order' => SORT_DESC])
-                ->all();
+            if ($model->type == 0) {//Если категория
+                $tags = Category::find()
+                    ->where(['parent_id' => $model->id, 'type' => 1])
+                    ->orderBy(['sort_order' => SORT_DESC])
+                    ->all();
+
+                $allproducts = Product::find()
+                    ->orWhere($otherIdsWhere)
+                    ->orWhere($innerIdsWhere)
+                    ->orderBy($orderBy)
+                    ->all();
+
+                $products = Product::find()
+                    ->orWhere($otherIdsWhere)
+                    ->orWhere($innerIdsWhere)
+                    ->limit($limit)
+                    ->offset($offset)
+                    ->orderBy($orderBy)
+                    ->all();
+            } else {//Если всё остальное
+                if (in_array($model->type, [1, 2, 4])) {
+                    $parent = Category::findOne(['id' => $model->parent_id]);
+
+                    $tags = Category::find()
+                        ->where(['parent_id' => $parent->id, 'type' => 1])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
+                }
+
+                if ($model->type == 3) {// Если серия бренда
+                    $parentBrand = Category::findOne(['id' => $model->parent_id]);
+                    $parent = Category::findOne(['id' => $parentBrand->parent_id]);
+
+                    $tags = Category::find()
+                        ->where(['parent_id' => $parent->id, 'type' => 1])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
+                }
+                ////////////////////////////////////////////////////////////
+                $idsTags = [];
+                $andWhereTags = ['id' => ''];
+
+                foreach(ProductHasCategory::findAll(['category_id' => $model->id]) as $productHasCategory) {
+                    $idsTags[] = $productHasCategory->product_id;
+                }
+
+                if (!empty($idsTags)) {
+                    $andWhereTags = ['id' => $idsTags];
+                }
+                ////////////////////////////////////////////////////////////
+                $allproducts = Product::find()
+                    ->where($andWhereTags)
+                    ->orderBy($orderBy)
+                    ->all();
+
+                $products = Product::find()
+                    ->where($andWhereTags)
+                    ->limit($limit)
+                    ->offset($offset)
+                    ->orderBy($orderBy)
+                    ->all();
+            }
             /////////////////////////////////////////////////////////
-
-            $allproducts = Product::find()
-                ->orWhere($otherIdsWhere)
-                ->orWhere($innerIdsWhere)
-                ->orderBy($orderBy)
-                ->all();
-
-            $products = Product::find()
-                ->orWhere($otherIdsWhere)
-                ->orWhere($innerIdsWhere)
-                ->limit($limit)
-                ->offset($offset)
-                ->orderBy($orderBy)
-                ->all();
 
             $products = Product::sortAvailable($products);
 
