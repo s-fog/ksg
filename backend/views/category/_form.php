@@ -62,7 +62,7 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
                         ],
                     ]);
 
-                    echo $form->field($model, 'text_advice')->textarea();
+                    echo $form->field($model, 'text_advice')->widget(\mihaildev\ckeditor\CKEditor::className());
 
                     echo $form->field($model, 'descr')->textarea();
 
@@ -108,7 +108,7 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
 
                     echo $form->field($model, 'priority')->textInput();
 
-                    echo $form->field($model, 'text_advice')->textarea();
+                    echo $form->field($model, 'text_advice')->widget(\mihaildev\ckeditor\CKEditor::className());
 
                     echo $form->field($model, 'descr')->textarea();
 
@@ -125,7 +125,7 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
 
                     echo $form->field($model, 'priority')->textInput();
 
-                    echo $form->field($model, 'text_advice')->textarea();
+                    echo $form->field($model, 'text_advice')->widget(\mihaildev\ckeditor\CKEditor::className());
 
                     echo $form->field($model, 'descr')->textarea();
 

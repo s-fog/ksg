@@ -1237,13 +1237,47 @@ $childrenCategories = $model->getChildrenCategories();
 <div class="catalog">
     <div class="container">
         <div class="catalog__inner">
-            <?php foreach($products as $item) {
+            <?php
+            $productCount = count($products);
+
+            foreach($products as $index => $item) {
                 echo $this->render('@frontend/views/catalog/_item', [
                     'model' => $item
                 ]);
+
+                if ($index == 2 && !empty($model->text_advice)) {
+                    echo '<div class="catalog__item advice">
+                            <div class="advice__inner">
+                                <div class="advice__header">Совет от KSG</div>
+                                '.$model->text_advice.'
+                                <div class="advice__brands">
+                                    <a href="#" class="advice__brandsLink">Cube</a>
+                                    <a href="#" class="advice__brandsLink">Stels</a>
+                                    <a href="#" class="advice__brandsLink">Scott</a>
+                                    <a href="#" class="advice__brandsLink">Format</a>
+                                    <a href="#" class="advice__brandsLink">Trek</a>
+                                    <a href="#" class="advice__brandsLink">Stark</a>
+                                    <a href="#" class="advice__brandsLink">Schwinn</a>
+                                    <a href="#" class="advice__brandsLink">Giant</a>
+                                    <a href="#" class="advice__brandsLink">Aspect</a>
+                                </div>
+                            </div>
+                        </div>';
+                }
             } ?>
         </div>
     </div>
 </div>
 
 <?=$pagination['html']?>
+
+<?php if ($tags) { ?>
+    <div class="category__tags">
+        <div class="container">
+            <?php foreach($tags as $tag) { ?>
+                <a href="<?=$tag->url?>" class="category__tag"><span><?=$tag->name?></span></a>
+            <?php } ?>
+            <a href="#" class="category__tagSeeAll"><span>посмотреть все-&gt;</span></a>
+        </div>
+    </div>
+<?php } ?>

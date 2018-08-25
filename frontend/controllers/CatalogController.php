@@ -17,25 +17,18 @@ use yii\web\NotFoundHttpException;
 
 class CatalogController extends Controller
 {
-    public function actionIndex($alias = '', $alias2 = '', $alias3 = '', $alias4 = '')
+    public function actionIndex($alias = '', $alias2 = '', $alias3 = '', $alias4 = '', $alias5 = '', $alias6 = '', $alias7 = '')
     {
-        if (empty($alias) && empty($alias2) && empty($alias3) && empty($alias4)) {
+        if (Category::isAliasesEmpty([$alias, $alias2, $alias3, $alias4, $alias5, $alias6, $alias7])) {
             $model = Textpage::findOne(1);
 
             return $this->render('outer', [
                 'model' => $model
             ]);
         } else {
-            $model = '';
+            $model = Category::getCurrentCategory([$alias, $alias2, $alias3, $alias4, $alias5, $alias6, $alias7]);
+            echo $model->type;
             $innerIdsWhere = [];
-
-            if (!empty($alias3)) {
-                $model = Category::findOne(['alias' => $alias3]);
-            } else if (!empty($alias2)) {
-                $model = Category::findOne(['alias' => $alias2]);
-            } else if (!empty($alias)) {
-                $model = Category::findOne(['alias' => $alias]);
-            }
 
             if (!$model) {
                 throw new NotFoundHttpException;
@@ -81,6 +74,11 @@ class CatalogController extends Controller
                 $orderBy = ['popular' => SORT_DESC];
             }
             /////////////////////////////////////////////////////////
+            $tags = Category::find()
+                ->where(['parent_id' => $model->id, 'type' => 1])
+                ->orderBy(['sort_order' => SORT_DESC])
+                ->all();
+            /////////////////////////////////////////////////////////
 
             $allproducts = Product::find()
                 ->orWhere($otherIdsWhere)
@@ -104,6 +102,7 @@ class CatalogController extends Controller
                 'model' => $model,
                 'products' => $products,
                 'pagination' => $pagination,
+                'tags' => $tags,
             ]);
         }
 

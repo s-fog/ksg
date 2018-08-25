@@ -47,6 +47,8 @@ return [
                 'compare/add' => 'compare/add',
                 'compare/delete' => 'compare/delete',
                 'compare/count' => 'compare/count',
+                'catalog/<alias>/<alias2>/<alias3>/<alias4>/<alias5>' => 'catalog/index',
+                'catalog/<alias>/<alias2>/<alias3>/<alias4>' => 'catalog/index',
                 'catalog/<alias>/<alias2>/<alias3>' => 'catalog/index',
                 'catalog/<alias>/<alias2>' => 'catalog/index',
                 'catalog/<alias>' => 'catalog/index',

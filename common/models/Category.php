@@ -261,8 +261,84 @@ class Category extends BaseCategory
                     return 0;
                 }
             }
+        } else if ($this->type == 1) {
+            $parent0 = Category::findOne(['id' => $this->parent_id]);
+
+            if ($parent0->parent_id == 0) {
+                return Url::to([
+                    'catalog/index',
+                    'alias' => $parent0->alias,
+                    'alias2' => 'tag',
+                    'alias3' => $this->alias,
+                ]);
+            }
+
+            $parent1 = Category::findOne(['id' => $parent0->parent_id]);
+            if ($parent1->parent_id == 0) {
+                return Url::to([
+                    'catalog/index',
+                    'alias' => $parent1->alias,
+                    'alias2' => $parent0->alias,
+                    'alias3' => 'tag',
+                    'alias4' => $this->alias,
+                ]);
+            }
+
+            $parent2 = Category::findOne(['id' => $parent1->parent_id]);
+            if ($parent2->parent_id == 0) {
+                return Url::to([
+                    'catalog/index',
+                    'alias' => $parent2->alias,
+                    'alias2' => $parent1->alias,
+                    'alias3' => $parent0->alias,
+                    'alias4' => 'tag',
+                    'alias5' => $this->alias,
+                ]);
+            }
         } else {
             return '';
         }
+    }
+
+    public static function isAliasesEmpty($aliases) {
+        $result = true;
+
+        foreach($aliases as $alias) {
+            if (!empty($alias)) {
+                $result = false;
+                break;
+            }
+        }
+
+        return $result;
+    }
+
+    public static function getCurrentCategory($aliases) {
+        $model = '';
+        $parent_id = '';
+        $aliasesWithoutEmpty = [];
+
+        foreach($aliases as $alias) {
+            if (empty($alias)) {
+                break;
+            }
+
+            $aliasesWithoutEmpty[] = $alias;
+        }
+
+        foreach($aliasesWithoutEmpty as $alias) {
+            if ($alias == 'tag') {
+                continue;
+            }
+
+            if (empty($parent_id)) {
+                $model = Category::findOne(['alias' => $alias]);
+            } else {
+                $model = Category::findOne(['alias' => $alias, 'parent_id' => $parent_id]);
+            }
+
+        }
+
+        return $model;
     }
 }
