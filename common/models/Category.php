@@ -82,6 +82,8 @@ class Category extends BaseCategory
             }
         }
 
+        sort($parents, SORT_STRING);
+
         return $parents;
     }
 
@@ -111,7 +113,15 @@ class Category extends BaseCategory
             }
         }
 
-        return $result;
+        $sortedResult = [];
+
+        foreach($result as $name => $gg) {
+            $arr = $gg;
+            sort($arr, SORT_STRING);
+            $sortedResult[$name] = $arr;
+        }
+
+        return $sortedResult;
     }
 
     public function getFeatures() {
@@ -192,7 +202,8 @@ class Category extends BaseCategory
         }
     }
     public function getBreadcrumbs() {
-        $items = ['/catalog' => 'Каталог'];
+        //$items = ['/catalog' => 'Каталог'];
+        $items = [];
         $level = $this->getLevel();
 
         if ($level) {

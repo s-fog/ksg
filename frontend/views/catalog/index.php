@@ -1,6 +1,6 @@
 <?php
 
-$this->params['seo_title'] = $model->seo_title;
+$this->params['seo_title'] = $model->seo_h1;
 $this->params['seo_description'] = $model->seo_description;
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
