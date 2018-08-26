@@ -29,6 +29,7 @@ use himiklab\sortablegrid\SortableGridBehavior;
  * @property string $seo_title
  * @property string $seo_keywords
  * @property string $seo_description
+ * @property integer $brand_id
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $aliasModel
@@ -69,7 +70,7 @@ abstract class Category extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'type'], 'required'],
-            [['type', 'sort_order', 'parent_id', 'priority', 'disallow_xml'], 'integer'],
+            [['type', 'sort_order', 'parent_id', 'priority', 'disallow_xml', 'brand_id'], 'integer'],
             [['aksses_ids', 'text_advice', 'descr', 'seo_description'], 'string'],
             [['name', 'alias', 'image_catalog', 'image_menu', 'video', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255]
         ];
@@ -101,6 +102,7 @@ abstract class Category extends \yii\db\ActiveRecord
             'seo_title' => 'Seo Title',
             'seo_keywords' => 'Seo Keywords',
             'seo_description' => 'Seo Description',
+            'brand_id' => 'Соответствующий бренд',
         ];
     }
 

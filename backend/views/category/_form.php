@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Brand;
 use common\models\Category;
 use kartik\checkbox\CheckboxX;
 use kartik\widgets\Select2;
@@ -122,6 +123,15 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
 
                     echo $form->field($model, 'seo_keywords')->textInput(['maxlength' => true]);
                 } else if ($model->type == 2 || $model->type == 3 || $model->type == 4) {
+
+                    if ($model->type == 2) {
+
+                        echo $form->field($model, 'brand_id')->widget(Select2::classname(), [
+                            'data' => \yii\helpers\ArrayHelper::map(
+                                Brand::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'
+                            ),
+                        ]);
+                    }
 
                     echo $form->field($model, 'priority')->textInput();
 

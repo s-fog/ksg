@@ -92,15 +92,6 @@ class CatalogController extends Controller
                     ->orderBy(['name' => SORT_DESC])
                     ->all();
 
-                foreach($brands as $brand) {
-                    foreach(Category::find()
-                        ->where(['parent_id' => $brand->id, 'type' => 3])
-                        ->orderBy(['name' => SORT_DESC])
-                        ->all() as $brandSerial) {
-                        $brandsSerial[] = $brandSerial;
-                    }
-                }
-
                 $allproducts = Product::find()
                     ->orWhere($otherIdsWhere)
                     ->orWhere($innerIdsWhere)
@@ -157,15 +148,6 @@ class CatalogController extends Controller
                         ->where(['parent_id' => $parent->id, 'type' => 2])
                         ->orderBy(['name' => SORT_DESC])
                         ->all();
-
-                    foreach($brands as $brand) {
-                        foreach(Category::find()
-                            ->where(['parent_id' => $brand->id, 'type' => 3])
-                            ->orderBy(['name' => SORT_DESC])
-                            ->all() as $brandSerial) {
-                            $brandsSerial[] = $brandSerial;
-                        }
-                    }
                 }
                 ////////////////////////////////////////////////////////////
                 $idsTags = [];
