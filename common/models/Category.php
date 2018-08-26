@@ -74,7 +74,7 @@ class Category extends BaseCategory
         $parents = ['0' => 'Нет родителя'];
 
         foreach(Category::find()
-            ->where(['type' => 0])//категория
+            ->where(['type' => [0, 2]])//категория
             ->orderBy(['name' => SORT_ASC])
             ->all() as $item) {
             if ($model == NULL || $model->id != $item->id) {

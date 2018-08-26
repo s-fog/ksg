@@ -75,16 +75,31 @@ class CatalogController extends Controller
             /////////////////////////////////////////////////////////
             $tags = [];
             $brands = [];
+            $years = [];
+            $brandsSerial = [];
 
             if ($model->type == 0) {//Если категория
                 $tags = Category::find()
                     ->where(['parent_id' => $model->id, 'type' => 1])
                     ->orderBy(['sort_order' => SORT_DESC])
                     ->all();
+                $years = Category::find()
+                    ->where(['parent_id' => $model->id, 'type' => 4])
+                    ->orderBy(['sort_order' => SORT_DESC])
+                    ->all();
                 $brands = Category::find()
                     ->where(['parent_id' => $model->id, 'type' => 2])
                     ->orderBy(['name' => SORT_DESC])
                     ->all();
+
+                foreach($brands as $brand) {
+                    foreach(Category::find()
+                        ->where(['parent_id' => $brand->id, 'type' => 3])
+                        ->orderBy(['name' => SORT_DESC])
+                        ->all() as $brandSerial) {
+                        $brandsSerial[] = $brandSerial;
+                    }
+                }
 
                 $allproducts = Product::find()
                     ->orWhere($otherIdsWhere)
@@ -107,10 +122,23 @@ class CatalogController extends Controller
                         ->where(['parent_id' => $parent->id, 'type' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
+                    $years = Category::find()
+                        ->where(['parent_id' => $parent->id, 'type' => 4])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
                     $brands = Category::find()
                         ->where(['parent_id' => $parent->id, 'type' => 2])
                         ->orderBy(['name' => SORT_DESC])
                         ->all();
+
+                    foreach($brands as $brand) {
+                        foreach(Category::find()
+                            ->where(['parent_id' => $brand->id, 'type' => 3])
+                            ->orderBy(['name' => SORT_DESC])
+                            ->all() as $brandSerial) {
+                            $brandsSerial[] = $brandSerial;
+                        }
+                    }
                 }
 
                 if ($model->type == 3) {// Если серия бренда
@@ -121,10 +149,23 @@ class CatalogController extends Controller
                         ->where(['parent_id' => $parent->id, 'type' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
+                    $years = Category::find()
+                        ->where(['parent_id' => $parent->id, 'type' => 4])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
                     $brands = Category::find()
                         ->where(['parent_id' => $parent->id, 'type' => 2])
                         ->orderBy(['name' => SORT_DESC])
                         ->all();
+
+                    foreach($brands as $brand) {
+                        foreach(Category::find()
+                            ->where(['parent_id' => $brand->id, 'type' => 3])
+                            ->orderBy(['name' => SORT_DESC])
+                            ->all() as $brandSerial) {
+                            $brandsSerial[] = $brandSerial;
+                        }
+                    }
                 }
                 ////////////////////////////////////////////////////////////
                 $idsTags = [];
@@ -176,6 +217,8 @@ class CatalogController extends Controller
                 'tags' => $tags,
                 'productsBrands' => $productsBrands,
                 'brands' => $brands,
+                'years' => $years,
+                'brandsSerial' => $brandsSerial,
                 'bHeader' => $bHeader,
             ]);
         }

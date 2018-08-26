@@ -1254,30 +1254,29 @@ $childrenCategories = $model->getChildrenCategories();
         <div class="catalog__inner">
             <?php
             $productCount = count($products);
+            $serials = '<div class="advice__brands">';
+
+            if (!empty($brandsSerial)) {
+                foreach($brandsSerial as $item) {
+                    $serials .= '<a href="'.$item->url.'" class="advice__brandsLink">'.$item->name.'</a>';
+                }
+            }
+
+            $serials .= '</div>';
 
             foreach($products as $index => $item) {
                 echo $this->render('@frontend/views/catalog/_item', [
                     'model' => $item
                 ]);
 
-                if ($index == 2 && !empty($model->text_advice)) {
+                if (($index == 2 || ($productCount - 1) == $index) && !empty($model->text_advice)) {
                     echo '<div class="catalog__item advice">
                             <div class="advice__inner">
                                 <div class="advice__header">Совет от KSG</div>
                                 <div class="advice__html content">
                                     '.$model->text_advice.'
                                 </div>
-                                <div class="advice__brands">
-                                    <a href="#" class="advice__brandsLink">Cube</a>
-                                    <a href="#" class="advice__brandsLink">Stels</a>
-                                    <a href="#" class="advice__brandsLink">Scott</a>
-                                    <a href="#" class="advice__brandsLink">Format</a>
-                                    <a href="#" class="advice__brandsLink">Trek</a>
-                                    <a href="#" class="advice__brandsLink">Stark</a>
-                                    <a href="#" class="advice__brandsLink">Schwinn</a>
-                                    <a href="#" class="advice__brandsLink">Giant</a>
-                                    <a href="#" class="advice__brandsLink">Aspect</a>
-                                </div>
+                                '.$serials.'
                             </div>
                         </div>';
                 }
@@ -1297,6 +1296,18 @@ $childrenCategories = $model->getChildrenCategories();
             if (count($tags) > 10) {
                 echo '<a href="#" class="category__tagSeeAll"><span>посмотреть все-&gt;</span></a>';
             }
+            ?>
+        </div>
+    </div>
+<?php } ?>
+
+<?php if ($years) { ?>
+    <div class="category__years">
+        <div class="container">
+            <span class="category__item">Год:</span>
+            <?php foreach($years as $year) { ?>
+                <a href="<?=$year->url?>" class="category__item link"><span><?=$year->name?></span></a>
+            <?php }
             ?>
         </div>
     </div>
