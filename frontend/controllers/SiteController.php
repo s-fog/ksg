@@ -89,7 +89,6 @@ class SiteController extends Controller
                     break;
                 }
                 case 2: {
-                    echo 1;die();
                     $this->layout = 'textpage';
                     $view = 'brands';
                     $result = [];
