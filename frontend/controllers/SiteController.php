@@ -112,7 +112,7 @@ class SiteController extends Controller
                         }
                     }
 
-                    echo '<pre>',print_r($result),'</pre>';die();
+                    echo '<pre>',print_r($result),'</pre>';
 
                     return $this->render('@frontend/views/textpage/brands', [
                         'model' => $textpage,
