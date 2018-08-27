@@ -92,7 +92,7 @@ class SiteController extends Controller
                     $this->layout = 'textpage';
                     $view = 'brands';
                     $result = [];
-                    $brands = Brand::find()->all();
+                    $brands = Brand::find()->orderBy(['name' => SORT_DESC])->all();
                     $alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','V','X','Y','Z','А-Я'];
                     $russianAlphabet = ['А','Б','В','Г','Д','Е','Ж','З','И','К','Д','М','Н','О','П','Р','С','Т','У','Ф','Ч','Ц','Ч','Ш','Щ','Э','Ю','Я'];
 
@@ -103,16 +103,12 @@ class SiteController extends Controller
                                     $result[$letter][] = $brand;
                                 }
                             } else {
-                                echo $brand->name[0] . ' ';
-                                echo $letter . ' ';
                                 if (stristr($brand->name[0], $letter)) {
                                     $result[$letter][] = $brand;
                                 }
                             }
                         }
                     }
-
-                    echo '<pre>',print_r($result),'</pre>';
 
                     return $this->render('@frontend/views/textpage/brands', [
                         'model' => $textpage,
