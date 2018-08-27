@@ -47,11 +47,23 @@ class CatalogController extends Controller
             $otherIds = [];
             $otherIdsWhere = [];
 
-            foreach($innerIds as $category_id) {
-                foreach(ProductHasCategory::findAll(['category_id' => $category_id]) as $productHasCategory) {
-                    $otherIds[] = $productHasCategory->product_id;
+            if ($model->type != 2) {
+                foreach($innerIds as $category_id) {
+                    foreach(ProductHasCategory::findAll(['category_id' => $category_id]) as $productHasCategory) {
+                        $otherIds[] = $productHasCategory->product_id;
+                    }
+                }
+            } else {
+                foreach(Category::find()
+                    ->where(['parent_id' => $model->id, 'type' => 3])
+                    ->orWhere(['id' => $model->id])
+                    ->all() as $category) {
+                    foreach(ProductHasCategory::findAll(['category_id' => $category->id]) as $productHasCategory) {
+                        $otherIds[] = $productHasCategory->product_id;
+                    }
                 }
             }
+
 
             if (!empty($otherIds)) {
                 $otherIdsWhere = ['id' => $otherIds];
@@ -148,6 +160,15 @@ class CatalogController extends Controller
                         ->where(['parent_id' => $parent->id, 'type' => 2])
                         ->orderBy(['name' => SORT_DESC])
                         ->all();
+
+                    foreach($brands as $brand) {
+                        foreach(Category::find()
+                            ->where(['parent_id' => $brand->id, 'type' => 3])
+                            ->orderBy(['name' => SORT_DESC])
+                            ->all() as $brandSerial) {
+                            $brandsSerial[] = $brandSerial;
+                        }
+                    }
                 }
                 ////////////////////////////////////////////////////////////
                 $idsTags = [];
@@ -163,11 +184,13 @@ class CatalogController extends Controller
                 ////////////////////////////////////////////////////////////
                 $allproducts = Product::find()
                     ->where($andWhereTags)
+                    ->orWhere($otherIdsWhere)
                     ->orderBy($orderBy)
                     ->all();
 
                 $products = Product::find()
                     ->where($andWhereTags)
+                    ->orWhere($otherIdsWhere)
                     ->limit($limit)
                     ->offset($offset)
                     ->orderBy($orderBy)

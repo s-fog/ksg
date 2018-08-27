@@ -1256,7 +1256,7 @@ $childrenCategories = $model->getChildrenCategories();
             $productCount = count($products);
             $serials = '<div class="advice__brands">';
 
-            if (!empty($brandsSerial)) {
+            if (!empty($brandsSerial) && $model->type == 2) {
                 foreach($brandsSerial as $item) {
                     $serials .= '<a href="'.$item->url.'" class="advice__brandsLink">'.$item->name.'</a>';
                 }
@@ -1269,7 +1269,7 @@ $childrenCategories = $model->getChildrenCategories();
                     'model' => $item
                 ]);
 
-                if (($index == 2 || ($productCount - 1) == $index) && !empty($model->text_advice)) {
+                if (($index == 2 || (($productCount - 1) == $index && $index < 3)) && !empty($model->text_advice)) {
                     echo '<div class="catalog__item advice">
                             <div class="advice__inner">
                                 <div class="advice__header">Совет от KSG</div>
