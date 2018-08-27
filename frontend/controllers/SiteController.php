@@ -103,6 +103,8 @@ class SiteController extends Controller
                                     $result[$letter][] = $brand;
                                 }
                             } else {
+                                echo $brand->name[0] . ' ';
+                                echo $letter . ' ';
                                 if (stristr($brand->name[0], $letter)) {
                                     $result[$letter][] = $brand;
                                 }
