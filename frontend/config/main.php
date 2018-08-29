@@ -54,6 +54,7 @@ return [
                 'catalog/<alias>' => 'catalog/index',
                 'catalog' => 'catalog/index',
                 'product/<alias>' => 'catalog/view',
+                'cart' => 'cart/index',
                 '<alias>' => 'site/index',
             ],
         ],

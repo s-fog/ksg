@@ -394,12 +394,13 @@ class Category extends BaseCategory
                 continue;
             }
 
-            if (empty($parent_id)) {
-                $model = Category::findOne(['alias' => $alias]);
-            } else {
+            if ($parent_id != 0) {
                 $model = Category::findOne(['alias' => $alias, 'parent_id' => $parent_id]);
+            } else {
+                $model = Category::findOne(['alias' => $alias]);
             }
 
+            $parent_id = $model->id;
         }
 
         return $model;
