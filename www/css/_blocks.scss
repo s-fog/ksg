@@ -533,6 +533,7 @@ body {
     padding-left: 30px;
     @extend .heavyCaps;
     color: $lightGreyColor;
+    text-decoration: none;
 
     &:hover {
       path {

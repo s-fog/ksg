@@ -61,13 +61,13 @@ class CartController extends Controller
         return 'error';
     }
 
-    public function actionProducts() {
-        return $this->renderPartial('@frontend/views/cart/_products');
+    public function actionReloadCart() {
+        return $this->renderPartial('_products');
     }
 
     public function actionMinicart()
     {
-        return $this->renderPartial('@frontend/views/blocks/minicart');
+        return $this->renderPartial('minicart');
     }
 
     public function actionIndex()

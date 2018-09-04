@@ -689,6 +689,16 @@ class Cart {
             addressMap__centerAddress: $('.addressMap__centerAddress'),
             addressMap__centerPick: $('.addressMap__centerPick'),
             myMap: new Object(),
+            mainHeader: $('.mainHeader'),
+            mainHeader__cart: $('.mainHeader__cart'),
+            mainHeader__popupSuccess: $('.mainHeader__popupSuccess'),
+            mainHeader__popupSuccess_cart: $('.mainHeader__popupSuccess_cart'),
+            mainHeader__popupSuccess_compare: $('.mainHeader__popupSuccess_compare'),
+            mainHeader__popupSuccess_favourite: $('.mainHeader__popupSuccess_favourite'),
+            mainHeader__popupSuccessTriangle: $('.mainHeader__popupSuccessTriangle'),
+            catalog__itemCart: $('.js-add-to-cart'),
+            catalog__itemCompare: $('.js-add-to-compare'),
+            catalog__itemFavourite: $('.js-add-to-favourite'),
         }
     }
 
@@ -738,15 +748,112 @@ class Cart {
             this.nodes.address.val($('.addressMap__centerAddress').text());
             $.fancybox.close();
         });
+
+        $(window).resize(() => {
+            this.popupLeft();
+        });
+
+        this.nodes.catalog__itemCart.click((event) => {
+            let thisElement = $(event.currentTarget);
+
+            let id = thisElement.data('id');
+            let paramsV = thisElement.data('paramsv');
+            let quantity = thisElement.data('quantity');
+            let data = `id=${id}&quantity=${quantity}`;
+
+            if (paramsV) {
+                data += `&paramsV=${paramsV}`;
+            } else {
+                data += `&paramsV=`;
+            }
+
+            $.post('/cart/add', data, (response) => {
+                if (response == 'success') {
+                    this.nodes.mainHeader__popupSuccess_cart.addClass('unhidden');
+                    this.nodes.mainHeader__popupSuccess_cart.addClass('active');
+                    this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                    this.nodes.mainHeader.removeClass('hide');
+
+                    setTimeout(() => {
+                        this.nodes.mainHeader__popupSuccess_cart.removeClass('active');
+                        this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+
+                        setTimeout(() => {
+                            this.nodes.mainHeader__popupSuccess_cart.removeClass('unhidden');
+                        }, 500)
+                    }, 2000);
+
+                    this.minicartReload();
+                } else {
+                    console.log(data);
+                    alert('Ошибка');
+                }
+            });
+
+            return false;
+        });
+
+        this.nodes.catalog__itemCompare.click((event) => {
+            let thisElement = $(event.currentTarget);
+            let id = thisElement.data('id');
+            let data = `id=${id}`;
+
+            $.post('/compare/add', data, (response) => {
+                this.nodes.mainHeader__popupSuccess_compare.addClass('unhidden');
+                this.nodes.mainHeader__popupSuccess_compare.addClass('active');
+                this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                this.nodes.mainHeader.removeClass('hide');
+
+                setTimeout(() => {
+                    this.nodes.mainHeader__popupSuccess_compare.removeClass('active');
+                    this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+
+                    setTimeout(() => {
+                        this.nodes.mainHeader__popupSuccess_compare.removeClass('unhidden');
+                    }, 500)
+                }, 2000);
+
+                this.minicartReload();
+            });
+
+            return false;
+        });
+
+        this.nodes.catalog__itemFavourite.click((event) => {
+            let thisElement = $(event.currentTarget);
+            let id = thisElement.data('id');
+            let data = `id=${id}`;
+
+            $.post('/favourite/add', data, (response) => {
+                this.nodes.mainHeader__popupSuccess_favourite.addClass('unhidden');
+                this.nodes.mainHeader__popupSuccess_favourite.addClass('active');
+                this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                this.nodes.mainHeader.removeClass('hide');
+
+                setTimeout(() => {
+                    this.nodes.mainHeader__popupSuccess_favourite.removeClass('active');
+                    this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+
+                    setTimeout(() => {
+                        this.nodes.mainHeader__popupSuccess_favourite.removeClass('unhidden');
+                    }, 500)
+                }, 2000);
+
+                this.minicartReload();
+            });
+
+            return false;
+        });
     }
 
     _ready() {
+        this.popupLeft();
         this.address();
         this.addressMap();
     }
 
-    reloadProduct() {
-
+    reload() {
+        
     }
 
     address() {
@@ -796,127 +903,6 @@ class Cart {
             this.nodes.addressMap__centerAddress.text(firstGeoObject.getAddressLine());
         });
     }
-}
-
-class Adding {
-    constructor(root) {
-        this.root = root;
-
-        this._cacheNodes();
-        this._bindEvents();
-        this._ready();
-    }
-
-    _cacheNodes() {
-        this.nodes = {
-            mainHeader: $('.mainHeader'),
-            mainHeader__cart: $('.mainHeader__cart'),
-            mainHeader__popupSuccess: $('.mainHeader__popupSuccess'),
-            mainHeader__popupSuccess_cart: $('.mainHeader__popupSuccess_cart'),
-            mainHeader__popupSuccess_compare: $('.mainHeader__popupSuccess_compare'),
-            mainHeader__popupSuccess_favourite: $('.mainHeader__popupSuccess_favourite'),
-            mainHeader__popupSuccessTriangle: $('.mainHeader__popupSuccessTriangle'),
-            catalog__itemCart: $('.js-add-to-cart'),
-            catalog__itemCompare: $('.js-add-to-compare'),
-            catalog__itemFavourite: $('.js-add-to-favourite'),
-        }
-    }
-
-    _bindEvents() {
-        $(window).resize(() => {
-            this.popupLeft();
-        });
-
-        this.nodes.catalog__itemCart.click((event) => {
-            let thisElement = $(event.currentTarget);
-
-            let id = thisElement.data('id');
-            let paramsV = thisElement.data('paramsv');
-            let quantity = thisElement.data('quantity');
-            let data = `id=${id}&quantity=${quantity}`;
-
-            if (paramsV) {
-                data += `&paramsV=${paramsV}`;
-            } else {
-                data += `&paramsV=`;
-            }
-
-            $.post('/cart/add', data, (response) => {
-                if (response == 'success') {
-                    this.nodes.mainHeader__popupSuccess_cart.addClass('unhidden');
-                    this.nodes.mainHeader__popupSuccess_cart.addClass('active');
-                    this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-                    this.nodes.mainHeader.removeClass('hide');
-
-                    setTimeout(() => {
-                        this.nodes.mainHeader__popupSuccess_cart.removeClass('active');
-                        this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
-
-                        setTimeout(() => {
-                            this.nodes.mainHeader__popupSuccess_cart.removeClass('unhidden');
-                        }, 500)
-                    }, 2000);
-                } else {
-                    console.log(data);
-                    alert('Ошибка');
-                }
-            });
-
-            return false;
-        });
-
-        this.nodes.catalog__itemCompare.click((event) => {
-            let thisElement = $(event.currentTarget);
-            let id = thisElement.data('id');
-            let data = `id=${id}`;
-
-            $.post('/compare/add', data, (response) => {
-                this.nodes.mainHeader__popupSuccess_compare.addClass('unhidden');
-                this.nodes.mainHeader__popupSuccess_compare.addClass('active');
-                this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-                this.nodes.mainHeader.removeClass('hide');
-
-                setTimeout(() => {
-                    this.nodes.mainHeader__popupSuccess_compare.removeClass('active');
-                    this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
-
-                    setTimeout(() => {
-                        this.nodes.mainHeader__popupSuccess_compare.removeClass('unhidden');
-                    }, 500)
-                }, 2000);
-            });
-
-            return false;
-        });
-
-        this.nodes.catalog__itemFavourite.click((event) => {
-            let thisElement = $(event.currentTarget);
-            let id = thisElement.data('id');
-            let data = `id=${id}`;
-
-            $.post('/favourite/add', data, (response) => {
-                this.nodes.mainHeader__popupSuccess_favourite.addClass('unhidden');
-                this.nodes.mainHeader__popupSuccess_favourite.addClass('active');
-                this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-                this.nodes.mainHeader.removeClass('hide');
-
-                setTimeout(() => {
-                    this.nodes.mainHeader__popupSuccess_favourite.removeClass('active');
-                    this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
-
-                    setTimeout(() => {
-                        this.nodes.mainHeader__popupSuccess_favourite.removeClass('unhidden');
-                    }, 500)
-                }, 2000);
-            });
-
-            return false;
-        });
-    }
-
-    _ready() {
-        this.popupLeft();
-    }
 
     popupLeft() {
         let mainHeader__cartLeft = this.nodes.mainHeader__cart.offset().left;
@@ -931,7 +917,14 @@ class Adding {
             'left': `${popupLeft}px`
         });
     }
+
+    minicartReload() {
+        $.post('/cart/minicart', '', (response) => {
+            $('.mainHeader__popupOuter').replaceWith(response);
+        });
+    }
 }
+
 class Sorting {
     constructor(root) {
         this.root = root;
@@ -1673,7 +1666,6 @@ class Application {
         new ProductTabs();
         new Cart();
         new Filter();
-        new Adding();
         new Sorting();
         if ($('.compare').get(0)) {
             new Compare();
