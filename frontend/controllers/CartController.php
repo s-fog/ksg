@@ -96,6 +96,7 @@ class CartController extends Controller
             $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
             $model->addError('_exception', $msg);
         }*/
+        $this->layout = 'cart';
         $cart = new ShoppingCart();
 
         return $this->render('index', ['cart' => $cart]);
