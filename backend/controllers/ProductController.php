@@ -392,7 +392,7 @@ class ProductController extends \backend\controllers\base\ProductController
                             }
                         }
 
-                        if (! empty($deletedImageIDs)) {
+                        if (!empty($deletedImageIDs)) {
                             foreach(Image::findAll($deletedImageIDs) as $modelImage) {
                                 //Удаляем старые изображения
                                 $firstPartOfFilename = basename(explode('.', $modelImage->image)[0]);

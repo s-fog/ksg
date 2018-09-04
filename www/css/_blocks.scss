@@ -4748,7 +4748,7 @@ body {
     display: inline-block;
   }
 
-  &__item {
+  a {
     display: block;
     padding: 5px;
     @extend .semibold;
@@ -4756,10 +4756,16 @@ body {
     color: $textColor;
     text-decoration: none;
     @extend .transition;
+  }
 
-    &_dots {
-
-    }
+  span {
+    display: block;
+    padding: 5px;
+    @extend .semibold;
+    font-size: 14px;
+    color: $textColor;
+    text-decoration: none;
+    @extend .transition;
   }
 
   a {

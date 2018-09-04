@@ -4,85 +4,24 @@ use common\models\Category;
 use common\models\Textpage;
 use yii\helpers\Url;
 
-$this->params['seo_title'] = $model->seo_h1;
-$this->params['seo_description'] = $model->seo_description;
-$this->params['seo_keywords'] = $model->seo_keywords;
-$this->params['name'] = $model->name;
-
-$childrenCategories = $model->getChildrenCategories();
+$this->params['seo_title'] = '';
+$this->params['seo_description'] = '';
+$this->params['seo_keywords'] = '';
+$this->params['name'] = 'Корзина';
 
 ?>
 
-<?=$this->render('@frontend/views/blocks/breadcrumbs', ['items' => [[0] => 'Корзина']])?>
+<?=$this->render('@frontend/views/blocks/breadcrumbs', ['items' => [0 => 'Корзина']])?>
 
 <form class="cart">
     <h1 class="header">Корзина</h1>
     <div class="cart__block">
         <div class="cart__inner">
-            <table class="cart__table">
-                <tr>
-                    <th>Наименование</th>
-                    <th>Цена</th>
-                    <th>Количество</th>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="cart__item">
-                            <a href="#" target="_blank" class="cart__itemImage">
-                                <img src="/img/cartProduct.png" alt="">
-                            </a>
-                            <div class="cart__itemInfo">
-                                <div class="cart__itemArtikul">Артикуль: NETL20716</div>
-                                <a href="#" target="_blank" class="cart__itemName"><span>Бутылка для воды ы ы ы ы</span></a>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="cart__price">
-                            <div class="cart__presentImage"></div>
-                            <div class="cart__oldPrice"> 1 900 <span class="rubl">₽</span></div>
-                            <div class="cart__presentText">подарок от KSG</div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="cart__count">
-                            <div class="cart__countInner">
-                                <input type="text" name="count" class="cart__countInput" value="1" readonly>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="cart__item">
-                            <a href="#" target="_blank" class="cart__itemImage">
-                                <img src="/img/cartProduct.png" alt="">
-                            </a>
-                            <div class="cart__itemInfo">
-                                <div class="cart__itemArtikul">Артикуль: NETL20716</div>
-                                <a href="#" target="_blank" class="cart__itemName"><span>Бутылка для воды ы ы ы ы</span></a>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="cart__price">
-                            <div class="cart__priceValue">1 900 000 <span class="rubl">₽</span></div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="cart__count">
-                            <div class="cart__countInner">
-                                <div class="cart__countMinus"></div>
-                                <input type="text" name="count" class="cart__countInput" value="1">
-                                <div class="cart__countPlus"></div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <?=$this->render('_products')?>
         </div>
     </div>
     <br><br>
+    <?php /* ?>
     <div class="cart__block">
         <div class="cart__inner">
             <div class="cart__header"><span>Сборка</span></div>
@@ -143,6 +82,7 @@ $childrenCategories = $model->getChildrenCategories();
             </div>
         </div>
     </div>
+    <?php */ ?>
     <div class="cartForm">
         <div class="container">
             <div class="cartForm__inner">

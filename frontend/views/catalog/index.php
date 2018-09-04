@@ -3,6 +3,7 @@
 use common\models\Category;
 use common\models\Textpage;
 use yii\helpers\Url;
+use yii\widgets\LinkPager;
 
 $this->params['seo_title'] = $model->seo_h1;
 $this->params['seo_description'] = $model->seo_description;
@@ -1285,7 +1286,12 @@ $childrenCategories = $model->getChildrenCategories();
     </div>
 </div>
 
-<?=$pagination['html']?>
+<?=LinkPager::widget([
+    'pagination' => $pages,
+    'disableCurrentPageButton' => true,
+    'hideOnSinglePage' => true,
+    'maxButtonCount' => 6
+]);?>
 
 <?php if ($tags) { ?>
     <div class="category__tags">

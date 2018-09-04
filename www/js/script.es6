@@ -693,10 +693,34 @@ class Cart {
     }
 
     _bindEvents() {
+        this.nodes.cart__countInput.on('change', (event) => {
+            let input = $(event.currentTarget);
+            let val = parseInt(input.val());
+            let id = input.parents('.cart__row').data('id');
+            let data = 'id='+id;
+
+            if (val == 0) {
+                $.post('/cart/remove', data, (response) => {
+                    if (response == 'success') {
+                        this.reloadProduct();
+                    }
+                });
+            } else {
+                data += '&quantity='+val;
+
+                $.post('/cart/update-count', data, (response) => {
+                    if (response == 'success') {
+                        this.reloadProduct();
+                    }
+                });
+            }
+        });
+
         this.nodes.cart__countPlus.click((event) => {
             let input = $(event.currentTarget).siblings('input');
             let val = parseInt(input.val());
             input.val(val + 1);
+            input.change();
         });
 
         this.nodes.cart__countMinus.click((event) => {
@@ -706,6 +730,8 @@ class Cart {
             if (val > 0) {
                 input.val(val - 1);
             }
+
+            input.change();
         });
 
         this.nodes.addressMap__centerPick.click(() => {
@@ -717,6 +743,10 @@ class Cart {
     _ready() {
         this.address();
         this.addressMap();
+    }
+
+    reloadProduct() {
+
     }
 
     address() {
@@ -801,24 +831,35 @@ class Adding {
             let thisElement = $(event.currentTarget);
 
             let id = thisElement.data('id');
-            let paramsV = thisElement.data('paramsV');
+            let paramsV = thisElement.data('paramsv');
             let quantity = thisElement.data('quantity');
-            let data = `id=${id}&paramsV=${paramsV}&quantity=${quantity}`;
+            let data = `id=${id}&quantity=${quantity}`;
 
-            $.post('/ajax/add-to-cart', data, (response) => {
-                this.nodes.mainHeader__popupSuccess_cart.addClass('unhidden');
-                this.nodes.mainHeader__popupSuccess_cart.addClass('active');
-                this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-                this.nodes.mainHeader.removeClass('hide');
+            if (paramsV) {
+                data += `&paramsV=${paramsV}`;
+            } else {
+                data += `&paramsV=`;
+            }
 
-                setTimeout(() => {
-                    this.nodes.mainHeader__popupSuccess_cart.removeClass('active');
-                    this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+            $.post('/cart/add', data, (response) => {
+                if (response == 'success') {
+                    this.nodes.mainHeader__popupSuccess_cart.addClass('unhidden');
+                    this.nodes.mainHeader__popupSuccess_cart.addClass('active');
+                    this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                    this.nodes.mainHeader.removeClass('hide');
 
                     setTimeout(() => {
-                        this.nodes.mainHeader__popupSuccess_cart.removeClass('unhidden');
-                    }, 500)
-                }, 2000);
+                        this.nodes.mainHeader__popupSuccess_cart.removeClass('active');
+                        this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+
+                        setTimeout(() => {
+                            this.nodes.mainHeader__popupSuccess_cart.removeClass('unhidden');
+                        }, 500)
+                    }, 2000);
+                } else {
+                    console.log(data);
+                    alert('Ошибка');
+                }
             });
 
             return false;

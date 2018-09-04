@@ -18,6 +18,7 @@ foreach($variants as $variant) {
         break;
     }
 }
+
 if ($variants[0]->params) {
     $paramsV0 = implode('|', $variants[0]->params);
 } else {
@@ -32,7 +33,7 @@ if ($variants[0]->params) {
            class="catalog__itemCart js-add-to-cart"
            data-id="<?=$model->id?>"
            data-paramsV="<?=$paramsV0?>"
-           data-quantity="0"
+           data-quantity="1"
            title="Добавить в корзину"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.6 28.6"><defs><style>.cls-1{fill:#fff;}</style></defs><g><path class="cls-1" d="M17,21.8a3.4,3.4,0,1,0,3.4,3.4A3.37,3.37,0,0,0,17,21.8Zm0,4a.6.6,0,1,1,.6-.6A.65.65,0,0,1,17,25.8Z"/><path class="cls-1" d="M35.5,21.8a3.4,3.4,0,1,0,3.4,3.4A3.44,3.44,0,0,0,35.5,21.8Zm0,4a.6.6,0,1,1,.6-.6A.65.65,0,0,1,35.5,25.8Z"/><path class="cls-1" d="M39.2,4.8H13.6l-.7-3.7A1.32,1.32,0,0,0,11.5,0H1.4A1.37,1.37,0,0,0,0,1.4,1.37,1.37,0,0,0,1.4,2.8h8.9l2.8,14.8a1.32,1.32,0,0,0,1.4,1.1H35.4a1.4,1.4,0,0,0,0-2.8H15.6l-.5-2.8H37.7a1.4,1.4,0,0,0,0-2.8H14.6l-.5-2.8H39.2a1.37,1.37,0,0,0,1.4-1.4A1.29,1.29,0,0,0,39.2,4.8Z"/></g></svg></a>
         <a href="#"
            class="catalog__itemFavourite js-add-to-favourite"
@@ -68,7 +69,8 @@ if ($variants[0]->params) {
             <div class="catalog__itemBottomRight">
                 <div type="submit"
                      data-id="<?=$model->id?>"
-                     data-variant="0"
+                     data-paramsV="<?=$paramsV0?>"
+                     data-quantity="1"
                      class="button button5 js-add-to-cart catalog__itemToCart">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136.84 45.96"><g><polygon points="117.25 0 19.5 0 10.99 0 0 9.1 0 45.96 19.59 45.96 117.34 45.96 125.85 45.96 136.84 36.87 136.84 0 117.25 0"/></g></svg>
                     <span>Купить</span>

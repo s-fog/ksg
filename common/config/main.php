@@ -11,8 +11,7 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
         'cart' => [
-            'class' => 'yz\shoppingcart\ShoppingCart',
-            'cartId' => 'my_application_cart',
+            'class' => 'yz\shoppingcart\ShoppingCart'
         ],
         'i18n' => [
             'translations' => [

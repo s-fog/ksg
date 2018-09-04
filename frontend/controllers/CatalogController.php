@@ -107,16 +107,7 @@ class CatalogController extends Controller
                 $allproducts = Product::find()
                     ->orWhere($otherIdsWhere)
                     ->orWhere($innerIdsWhere)
-                    ->orderBy($orderBy)
-                    ->all();
-
-                $products = Product::find()
-                    ->orWhere($otherIdsWhere)
-                    ->orWhere($innerIdsWhere)
-                    ->limit($limit)
-                    ->offset($offset)
-                    ->orderBy($orderBy)
-                    ->all();
+                    ->orderBy($orderBy);
             } else {//Если всё остальное
                 if (in_array($model->type, [1, 2, 4])) {
                     $parent = Category::findOne(['id' => $model->parent_id]);
@@ -185,16 +176,7 @@ class CatalogController extends Controller
                 $allproducts = Product::find()
                     ->where($andWhereTags)
                     ->orWhere($otherIdsWhere)
-                    ->orderBy($orderBy)
-                    ->all();
-
-                $products = Product::find()
-                    ->where($andWhereTags)
-                    ->orWhere($otherIdsWhere)
-                    ->limit($limit)
-                    ->offset($offset)
-                    ->orderBy($orderBy)
-                    ->all();
+                    ->orderBy($orderBy);
             }
             /////////////////////////////////////////////////////////
             $bHeader = $model->seo_h1 . ' по брендам';
@@ -210,15 +192,24 @@ class CatalogController extends Controller
                 $bHeader = $parent2->seo_h1 . ' по брендам';
             }
             /////////////////////////////////////////////////////////
+            $pages = new \yii\data\Pagination([
+                'totalCount' => $allproducts->count(),
+                'defaultPageSize' => 20,
+                'pageSizeParam' => 'per_page',
+                'forcePageParam' => false
+            ]);
+
+            $products = $allproducts->offset($pages->offset)
+                ->limit($pages->limit)
+                ->all();
 
             $productsBrands = Product::getBrandsByProducts($products);
             $products = Product::sortAvailable($products);
-            $pagination = Pagination::pagination(count($allproducts), $page, $limit);
 
             return $this->render('index', [
                 'model' => $model,
                 'products' => $products,
-                'pagination' => $pagination,
+                'pages' => $pages,
                 'tags' => $tags,
                 'productsBrands' => $productsBrands,
                 'brands' => $brands,
