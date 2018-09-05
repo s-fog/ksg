@@ -62,7 +62,7 @@ gulp.task('styles', function () {
 
 gulp.task('build', ['scripts', 'scripts.vendor', 'styles', 'images']);
 
-gulp.task('watch', ['browser-sync', 'scripts', 'styles'], function () {
+gulp.task('watch', ['scripts', 'styles'], function () {
     gulp.watch('js/script.es6', ['scripts']);
     gulp.watch('css/**/*.scss', ['styles']);
     gulp.watch('*.php', browserSync.reload);

@@ -67,7 +67,7 @@ class CartController extends Controller
 
     public function actionMinicart()
     {
-        return $this->renderPartial('minicart');
+        return $this->renderPartial('_minicart');
     }
 
     public function actionIndex()

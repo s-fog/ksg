@@ -187,4 +187,17 @@ class Product extends BaseProduct implements CartPositionInterface
 
         return $brands;
     }
+    
+    public static function in_array_in($value, $array, $name) {
+        $result = false;
+
+        foreach($array[$name] as $item) {
+            if ($item['value'] == $value) {
+                $result = true;
+                break;
+            }
+        }
+
+        return $result;
+    }
 }

@@ -34,9 +34,9 @@ class CatalogController extends Controller
             }
 
             /////////////////////////////////////////////////////////
-            $page = (!empty($_GET['page']))? $_GET['page']: 1;
-            $limit = (!empty($_GET['per_page']))? $_GET['per_page']: 20;
-            $offset = ($page == 1)? 0 : $page * $limit - $limit;
+            $page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
+            $limit = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 20;
+            $offset = ($page == 1) ? 0 : $page * $limit - $limit;
             /////////////////////////////////////////////////////////
             $innerIds = $model->getInnerIds();
 
@@ -48,17 +48,17 @@ class CatalogController extends Controller
             $otherIdsWhere = [];
 
             if ($model->type != 2) {
-                foreach($innerIds as $category_id) {
-                    foreach(ProductHasCategory::findAll(['category_id' => $category_id]) as $productHasCategory) {
+                foreach ($innerIds as $category_id) {
+                    foreach (ProductHasCategory::findAll(['category_id' => $category_id]) as $productHasCategory) {
                         $otherIds[] = $productHasCategory->product_id;
                     }
                 }
             } else {
-                foreach(Category::find()
+                foreach (Category::find()
                     ->where(['parent_id' => $model->id, 'type' => 3])
                     ->orWhere(['id' => $model->id])
                     ->all() as $category) {
-                    foreach(ProductHasCategory::findAll(['category_id' => $category->id]) as $productHasCategory) {
+                    foreach (ProductHasCategory::findAll(['category_id' => $category->id]) as $productHasCategory) {
                         $otherIds[] = $productHasCategory->product_id;
                     }
                 }
@@ -125,8 +125,8 @@ class CatalogController extends Controller
                         ->orderBy(['name' => SORT_DESC])
                         ->all();
 
-                    foreach($brands as $brand) {
-                        foreach(Category::find()
+                    foreach ($brands as $brand) {
+                        foreach (Category::find()
                             ->where(['parent_id' => $brand->id, 'type' => 3])
                             ->orderBy(['name' => SORT_DESC])
                             ->all() as $brandSerial) {
@@ -152,8 +152,8 @@ class CatalogController extends Controller
                         ->orderBy(['name' => SORT_DESC])
                         ->all();
 
-                    foreach($brands as $brand) {
-                        foreach(Category::find()
+                    foreach ($brands as $brand) {
+                        foreach (Category::find()
                             ->where(['parent_id' => $brand->id, 'type' => 3])
                             ->orderBy(['name' => SORT_DESC])
                             ->all() as $brandSerial) {
@@ -165,7 +165,7 @@ class CatalogController extends Controller
                 $idsTags = [];
                 $andWhereTags = ['id' => ''];
 
-                foreach(ProductHasCategory::findAll(['category_id' => $model->id]) as $productHasCategory) {
+                foreach (ProductHasCategory::findAll(['category_id' => $model->id]) as $productHasCategory) {
                     $idsTags[] = $productHasCategory->product_id;
                 }
 
@@ -220,11 +220,27 @@ class CatalogController extends Controller
         }
 
     }
+
+    public function actionReloadProduct(){
+        $id = $_POST['id'];
+        $quantity = $_POST['quantity'];
+        $paramsV = $_POST['paramsV'];
+    }
     public function actionView($alias)
     {
         $model = Product::findOne(['alias' => $alias]);
+        
+        if (isset($_POST['reload']) && $_POST['reload'] == 1) {
+            $currentVariant = ProductParam::find()
+                ->where(['product_id' => $model->id])
+                ->andWhere(['params' => $_POST['paramsv']])
+                ->one();
+
+        } else {
+            $currentVariant = ProductParam::find()->where(['product_id' => $model->id])->orderBy(['id' => SORT_ASC])->one();
+        }
+
         $brand = Brand::findOne($model->brand_id);
-        $firstVariant = ProductParam::find()->where(['product_id' => $model->id])->orderBy(['id' => SORT_ASC])->one();
         $variants = $model->params;
         $adviser = Adviser::findOne($model->adviser_id);
         $features = [];
@@ -240,33 +256,78 @@ class CatalogController extends Controller
                 $features[$index]['values'][$i]['value'] = $fv->value;
             }
         }
-
+        ///////////////////////////////////////////////////////////////////////
         $selects = [];
+        $i = 0;
+        $currentParams = [];
 
-        foreach($variants as $variant) {
-            if ($variant->params) {
-                foreach($variant->params as $param) {
+        if ($currentVariant->params) {
+            foreach($currentVariant->params as $p) {
+                $name = explode(' -> ', $p)[0];
+                $value = explode(' -> ', $p)[1];
+                $currentParams[$name] = $value;
+            }
+        }
+
+        foreach($variants as $v) {
+            if ($v->params) {
+                foreach($v->params as $param) {
                     $name = explode(' -> ', $param)[0];
                     $value = explode(' -> ', $param)[1];
 
-                    if (!isset($selects[$name]) || !in_array($value, $selects[$name])) {
-                        $selects[$name][] = $value;
+                    if (!isset($selects[$name]) || !Product::in_array_in($value, $selects, $name)) {
+                        $selects[$name][$i]['value'] = $value;
+
+                        if ($currentParams[$name] == $value) {
+                            $selects[$name][$i]['active'] = true;
+                        } else {
+                            $selects[$name][$i]['active'] = false;
+                        }
+
+                        $i++;
                     }
                 }
             }
         }
+        
+        ///////////////////////////////////////////////////////////////////////
 
-        $model->popular = $model->popular + 1;
-        $model->save();
+        if (isset($_POST['reload']) && $_POST['reload'] == 1) {
+            $productView = $this->renderPartial('_product', [
+                'model' => $model,
+                'brand' => $brand,
+                'currentVariant' => $currentVariant,
+                'variants' => $variants,
+                'selects' => $selects,
+                'adviser' => $adviser,
+                'features' => $features,
+            ]);
 
-        return $this->render('view', [
-            'model' => $model,
-            'brand' => $brand,
-            'firstVariant' => $firstVariant,
-            'variants' => $variants,
-            'selects' => $selects,
-            'adviser' => $adviser,
-            'features' => $features,
-        ]);
+            $addToCartView = $this->renderPartial('_addToCart', [
+                'model' => $model,
+                'brand' => $brand,
+                'currentVariant' => $currentVariant,
+                'variants' => $variants,
+                'selects' => $selects,
+                'adviser' => $adviser,
+                'features' => $features,
+            ]);
+
+            return json_encode([$productView, $addToCartView]);
+        } else {
+            $model->popular = $model->popular + 1;
+            $model->save();
+
+            return $this->render('view', [
+                'model' => $model,
+                'brand' => $brand,
+                'currentVariant' => $currentVariant,
+                'variants' => $variants,
+                'selects' => $selects,
+                'adviser' => $adviser,
+                'features' => $features,
+            ]);
+        }
+
     }
 }

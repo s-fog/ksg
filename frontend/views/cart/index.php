@@ -21,7 +21,6 @@ $this->params['name'] = 'Корзина';
         </div>
     </div>
     <br><br>
-    <?php /* ?>
     <div class="cart__block">
         <div class="cart__inner">
             <div class="cart__header"><span>Сборка</span></div>
@@ -82,7 +81,6 @@ $this->params['name'] = 'Корзина';
             </div>
         </div>
     </div>
-    <?php */ ?>
     <div class="cartForm">
         <div class="container">
             <div class="cartForm__inner">

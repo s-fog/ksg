@@ -294,7 +294,7 @@ use yii\helpers\Url;
     </div>
     <?=$this->render('_mainHeader__popup_contacts')?>
     <div class="mainHeader__popup mainHeader__popupCart" data-popup="cart">
-        <?=$this->render('@frontend/views/cart/minicart')?>
+        <?=$this->render('@frontend/views/cart/_minicart')?>
     </div>
     <div class="mainHeader__popup mainHeader__popupSearch" data-popup="search">
         <div class="mainHeader__popupOuter">

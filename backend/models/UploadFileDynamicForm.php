@@ -61,24 +61,26 @@ class UploadFileDynamicForm extends \yii\base\Model
                     if ($currentModel->image != $result) {
                         $firstPartOfFilename = basename(explode('.', $currentModel->image)[0]);
 
-                        $uploadPath = Yii::getAlias('@uploadPath');
-                        $uploadPaths = glob($uploadPath . '/*');
+                        if (!empty($firstPartOfFilename)) {
+                            $uploadPath = Yii::getAlias('@uploadPath');
+                            $uploadPaths = glob($uploadPath . '/*');
 
-                        foreach ($uploadPaths as $fileItem) {
-                            if (is_file($fileItem)) {
-                                if (strstr($fileItem, $firstPartOfFilename)) {
-                                    unlink($fileItem);
+                            foreach ($uploadPaths as $fileItem) {
+                                if (is_file($fileItem)) {
+                                    if (strstr($fileItem, $firstPartOfFilename)) {
+                                        unlink($fileItem);
+                                    }
                                 }
                             }
-                        }
 
-                        $thumbsPath = Yii::getAlias('@thumbsPath');
-                        $thumbsPaths = glob($thumbsPath . '/*');
+                            $thumbsPath = Yii::getAlias('@thumbsPath');
+                            $thumbsPaths = glob($thumbsPath . '/*');
 
-                        foreach ($thumbsPaths as $fileItem) {
-                            if (is_file($fileItem)) {
-                                if (strstr($fileItem, $firstPartOfFilename)) {
-                                    unlink($fileItem);
+                            foreach ($thumbsPaths as $fileItem) {
+                                if (is_file($fileItem)) {
+                                    if (strstr($fileItem, $firstPartOfFilename)) {
+                                        unlink($fileItem);
+                                    }
                                 }
                             }
                         }

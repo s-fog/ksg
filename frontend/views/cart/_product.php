@@ -6,7 +6,7 @@ use common\models\ProductParam;
 $variant = ProductParam::findOne(['product_id' => $product->id, 'params' => $product->paramsV]);
 $image = Image::find()
     ->where(['product_id' => $product->id])
-    ->orderBy(['sort_order' => SORT_DESC])
+    ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])
     ->offset($variant->image_number)
     ->one();
 $filename = explode('.', basename($image->image));

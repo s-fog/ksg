@@ -2491,6 +2491,20 @@ body {
     }
   }
 
+  &__loading {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 6;
+    margin: auto;
+    width: 160px;
+    height: 160px;
+    background-image: url(../img/loading.gif);
+    background-size: 100% 100%;
+  }
+
   &__mainImage {
     position: absolute;
     left: 0;
@@ -2504,6 +2518,23 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    &.loading {
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 5;
+        margin: auto;
+        width: 770px;
+        height: 553px;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
     }
 
     img {

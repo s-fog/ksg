@@ -699,10 +699,104 @@ class Cart {
             catalog__itemCart: $('.js-add-to-cart'),
             catalog__itemCompare: $('.js-add-to-compare'),
             catalog__itemFavourite: $('.js-add-to-favourite'),
+            addToCart__tocart: $('.addToCart__tocart'),
         }
     }
 
     _bindEvents() {
+        $('.select-jquery-ui').selectmenu();
+
+        $('.product__seeAllImage, .product__allPhoto').click(function() {
+            $('.product__mainImage').click();
+        });
+
+        $('[data-fancybox="oneClick"]').fancybox({
+            animationEffect: "zoom-in-out",
+            btnTpl: {
+                smallBtn: '<button data-fancybox-close class="fancybox-close-small" title="{{CLOSE}}"><img src="/img/clouse2.svg"></button>',
+            },
+            touch: false,
+            baseTpl:
+            '<div class="fancybox-container productImage__wrapper" role="dialog" tabindex="-1">' +
+            '<div class="fancybox-bg"></div>' +
+            '<div class="fancybox-inner">' +
+            '<div class="fancybox-stage"></div>' +
+            '<div class="fancybox-caption"></div>' +
+            "</div>" +
+            "</div>",
+            beforeLoad: (instance, slide) => {
+                let thisElement = $(slide.opts.$orig);
+                let name;
+                let image;
+                let pp1 = thisElement.parents('.catalog__item');
+                let pp2 = thisElement.parents('.product');
+                let oneCLick = $('#oneClick');
+                let goods_id = thisElement.attr('goods-id');
+
+                if (pp1.get(0)) {
+                    name = pp1.find('.catalog__itemName span').text();
+                    image = pp1.find('.catalog__itemImage img').prop('src');
+                } else {
+                    name = pp2.find('h1').text();
+                    image = pp2.find('.product__mainImage img').prop('src');
+                }
+
+                oneCLick.find('.addToCart__header').text(name);
+                oneCLick.find('.addToCart__image div').css('background-image', 'url("' + image + '")');
+                oneCLick.find('[name="goods_id"]').val(goods_id);
+            }
+        });
+
+        $.widget('custom.customselectmenu', $.ui.selectmenu, {
+            _renderButtonItem: function( item ) {
+                var buttonItem = $( "<span>", {
+                    "class": "ui-selectmenu-text"
+                });
+
+                this._setText( buttonItem, item.label );
+                buttonItem.prepend('<span class="ui-selectmenu-text-colorDot" style="background-color: '+$(item.element).data('color')+';">');
+
+                return buttonItem;
+            }
+        });
+
+        $('.select-product-jquery-ui').customselectmenu({
+            change: (event, ui) => {
+                this.reloadProduct();
+            }
+        });
+
+        $('.select-jquery-ui-popup').customselectmenu({
+            change: (event, ui) => {
+                let array = new Array();
+                let params = '';
+
+                $('.select-jquery-ui-popup').each((index, element) => {
+                    let value = $(element).val();
+                    let name = $(element).siblings('.product__selectName').html();
+
+                    name = name.substring(0, name.length - 1);
+                    array[index] = `${name} -> ${value}`;
+                });
+
+                for(let i = 0; i < array.length; i++) {
+                    params += array[i]+'|';
+                }
+
+                params = params.substring(0, params.length - 1);
+
+                $('.js-product-image').each((index, element) => {
+                    if ($(element).data('paramsv') == params) {
+                        let image = $(element).data('image');
+
+                        $('.addToCart__image div').css({
+                            'background-image': `url(${image})`
+                        });
+                    }
+                });
+            }
+        });
+
         this.nodes.cart__countInput.on('change', (event) => {
             let input = $(event.currentTarget);
             let val = parseInt(input.val());
@@ -755,40 +849,22 @@ class Cart {
 
         this.nodes.catalog__itemCart.click((event) => {
             let thisElement = $(event.currentTarget);
-
             let id = thisElement.data('id');
             let paramsV = thisElement.data('paramsv');
             let quantity = thisElement.data('quantity');
-            let data = `id=${id}&quantity=${quantity}`;
 
-            if (paramsV) {
-                data += `&paramsV=${paramsV}`;
-            } else {
-                data += `&paramsV=`;
-            }
+            this.addToCart(id, paramsV, quantity);
 
-            $.post('/cart/add', data, (response) => {
-                if (response == 'success') {
-                    this.nodes.mainHeader__popupSuccess_cart.addClass('unhidden');
-                    this.nodes.mainHeader__popupSuccess_cart.addClass('active');
-                    this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-                    this.nodes.mainHeader.removeClass('hide');
+            return false;
+        });
 
-                    setTimeout(() => {
-                        this.nodes.mainHeader__popupSuccess_cart.removeClass('active');
-                        this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+        this.nodes.addToCart__tocart.click((event) => {
+            let thisElement = $(event.currentTarget);
+            let id = $('.product').data('id');
+            let paramsV = this.getParamsv(true);
+            let quantity = $('.cart__countInput', '#addToCart').val();
 
-                        setTimeout(() => {
-                            this.nodes.mainHeader__popupSuccess_cart.removeClass('unhidden');
-                        }, 500)
-                    }, 2000);
-
-                    this.minicartReload();
-                } else {
-                    console.log(data);
-                    alert('Ошибка');
-                }
-            });
+            this.addToCart(id, paramsV, quantity, true);
 
             return false;
         });
@@ -844,16 +920,152 @@ class Cart {
 
             return false;
         });
+
+        $('[data-fancybox="productImages"]').fancybox({
+            'loop': true,
+            buttons: [
+                "close"
+            ],
+            animationEffect: "zoom-in-out",
+            btnTpl: {
+                close: '<button data-fancybox-close class="fancybox-button fancybox-button--close" title="{{CLOSE}}"><img src="/img/close.svg"></button>',
+                arrowLeft: '<button data-fancybox-prev class="sliderButton fancybox-button fancybox-button--arrow_left" title="{{PREV}}" href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.49 24.9"><g><path class="sliderButton__outer" d="M7.25,24.9h14.6A7.36,7.36,0,0,0,27,22.8l10.4-10.4A7.26,7.26,0,0,0,32.25,0H17.65a7.36,7.36,0,0,0-5.1,2.1L2.15,12.5a7.26,7.26,0,0,0,5.1,12.4Z"></path><path class="sliderButton__inner" d="M25.65,18.3V6.7a.82.82,0,0,0-1.1-.7l-13.9,5.8a.8.8,0,0,0,0,1.5l13.9,5.8A.89.89,0,0,0,25.65,18.3Z"></path></g></svg></button>',
+                arrowRight: '<button data-fancybox-next class="sliderButton fancybox-button fancybox-button--arrow_right" title="{{NEXT}}" href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.51 24.9"><g><path class="sliderButton__outer" d="M32.25,0H17.65a7.36,7.36,0,0,0-5.1,2.1L2.15,12.5a7.26,7.26,0,0,0,5.1,12.4h14.6A7.36,7.36,0,0,0,27,22.8l10.4-10.4A7.24,7.24,0,0,0,32.25,0Z"></path><path class="sliderButton__inner" d="M13.85,6.6V18.2a.78.78,0,0,0,1.1.7l13.9-5.8a.8.8,0,0,0,0-1.5L15,5.8A.83.83,0,0,0,13.85,6.6Z"></path></g></svg></button>',
+                smallBtn: '<button data-fancybox-close class="fancybox-close-small" title="{{CLOSE}}"><img src="/img/close.svg"></button>',
+            },
+            baseTpl:
+            '<div class="fancybox-container productImage__wrapper" role="dialog" tabindex="-1">' +
+            '<div class="fancybox-bg"></div>' +
+            '<div class="fancybox-inner">' +
+            '<div class="fancybox-infobar">' +
+            "<span data-fancybox-index></span>&nbsp;/&nbsp;<span data-fancybox-count></span>" +
+            "</div>" +
+            '<div class="fancybox-toolbar" style="display: none;">{{buttons}}</div>' +
+            '<div class="fancybox-navigation" style="display: none;">{{arrows}}</div>' +
+            '<div class="fancybox-stage"></div>' +
+            '<div class="fancybox-caption"></div>' +
+            "</div>" +
+            "</div>",
+            beforeLoad: (instance, slide) => {
+                let thisElement = $(slide.opts.$orig);
+                let header = thisElement.data('header');
+                let text = thisElement.data('text');
+                let image = thisElement.data('image');
+
+                if (header.length == 0) {
+                    $('.productImages__info').addClass('empty');
+                    $('.productImages__header').text('');
+                    $('.productImages__text').text('');
+                } else {
+                    $('.productImages__info').removeClass('empty');
+                    $('.productImages__header').text(header);
+                    $('.productImages__text').text(text);
+                }
+
+                $('.productImages__image img').prop('src', image);
+            },
+        });
     }
 
     _ready() {
         this.popupLeft();
         this.address();
         this.addressMap();
+
+        $('.productImages__arrowLeft').click(function() {
+            console.log(11);
+            $('.fancybox-button--arrow_left').click();
+        });
+        $('.productImages__arrowRight').click(function() {
+            $('.fancybox-button--arrow_right').click();
+        });
     }
 
-    reload() {
-        
+    cartReload() {
+        $.post('/cart/reload-cart', '', (response) => {
+            let result = JSON.parse(response);
+        });
+    }
+
+    getParamsv(popup = false) {
+        let array = new Array();
+        let params = '';
+        let selects = $('.select-product-jquery-ui');
+
+        if (popup) {
+            selects = $('.select-jquery-ui-popup');
+        }
+
+        selects.each((index, element) => {
+            let value = $(element).val();
+            let name = $(element).siblings('.product__selectName').html();
+
+            name = name.substring(0, name.length - 1);
+            array[index] = `${name} -> ${value}`;
+        });
+
+        for(let i = 0; i < array.length; i++) {
+            params += array[i]+'|';
+        }
+
+        params = params.substring(0, params.length - 1);
+
+        return params;
+    }
+
+    reloadProduct() {
+        let data = 'reload=1';
+        let params = '&paramsv='+this.getParamsv();
+
+        data += params;
+        $('.product__mainImage').append('<div class="product__loading">').addClass('loading');
+        $('.product__allPhoto').hide();
+
+        $.post(location.pathname, data, (response) => {
+            let result = JSON.parse(response);
+
+            $('.product').replaceWith(result[0]);
+            $('#addToCart').replaceWith(result[1]);
+
+            setTimeout(() => {
+                this._cacheNodes();
+                this._bindEvents();
+            }, 10);
+        });
+    }
+
+    addToCart(id, paramsV, quantity, fromPopup = false) {
+        /*if (!fromPopup) {
+            fromPopup = false;
+        }*/
+
+        let data = `id=${id}&quantity=${quantity}`;
+
+        if (paramsV) {
+            data += `&paramsV=${paramsV}`;
+        } else {
+            data += `&paramsV=`;
+        }
+
+        $.post('/cart/add', data, (response) => {
+            if (response == 'success') {
+                if (fromPopup) {
+                    $('.addToCart__bottomTop').addClass('hide');
+                    $('.addToCart__bottomBottom').addClass('active');
+                } else {
+                    $.fancybox.open($('#addToCartNoParams'));
+
+                    setTimeout(() => {
+                        $.fancybox.close();
+                    }, 5000);
+                }
+
+                this.minicartReload();
+            } else {
+                console.log(data);
+                alert('Ошибка');
+            }
+        });
     }
 
     address() {
@@ -1462,28 +1674,6 @@ class Application {
         flexGridAddElements('brands__listInner', 'brands__listItem', 'brands__listItem_hide');
         flexGridAddElements('mostCatalog__inner', 'mostCatalog__item', 'mostCatalog__item_hide');
 
-
-        $.widget('custom.customselectmenu', $.ui.selectmenu, {
-            _renderButtonItem: function( item ) {
-                var buttonItem = $( "<span>", {
-                    "class": "ui-selectmenu-text"
-                });
-                this._setText( buttonItem, item.label );
-
-                buttonItem.prepend('<span class="ui-selectmenu-text-colorDot" style="background-color: '+$(item.element).data('color')+';">');
-
-                return buttonItem;
-            }
-        });
-
-        $('.select-color-jquery-ui').customselectmenu();
-
-        $('.select-jquery-ui').selectmenu();
-
-        $('.product__seeAllImage, .product__allPhoto').click(function() {
-            $('.product__mainImage').click();
-        });
-
         $('[data-fancybox]').fancybox({
             'loop': true,
             buttons: [
@@ -1504,58 +1694,6 @@ class Application {
             },
         });
 
-        $('[data-fancybox="productImages"]').fancybox({
-            'loop': true,
-            buttons: [
-                "close"
-            ],
-            animationEffect: "zoom-in-out",
-            btnTpl: {
-                close: '<button data-fancybox-close class="fancybox-button fancybox-button--close" title="{{CLOSE}}"><img src="/img/close.svg"></button>',
-                arrowLeft: '<button data-fancybox-prev class="sliderButton fancybox-button fancybox-button--arrow_left" title="{{PREV}}" href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.49 24.9"><g><path class="sliderButton__outer" d="M7.25,24.9h14.6A7.36,7.36,0,0,0,27,22.8l10.4-10.4A7.26,7.26,0,0,0,32.25,0H17.65a7.36,7.36,0,0,0-5.1,2.1L2.15,12.5a7.26,7.26,0,0,0,5.1,12.4Z"></path><path class="sliderButton__inner" d="M25.65,18.3V6.7a.82.82,0,0,0-1.1-.7l-13.9,5.8a.8.8,0,0,0,0,1.5l13.9,5.8A.89.89,0,0,0,25.65,18.3Z"></path></g></svg></button>',
-                arrowRight: '<button data-fancybox-next class="sliderButton fancybox-button fancybox-button--arrow_right" title="{{NEXT}}" href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.51 24.9"><g><path class="sliderButton__outer" d="M32.25,0H17.65a7.36,7.36,0,0,0-5.1,2.1L2.15,12.5a7.26,7.26,0,0,0,5.1,12.4h14.6A7.36,7.36,0,0,0,27,22.8l10.4-10.4A7.24,7.24,0,0,0,32.25,0Z"></path><path class="sliderButton__inner" d="M13.85,6.6V18.2a.78.78,0,0,0,1.1.7l13.9-5.8a.8.8,0,0,0,0-1.5L15,5.8A.83.83,0,0,0,13.85,6.6Z"></path></g></svg></button>',
-                smallBtn: '<button data-fancybox-close class="fancybox-close-small" title="{{CLOSE}}"><img src="/img/close.svg"></button>',
-            },
-            baseTpl:
-            '<div class="fancybox-container productImage__wrapper" role="dialog" tabindex="-1">' +
-            '<div class="fancybox-bg"></div>' +
-            '<div class="fancybox-inner">' +
-            '<div class="fancybox-infobar">' +
-            "<span data-fancybox-index></span>&nbsp;/&nbsp;<span data-fancybox-count></span>" +
-            "</div>" +
-            '<div class="fancybox-toolbar" style="display: none;">{{buttons}}</div>' +
-            '<div class="fancybox-navigation" style="display: none;">{{arrows}}</div>' +
-            '<div class="fancybox-stage"></div>' +
-            '<div class="fancybox-caption"></div>' +
-            "</div>" +
-            "</div>",
-            beforeLoad: (instance, slide) => {
-                let thisElement = $(slide.opts.$orig);
-                let header = thisElement.data('header');
-                let text = thisElement.data('text');
-                let image = thisElement.data('image');
-
-                if (header.length == 0) {
-                    $('.productImages__info').addClass('empty');
-                    $('.productImages__header').text('');
-                    $('.productImages__text').text('');
-                } else {
-                    $('.productImages__info').removeClass('empty');
-                    $('.productImages__header').text(header);
-                    $('.productImages__text').text(text);
-                }
-
-                $('.productImages__image img').prop('src', image);
-            },
-        });
-
-        $('.productImages__arrowLeft').click(function() {
-            $('.fancybox-button--arrow_left').click();
-        });
-        $('.productImages__arrowRight').click(function() {
-            $('.fancybox-button--arrow_right').click();
-        });
-
         $('.infs__tab').click(function() {
             $('.infs__tab').removeClass('active');
             $('.infs__content').removeClass('active');
@@ -1563,11 +1701,6 @@ class Application {
             $(this).addClass('active');
             $('.infs__content').eq($(this).index()).addClass('active');
         });
-
-        /*$('.addToCart__tocart').click(function() {
-            $('.addToCart__bottomTop').addClass('hide');
-            $('.addToCart__bottomBottom').addClass('active');
-        });*/
 
         $('.addToCart__continue').click(function() {
             $.fancybox.close();
@@ -1614,42 +1747,6 @@ class Application {
             $(event.currentTarget).addClass('send').text('Спасибо!');
             return false;
         });
-
-        $('[data-fancybox="oneClick"]').fancybox({
-            animationEffect: "zoom-in-out",
-            btnTpl: {
-                smallBtn: '<button data-fancybox-close class="fancybox-close-small" title="{{CLOSE}}"><img src="/img/clouse2.svg"></button>',
-            },
-            touch: false,
-            baseTpl:
-            '<div class="fancybox-container productImage__wrapper" role="dialog" tabindex="-1">' +
-            '<div class="fancybox-bg"></div>' +
-            '<div class="fancybox-inner">' +
-            '<div class="fancybox-stage"></div>' +
-            '<div class="fancybox-caption"></div>' +
-            "</div>" +
-            "</div>",
-            beforeLoad: (instance, slide) => {
-                let thisElement = $(slide.opts.$orig);
-                let name;
-                let image;
-                let pp1 = thisElement.parents('.catalog__item');
-                let pp2 = thisElement.parents('.product');
-                let oneCLick = $('#oneClick');
-                let goods_id = thisElement.attr('goods-id');
-
-                if (pp1.get(0)) {
-                    name = pp1.find('.catalog__itemName span').text();
-                    image = pp1.find('.catalog__itemImage img').prop('src');
-                } else {
-                    name = pp2.find('h1').text();
-                    image = pp2.find('.product__mainImage img').prop('src');
-                }
-
-                oneCLick.find('.addToCart__header').text(name);
-                oneCLick.find('.addToCart__image div').css('background-image', 'url("' + image + '")');
-                oneCLick.find('[name="goods_id"]').val(goods_id);
-            }});
 
         $('[href^="tel:"]').click(() => {
             if ($(window).width() < 900) {
