@@ -2,8 +2,8 @@
 use kartik\checkbox\CheckboxX;
 use kartik\file\FileInput;
 use kartik\widgets\DatePicker;
+use kidzen\dynamicform\DynamicFormWidget;
 use unclead\multipleinput\MultipleInput;
-use wbraganca\dynamicform\DynamicFormWidget;
 use yii\helpers\Html;
 
 ?>
