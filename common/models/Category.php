@@ -87,6 +87,19 @@ class Category extends BaseCategory
         return $parents;
     }
 
+    public static function getCategoryChain3rdLevel() {
+        $array = [];
+        $parents = Category::getCategoryChain();
+
+        foreach($parents as $id => $name) {
+            if (substr_count($name, '->') == 2) {
+                $array[$id] = $name;
+            }
+        }
+
+        return $array;
+    }
+
     public function getChain() {
         $item = $this;
         $name = $item->name;

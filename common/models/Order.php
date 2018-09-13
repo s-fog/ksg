@@ -26,12 +26,11 @@ class Order extends BaseOrder
     public function rules()
     {
         return [
-            [['delivery', 'payments', 'name', 'phone', 'email', 'total_cost'], 'required'],
-            [['products'], 'safe'],
-            [['paid'], 'integer'],
-            [['email'], 'email'],
-            [['delivery', 'payments', 'name', 'phone', 'email', 'shipaddress', 'comment', 'promocode', 'total_cost'], 'string', 'max' => 255],
-            [['check'], 'string'],
+            [['payment', 'name', 'phone', 'email', 'total_cost'], 'required'],
+            [['products', 'comm', 'address'], 'string'],
+            [['total_cost'], 'number'],
+            [['paid', 'status', 'payment'], 'integer'],
+            [['name', 'phone', 'email', 'present_artikul', 'md5Id', 'discount'], 'string', 'max' => 255]
         ];
     }
 
@@ -39,21 +38,60 @@ class Order extends BaseOrder
     {
         return [
             'id' => 'ID',
-            'delivery' => 'Доставка',
-            'payments' => 'Оплата',
-            'name' => 'Имя клиента',
-            'phone' => 'Телефон клиента',
-            'email' => 'Email клиента',
-            'shipaddress' => 'Адрес доставки',
-            'comment' => 'Комментарий к заказу',
+            'payment' => 'Оплата',
+            'name' => 'Имя',
+            'phone' => 'Телефон',
+            'email' => 'Email',
+            'address' => 'Адрес',
+            'comm' => 'Комментарий к заказу',
             'products' => 'Товары',
+            'total_cost' => 'Общая сумма',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата изменения',
-            'promocode' => 'Промокод',
-            'total_cost' => 'Общая сумма заказа',
             'paid' => 'Оплачено?',
-            'check' => 'Чек uuid',
+            'status' => 'Статус'
         ];
+    }
+
+    public function costWithDiscount() {
+        $serviceCost = 0;
+        $products = unserialize(base64_decode($this->products));
+
+        foreach($products as $md5Id => $product) {
+            if ($product->build_cost) {
+                $serviceCost += $product->getQuantity() * $product->build_cost;
+            }
+
+            if ($product->waranty_cost) {
+                $serviceCost += $product->getQuantity() * $product->waranty_cost;
+            }
+        }
+
+        $total_cost = $this->total_cost + $serviceCost;
+
+        if (!empty($this->discount)) {
+            $d = (int) $this->discount;
+
+            if (strstr($this->discount, '%')) {
+                if ($d > 0) {
+                    if ($d > 100) {
+                        return $total_cost;
+                    } else {
+                        return $total_cost * ((100 - $d) / 100);
+                    }
+                } else {
+                    return $total_cost;
+                }
+            } else {
+                if ($d > 0) {
+                    return $total_cost - $d;
+                } else {
+                    return $total_cost;
+                }
+            }
+        } else {
+            return $total_cost;
+        }
     }
 
     public function sendEmails()
@@ -293,7 +331,7 @@ class Order extends BaseOrder
         $body .= '<div style="text-align: center;color: #fff;">Ваш заказ оплачен. Спасибо за заказ!</div>';
         $body .= $this->bodyBottom();
 
-        return $this->send($this->email, 'Вы оплатили заказ на сайте Shop.tanci.ru', $body);
+        return $this->send($this->email, 'Вы оплатили заказ на сайте Ksg', $body);
     }
 
     public function adminMessagePaid() {
@@ -301,12 +339,12 @@ class Order extends BaseOrder
         $body .= '<div style="text-align: center;color: #fff;">Клиент оплатил заказ.</div>';
         $body .= $this->bodyBottom();
 
-        return $this->send($this->adminMail, 'Клиент оплатил заказ Shop.tanci.ru', $body);
+        return $this->send($this->adminMail, 'Клиент оплатил заказ KSG', $body);
     }
 
     private function send($to, $subject, $body) {
         $headers = "Content-type: text/html; charset=\"utf-8\"\r\n";
-        $headers .= "From: <shtepstore@tantci.ru>\r\n";
+        $headers .= "From: <{$this->adminMail}>\r\n";
         $headers .= "MIME-Version: 1.0\r\n";
         return mail($to, $subject, $body, $headers);
     }

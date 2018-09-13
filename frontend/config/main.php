@@ -51,6 +51,7 @@ return [
                 'compare/count' => 'compare/count',
                 'cart' => 'cart/index',
                 'cart/add' => 'cart/add',
+                'cart/success/<md5Id>' => 'cart/success',
                 'cart/update-count' => 'cart/update-count',
                 'cart/remove' => 'cart/remove',
                 'cart/minicart' => 'cart/minicart',

@@ -11,18 +11,19 @@ use yii\behaviors\TimestampBehavior;
  * This is the base-model class for table "order".
  *
  * @property integer $id
- * @property string $delivery
- * @property string $payments
+ * @property string $payment
  * @property string $name
  * @property string $phone
  * @property string $email
- * @property string $shipaddress
- * @property string $comment
+ * @property string $address
+ * @property string $comm
  * @property string $products
+ * @property double $total_cost
+ * @property integer $paid
+ * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $aliasModel
- * @property string $paid
  */
 abstract class Order extends \yii\db\ActiveRecord
 {
@@ -36,7 +37,6 @@ abstract class Order extends \yii\db\ActiveRecord
     {
         return 'order';
     }
-
 
     /**
      * @inheritdoc
@@ -56,10 +56,11 @@ abstract class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['delivery', 'payments', 'name', 'phone', 'email', 'total_cost'], 'required'],
-            [['products'], 'safe'],
-            [['paid'], 'integer'],
-            [['delivery', 'payments', 'name', 'phone', 'email', 'shipaddress', 'comment', 'promocode', 'total_cost'], 'string', 'max' => 255],
+            [['payment', 'name', 'phone', 'email', 'total_cost', 'status'], 'required'],
+            [['products'], 'string'],
+            [['total_cost'], 'number'],
+            [['paid', 'status'], 'integer'],
+            [['payment', 'name', 'phone', 'email', 'address', 'comm'], 'string', 'max' => 255]
         ];
     }
 
@@ -70,18 +71,18 @@ abstract class Order extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'delivery' => 'Доставка',
-            'payments' => 'Оплата',
+            'payment' => 'Оплата',
             'name' => 'Имя клиента',
             'phone' => 'Телефон клиента',
             'email' => 'Email клиента',
-            'shipaddress' => 'Адрес доставки',
-            'comment' => 'Комментарий к заказу',
+            'address' => 'Адрес',
+            'comm' => 'Комментарий к заказу',
             'products' => 'Товары',
+            'total_cost' => 'Total Cost',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата изменения',
-            'promocode' => 'Промокод',
-            'total_cost' => 'Общая сумма заказа',
+            'paid' => 'Оплачено?',
+            'status' => 'Статус',
         ];
     }
 

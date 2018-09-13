@@ -680,6 +680,7 @@ class Cart {
 
     _cacheNodes() {
         this.nodes = {
+            cart: $('.cart'),
             cart__countMinus: $('.cart__countMinus'),
             cart__countInput: $('.cart__countInput'),
             cart__countPlus: $('.cart__countPlus'),
@@ -700,6 +701,7 @@ class Cart {
             catalog__itemCompare: $('.js-add-to-compare'),
             catalog__itemFavourite: $('.js-add-to-favourite'),
             addToCart__tocart: $('.addToCart__tocart'),
+            js_service_change: $('.js-service-change'),
         }
     }
 
@@ -797,8 +799,13 @@ class Cart {
             }
         });
 
-        this.nodes.cart__countInput.on('change', (event) => {
-            let input = $(event.currentTarget);
+        this.nodes.cart.on('change', '.'+this.nodes.js_service_change.attr('class'), (event) => {
+            this.cartReload();
+        });
+
+        this.nodes.cart.on('change', '.'+this.nodes.cart__countInput.attr('class'), (event) => {
+            this.cartReload();
+            /*let input = $(event.currentTarget);
             let val = parseInt(input.val());
             let id = input.parents('.cart__row').data('id');
             let data = 'id='+id;
@@ -806,7 +813,7 @@ class Cart {
             if (val == 0) {
                 $.post('/cart/remove', data, (response) => {
                     if (response == 'success') {
-                        this.reloadProduct();
+                        this.cartReload();
                     }
                 });
             } else {
@@ -814,20 +821,20 @@ class Cart {
 
                 $.post('/cart/update-count', data, (response) => {
                     if (response == 'success') {
-                        this.reloadProduct();
+                        this.cartReload();
                     }
                 });
-            }
+            }*/
         });
 
-        this.nodes.cart__countPlus.click((event) => {
+        this.nodes.cart.on('click', '.'+this.nodes.cart__countPlus.attr('class'), (event) => {
             let input = $(event.currentTarget).siblings('input');
             let val = parseInt(input.val());
             input.val(val + 1);
             input.change();
         });
 
-        this.nodes.cart__countMinus.click((event) => {
+        this.nodes.cart.on('click', '.'+this.nodes.cart__countMinus.attr('class'),(event) => {
             let input = $(event.currentTarget).siblings('input');
             let val = parseInt(input.val());
 
@@ -982,8 +989,13 @@ class Cart {
     }
 
     cartReload() {
-        $.post('/cart/reload-cart', '', (response) => {
+        $.post('/cart/reload-cart', $('.cart').serialize(), (response) => {
+            //console.log(response);
             let result = JSON.parse(response);
+
+            $('.cart__table').replaceWith(result[0]);
+            $('.cart__services').html(result[1]);
+            $('.cartForm__total').html(result[2]);
         });
     }
 
@@ -1117,17 +1129,19 @@ class Cart {
     }
 
     popupLeft() {
-        let mainHeader__cartLeft = this.nodes.mainHeader__cart.offset().left;
-        let triangleLeft = mainHeader__cartLeft + 3;
-        let popupLeft = mainHeader__cartLeft - 145;
+        if (this.nodes.mainHeader__cart.get(0)) {
+            let mainHeader__cartLeft = this.nodes.mainHeader__cart.offset().left;
+            let triangleLeft = mainHeader__cartLeft + 3;
+            let popupLeft = mainHeader__cartLeft - 145;
 
-        this.nodes.mainHeader__popupSuccessTriangle.css({
-            'left': `${triangleLeft}px`
-        });
+            this.nodes.mainHeader__popupSuccessTriangle.css({
+                'left': `${triangleLeft}px`
+            });
 
-        this.nodes.mainHeader__popupSuccess.css({
-            'left': `${popupLeft}px`
-        });
+            this.nodes.mainHeader__popupSuccess.css({
+                'left': `${popupLeft}px`
+            });
+        }
     }
 
     minicartReload() {

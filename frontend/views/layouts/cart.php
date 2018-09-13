@@ -4,8 +4,9 @@
 /* @var $content string */
 
 use frontend\assets\AppAsset;
+use frontend\assets\AppAssetCart;
 
-AppAsset::register($this);
+AppAssetCart::register($this);
 ?>
 <?php $this->beginPage() ?>
 

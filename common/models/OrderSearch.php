@@ -18,8 +18,8 @@ class OrderSearch extends Order
 public function rules()
 {
 return [
-[['id', 'created_at', 'updated_at', 'paid'], 'integer'],
-            [['delivery', 'payments', 'name', 'phone', 'email', 'shipaddress', 'comment', 'products', 'check'], 'safe'],
+[['id', 'created_at', 'updated_at', 'paid', 'status'], 'integer'],
+            [['payment', 'name', 'phone', 'email', 'address', 'comment', 'products'], 'safe'],
 ];
 }
 
@@ -59,16 +59,16 @@ $query->andFilterWhere([
             'id' => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'status' => $this->status,
+            'paid' => $this->paid,
         ]);
 
-        $query->andFilterWhere(['like', 'delivery', $this->delivery])
-            ->andFilterWhere(['like', 'payments', $this->payments])
+        $query->andFilterWhere(['like', 'payment', $this->payment])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'shipaddress', $this->shipaddress])
-            ->andFilterWhere(['like', 'comment', $this->comment])
-            ->andFilterWhere(['paid' => $this->paid])
+            ->andFilterWhere(['like', 'address', $this->address])
+            ->andFilterWhere(['like', 'comm', $this->comm])
             ->andFilterWhere(['like', 'products', $this->products]);
 
         if (!empty($this->check)) {

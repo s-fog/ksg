@@ -28,7 +28,8 @@ class ProductParam extends BaseProductParam
             [['artikul', 'available', 'image_number'], 'required'],
             [['available', 'product_id', 'sort_order', 'image_number'], 'integer'],
             [['params'], 'safe'],
-            [['artikul'], 'string', 'max' => 255]
+            [['artikul'], 'string', 'max' => 255],
+            [['artikul'], 'unique']
         ];
     }
 

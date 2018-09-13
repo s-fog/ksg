@@ -22,6 +22,10 @@
                     ['label' => 'Формы обратной связи', 'url' => ['/callback/index']],
                     ['label' => 'Товары', 'url' => ['/product/index']],
                     ['label' => 'Слайдер на главной', 'url' => ['/mainslider/index']],
+                    ['label' => 'Сборка', 'url' => ['/build/index']],
+                    ['label' => 'Гарантия', 'url' => ['/waranty/index']],
+                    ['label' => 'Подарки', 'url' => ['/present/index']],
+                    ['label' => 'Заказы', 'url' => ['/order/index']],
                 ],
             ]
         ) ?>

@@ -38,6 +38,12 @@ return [
     'Client' => 'Клиент',
     'Currencies' => 'Валюты',
     'Currency' => 'Валюта',
+    'Builds' => 'Сборка',
+    'Build' => 'Сборка',
+    'Waranties' => 'Гарантия',
+    'Waranty' => 'Гарантия',
+    'Presents' => 'Подарки',
+    'Present' => 'Подарок',
     '' => '',
 ];
 

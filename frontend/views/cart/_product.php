@@ -3,7 +3,11 @@
 use common\models\Image;
 use common\models\ProductParam;
 
-$variant = ProductParam::findOne(['product_id' => $product->id, 'params' => $product->paramsV]);
+if (!isset($paramsV)) {
+    $paramsV = $product->paramsV;
+}
+
+$variant = ProductParam::findOne(['product_id' => $product->id, 'params' => $paramsV]);
 $image = Image::find()
     ->where(['product_id' => $product->id])
     ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])
@@ -25,18 +29,35 @@ $quantity = $product->getQuantity();
             </div>
         </div>
     </td>
-    <td>
-        <div class="cart__price">
-            <div class="cart__priceValue"><?=number_format($product->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
-        </div>
-    </td>
-    <td>
-        <div class="cart__count">
-            <div class="cart__countInner">
-                <div class="cart__countMinus"></div>
-                <input type="text" name="count" class="cart__countInput" value="<?=$quantity?>" data-id="<?=$product->id?>">
-                <div class="cart__countPlus"></div>
+    <?php if (isset($present)) { ?>
+        <td>
+            <div class="cart__price">
+                <div class="cart__presentImage"></div>
+                <div class="cart__oldPrice"><?=number_format($product->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
+                <div class="cart__presentText">подарок от KSG</div>
             </div>
-        </div>
-    </td>
+        </td>
+        <td>
+            <div class="cart__count">
+                <div class="cart__countInner">
+                    <input type="text" name="Order[count][<?=$product->getId()?>]" class="cart__countInput" value="1" readonly>
+                </div>
+            </div>
+        </td>
+    <?php } else { ?>
+        <td>
+            <div class="cart__price">
+                <div class="cart__priceValue"><?=number_format($product->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
+            </div>
+        </td>
+        <td>
+            <div class="cart__count">
+                <div class="cart__countInner">
+                    <div class="cart__countMinus"></div>
+                    <input type="text" name="Order[count][<?=$product->getId()?>]" class="cart__countInput" value="<?=$quantity?>" data-id="<?=$product->id?>">
+                    <div class="cart__countPlus"></div>
+                </div>
+            </div>
+        </td>
+    <?php } ?>
 </tr>

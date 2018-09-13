@@ -1,9 +1,11 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Order;
 use common\models\Product;
 use Yii;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yz\shoppingcart\ShoppingCart;
 
 /**
@@ -62,7 +64,57 @@ class CartController extends Controller
     }
 
     public function actionReloadCart() {
-        return $this->renderPartial('_products');
+        $cart = new ShoppingCart();
+
+        if (!empty($_POST['Order'])) {
+            $positions = unserialize($cart->getSerialized());
+
+            foreach($positions as $md5Id => $position) {
+
+                if (isset($_POST['Order']['build'][$md5Id])) {
+                    if ($_POST['Order']['build'][$md5Id] == 'false') {
+                        $position->build_cost = false;
+                    } else {
+                        $position->build_cost = (int) $_POST['Order']['build'][$md5Id];
+                    }
+                } else {
+                    $position->build_cost = false;
+                }
+
+                if (isset($_POST['Order']['waranty'][$md5Id])) {
+                    if ($_POST['Order']['waranty'][$md5Id] == 'false') {
+                        $position->waranty_cost = false;
+                    } else {
+                        $position->waranty_cost = (int) $_POST['Order']['waranty'][$md5Id];
+                    }
+                } else {
+                    $position->waranty_cost = false;
+                }
+
+                if (isset($_POST['Order']['count'][$md5Id])) {
+                    $position->setQuantity($_POST['Order']['count'][$md5Id]);
+                }
+
+                $positions[$md5Id] = $position;
+            }
+
+            $cart->setPositions($positions);
+
+            $p0 = $this->renderPartial('_products', [
+                'cart' => $cart,
+                'positions' => $positions,
+            ]);
+            $p1 = $this->renderPartial('_cartServices', [
+                'cart' => $cart,
+                'positions' => $positions,
+            ]);
+            $p2 = $this->renderPartial('_cartTotal', [
+                'cart' => $cart,
+                'positions' => $positions,
+            ]);
+
+            return json_encode([$p0, $p1, $p2]);
+        }
     }
 
     public function actionMinicart()
@@ -72,33 +124,41 @@ class CartController extends Controller
 
     public function actionIndex()
     {
-        /*$model = new Order;
-        $cart = new ShoppingCart();
-        $this->layout = 'textpage';*/
+        if (!empty($_POST['Order'])) {
+            $model = new Order;
+            $cart = new ShoppingCart();
 
-        /*if (!empty($_POST['Order'])) {
             $_POST['Order']['products'] = base64_encode($cart->getSerialized());
+            $_POST['Order']['total_cost'] = (int) $_POST['Order']['total_cost'];
 
-            if (strstr($_POST['Order']['delivery'], 'Доставка_')) {
-                $deliveryCost = explode('_', $_POST['Order']['delivery']);
-                $_POST['Order']['total_cost'] = ''.($_POST['Order']['total_cost']*1 + $deliveryCost[1]*1).'';
+            if ($model->load($_POST)) {
+                $model->paid = 0;
+                $model->status = 0;
+
+                if ($model->save()) {
+                    //$cart->removeAll();
+                    $model->md5Id = md5($model->id.$model->email.rand(0, 50));
+                    $model->save();
+
+                    return $this->redirect(['cart/success', 'md5Id' => $model->md5Id]);
+                }
             }
+        } else {
+            $this->layout = 'cart';
+            $cart = new ShoppingCart();
+
+            return $this->render('index', ['cart' => $cart]);
         }
+    }
 
-        try {
-            if ($model->load($_POST) && $model->save()) {
-                $cart->removeAll();
-                return $this->render('index', ['model' => $model]);
-            } elseif (!\Yii::$app->request->isPost) {
-                $model->load($_GET);
-            }
-        } catch (\Exception $e) {
-            $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-            $model->addError('_exception', $msg);
-        }*/
-        $this->layout = 'cart';
-        $cart = new ShoppingCart();
+    public function actionSuccess($md5Id)
+    {
+        if ($order = Order::findOne(['md5Id' => $md5Id])) {
+            $this->layout = 'order_success';
 
-        return $this->render('index', ['cart' => $cart]);
+            return $this->render('success', ['order' => $order]);
+        } else {
+            throw new NotFoundHttpException;
+        }
     }
 }

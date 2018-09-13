@@ -17,6 +17,9 @@ class Product extends BaseProduct implements CartPositionInterface
 
     public $categories_ids;
     public $paramsV;
+    public $build_cost;
+    public $waranty_cost;
+    public $link;
 
     public function getPrice()
     {

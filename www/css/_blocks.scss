@@ -3632,6 +3632,23 @@ body {
     margin: 10px 0;
     padding: 30px 0;
     background-color: $lightGreyColor;
+
+    .checkbox {
+      margin-top: 15px;
+      max-width: 100%;
+
+      &__inner {
+        justify-content: flex-start;
+      }
+
+      &__item {
+        margin: 12px 0;
+
+        &:first-child {
+          margin-right: 40px;
+        }
+      }
+    }
   }
 
   &__inner {
@@ -4182,6 +4199,22 @@ body {
     flex: 0 0 32%;
     @include respond-to(700) {
       margin: 7px 0;
+    }
+  }
+
+  .form-group {
+    width: 100%;
+
+    &.has-error {
+      input {
+        background-color: lighten(#e8394a, 10%);
+      }
+    }
+
+    .help-block {
+      margin-top: 2px;
+      font-size: 0.8em;
+      color: lighten(#e8394a, 10%);
     }
   }
 
@@ -6073,7 +6106,7 @@ r
 }
 
 .fancybox-active {
-  .mainHeader, .mainHeader__popup {
+  .mainHeader, .mainHeader__popup, .filterTrigger {
     padding-right: 17px;
     box-sizing: border-box;
   }
