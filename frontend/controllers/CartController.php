@@ -154,8 +154,6 @@ class CartController extends Controller
     public function actionSuccess($md5Id)
     {
         if ($order = Order::findOne(['md5Id' => $md5Id])) {
-            $this->layout = 'order_success';
-
             return $this->render('success', ['order' => $order]);
         } else {
             throw new NotFoundHttpException;
