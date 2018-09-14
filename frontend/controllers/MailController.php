@@ -3,7 +3,9 @@
 namespace frontend\controllers;
 
 use common\models\Order;
+use common\models\Present;
 use common\models\Product;
+use common\models\ProductParam;
 use frontend\models\CallbackForm;
 use Yii;
 
@@ -28,8 +30,14 @@ class MailController extends \yii\web\Controller
                 $order->name = $_POST['OneClickForm']['name'];
                 $order->phone = $_POST['OneClickForm']['phone'];
                 $order->email = '';
-                $order->products = base64_encode(serialize([$product->getId() => $product]));
                 $order->total_cost = $product->price;
+
+                if ($present = Present::find()->where("$order->total_cost >= min_price AND $order->total_cost < max_price")->one()) {
+                    $order->present_artikul = $present->product_artikul;
+                }
+
+                $products[$product->getId()] = $product;
+                $order->products = base64_encode(serialize($products));
 
                 if ($order->save(false)) {
                     if ($md5Id = $order->saveMd5Id(false)) {
