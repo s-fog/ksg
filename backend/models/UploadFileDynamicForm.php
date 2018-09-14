@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use Exception;
 use Yii;
 use yii\imagine\Image;
 use yii\web\UploadedFile;
@@ -21,33 +22,38 @@ class UploadFileDynamicForm extends \yii\base\Model
 
         if ($file) {
             $name = md5($file->baseName.time());
-            $extention = $file->extension;$filename = '/uploads/'.$name.'.'.$extention;
+            $extention = $file->extension;
+            $filename = '/uploads/'.$name.'.'.$extention;
+            $flag = false;
 
             if ($_FILES[$className]['type'][$index][$attributeFileOrigin] == 'image/jpeg' || $_FILES[$className]['type'][$index][$attributeFileOrigin] == 'image/jpg') {
-                if ($image = imagecreatefromjpeg($_FILES[$className]['tmp_name'][$index][$attributeFileOrigin])) {
+                try {
+                    $image = imagecreatefromjpeg($_FILES[$className]['tmp_name'][$index][$attributeFileOrigin]);
                     $flag = imagejpeg ($image, Yii::getAlias('@www').$filename, 75);
                     imagedestroy($image);
-                } else {
-                    $flag = $file->saveAs(Yii::getAlias('@www').$filename);
+                } catch (Exception $ex) {
+                    $flag = $file->saveAs(Yii::getAlias('@www').$filename, false);
                 }
             } else if ($_FILES[$className]['type'][$index][$attributeFileOrigin] == 'image/png') {
-                if ($image = imagecreatefrompng($_FILES[$className]['tmp_name'][$index][$attributeFileOrigin])) {
+                try {
+                    $image = imagecreatefrompng($_FILES[$className]['tmp_name'][$index][$attributeFileOrigin]);
                     imagealphablending($image, false);
                     imagesavealpha($image, true);
                     $flag = imagepng($image, Yii::getAlias('@www').$filename, 9);
                     imagedestroy($image);
-                } else {
-                    $flag = $file->saveAs(Yii::getAlias('@www').$filename);
+                } catch (Exception $ex) {
+                    $flag = $file->saveAs(Yii::getAlias('@www').$filename, false);
                 }
             } else {
-                $flag = $file->saveAs(Yii::getAlias('@www').$filename);
+                $flag = $file->saveAs(Yii::getAlias('@www').$filename, false);
             }
 
             if ($flag) {
                 $result = $filename;
+                $image = $filename;
 
                 foreach($thumbs as $thumb) {
-                    UploadFileDynamicForm::doThumb($file, $filename, $thumb, $watermark);
+                    UploadFile::doThumb($file, $filename, $thumb, $watermark);
                 }
             } else {
                 $result = false;
@@ -113,7 +119,7 @@ class UploadFileDynamicForm extends \yii\base\Model
                 Image::thumbnail('@www' . $image, $thumbCut[0], $thumbCut[1])
                     ->save(Yii::getAlias('@www'.$thumbPath), ['quality' => 80]);
             } else {
-                $file->saveAs(Yii::getAlias('@www').$thumbPath);
+                $file->saveAs(Yii::getAlias('@www').$thumbPath, false);
             }
         }
     }

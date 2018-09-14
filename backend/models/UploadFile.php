@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use Exception;
 use Yii;
 use yii\imagine\Image;
 use yii\web\UploadedFile;
@@ -21,21 +22,27 @@ class UploadFile extends \yii\base\Model
         if ($file) {
             $name = md5($file->baseName.time());
             $extention = $file->extension;
+            $filename = '/uploads/'.$name.'.'.$extention;
 
             if ($_FILES[$className]['type'][$attributeFile] == 'image/jpeg' || $_FILES[$className]['type'][$attributeFile] == 'image/jpg') {
-                $filename = '/uploads/'.$name.'.'.$extention;
-                $image = imagecreatefromjpeg($_FILES[$className]['tmp_name'][$attributeFile]);
-                $flag = imagejpeg ($image, Yii::getAlias('@www').$filename, 75);
-                imagedestroy($image);
+                try {
+                    $image = imagecreatefromjpeg($_FILES[$className]['tmp_name'][$attributeFile]);
+                    $flag = imagejpeg ($image, Yii::getAlias('@www').$filename, 75);
+                    imagedestroy($image);
+                } catch (Exception $ex) {
+                    $flag = $file->saveAs(Yii::getAlias('@www').$filename);
+                }
             } else if ($_FILES[$className]['type'][$attributeFile] == 'image/png') {
-                $filename = '/uploads/'.$name.'.'.$extention;
-                $image = imagecreatefrompng($_FILES[$className]['tmp_name'][$attributeFile]);
-                imagealphablending($image, false);
-                imagesavealpha($image, true);
-                $flag = imagepng($image, Yii::getAlias('@www').$filename, 9);
-                imagedestroy($image);
+                try {
+                    $image = imagecreatefrompng($_FILES[$className]['tmp_name'][$attributeFile]);
+                    imagealphablending($image, false);
+                    imagesavealpha($image, true);
+                    $flag = imagepng($image, Yii::getAlias('@www').$filename, 9);
+                    imagedestroy($image);
+                } catch (Exception $ex) {
+                    $flag = $file->saveAs(Yii::getAlias('@www').$filename);
+                }
             } else {
-                $filename = '/uploads/'.$name.'.'.$extention;
                 $flag = $file->saveAs(Yii::getAlias('@www').$filename);
             }
 
