@@ -185,6 +185,14 @@ $form = ActiveForm::begin([
     ->hiddenInput([
         'value' => 'Купить в один клик KSG'
     ])->label(false)?>
+<?=$form->field($oneClickForm, 'paramsV')
+    ->hiddenInput([
+        'value' => ''
+    ])->label(false)?>
+<?=$form->field($oneClickForm, 'product_id')
+    ->hiddenInput([
+        'value' => ''
+    ])->label(false)?>
 
 <?=$form->field($oneClickForm, 'BC')
     ->textInput([

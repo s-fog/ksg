@@ -18,7 +18,7 @@
     if ($present = Present::find()->where("$cartCost >= min_price AND $cartCost < max_price")->one()) {
         $productParam = ProductParam::findOne(['artikul' => $present->product_artikul]);
         $productPresent = Product::findOne($productParam->product_id);
-        $paramsV = implode('|', $productParam->params);
+        $paramsV = (empty($productParam->params)) ? '' : implode('|', $productParam->params);
         $productPresent->paramsV = $paramsV;
         echo '<input type="hidden" name="Order[present_artikul]" value="'.$present->product_artikul.'">';
 

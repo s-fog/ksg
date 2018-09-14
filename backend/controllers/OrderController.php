@@ -29,17 +29,18 @@ class OrderController extends \backend\controllers\base\OrderController
                         $product->paramsV = implode('|', !empty($productParam->params) ? $productParam->params : []);
                         $products = unserialize(base64_decode($order->products));
                         $alreadyHere = false;
+                        $quantity = ((int) $model->quantity > 0) ? (int) $model->quantity : 1;
 
                         foreach ($products as $md5Id => $p) {
                             if ($product->getId() == $md5Id) {
-                                $p->setQuantity($p->getQuantity() + (int) $model->quantity);
+                                $p->setQuantity($p->getQuantity() + $quantity);
                                 $products[$md5Id] = $p;
                                 $alreadyHere = true;
                             }
                         }
 
                         if (!$alreadyHere) {
-                            $product->setQuantity((int) $model->quantity);
+                            $product->setQuantity($quantity);
                             $products[$product->getId()] = $product;
                         }
 

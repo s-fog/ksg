@@ -50,7 +50,6 @@ class UploadFileDynamicForm extends \yii\base\Model
 
             if ($flag) {
                 $result = $filename;
-                $image = $filename;
 
                 foreach($thumbs as $thumb) {
                     UploadFile::doThumb($file, $filename, $thumb, $watermark);

@@ -2,9 +2,9 @@
 
 namespace frontend\controllers;
 
+use common\models\Order;
+use common\models\Product;
 use frontend\models\CallbackForm;
-use frontend\models\PopupForm;
-use frontend\models\TechForm;
 use Yii;
 
 class MailController extends \yii\web\Controller
@@ -20,7 +20,22 @@ class MailController extends \yii\web\Controller
         }
         if (isset($_POST['OneClickForm'])) {
             if (!empty($_POST['OneClickForm']) && isset($_POST['OneClickForm']['type']) && !strlen($_POST['OneClickForm']['BC'])) {
-                //create Order
+                $product = Product::findOne($_POST['OneClickForm']['product_id']);
+                $product->paramsV = $_POST['OneClickForm']['paramsV'];
+                $product->setQuantity(1);
+                $order = new Order;
+                $order->payment = 0;
+                $order->name = $_POST['OneClickForm']['name'];
+                $order->phone = $_POST['OneClickForm']['phone'];
+                $order->email = 'quick@quick.quick';
+                $order->products = base64_encode(serialize([$product->getId() => $product]));
+                $order->total_cost = $product->price;
+
+                if ($order->save()) {
+                    return 'success';
+                } else {
+                    return 'error';
+                }
             }
         }
     }
