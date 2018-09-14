@@ -2931,6 +2931,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 553px;
     background-color: #fff;
 
     img {
@@ -6528,4 +6529,8 @@ r
   overflow: visible;
   white-space: normal;
   text-overflow: clip;
+}
+
+.BC {
+  display: none;
 }

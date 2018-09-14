@@ -933,6 +933,7 @@ class Cart {
             buttons: [
                 "close"
             ],
+            touch: false,
             animationEffect: "zoom-in-out",
             btnTpl: {
                 close: '<button data-fancybox-close class="fancybox-button fancybox-button--close" title="{{CLOSE}}"><img src="/img/close.svg"></button>',
@@ -979,11 +980,10 @@ class Cart {
         this.address();
         this.addressMap();
 
-        $('.productImages__arrowLeft').click(function() {
-            console.log(11);
+        $('.productImages__arrowLeft').click(() => {
             $('.fancybox-button--arrow_left').click();
         });
-        $('.productImages__arrowRight').click(function() {
+        $('.productImages__arrowRight').click(() => {
             $('.fancybox-button--arrow_right').click();
         });
     }
@@ -1757,8 +1757,35 @@ class Application {
             $("html, body").stop().animate({scrollTop: top}, 400, 'swing');
         });
 
-        $('.sendForm [type="submit"]').click((event) => {
-            $(event.currentTarget).addClass('send').text('Спасибо!');
+        $('body').on('beforeSubmit', '.sendForm', (event) => {
+            var form = $(event.currentTarget);
+            var submitButton = form.find('[type="submit"]');
+            var formData = new FormData(form.get(0));
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "/mail/index");
+            xhr.send(formData);
+
+            xhr.upload.onprogress = () => {
+
+            };
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState == 4){
+                    if (xhr.status == 200){
+                        var response = xhr.responseText;
+                        console.log(response);
+
+                        if (response == 'success') {
+                            submitButton.addClass('send').text('Спасибо!');
+                        } else {
+                            alert('Ошибка');
+                        }
+                    } else {
+                        console.log('error status');
+                    }
+                }
+            };
             return false;
         });
 

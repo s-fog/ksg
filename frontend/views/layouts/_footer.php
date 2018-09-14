@@ -3,9 +3,12 @@
 use common\models\Brand;
 use common\models\Category;
 use common\models\Textpage;
+use frontend\models\CallbackForm;
+use frontend\models\OneClickForm;
 use frontend\models\SubscribeForm;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use yii\widgets\MaskedInput;
 
 
 ?>
@@ -89,61 +92,112 @@ use yii\widgets\ActiveForm;
     </div>
 </div>
 
-<form class="popup callback sendForm" id="callback">
-    <div class="callback__inner">
-        <div class="callback__left">
-            <div class="callback__image"></div>
-        </div>
-        <div class="callback__right">
-            <div class="callback__header">Специалист  оперативно перезвонит
-                и ответит на все вопросы.</div>
-            <div class="form-group">
-                <input type="text" name="name" placeholder="Имя" class="callback__input">
-            </div>
-            <div class="form-group">
-                <input type="text" name="phone" placeholder="Телефон" class="callback__input">
-            </div>
-            <button class="popup__submit" type="submit">заказать обратный звонок</button>
-        </div>
+<?php
+$callbackForm = new CallbackForm();
+$form = ActiveForm::begin([
+    'options' => [
+        'class' => 'popup callback sendForm',
+        'id' => 'callback'
+    ],
+]);?>
+<div class="callback__inner">
+    <div class="callback__left">
+        <div class="callback__image"></div>
     </div>
-    <div class="callback__bottom">Нажимая «заказать обрытный звонок», вы подтверждаете, что прочли и согласны
-        «<a href="#" class="link">Соглашение с KSG</a>», даёте своё согласиена <a href="#" class="link">обработку персональных данных</a></div>
-</form>
+    <div class="callback__right">
+        <div class="callback__header">Специалист  оперативно перезвонит
+            и ответит на все вопросы.</div>
+    <?=$form->field($callbackForm, 'name')
+        ->textInput([
+            'class' => 'callback__input',
+            'placeholder' => 'Имя'
+        ])->label(false)?>
+    <?=$form->field($callbackForm, 'phone')->widget(MaskedInput::className(), [
+        'mask' => '+7 (999) 999-99-99',
+        'options' => [
+            'class' => 'callback__input',
+            'id' => 'callback_phone_mask',
+            'placeholder' => 'Телефон'
+        ],
+        'clientOptions' => [
+            'clearIncomplete' => true
+        ]
+    ])->label(false) ?>
+        <button class="popup__submit" type="submit">заказать обратный звонок</button>
+    </div>
+</div>
+<div class="callback__bottom">Нажимая «заказать обрытный звонок», вы подтверждаете, что прочли и согласны
+    «<a href="#" class="link">Соглашение с KSG</a>», даёте своё согласиена <a href="#" class="link">обработку персональных данных</a></div>
 
-<form class="popup oneClick sendForm" id="oneClick">
-    <div class="addToCart__beforeHeader">Быстрая покупка: наш менеджер оформит заказ по телефону</div>
-    <div class="addToCart__header"></div>
-    <div class="addToCart__image"><div style="background-image: url()"></div></div>
-    <div class="oneClick__inner">
-        <div class="oneClick__top">
-            <div class="form-group">
-                <input type="text" name="name" placeholder="Имя" class="callback__input">
-            </div>
-            <div class="form-group">
-                <input type="text" name="phone" placeholder="Телефон" class="callback__input">
-            </div>
-        </div>
-        <div class="oneClick__bottom">
-            <div class="oneClick__bottomLeft">
-                <div class="callback__bottom">Нажимая «заказать обрытный звонок», вы подтверждаете, что прочли и согласны
-                    «<a href="#" class="link">Соглашение с KSG</a>», даёте своё согласиена <a href="#" class="link">обработку персональных данных</a></div>
-            </div>
-            <div class="oneClick__bottomRight">
-                <button class="popup__submit" type="submit">купить</button>
-            </div>
-        </div>
-    </div>
-</form>
+<?=$form->field($callbackForm, 'type')
+    ->hiddenInput([
+        'value' => 'Обратный звонок KSG'
+    ])->label(false)?>
+
+<?=$form->field($callbackForm, 'BC')
+    ->textInput([
+        'class' => 'BC',
+        'value' => ''
+    ])->label(false)?>
+<?php ActiveForm::end();?>
 
 <?php
-$cartUrl = Url::to(['cart/index']);
-?>
+$oneClickForm = new OneClickForm();
+$form = ActiveForm::begin([
+    'options' => [
+        'class' => 'popup oneClick sendForm',
+        'id' => 'oneClick'
+    ],
+]);?>
+<div class="addToCart__beforeHeader">Быстрая покупка: наш менеджер оформит заказ по телефону</div>
+<div class="addToCart__header"></div>
+<div class="addToCart__image"><div style="background-image: url()"></div></div>
+<div class="oneClick__inner">
+    <div class="oneClick__top">
+    <?=$form->field($oneClickForm, 'name')
+        ->textInput([
+            'class' => 'callback__input',
+            'placeholder' => 'Имя'
+        ])->label(false)?>
+    <?=$form->field($oneClickForm, 'phone')->widget(MaskedInput::className(), [
+        'mask' => '+7 (999) 999-99-99',
+        'options' => [
+            'class' => 'callback__input',
+            'id' => 'oneclick_phone_mask',
+            'placeholder' => 'Телефон'
+        ],
+        'clientOptions' => [
+            'clearIncomplete' => true
+        ]
+    ])->label(false) ?>
+    </div>
+    <div class="oneClick__bottom">
+        <div class="oneClick__bottomLeft">
+            <div class="callback__bottom">Нажимая «заказать обрытный звонок», вы подтверждаете, что прочли и согласны
+                «<a href="#" class="link">Соглашение с KSG</a>», даёте своё согласиена <a href="#" class="link">обработку персональных данных</a></div>
+        </div>
+        <div class="oneClick__bottomRight">
+            <button class="popup__submit" type="submit">купить</button>
+        </div>
+    </div>
+</div>
+<?=$form->field($oneClickForm, 'type')
+    ->hiddenInput([
+        'value' => 'Купить в один клик KSG'
+    ])->label(false)?>
+
+<?=$form->field($oneClickForm, 'BC')
+    ->textInput([
+        'class' => 'BC',
+        'value' => ''
+    ])->label(false)?>
+<?php ActiveForm::end();?>
 
 <div class="popup" id="addToCartNoParams">
     <div class="addToCart">
         <div class="addToCart__beforeHeader">Добавлено в корзину</div>
         <div class="addToCart__bottom">
-            <a href="<?=$cartUrl?>" class="button button222 addToCart__of">
+            <a href="<?=Url::to(['cart/index'])?>" class="button button222 addToCart__of">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 34"><g><polygon points="7.07 0 0 7.07 0 34 211.93 34 219 26.93 219 0 7.07 0"></polygon></g></svg>
                 <span>Перейти к оформлению</span>
             </a>

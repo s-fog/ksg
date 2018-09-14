@@ -28,7 +28,7 @@ class Image extends BaseImage
             [['image'], 'required', 'on' => 'create'],
             [['text'], 'string'],
             [['product_id', 'sort_order'], 'integer'],
-            [['image'], 'image', 'maxSize' => 1000000,  'minWidth' => 770, 'minHeight' => 553, 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
+            [['image'], 'image', 'maxSize' => 1000000,/*  'minWidth' => 770, 'minHeight' => 553,*/ 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 }

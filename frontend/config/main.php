@@ -41,6 +41,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'mail/index' => 'mail/index',
                 'favourite' => 'favourite/index',
                 'favourite/add' => 'favourite/add',
                 'favourite/delete' => 'favourite/delete',

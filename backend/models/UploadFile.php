@@ -44,7 +44,7 @@ class UploadFile extends \yii\base\Model
                 $result = $filename;
 
                 foreach($thumbs as $thumb) {
-                    UploadFile::doThumb($filename, $thumb, $watermark);
+                    UploadFile::doThumb($file, $filename, $thumb, $watermark);
                 }
             } else {
                 $result = false;
@@ -93,15 +93,24 @@ class UploadFile extends \yii\base\Model
         }
     }
 
-    public static function doThumb($image, $thumb, $watermark) {
+    public static function doThumb($file, $image, $thumb, $watermark) {
+        $fileGabarits = getimagesize($_SERVER['DOCUMENT_ROOT'].'/www'.$image)[3];
+        $fileWidth = (int) str_replace(['"', 'width', '='], ['', '', ''], explode(' ', $fileGabarits)[0]);
+        $fileHeight = (int) str_replace(['"', 'height', '='], ['', '', ''], explode(' ', $fileGabarits)[1]);
+        $thumbWidth = (int) explode('x', $thumb)[0];
+        $thumbHeight = (int) explode('x', $thumb)[1];
         $filename = explode('.', basename($image));
         $thumbCut = explode('x', $thumb);
 
         $thumbPath = '/images/thumbs/'.$filename[0].'-'.$thumbCut[0].'-'.$thumbCut[1].'.'.$filename[1];
 
         if (!file_exists(Yii::getAlias('@www') . $thumbPath)) {
-            Image::thumbnail('@www' . $image, $thumbCut[0], $thumbCut[1])
-                ->save(Yii::getAlias('@www'.$thumbPath), ['quality' => 80]);
+            if ($fileWidth > $thumbWidth && $fileHeight > $thumbHeight) {
+                Image::thumbnail('@www' . $image, $thumbCut[0], $thumbCut[1])
+                    ->save(Yii::getAlias('@www'.$thumbPath), ['quality' => 80]);
+            } else {
+                $file->saveAs(Yii::getAlias('@www').$thumbPath);
+            }
         }
     }
 }
