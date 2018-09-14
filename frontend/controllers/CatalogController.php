@@ -101,7 +101,7 @@ class CatalogController extends Controller
                     ->all();
                 $brands = Category::find()
                     ->where(['parent_id' => $model->id, 'type' => 2])
-                    ->orderBy(['name' => SORT_DESC])
+                    ->orderBy(['name' => SORT_ASC])
                     ->all();
 
                 $allproducts = Product::find()
