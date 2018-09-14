@@ -348,4 +348,14 @@ class Order extends BaseOrder
         $headers .= "MIME-Version: 1.0\r\n";
         return mail($to, $subject, $body, $headers);
     }
+    
+    public function saveMd5Id($validate = true) {
+        $this->md5Id = md5($this->id.$this->email.rand(0, 50));
+        
+        if ($this->save($validate)) {
+            return $this->md5Id;
+        } else {
+            return false;
+        }
+    }
 }

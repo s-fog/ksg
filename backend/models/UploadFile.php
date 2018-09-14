@@ -30,7 +30,7 @@ class UploadFile extends \yii\base\Model
                     $flag = imagejpeg ($image, Yii::getAlias('@www').$filename, 75);
                     imagedestroy($image);
                 } catch (Exception $ex) {
-                    $flag = $file->saveAs(Yii::getAlias('@www').$filename);
+                    $flag = $file->saveAs(Yii::getAlias('@www').$filename, false);
                 }
             } else if ($_FILES[$className]['type'][$attributeFile] == 'image/png') {
                 try {
@@ -40,10 +40,10 @@ class UploadFile extends \yii\base\Model
                     $flag = imagepng($image, Yii::getAlias('@www').$filename, 9);
                     imagedestroy($image);
                 } catch (Exception $ex) {
-                    $flag = $file->saveAs(Yii::getAlias('@www').$filename);
+                    $flag = $file->saveAs(Yii::getAlias('@www').$filename, false);
                 }
             } else {
-                $flag = $file->saveAs(Yii::getAlias('@www').$filename);
+                $flag = $file->saveAs(Yii::getAlias('@www').$filename, false);
             }
 
 
@@ -116,7 +116,7 @@ class UploadFile extends \yii\base\Model
                 Image::thumbnail('@www' . $image, $thumbCut[0], $thumbCut[1])
                     ->save(Yii::getAlias('@www'.$thumbPath), ['quality' => 80]);
             } else {
-                $file->saveAs(Yii::getAlias('@www').$thumbPath);
+                $file->saveAs(Yii::getAlias('@www').$thumbPath, false);
             }
         }
     }

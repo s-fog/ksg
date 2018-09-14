@@ -31,6 +31,13 @@ foreach($products as $md5Id => $product) {
 
 ?>
 
+<?= Html::a('На страницу заказа', '/cart/success/'.$model->md5Id, [
+    'class' => 'btn btn-success',
+    'target' => '_blank'
+]) ?>
+<br>
+<br>
+<br>
 <div class="order-form">
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">

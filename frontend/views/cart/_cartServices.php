@@ -8,7 +8,7 @@ foreach($positions as $position) {
         $buildCost = $quantity * $build->price;
         $checked = false;
 
-        if ($position->build_cost !== false && $position->build_cost >= 0) {
+        if ($position->build_cost !== NULL && $position->build_cost !== false && $position->build_cost >= 0) {
             $checked = true;
         }
 
@@ -56,7 +56,7 @@ foreach($positions as $position) {
         $warantyCost = $quantity * $waranty->price;
         $checked = false;
 
-        if ($position->waranty_cost !== false && $position->waranty_cost >= 0) {
+        if ($position->waranty_cost !== NULL && $position->waranty_cost !== false && $position->waranty_cost >= 0) {
             $checked = true;
         }
 

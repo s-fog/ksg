@@ -29,11 +29,11 @@ $someServices = false;
                         'params' => $product->paramsV,
                     ])->one();
 
-                    if ($product->build_cost) {
+                    if ($product->build_cost !== NULL && $product->build_cost !== false && $product->build_cost >= 0) {
                         $someServices = true;
                     }
 
-                    if ($product->waranty_cost) {
+                    if ($product->waranty_cost !== NULL && $product->waranty_cost !== false && $product->waranty_cost >= 0) {
                         $someServices = true;
                     }
                 ?>
@@ -48,24 +48,26 @@ $someServices = false;
                 <?php $i++;} ?>
 
                 <?php
-                $productParam = ProductParam::findOne(['artikul' => $order->present_artikul]);
-                $productPresent = Product::findOne($productParam->product_id);
+                if (!empty($order->present_artikul)) {
+                    $productParam = ProductParam::findOne(['artikul' => $order->present_artikul]);
+                    $productPresent = Product::findOne($productParam->product_id);
 
-                if ($productPresent) {
-                ?>
-                    <li>
-                        <div class="successOrder__artikul">Артикул: <?=$productParam->artikul?></div>
-                        <div class="successOrder__line">
-                            <div class="successOrder__lineLeft"><?=$i?>. <?=$productPresent->name?></div>
-                            <div class="successOrder__lineMiddle"></div>
-                            <div class="successOrder__lineRight">1 шт. <span class="lightRedColor" style="text-decoration: line-through;"><?=number_format($product->price, 0, '', ' ')?> <em class="rubl">₽</em></span> <span class="greenColor" style="font-weight: bold;">Подарок</span></div>
-                        </div>
-                    </li>
+                    if ($productPresent) {
+                    ?>
+                        <li>
+                            <div class="successOrder__artikul">Артикул: <?=$productParam->artikul?></div>
+                            <div class="successOrder__line">
+                                <div class="successOrder__lineLeft"><?=$i?>. <?=$productPresent->name?></div>
+                                <div class="successOrder__lineMiddle"></div>
+                                <div class="successOrder__lineRight">1 шт. <span class="lightRedColor" style="text-decoration: line-through;"><?=number_format($product->price, 0, '', ' ')?> <em class="rubl">₽</em></span> <span class="greenColor" style="font-weight: bold;">Подарок</span></div>
+                            </div>
+                        </li>
+                    <?php } ?>
                 <?php } ?>
             </ul>
         </div>
         <?php if ($someServices) { ?>
-            <div class="successOrder__item successOrder__item_delivery" style="background-image: url(/img/succsess_auto.svg);">
+            <div class="successOrder__item successOrder__item_delivery" style="background-image: url(/img/services.svg);">
                 <div class="successOrder__header"><span>Услуги</span></div>
                 <ul class="successOrder__list">
                     <?php
@@ -140,7 +142,7 @@ $someServices = false;
                     <div class="successOrder__line">
                         <div class="successOrder__lineLeft">5. E-mail</div>
                         <div class="successOrder__lineMiddle"></div>
-                        <div class="successOrder__lineRight"><?=$order->email?></div>
+                        <div class="successOrder__lineRight"><?=(!empty($order->email) ? $order->email : '<span class="lightRedColor">Не заполнено</span>')?></div>
                     </div>
                 </li>
             </ul>

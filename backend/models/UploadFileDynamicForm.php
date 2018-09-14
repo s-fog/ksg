@@ -52,7 +52,7 @@ class UploadFileDynamicForm extends \yii\base\Model
                 $result = $filename;
 
                 foreach($thumbs as $thumb) {
-                    UploadFile::doThumb($file, $filename, $thumb, $watermark);
+                    UploadFileDynamicForm::doThumb($file, $filename, $thumb, $watermark);
                 }
             } else {
                 $result = false;

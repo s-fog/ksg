@@ -91,11 +91,21 @@ class CartController extends Controller
                     $position->waranty_cost = false;
                 }
 
+                $remove = false;
+
                 if (isset($_POST['Order']['count'][$md5Id])) {
-                    $position->setQuantity($_POST['Order']['count'][$md5Id]);
+                    if ((int) $_POST['Order']['count'][$md5Id] == 0) {
+                        $cart->remove($position);
+                        unset($positions[$md5Id]);
+                        $remove = true;
+                    } else {
+                        $position->setQuantity((int) $_POST['Order']['count'][$md5Id]);
+                    }
                 }
 
-                $positions[$md5Id] = $position;
+                if (!$remove) {
+                    $positions[$md5Id] = $position;
+                }
             }
 
             $cart->setPositions($positions);
@@ -136,9 +146,8 @@ class CartController extends Controller
                 $model->status = 0;
 
                 if ($model->save()) {
-                    //$cart->removeAll();
-                    $model->md5Id = md5($model->id.$model->email.rand(0, 50));
-                    $model->save();
+                    $cart->removeAll();
+                    $model->saveMd5Id();
 
                     return $this->redirect(['cart/success', 'md5Id' => $model->md5Id]);
                 }

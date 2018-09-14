@@ -27,12 +27,16 @@ class MailController extends \yii\web\Controller
                 $order->payment = 0;
                 $order->name = $_POST['OneClickForm']['name'];
                 $order->phone = $_POST['OneClickForm']['phone'];
-                $order->email = 'quick@quick.quick';
+                $order->email = '';
                 $order->products = base64_encode(serialize([$product->getId() => $product]));
                 $order->total_cost = $product->price;
 
-                if ($order->save()) {
-                    return 'success';
+                if ($order->save(false)) {
+                    if ($md5Id = $order->saveMd5Id(false)) {
+                        return $md5Id;
+                    } else {
+                        return 'cant save md5Id';
+                    }
                 } else {
                     return 'error';
                 }

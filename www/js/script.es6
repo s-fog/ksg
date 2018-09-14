@@ -730,22 +730,33 @@ class Cart {
                 let thisElement = $(slide.opts.$orig);
                 let name;
                 let image;
+                let product_id;
+                let paramsV;
                 let pp1 = thisElement.parents('.catalog__item');
                 let pp2 = thisElement.parents('.product');
                 let oneCLick = $('#oneClick');
-                let goods_id = thisElement.attr('goods-id');
+
+
+                if (!paramsV) {
+                    paramsV = '';
+                }
 
                 if (pp1.get(0)) {
                     name = pp1.find('.catalog__itemName span').text();
                     image = pp1.find('.catalog__itemImage img').prop('src');
+                    product_id = pp1.data('id');
+                    paramsV = pp1.find('.catalog__itemToCart').data('paramsv');
                 } else {
                     name = pp2.find('h1').text();
                     image = pp2.find('.product__mainImage img').prop('src');
+                    product_id = pp2.data('id');
+                    paramsV = this.getParamsv();
                 }
 
                 oneCLick.find('.addToCart__header').text(name);
                 oneCLick.find('.addToCart__image div').css('background-image', 'url("' + image + '")');
-                oneCLick.find('[name="goods_id"]').val(goods_id);
+                $('[name="OneClickForm[paramsV]"]').val(paramsV);
+                $('[name="OneClickForm[product_id]"]').val(product_id);
             }
         });
 
@@ -805,26 +816,6 @@ class Cart {
 
         this.nodes.cart.on('change', '.'+this.nodes.cart__countInput.attr('class'), (event) => {
             this.cartReload();
-            /*let input = $(event.currentTarget);
-            let val = parseInt(input.val());
-            let id = input.parents('.cart__row').data('id');
-            let data = 'id='+id;
-
-            if (val == 0) {
-                $.post('/cart/remove', data, (response) => {
-                    if (response == 'success') {
-                        this.cartReload();
-                    }
-                });
-            } else {
-                data += '&quantity='+val;
-
-                $.post('/cart/update-count', data, (response) => {
-                    if (response == 'success') {
-                        this.cartReload();
-                    }
-                });
-            }*/
         });
 
         this.nodes.cart.on('click', '.'+this.nodes.cart__countPlus.attr('class'), (event) => {
@@ -1765,6 +1756,7 @@ class Application {
 
             xhr.open("POST", "/mail/index");
             xhr.send(formData);
+            submitButton.data('text', submitButton.text());
 
             xhr.upload.onprogress = () => {
 
@@ -1776,10 +1768,21 @@ class Application {
                         var response = xhr.responseText;
                         console.log(response);
 
-                        if (response == 'success') {
-                            submitButton.addClass('send').text('Спасибо!');
+                        if (form.id = 'oneClick') {
+                            if (response) {
+                                location = '/cart/success/'+response;
+                            }
                         } else {
-                            alert('Ошибка');
+                            if (response == 'success') {
+                                submitButton.addClass('send').text('Спасибо!');
+
+
+                                setTimeout(() => {
+                                    submitButton.removeClass('send').text(submitButton.data('text'));
+                                }, 3000);
+                            } else {
+                                alert('Ошибка');
+                            }
                         }
                     } else {
                         console.log('error status');
