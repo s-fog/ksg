@@ -203,7 +203,7 @@ class CatalogController extends Controller
                 ->limit($pages->limit)
                 ->all();
 
-            $productsBrands = Product::getBrandsByProducts($products);
+            $productsBrands = Product::getBrandsCategoriesBrands($brands);
             $products = Product::sortAvailable($products);
 
             return $this->render('index', [

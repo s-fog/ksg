@@ -1322,7 +1322,6 @@ $childrenCategories = $model->getChildrenCategories();
 <div class="brands">
     <div class="container">
         <div class="brands__header"><?=$bHeader?></div>
-        <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(2)->alias])?>" class="brands__link linkSpan"><span>смотреть все бренды</span></a>
         <div class="brands__inner owl-carousel">
             <?php foreach($productsBrands as $brand) {
                 echo $this->render('@frontend/views/brand/_item', ['model' => $brand]);

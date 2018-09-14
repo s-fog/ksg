@@ -1776,7 +1776,6 @@ class Application {
                             if (response == 'success') {
                                 submitButton.addClass('send').text('Спасибо!');
 
-
                                 setTimeout(() => {
                                     submitButton.removeClass('send').text(submitButton.data('text'));
                                 }, 3000);

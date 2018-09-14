@@ -190,6 +190,20 @@ class Product extends BaseProduct implements CartPositionInterface
 
         return $brands;
     }
+
+    public static function getBrandsCategoriesBrands($categoriesBrands) {
+        $brands = [];
+
+        foreach($categoriesBrands as $categoryBrand) {
+            $brand = Brand::findOne($categoryBrand->brand_id);
+
+            if (!array_key_exists ($brand->id, $brands)) {
+                $brands[$brand->id] = $brand;
+            }
+        }
+
+        return $brands;
+    }
     
     public static function in_array_in($value, $array, $name) {
         $result = false;
