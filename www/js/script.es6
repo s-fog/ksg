@@ -1137,7 +1137,7 @@ class Cart {
 
     minicartReload() {
         $.post('/cart/minicart', '', (response) => {
-            $('.mainHeader__popupOuter').replaceWith(response);
+            $('.mainHeader__popupCart .mainHeader__popupOuter').replaceWith(response);
         });
     }
 }
