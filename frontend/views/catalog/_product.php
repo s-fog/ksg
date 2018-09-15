@@ -9,7 +9,7 @@ use common\models\ProductParam;
             <div class="product__topLeft">
                 <?php $filename = explode('.', basename($brand->image)); ?>
                 <img src="/images/thumbs/<?=$filename[0]?>-60-30.<?=$filename[1]?>" alt="" class="product__brandImage">
-                <div class="product__brand">Брэнд: <a href="<?=$brand->link?>" class="link"><?=$brand->name?></a></div>
+                <div class="product__brand">Бренд: <a href="<?=$brand->link?>" class="link"><?=$brand->name?></a></div>
                 <h1><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
                 <div class="product__art">Артикул: <?=$currentVariant->artikul?>&nbsp;&nbsp;//&nbsp;&nbsp;Код товара: <?=$model->code?></div>
                 <div class="product__seeAllImage">

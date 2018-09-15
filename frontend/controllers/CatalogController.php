@@ -107,7 +107,7 @@ class CatalogController extends Controller
                 $allproducts = Product::find()
                     ->orWhere($otherIdsWhere)
                     ->orWhere($innerIdsWhere)
-                    ->orderBy($orderBy);
+                    ->orderBy($orderBy)->all();
             } else {//Если всё остальное
                 if (in_array($model->type, [1, 2, 4])) {
                     $parent = Category::findOne(['id' => $model->parent_id]);
@@ -176,7 +176,7 @@ class CatalogController extends Controller
                 $allproducts = Product::find()
                     ->where($andWhereTags)
                     ->orWhere($otherIdsWhere)
-                    ->orderBy($orderBy);
+                    ->orderBy($orderBy)->all();
             }
             /////////////////////////////////////////////////////////
             $bHeader = $model->seo_h1 . ' по брендам';
@@ -193,18 +193,26 @@ class CatalogController extends Controller
             }
             /////////////////////////////////////////////////////////
             $pages = new \yii\data\Pagination([
-                'totalCount' => $allproducts->count(),
+                'totalCount' => count($allproducts),
                 'defaultPageSize' => 20,
                 'pageSizeParam' => 'per_page',
                 'forcePageParam' => false
             ]);
 
-            $products = $allproducts->offset($pages->offset)
-                ->limit($pages->limit)
-                ->all();
+            $allproducts = Product::sortAvailable($allproducts);
+            $products = [];
+
+            for ($i = 0; $i < count($allproducts); $i++) {
+                if (count($products) >= $pages->limit) {
+                    break;
+                }
+
+                if ($i >= $pages->offset) {
+                    $products[] = $allproducts[$i];
+                }
+            }
 
             $productsBrands = Product::getBrandsCategoriesBrands($brands);
-            $products = Product::sortAvailable($products);
 
             return $this->render('index', [
                 'model' => $model,

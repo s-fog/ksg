@@ -423,4 +423,36 @@ class Category extends BaseCategory
 
         return $model;
     }
+
+    public function productCount() {
+        $innerIds = $this->getInnerIds();
+
+        if (!empty($innerIds)) {
+            $innerIdsWhere = ['parent_id' => $innerIds];
+        }
+        /////////////////////////////////////////////////////////
+        $otherIds = [];
+        $otherIdsWhere = [];
+
+        if ($this->type != 2) {
+            foreach ($innerIds as $category_id) {
+                foreach (ProductHasCategory::findAll(['category_id' => $category_id]) as $productHasCategory) {
+                    $otherIds[] = $productHasCategory->product_id;
+                }
+            }
+        } else {
+            foreach (Category::find()
+                ->where(['parent_id' => $this->id, 'type' => 3])
+                ->orWhere(['id' => $this->id])
+                ->all() as $category) {
+                foreach (ProductHasCategory::findAll(['category_id' => $category->id]) as $productHasCategory) {
+                    $otherIds[] = $productHasCategory->product_id;
+                }
+            }
+        }
+
+        if (!empty($otherIds)) {
+            $otherIdsWhere = ['id' => $otherIds];
+        }
+    }
 }
