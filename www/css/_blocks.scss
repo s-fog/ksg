@@ -3419,6 +3419,11 @@ body {
     @include respond-to(750) {
       font-size: 18px;
     }
+
+    h1 {
+      display: inline;
+      margin-right: 5px;
+    }
   }
 
   &__text {
@@ -4926,6 +4931,7 @@ body {
 
   &__tag {
     display: inline-block;
+    margin: 0 2px;
     @extend .linkSpan;
     @extend .semibold;
     color: #bcc0cb;

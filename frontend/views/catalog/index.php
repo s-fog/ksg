@@ -1149,7 +1149,7 @@ $childrenCategories = $model->getChildrenCategories();
                 $h1 = $model->seo_h1.$pagePart;
             }
         ?>
-        <h1 class="infs__header"><?=$h1?></h1>
+        <div class="infs__header"><h1><?=$h1?></h1><span>(<?=$model->productCount?>)</span></div>
         <div class="infs__text">
         </div>
     </div>
