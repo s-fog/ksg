@@ -48,7 +48,7 @@ echo $form->field($model, 'parent_id')->widget(Select2::classname(), [
                         var request = 'values=' + values + '&product_id=' + ".$model->id.";
                         console.log(values);
                                             
-                        $.post('/admin/ajax/product-has-category-change', request, function(response) {
+                        $.post('/officeback/ajax/product-has-category-change', request, function(response) {
                             console.log(response);
                         });
                     }",

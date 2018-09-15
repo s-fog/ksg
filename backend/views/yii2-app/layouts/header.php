@@ -6,7 +6,7 @@ use yii\helpers\Html;
 ?>
 
 <header class="main-header">
-    <a class="logo" href="/admin/site/index">
+    <a class="logo" href="/officeback/site/index">
         <span class="logo-mini">KSG</span>
         <span class="logo-lg">KSG</span>
     </a>

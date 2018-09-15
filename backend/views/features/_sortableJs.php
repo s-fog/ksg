@@ -31,7 +31,7 @@ $script = <<< JS
                     });
                     
                     $.ajax({
-                        'url': '/admin/sort/fv-update',
+                        'url': '/officeback/sort/fv-update',
                         'type': 'post',
                         'data': "items="+JSON.stringify(fvIndex),
                         'success': function () {
@@ -77,7 +77,7 @@ $script = <<< JS
                     });
                     
                     $.ajax({
-                        'url': '/admin/sort/image-update',
+                        'url': '/officeback/sort/image-update',
                         'type': 'post',
                         'data': "items="+JSON.stringify(fvIndex),
                         'success': function () {
