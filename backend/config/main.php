@@ -14,7 +14,7 @@ return [
     'modules' => [],
     'components' => [
         'request' => [
-            'baseUrl' => '/admin',
+            'baseUrl' => '/officeback',
             'csrfParam' => '_csrf-backend',
         ],
         'view' => [
