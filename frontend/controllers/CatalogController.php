@@ -188,12 +188,10 @@ class CatalogController extends Controller
                 $bHeader = $parent2->seo_h1 . ' по брендам';
             }
             /////////////////////////////////////////////////////////
+            $defaultPageSize = 40;
             $countAllProducts = count($allproducts);
-
             $page = (!empty($_GET['page'])) ? (int) $_GET['page'] : 1;
-            $per_page = (!empty($_GET['per_page'])) ? (int) $_GET['per_page'] : 40;
-            var_dump(($per_page * $page) % $per_page);
-            var_dump($per_page);
+            $per_page = (!empty($_GET['per_page'])) ? (int) $_GET['per_page'] : $defaultPageSize;
 
             if (($per_page * $page) % $countAllProducts > $per_page) {
                 throw new NotFoundHttpException;
@@ -201,7 +199,7 @@ class CatalogController extends Controller
 
             $pages = new \yii\data\Pagination([
                 'totalCount' => $countAllProducts,
-                'defaultPageSize' => 40,
+                'defaultPageSize' => $defaultPageSize,
                 'pageSizeParam' => 'per_page',
                 'forcePageParam' => false,
                 'pageSizeLimit' => 200
