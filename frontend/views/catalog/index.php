@@ -1327,7 +1327,7 @@ $childrenCategories = $model->getChildrenCategories();
 <?php if (!empty($brands)) { ?>
     <div class="brands">
         <div class="container">
-            <div class="brands__header"><?=$bHeader?></div>
+            <h2 class="brands__header"><?=$bHeader?></h2>
             <div class="brands__inner owl-carousel">
                 <?php foreach($productsBrands as $brand) {
                     echo $this->render('@frontend/views/brand/_item', ['model' => $brand]);

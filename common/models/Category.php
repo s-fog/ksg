@@ -54,6 +54,11 @@ class Category extends BaseCategory
                     
                     return result;
                 }"],
+            ['brand_id', 'required', 'when' => function ($model) {
+                return false;
+            }, 'whenClient' => "function (attribute, value) {
+                    return $('#category-type').val() == 2;
+                }"],
         ];
     }
 

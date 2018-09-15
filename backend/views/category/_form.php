@@ -125,11 +125,16 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
                 } else if ($model->type == 2 || $model->type == 3 || $model->type == 4) {
 
                     if ($model->type == 2) {
+                        $array = ['' => 'Выберите бренд'];
+
+                        foreach(\yii\helpers\ArrayHelper::map(
+                            Brand::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'
+                        ) as $id => $name) {
+                            $array[$id] = $name;
+                        }
 
                         echo $form->field($model, 'brand_id')->widget(Select2::classname(), [
-                            'data' => \yii\helpers\ArrayHelper::map(
-                                Brand::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'
-                            ),
+                            'data' => $array,
                         ]);
                     }
 
