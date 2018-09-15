@@ -5,7 +5,11 @@ use common\models\Textpage;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
 
-$this->params['seo_title'] = $model->seo_h1;
+$page = (isset($_GET['page'])) ? $_GET['page'] : '1';
+$h1 = '';
+$pagePart = ($page != 1) ? ' - Страница '.$page : '';
+
+$this->params['seo_title'] = $model->seo_h1.$pagePart;
 $this->params['seo_description'] = $model->seo_description;
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
@@ -1139,10 +1143,6 @@ $childrenCategories = $model->getChildrenCategories();
 <div class="infs">
     <div class="container">
         <?php
-            $page = (isset($_GET['page'])) ? $_GET['page'] : '1';
-            $h1 = '';
-            $pagePart = ($page != 1) ? ' - Страница '.$page : '';
-
             if (empty($model->seo_h1)) {
                 $h1 = $model->name.$pagePart;
             } else {
@@ -1184,49 +1184,17 @@ $childrenCategories = $model->getChildrenCategories();
                     <input
                         type="radio"
                         name="per_page"
-                        value="1"
-                        <?=($per_page == 1) ? ' checked' : ''?>>
-                    <span>1</span>
-                </label>
-                <label class="sorting__label">
-                    <input
-                        type="radio"
-                        name="per_page"
-                        value="5"
-                        <?=($per_page == 5) ? ' checked' : ''?>>
-                    <span>5</span>
-                </label>
-                <label class="sorting__label">
-                    <input
-                        type="radio"
-                        name="per_page"
-                        value="10"
-                        <?=($per_page == 10) ? ' checked' : ''?>>
-                    <span>10</span>
-                </label>
-                <label class="sorting__label">
-                    <input
-                        type="radio"
-                        name="per_page"
-                        value="20"
-                        <?=($per_page == 20 || $per_page == 0) ? ' checked' : ''?>>
-                    <span>20</span>
-                </label>
-                <label class="sorting__label">
-                    <input
-                        type="radio"
-                        name="per_page"
                         value="40"
-                        <?=($per_page == 40) ? ' checked' : ''?>>
+                        <?=($per_page == 40 || $per_page == 0) ? ' checked' : ''?>>
                     <span>40</span>
                 </label>
                 <label class="sorting__label">
                     <input
                         type="radio"
                         name="per_page"
-                        value="60"
-                        <?=($per_page == 60) ? ' checked' : ''?>>
-                    <span>60</span>
+                        value="80"
+                        <?=($per_page == 80) ? ' checked' : ''?>>
+                    <span>80</span>
                 </label>
                 <label class="sorting__label">
                     <input

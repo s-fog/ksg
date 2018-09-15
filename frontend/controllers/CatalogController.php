@@ -194,7 +194,7 @@ class CatalogController extends Controller
             /////////////////////////////////////////////////////////
             $pages = new \yii\data\Pagination([
                 'totalCount' => count($allproducts),
-                'defaultPageSize' => 20,
+                'defaultPageSize' => 40,
                 'pageSizeParam' => 'per_page',
                 'forcePageParam' => false,
                 'pageSizeLimit' => 200

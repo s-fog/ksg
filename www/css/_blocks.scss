@@ -2332,6 +2332,11 @@ body {
   margin-bottom: 30px;
   $productChange: 1070;
 
+  h1 {
+    width: 80%;
+    line-height: 1.4;
+  }
+
   &__inner {
     position: relative;
     height: 730px;
@@ -4931,7 +4936,7 @@ body {
 
   &__tag {
     display: inline-block;
-    margin: 0 2px;
+    margin: 0 3px;
     @extend .linkSpan;
     @extend .semibold;
     color: #bcc0cb;
