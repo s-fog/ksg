@@ -201,8 +201,10 @@ class CatalogController extends Controller
                 throw new NotFoundHttpException;
             }
 
-            if (($per_page * $page) % $countAllProducts > $per_page) {
-                throw new NotFoundHttpException;
+            if ($countAllProducts != 0) {
+                if (($per_page * $page) % $countAllProducts > $per_page) {
+                    throw new NotFoundHttpException;
+                }
             }
 
             $pages = new \yii\data\Pagination([

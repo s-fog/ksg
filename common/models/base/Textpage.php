@@ -19,6 +19,8 @@ use himiklab\sortablegrid\SortableGridBehavior;
  * @property string $seo_keywords
  * @property string $seo_description
  * @property integer $sort_order
+ * @property integer $type
+ * @property string $html
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $aliasModel
@@ -58,9 +60,9 @@ abstract class Textpage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['seo_description'], 'string'],
-            [['sort_order'], 'integer'],
+            [['name', 'type'], 'required'],
+            [['seo_description', 'html'], 'string'],
+            [['sort_order', 'type'], 'integer'],
             [['name', 'alias', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255]
         ];
     }
@@ -81,6 +83,8 @@ abstract class Textpage extends \yii\db\ActiveRecord
             'seo_keywords' => 'Seo Keywords',
             'seo_description' => 'Seo Description',
             'sort_order' => 'Sort Order',
+            'type' => 'Категория',
+            'html' => 'Контент',
         ];
     }
 

@@ -31,6 +31,14 @@ use yii\helpers\StringHelper;
 <!-- attribute alias -->
             <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
 
+            <?= $form->field($model, 'type')->radioList([
+                0 => 'Ничего',
+                1 => 'Информация и сервис',
+                2 => 'Компания',
+            ]) ?>
+
+            <?= $form->field($model, 'html')->widget(\mihaildev\ckeditor\CKEditor::className()) ?>
+
 <!-- attribute seo_h1 -->
 			<?= $form->field($model, 'seo_h1')->textInput(['maxlength' => true]) ?>
 
