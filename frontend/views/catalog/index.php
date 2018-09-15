@@ -1296,8 +1296,11 @@ $childrenCategories = $model->getChildrenCategories();
 <?php if ($tags) { ?>
     <div class="category__tags">
         <div class="container">
-            <?php foreach($tags as $tag) { ?>
-                <a href="<?=$tag->url?>" class="category__tag"><span><?=$tag->name?></span></a>
+            <?php foreach($tags as $tag) {
+                $url = $tag->url;
+                $active = $_SERVER['REQUEST_URI'] == $url;
+                ?>
+                <a href="<?=$tag->url?>" class="category__tag<?=($active) ? ' active' : ''?>"><span><?=$tag->name?></span></a>
             <?php }
             if (count($tags) > 10) {
                 echo '<a href="#" class="category__tagSeeAll"><span>посмотреть все-&gt;</span></a>';
