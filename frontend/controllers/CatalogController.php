@@ -34,10 +34,6 @@ class CatalogController extends Controller
             }
 
             /////////////////////////////////////////////////////////
-            $page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
-            $limit = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 20;
-            $offset = ($page == 1) ? 0 : $page * $limit - $limit;
-            /////////////////////////////////////////////////////////
             $innerIds = $model->getInnerIds();
 
             if (!empty($innerIds)) {
@@ -192,17 +188,22 @@ class CatalogController extends Controller
                 $bHeader = $parent2->seo_h1 . ' по брендам';
             }
             /////////////////////////////////////////////////////////
+            $countAllProducts = count($allproducts);
+
+            $page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
+            $per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 20;
+
+            if ($per_page * $page > $countAllProducts) {
+                throw new NotFoundHttpException;
+            }
+
             $pages = new \yii\data\Pagination([
-                'totalCount' => count($allproducts),
+                'totalCount' => $countAllProducts,
                 'defaultPageSize' => 40,
                 'pageSizeParam' => 'per_page',
                 'forcePageParam' => false,
                 'pageSizeLimit' => 200
             ]);
-
-            echo '<pre>',print_r($pages),'</pre>';
-            var_dump($pages->limit);
-            var_dump($pages->offset);
 
             $allproducts = Product::sortAvailable($allproducts);
             $products = [];
