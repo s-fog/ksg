@@ -201,6 +201,7 @@ class CatalogController extends Controller
             ]);
 
             echo '<pre>',print_r($pages),'</pre>';
+            var_dump($pages);
 
             $allproducts = Product::sortAvailable($allproducts);
             $products = [];
