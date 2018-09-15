@@ -195,7 +195,7 @@ class CatalogController extends Controller
             var_dump(($per_page * $page) % $per_page);
             var_dump($per_page);
 
-            if (($per_page * $page) % $per_page > $per_page) {
+            if (($per_page * $page) % $countAllProducts > $per_page) {
                 throw new NotFoundHttpException;
             }
 
