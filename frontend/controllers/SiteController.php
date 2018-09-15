@@ -75,8 +75,33 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionIndex($alias = '')
+    public function actionIndex($alias = '', $alias2 = '')
     {
+        if (!empty($alias2)) {
+            $textpage = Textpage::findOne(['alias' => $alias2]);
+
+            if (!$textpage) {
+                throw new NotFoundHttpException;
+            }
+
+            if ($textpage->type == 1) {
+                $parent = Textpage::findOne(8);
+            } else {
+                $parent = Textpage::findOne(9);
+            }
+
+            $textpages = Textpage::find()
+                ->where(['type' => $textpage->type])
+                ->orderBy(['sort_order' => SORT_DESC])
+                ->all();
+
+            return $this->render('@frontend/views/textpage/index', [
+                'model' => $textpage,
+                'textpages' => $textpages,
+                'parent' => $parent,
+            ]);
+        }
+
         if (!empty($alias)) {
             $textpage = Textpage::findOne(['alias' => $alias]);
 
@@ -112,6 +137,28 @@ class SiteController extends Controller
                     return $this->render('@frontend/views/textpage/brands', [
                         'model' => $textpage,
                         'result' => $result,
+                    ]);
+                }
+                case 8: {
+                    $textpages = Textpage::find()
+                        ->where(['type' => 1])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
+
+                    return $this->render('@frontend/views/textpage/index', [
+                        'model' => $textpage,
+                        'textpages' => $textpages,
+                    ]);
+                }
+                case 9: {
+                    $textpages = Textpage::find()
+                        ->where(['type' => 2])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
+
+                    return $this->render('@frontend/views/textpage/index', [
+                        'model' => $textpage,
+                        'textpages' => $textpages,
                     ]);
                 }
             }

@@ -11,6 +11,8 @@ use yii\widgets\ActiveForm;
 use yii\widgets\MaskedInput;
 
 
+$infoAndService = Textpage::findOne(8);
+$company = Textpage::findOne(9);
 ?>
 
 
@@ -18,28 +20,35 @@ use yii\widgets\MaskedInput;
     <div class="container">
         <div class="footer__inner">
             <div class="footer__item">
-                <div class="footer__itemHeader">ИНФОРМАЦИЯ И СЕРВИС</div>
+                <div class="footer__itemHeader"><?=$infoAndService->name?></div>
                 <ul class="footer__itemMenu">
-                    <li><a href="#" class="footer__itemMenuLink">Доставка</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Способы оплаты</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Обмен и возврат</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Гарантийное обслуживание</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Покупка в кредит</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Юридическим лицам</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Фитнес зал "под ключ"</a></li>
+                    <?php
+                    foreach(Textpage::find()
+                        ->where(['type' => 1])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all() as $textpage) { ?>
+                    <li><a href="<?=Url::to([
+                            'site/index',
+                            'alias' => $infoAndService->alias,
+                            'alias2' => $textpage->alias,
+                        ])?>" class="footer__itemMenuLink"><?=$textpage->name?></a></li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="footer__item">
-                <div class="footer__itemHeader">О КОМПАНИИ</div>
+                <div class="footer__itemHeader"><?=$company->name?></div>
                 <ul class="footer__itemMenu">
-                    <li><a href="#" class="footer__itemMenuLink">Юридическая информация</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Сотрудничество</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Вакансии</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">График работы</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Пользовательское соглашение</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Отзывы</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Наш блог</a></li>
-                    <li><a href="#" class="footer__itemMenuLink">Партнерская программа</a></li>
+                    <?php
+                    foreach(Textpage::find()
+                        ->where(['type' => 2])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all() as $textpage) { ?>
+                        <li><a href="<?=Url::to([
+                                'site/index',
+                                'alias' => $company->alias,
+                                'alias2' => $textpage->alias,
+                            ])?>" class="footer__itemMenuLink"><?=$textpage->name?></a></li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="footer__item">
