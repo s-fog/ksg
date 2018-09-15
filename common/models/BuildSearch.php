@@ -18,7 +18,7 @@ class BuildSearch extends Build
 public function rules()
 {
 return [
-[['id', 'created_at', 'updated_at', 'sort_order', 'category_id', 'price'], 'integer'],
+[['id', 'created_at', 'updated_at', 'sort_order', 'category_id'], 'integer'],
             [['name', 'seo_h1', 'seo_title', 'seo_keywords', 'seo_description', 'text'], 'safe'],
 ];
 }
@@ -61,7 +61,6 @@ $query->andFilterWhere([
             'updated_at' => $this->updated_at,
             'sort_order' => $this->sort_order,
             'category_id' => $this->category_id,
-            'price' => $this->price,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

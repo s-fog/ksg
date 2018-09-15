@@ -2,6 +2,7 @@
 
 use common\models\Category;
 use kartik\widgets\Select2;
+use unclead\multipleinput\MultipleInput;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
@@ -39,7 +40,39 @@ use yii\helpers\StringHelper;
 			<?= $form->field($model, 'text')->widget(\mihaildev\ckeditor\CKEditor::className()) ?>
 
 <!-- attribute price -->
-			<?= $form->field($model, 'price')->textInput() ?>
+            <?php
+            $model->prices = json_decode($model->prices, true);
+            ?>
+            <?= $form->field($model, 'prices')->widget(MultipleInput::className(), [
+                'min' => 1,
+                'columns' => [
+                    [
+                        'name'  => 'min_price',
+                        'title' => 'Цена от',
+                        'enableError' => true,
+                        'options' => [
+                            'class' => 'input-priority'
+                        ]
+                    ],
+                    [
+                        'name'  => 'max_price',
+                        'title' => 'Цена до',
+                        'enableError' => true,
+                        'options' => [
+                            'class' => 'input-priority'
+                        ]
+                    ],
+                    [
+                        'name'  => 'price',
+                        'title' => 'Цена',
+                        'enableError' => true,
+                        'options' => [
+                            'class' => 'input-priority'
+                        ]
+                    ],
+                ]
+            ]);
+            ?>
         </p>
         <?php $this->endBlock(); ?>
         

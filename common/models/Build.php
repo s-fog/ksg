@@ -24,11 +24,23 @@ class Build extends BaseBuild
 
     public function rules()
     {
-        return ArrayHelper::merge(
-            parent::rules(),
-            [
-                [['category_id'], 'unique']
-            ]
-        );
+        return [
+            [['category_id', 'text', 'prices'], 'required'],
+            [['seo_description', 'text'], 'string'],
+            [['sort_order', 'category_id'], 'integer'],
+            [['name', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255],
+            [['prices'], 'safe'],
+            [['category_id'], 'unique']
+        ];
+    }
+    
+    public function thisPrice($price) {
+        foreach(json_decode($this->prices, true) as $prices) {
+            if ($price >= $prices['min_price'] && $price < $prices['max_price']) {
+                return $prices['price'];
+            }
+        }
+
+        return false;
     }
 }

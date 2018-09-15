@@ -98,7 +98,6 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     ],
                 ]),
             ],
-            'price',
         ],
         ]); ?>
     </div>
