@@ -122,7 +122,7 @@ class CatalogController extends Controller
                         ->all();
                     $brands = Category::find()
                         ->where(['parent_id' => $parent->id, 'type' => 2])
-                        ->orderBy(['name' => SORT_DESC])
+                        ->orderBy(['name' => SORT_ASC])
                         ->all();
 
                     foreach ($brands as $brand) {
@@ -149,13 +149,13 @@ class CatalogController extends Controller
                         ->all();
                     $brands = Category::find()
                         ->where(['parent_id' => $parent->id, 'type' => 2])
-                        ->orderBy(['name' => SORT_DESC])
+                        ->orderBy(['name' => SORT_ASC])
                         ->all();
 
                     foreach ($brands as $brand) {
                         foreach (Category::find()
                             ->where(['parent_id' => $brand->id, 'type' => 3])
-                            ->orderBy(['name' => SORT_DESC])
+                            ->orderBy(['name' => SORT_ASC])
                             ->all() as $brandSerial) {
                             $brandsSerial[] = $brandSerial;
                         }
