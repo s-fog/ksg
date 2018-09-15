@@ -1311,8 +1311,11 @@ $childrenCategories = $model->getChildrenCategories();
     <div class="category__years">
         <div class="container">
             <span class="category__item">Год:</span>
-            <?php foreach($years as $year) { ?>
-                <a href="<?=$year->url?>" class="category__item link"><span><?=$year->name?></span></a>
+            <?php foreach($years as $year) {
+                $url = $year->url;
+                $active = $_SERVER['REQUEST_URI'] == $url;
+                ?>
+                <a href="<?=$year->url?>" class="category__item link<?=($active) ? ' active' : ''?>"><span><?=$year->name?></span></a>
             <?php }
             ?>
         </div>
@@ -1331,8 +1334,11 @@ $childrenCategories = $model->getChildrenCategories();
     <div class="brands__list">
         <div class="textBlock">
             <div class="brands__listInner">
-                <?php foreach($brands as $brand) { ?>
-                    <a href="<?=$brand->url?>" class="brands__listItem"><span><?=$brand->name?></span></a>
+                <?php foreach($brands as $brand) {
+                    $url = $brand->url;
+                    $active = $_SERVER['REQUEST_URI'] == $url;
+                    ?>
+                    <a href="<?=$url?>" class="brands__listItem<?=($active) ? ' active' : ''?>"><span><?=$brand->name?></span></a>
                 <?php } ?>
             </div>
         </div>
