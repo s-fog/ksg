@@ -229,6 +229,10 @@ class CatalogController extends Controller
     public function actionView($alias)
     {
         $model = Product::findOne(['alias' => $alias]);
+
+        if (!$model) {
+            throw new NotFoundHttpException;
+        }
         
         if (isset($_POST['reload']) && $_POST['reload'] == 1) {
             $currentVariant = ProductParam::find()

@@ -1270,7 +1270,7 @@ $childrenCategories = $model->getChildrenCategories();
                     'model' => $item
                 ]);
 
-                if (($index == 2 || (($productCount - 1) == $index && $index < 3)) && !empty($model->text_advice)) {
+                if (($index == 2 || (($productCount - 1) == $index && $index < 3)) && !empty($model->text_advice) && !isset($_GET['page'])) {
                     echo '<div class="catalog__item advice">
                             <div class="advice__inner">
                                 <div class="advice__header">Совет от KSG</div>
