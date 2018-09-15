@@ -12,7 +12,20 @@ $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
 $this->params['seo_h1'] = $model->seo_h1;
 
+if (isset($parent)) {
+    $breadcrumbs = [
+        Url::to(['site/index', 'alias' => $parent->alias]) => $parent->name,
+        0 => $model->name
+    ];
+} else {
+    $breadcrumbs = [
+        0 => $model->name
+    ];
+}
+
 ?>
+
+<?=$this->render('@frontend/views/blocks/breadcrumbs', ['items' => $breadcrumbs])?>
 
     <div class="infs">
         <div class="container">
