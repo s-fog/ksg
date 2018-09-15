@@ -141,7 +141,7 @@ $form = ActiveForm::begin([
             <div class="cartForm__bottomLeft">
                 <div class="cartForm__bottomText">Нажимая «купить», вы подтверждаете, что прочли<br>
                     и согласны «<a href="#" class="link">Соглашение с KSG</a>», даёте своё согласие<br>
-                    на <a href="#" class="link">обработку персональных данных</a></div>
+                    на <a href="/documents/politics.pdf" target="_blank" class="link">обработку персональных данных</a></div>
             </div>
             <div class="cartForm__bottomRight">
                 <button class="button button7 cartForm__submit" type="submit">

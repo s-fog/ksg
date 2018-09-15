@@ -66,7 +66,7 @@ use yii\widgets\MaskedInput;
             <div class="footer__item footer__item_bottom">
                 <a href="#" class="footer__itemLink linkSpanReverse"><span>Полный каталог</span></a>
                 <a href="#" class="footer__itemLink linkSpanReverse"><span>Бренды-партнёры KSG</span></a>
-                <a href="#" class="footer__itemLink linkSpanReverse"><span>Политика конфиденциальности</span></a>
+                <a href="/documents/politics.pdf" target="_blank" class="footer__itemLink linkSpanReverse"><span>Политика конфиденциальности</span></a>
             </div>
             <div class="footer__item socials">
                 <a href="#" class="socials__item" target="_blank" rel="nofollow" style="background-image: url(/img/fb_icon.svg);"></a>
@@ -127,7 +127,7 @@ $form = ActiveForm::begin([
     </div>
 </div>
 <div class="callback__bottom">Нажимая «заказать обрытный звонок», вы подтверждаете, что прочли и согласны
-    «<a href="#" class="link">Соглашение с KSG</a>», даёте своё согласиена <a href="#" class="link">обработку персональных данных</a></div>
+    «<a href="#" class="link">Соглашение с KSG</a>», даёте своё согласиена <a href="/documents/politics.pdf" target="_blank" class="link">обработку персональных данных</a></div>
 
 <?=$form->field($callbackForm, 'type')
     ->hiddenInput([
@@ -174,7 +174,7 @@ $form = ActiveForm::begin([
     <div class="oneClick__bottom">
         <div class="oneClick__bottomLeft">
             <div class="callback__bottom">Нажимая «заказать обрытный звонок», вы подтверждаете, что прочли и согласны
-                «<a href="#" class="link">Соглашение с KSG</a>», даёте своё согласиена <a href="#" class="link">обработку персональных данных</a></div>
+                «<a href="#" class="link">Соглашение с KSG</a>», даёте своё согласиена <a href="/documents/politics.pdf" target="_blank" class="link">обработку персональных данных</a></div>
         </div>
         <div class="oneClick__bottomRight">
             <button class="popup__submit" type="submit">купить</button>
