@@ -131,6 +131,12 @@ class Header {
         catch(err) {}
         isSafari = (isSafari || ((ua.indexOf('safari') != -1)&& (!(ua.indexOf('chrome')!= -1) && (ua.indexOf('version/')!= -1))));
 
+        if (isSafari) {
+            $('body').addClass('this_is_safari');
+        } else {
+            $('body').addClass('this_is_not_safari');
+        }
+
         if ($(window).width() < 980) {
             if (!isSafari) {
                 this.nodes.js_hovered.hover(

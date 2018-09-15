@@ -200,6 +200,8 @@ class CatalogController extends Controller
                 'pageSizeLimit' => 200
             ]);
 
+            echo '<pre>',print_r($pages),'</pre>';
+
             $allproducts = Product::sortAvailable($allproducts);
             $products = [];
 
