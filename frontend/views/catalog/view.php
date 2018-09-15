@@ -57,7 +57,7 @@ $this->params['name'] = $model->name;
                                 if (strlen($values['value']) > 75) { ?>
                                     <li>
                                         <div class="properties__featureName"><?=$values['name']?></div>
-                                        <div class="properties__featureMiddle"></div>
+                                        <div class="properties__featureMiddle properties__featureMiddle_big"></div>
                                         <div class="properties__featureValue properties__featureValue_big"><?=$values['value']?></div>
                                     </li>
                                 <?php } else {
