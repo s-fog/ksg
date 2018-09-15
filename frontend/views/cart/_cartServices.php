@@ -4,7 +4,9 @@ use common\models\Waranty;
 
 foreach($positions as $position) {
     if ($build = Build::findOne(['category_id' => $position->parent_id])) {
-        if ($buildPrice = $build->thisPrice($position->price)) {
+        $buildPrice = $build->thisPrice($position->price);
+
+        if ($buildPrice >= 0) {
             $quantity = $position->getQuantity();
             $buildCost = $quantity * $buildPrice;
             $checked = false;
@@ -54,7 +56,9 @@ foreach($positions as $position) {
     ?>
     <?php
     if ($waranty = Waranty::findOne(['category_id' => $position->parent_id])) {
-        if ($warantyPrice = $waranty->thisPrice($position->price)) {
+        $warantyPrice = $waranty->thisPrice($position->price);
+
+        if ($warantyPrice >= 0) {
             $quantity = $position->getQuantity();
             $warantyCost = $quantity * $warantyPrice;
             $checked = false;
