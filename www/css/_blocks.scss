@@ -1622,7 +1622,7 @@ body {
       flex: 0 0 50%;
     }
 
-    &:hover {
+    &:hover, &.active {
       color: $lightRedColor;
     }
   }
