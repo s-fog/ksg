@@ -55,7 +55,7 @@ $this->params['name'] = $model->name;
                         <ul class="properties__featureList"<?=($index == 0) ? ' style="display: block;"' : ''?>>
                             <?php foreach($item['values'] as $values) {
                                 if (strlen($values['value']) > 75) { ?>
-                                    <li>
+                                    <li class="big">
                                         <div class="properties__featureName"><?=$values['name']?></div>
                                         <div class="properties__featureMiddle properties__featureMiddle_big"></div>
                                         <div class="properties__featureValue properties__featureValue_big"><?=$values['value']?></div>

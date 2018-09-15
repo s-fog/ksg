@@ -3203,6 +3203,10 @@ body {
       justify-content: space-between;
       margin: 10px 0;
       font-size: 14px;
+
+      &.big {
+        align-items: flex-start;
+      }
     }
   }
 
