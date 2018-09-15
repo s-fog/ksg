@@ -4933,6 +4933,10 @@ body {
     @extend .transition;
     line-height: 1.8;
 
+    &.active {
+      color: $textColor;
+    }
+
     &:nth-child(n+10) {
       display: none;
     }
