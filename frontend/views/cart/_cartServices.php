@@ -18,7 +18,7 @@ foreach($positions as $position) {
             $buildBlock = '';
 
             if ($buildPrice == 0) {
-                $buildBlock = 'Добавить <span class="greenColor">Бесплатно</span>';
+                $buildBlock = 'Добавить <span class="greenColor">бесплатно</span>';
             } else {
                 if ($quantity == 1) {
                     $buildBlock = 'Добавить за '.number_format($buildCost, 0, '', ' ').' <em class="rubl">₽</em>';
@@ -70,7 +70,7 @@ foreach($positions as $position) {
             $warantyBlock = '';
 
             if ($warantyPrice == 0) {
-                $warantyBlock = 'Добавить <span class="greenColor">Бесплатно</span>';
+                $warantyBlock = 'Добавить <span class="greenColor">бесплатно</span>';
             } else {
                 if ($quantity == 1) {
                     $warantyBlock = 'Добавить за '.number_format($warantyCost, 0, '', ' ').' <em class="rubl">₽</em>';
