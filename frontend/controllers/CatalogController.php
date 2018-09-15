@@ -196,7 +196,8 @@ class CatalogController extends Controller
                 'totalCount' => count($allproducts),
                 'defaultPageSize' => 20,
                 'pageSizeParam' => 'per_page',
-                'forcePageParam' => false
+                'forcePageParam' => false,
+                'pageSizeLimit' => 200
             ]);
 
             $allproducts = Product::sortAvailable($allproducts);
