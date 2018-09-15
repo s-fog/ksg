@@ -202,7 +202,7 @@ class CatalogController extends Controller
             }
 
             if ($countAllProducts != 0) {
-                if (($per_page * $page) / $countAllProducts > $per_page) {
+                if (($per_page * $page) - $countAllProducts > $per_page) {
                     throw new NotFoundHttpException;
                 }
             }
