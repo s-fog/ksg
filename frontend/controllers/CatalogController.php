@@ -198,11 +198,16 @@ class CatalogController extends Controller
             }
 
             if ($page >= 2 && $countAllProducts <= $defaultPageSize) {
+                echo 1;
+                die();
                 throw new NotFoundHttpException;
             }
 
             if ($countAllProducts != 0) {
+                echo 2;
                 if (($per_page * $page) % $countAllProducts > $per_page) {
+                    echo 3;
+                    die();
                     throw new NotFoundHttpException;
                 }
             }
