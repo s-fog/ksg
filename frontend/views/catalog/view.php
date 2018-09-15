@@ -54,17 +54,21 @@ $this->params['name'] = $model->name;
                         <div class="properties__featureHeader"><span><?=$item['feature']->header?></span></div>
                         <ul class="properties__featureList"<?=($index == 0) ? ' style="display: block;"' : ''?>>
                             <?php foreach($item['values'] as $values) {
-                                var_dump(strlen($values['value']));
-                                if (strlen($values['value']) > 20) {
-
-                                }
+                                if (strlen($values['value']) > 75) { ?>
+                                    <li>
+                                        <div class="properties__featureName"><?=$values['name']?></div>
+                                        <div class="properties__featureMiddle"></div>
+                                        <div class="properties__featureValue properties__featureValue_big"><?=$values['value']?></div>
+                                    </li>
+                                <?php } else {
                                 ?>
                                 <li>
                                     <div class="properties__featureName"><?=$values['name']?></div>
                                     <div class="properties__featureMiddle"></div>
                                     <div class="properties__featureValue"><?=$values['value']?></div>
                                 </li>
-                            <?php } ?>
+                                <?php }
+                            } ?>
                         </ul>
                     </div>
                 <?php } ?>

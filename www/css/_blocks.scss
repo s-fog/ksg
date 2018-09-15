@@ -3125,7 +3125,7 @@ body {
 
   &__featuresInner {
     margin: 0 auto;
-    max-width: 700px;
+    max-width: 770px;
     width: 100%;
     padding: 0 35px;
     box-sizing: border-box;
@@ -3222,6 +3222,10 @@ body {
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
+
+    &_big {
+      flex: 0 0 50%;
+    }
   }
 
   &__featureInstruction {
