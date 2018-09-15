@@ -424,7 +424,8 @@ class Category extends BaseCategory
         return $model;
     }
 
-    public function productCount() {
+    public function getProductCount() {
+        $innerIdsWhere = [];
         $innerIds = $this->getInnerIds();
 
         if (!empty($innerIds)) {
@@ -454,5 +455,27 @@ class Category extends BaseCategory
         if (!empty($otherIds)) {
             $otherIdsWhere = ['id' => $otherIds];
         }
+
+        if ($this->type == 0) {//Если категория
+            $products = Product::find()
+                ->orWhere($otherIdsWhere)
+                ->orWhere($innerIdsWhere);
+        } else {
+            $idsTags = [];
+            $andWhereTags = ['id' => ''];
+
+            foreach (ProductHasCategory::findAll(['category_id' => $this->id]) as $productHasCategory) {
+                $idsTags[] = $productHasCategory->product_id;
+            }
+
+            if (!empty($idsTags)) {
+                $andWhereTags = ['id' => $idsTags];
+            }
+            $products = Product::find()
+                ->where($andWhereTags)
+                ->orWhere($otherIdsWhere);
+        }
+
+        return $products->count();
     }
 }

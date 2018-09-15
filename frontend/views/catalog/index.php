@@ -1300,7 +1300,7 @@ $childrenCategories = $model->getChildrenCategories();
                 $url = $tag->url;
                 $active = $_SERVER['REQUEST_URI'] == $url;
                 ?>
-                <a href="<?=$tag->url?>" class="category__tag<?=($active) ? ' active' : ''?>"><span><?=$tag->name?></span></a>
+                <a href="<?=$tag->url?>" class="category__tag<?=($active) ? ' active' : ''?>"><span><?=$tag->name?><?=($tag->productCount != 0) ? "($tag->productCount)" : ""?></span></a>
             <?php }
             if (count($tags) > 10) {
                 echo '<a href="#" class="category__tagSeeAll"><span>посмотреть все-&gt;</span></a>';
@@ -1318,7 +1318,7 @@ $childrenCategories = $model->getChildrenCategories();
                 $url = $year->url;
                 $active = $_SERVER['REQUEST_URI'] == $url;
                 ?>
-                <a href="<?=$year->url?>" class="category__item link<?=($active) ? ' active' : ''?>"><span><?=$year->name?></span></a>
+                <a href="<?=$year->url?>" class="category__item link<?=($active) ? ' active' : ''?>"><span><?=$year->name?><?=($year->productCount != 0) ? "($year->productCount)" : ""?></span></a>
             <?php }
             ?>
         </div>
@@ -1341,7 +1341,7 @@ $childrenCategories = $model->getChildrenCategories();
                         $url = $brand->url;
                         $active = $_SERVER['REQUEST_URI'] == $url;
                         ?>
-                        <a href="<?=$url?>" class="brands__listItem<?=($active) ? ' active' : ''?>"><span><?=$brand->name?></span></a>
+                        <a href="<?=$url?>" class="brands__listItem<?=($active) ? ' active' : ''?>"><span><?=$brand->name?><?=($brand->productCount != 0) ? "($brand->productCount)" : ""?></span></a>
                     <?php } ?>
                 </div>
             </div>
