@@ -1324,27 +1324,27 @@ $childrenCategories = $model->getChildrenCategories();
         </div>
     </div>
 <?php } ?>
-
-<div class="brands">
-    <div class="container">
-        <div class="brands__header"><?=$bHeader?></div>
-        <div class="brands__inner owl-carousel">
-            <?php foreach($productsBrands as $brand) {
-                echo $this->render('@frontend/views/brand/_item', ['model' => $brand]);
-            } ?>
+<?php if (!empty($brands)) { ?>
+    <div class="brands">
+        <div class="container">
+            <div class="brands__header"><?=$bHeader?></div>
+            <div class="brands__inner owl-carousel">
+                <?php foreach($productsBrands as $brand) {
+                    echo $this->render('@frontend/views/brand/_item', ['model' => $brand]);
+                } ?>
+            </div>
         </div>
-    </div>
-    <div class="brands__list">
-        <div class="textBlock">
-            <div class="brands__listInner">
-                <?php foreach($brands as $brand) {
-                    $url = $brand->url;
-                    $active = $_SERVER['REQUEST_URI'] == $url;
-                    ?>
-                    <a href="<?=$url?>" class="brands__listItem<?=($active) ? ' active' : ''?>"><span><?=$brand->name?></span></a>
-                <?php } ?>
+        <div class="brands__list">
+            <div class="textBlock">
+                <div class="brands__listInner">
+                    <?php foreach($brands as $brand) {
+                        $url = $brand->url;
+                        $active = $_SERVER['REQUEST_URI'] == $url;
+                        ?>
+                        <a href="<?=$url?>" class="brands__listItem<?=($active) ? ' active' : ''?>"><span><?=$brand->name?></span></a>
+                    <?php } ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
+<?php } ?>
