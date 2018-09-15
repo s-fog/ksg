@@ -6498,6 +6498,10 @@ r
   &__line {
     display: flex;
     justify-content: space-between;
+
+    &_big {
+      align-items: flex-start;
+    }
   }
 
   &__lineLeft {
@@ -6511,10 +6515,19 @@ r
     margin: 0 5px;
     border-bottom: 1px dashed $darkBg;
     flex-grow: 1;
+
+    &_big {
+      padding-top: 20px;
+    }
   }
 
   &__lineRight {
     flex-grow: 0;
+    line-height: 1.4;
+
+    &_big {
+      flex: 0 0 50%;
+    }
   }
 }
 

@@ -124,6 +124,25 @@ $someServices = false;
                         <div class="successOrder__lineRight"><?=$order->name?></div>
                     </div>
                 </li>
+                <?php
+                if (strlen($values['value']) > 75) { ?>
+                    <li>
+                        <div class="successOrder__line successOrder__line_big">
+                            <div class="successOrder__lineLeft">3. Адрес</div>
+                            <div class="successOrder__lineMiddle successOrder__lineMiddle_big"></div>
+                            <div class="successOrder__lineRight successOrder__lineRight_big"><?=$order->address?></div>
+                        </div>
+                    </li>
+                <?php } else {
+                ?>
+                    <li>
+                        <div class="successOrder__line">
+                            <div class="successOrder__lineLeft">3. Адрес</div>
+                            <div class="successOrder__lineMiddle"></div>
+                            <div class="successOrder__lineRight"><?=(!empty($order->address) ? $order->address : '<span class="lightRedColor">Не заполнено</span>')?></div>
+                        </div>
+                    </li>
+                <?php } ?>
                 <li>
                     <div class="successOrder__line">
                         <div class="successOrder__lineLeft">3. Адрес</div>
