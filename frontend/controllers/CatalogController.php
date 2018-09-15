@@ -190,7 +190,7 @@ class CatalogController extends Controller
             /////////////////////////////////////////////////////////
             $defaultPageSize = 40;
             $countAllProducts = count($allproducts);
-            $page = (!empty($_GET['page'])) ? (int) $_GET['page'] : 1;
+            $page = (!empty($_GET['page']) || $_GET['page'] == 0) ? (int) $_GET['page'] : 1;
             $per_page = (!empty($_GET['per_page'])) ? (int) $_GET['per_page'] : $defaultPageSize;
 
             if ($page <= 0) {
