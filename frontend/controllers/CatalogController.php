@@ -190,8 +190,8 @@ class CatalogController extends Controller
             /////////////////////////////////////////////////////////
             $countAllProducts = count($allproducts);
 
-            $page = (!empty($_GET['page'])) ? $_GET['page'] : 1;
-            $per_page = (!empty($_GET['per_page'])) ? $_GET['per_page'] : 40;
+            $page = (!empty($_GET['page'])) ? (int) $_GET['page'] : 1;
+            $per_page = (!empty($_GET['per_page'])) ? (int) $_GET['per_page'] : 40;
 
             if ($per_page * $page > $countAllProducts) {
                 throw new NotFoundHttpException;
