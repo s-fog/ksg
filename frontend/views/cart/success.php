@@ -37,14 +37,25 @@ $someServices = false;
                         $someServices = true;
                     }
                 ?>
-                    <li>
-                        <div class="successOrder__artikul">Артикул: <?=$productParam->artikul?></div>
-                        <div class="successOrder__line">
-                            <div class="successOrder__lineLeft"><?=$i?>. <?=$product->name?></div>
-                            <div class="successOrder__lineMiddle"></div>
-                            <div class="successOrder__lineRight"><?=$product->getQuantity()?> шт. <span class="lightRedColor">/</span> <?=number_format($product->price, 0, '', ' ')?> <em class="rubl">₽</em></div>
-                        </div>
-                    </li>
+                    <?php if (strlen($product->name) > 75) { ?>
+                        <li>
+                            <div class="successOrder__artikul">Артикул: <?=$productParam->artikul?></div>
+                            <div class="successOrder__line successOrder__line_big">
+                                <div class="successOrder__lineLeft successOrder__lineLeft_big"><?=$i?>. <?=$product->name?></div>
+                                <div class="successOrder__lineMiddle successOrder__lineMiddle_big"></div>
+                                <div class="successOrder__lineRight successOrder__lineRight_big"><?=$product->getQuantity()?> шт. <span class="lightRedColor">/</span> <?=number_format($product->price, 0, '', ' ')?> <em class="rubl">₽</em></div>
+                            </div>
+                        </li>
+                    <?php } else {?>
+                        <li>
+                            <div class="successOrder__artikul">Артикул: <?=$productParam->artikul?></div>
+                            <div class="successOrder__line">
+                                <div class="successOrder__lineLeft"><?=$i?>. <?=$product->name?></div>
+                                <div class="successOrder__lineMiddle"></div>
+                                <div class="successOrder__lineRight"><?=$product->getQuantity()?> шт. <span class="lightRedColor">/</span> <?=number_format($product->price, 0, '', ' ')?> <em class="rubl">₽</em></div>
+                            </div>
+                        </li>
+                    <?php } ?>
                 <?php $i++;} ?>
 
                 <?php
