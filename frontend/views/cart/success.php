@@ -57,7 +57,7 @@ $someServices = false;
                         <li>
                             <div class="successOrder__artikul">Артикул: <?=$productParam->artikul?></div>
                             <div class="successOrder__line successOrder__line_big">
-                                <div class="successOrder__lineLeft"><?=$i?>. <?=$productPresent->name?></div>
+                                <div class="successOrder__lineLeft successOrder__lineLeft_big"><?=$i?>. <?=$productPresent->name?></div>
                                 <div class="successOrder__lineMiddle successOrder__lineMiddle_big"></div>
                                 <div class="successOrder__lineRight">
                                     <div class="cart__price">
