@@ -6144,9 +6144,15 @@ r
     }
   }
 }
+
 .compensate-for-scrollbar {
   margin-right: 0 !important;
 }
+
+body.fancybox-active {
+  overflow: visible !important;
+}
+
 /*.compensate-for-scrollbar.this_is_not_safari {
   .mainHeader, .mainHeader__popup, .filterTrigger {
     padding-right: 17px;
@@ -6156,10 +6162,6 @@ r
     }
   }
 }*/
-
-body.fancybox-active {
-  overflow: visible !important;
-}
 
 .searchPage {
   position: relative;

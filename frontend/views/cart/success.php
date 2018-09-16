@@ -73,7 +73,7 @@ $someServices = false;
                                 <div class="successOrder__lineRight">
                                     <div class="cart__price">
                                         <div class="cart__presentImage"></div>
-                                        <div class="cart__oldPrice"><?=number_format($product->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
+                                        <div class="cart__oldPrice"><?=number_format($productPresent->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
                                         <div class="cart__presentText">подарок от KSG</div>
                                     </div>
                                 </div>

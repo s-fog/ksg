@@ -123,3 +123,69 @@ $this->params['name'] = $model->name;
 </div>
 
 <?=$this->render('@frontend/views/blocks/brands')?>
+
+<div class="infoBlock" style="background-image: url(/img/gym.png);">
+    <div class="container">
+        <div class="header header_white">фитнес-зал под ключ</div>
+        <div class="infoBlock__inner">
+            <div class="infoBlock__item">
+                <div class="infoBlock__itemHeader">Дизайн проект<br>
+                    и 3d модель</div>
+                <div class="infoBlock__itemText">Мы не просто продаём тренажёры:
+                    мы помогаем создать условия для
+                    проведения самых эффективных тренеровок.
+                    Мы поможем комплексно спроектировать ващ
+                    идеальный зал: подберём дизайнера,
+                    спроектирум расстановку оборудования.</div>
+            </div>
+            <div class="infoBlock__item">
+                <div class="infoBlock__itemHeader">тренажёры<br>
+                    и обуродование</div>
+                <div class="infoBlock__itemText">Вашему фитнес центрц нужны
+                    надёжные тренажёры, которые
+                    прослужат годами и соответствуют
+                    требованиям самой широкой аудитории?
+                    Или вам нужен идельный зыл именно
+                    под ваши задачи? KSG может всё!</div>
+            </div>
+            <div class="infoBlock__item">
+                <div class="infoBlock__itemHeader">Аксессуары<br>
+                    и мебель</div>
+                <div class="infoBlock__itemText">Удобный зал – не только тренажёры:
+                    это мебель, аксессуары, правильный
+                    свет и зеркала. Мы комплексно
+                    оборудуем зал с учётом всех пожеланий,
+                    и сделаем его не только функцианальным,
+                    но привлекательным.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?=$this->render('@frontend/views/blocks/news')?>
+
+<div class="subscribeBlock">
+    <div class="container">
+        <div class="subscribeBlock__inner">
+            <div class="subscribeBlock__info">
+                <div class="subscribeBlock__header">понравились статьи?</div>
+                <div class="subscribeBlock__text">подписвайся, и узнавай о фитнесе,здоровье,<br>
+                    питании, наших акциях и интересных предложениях.<br>
+                    Мы пишем только интересные письма и не слишком часто.</div>
+            </div>
+            <form class="subscribeBlock__form sendForm">
+                <div class="subscribeBlock__formFieldset">
+                    <div class="form-group">
+                        <input type="email" name="email" class="subscribeBlock__formInput" placeholder="Ваш e-mail">
+                    </div>
+                    <button class="button button6 subscribeBlock__formSubmit" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 79.08 17.94"><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 75.07 17.44 78.58 14.53 78.58 0.5 4.01 0.5"/></g></svg>
+                        <span>Подписаться</span>
+                    </button>
+                </div>
+                <div class="subscribeBlock__formText">Вы защищены <a href="#" target="_blank" class="link">политикой обработки персональных данных</a></div>
+            </form>
+        </div>
+        <div class="subscribeBlock__image"></div>
+    </div>
+</div>
