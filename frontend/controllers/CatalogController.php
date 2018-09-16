@@ -176,16 +176,19 @@ class CatalogController extends Controller
             }
             /////////////////////////////////////////////////////////
             $bHeader = $model->seo_h1 . ' по брендам';
+            $bHeader2 = $model->seo_h1;
 
             if (in_array($model->type, [1, 2, 4])) {
                 $parent = Category::findOne($model->parent_id);
                 $bHeader = $parent->seo_h1 . ' по брендам';
+                $bHeader2 = $parent->seo_h1;
             }
 
             if ($model->type == 3) {
                 $parent = Category::findOne($model->parent_id);
                 $parent2 = Category::findOne($parent->parent_id);
                 $bHeader = $parent2->seo_h1 . ' по брендам';
+                $bHeader2 = $parent2->seo_h1;
             }
             /////////////////////////////////////////////////////////
             $defaultPageSize = 40;
@@ -240,6 +243,7 @@ class CatalogController extends Controller
                 'years' => $years,
                 'brandsSerial' => $brandsSerial,
                 'bHeader' => $bHeader,
+                'bHeader2' => $bHeader2,
             ]);
         }
 

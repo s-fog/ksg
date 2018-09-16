@@ -1298,7 +1298,10 @@ $childrenCategories = $model->getChildrenCategories();
             <h2 class="brands__header"><?=$bHeader?></h2>
             <div class="brands__inner owl-carousel">
                 <?php foreach($productsBrands as $brand) {
-                    echo $this->render('@frontend/views/brand/_item', ['model' => $brand]);
+                    echo $this->render('@frontend/views/brand/_item', [
+                        'model' => $brand,
+                        'header' => $bHeader2
+                    ]);
                 } ?>
             </div>
         </div>
