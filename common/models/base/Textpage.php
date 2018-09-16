@@ -21,6 +21,7 @@ use himiklab\sortablegrid\SortableGridBehavior;
  * @property integer $sort_order
  * @property integer $type
  * @property string $html
+ * @property string $html2
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $aliasModel
@@ -61,7 +62,7 @@ abstract class Textpage extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'type'], 'required'],
-            [['seo_description', 'html'], 'string'],
+            [['seo_description', 'html', 'html2'], 'string'],
             [['sort_order', 'type'], 'integer'],
             [['name', 'alias', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255]
         ];
@@ -84,7 +85,8 @@ abstract class Textpage extends \yii\db\ActiveRecord
             'seo_description' => 'Seo Description',
             'sort_order' => 'Sort Order',
             'type' => 'Категория',
-            'html' => 'Контент',
+            'html' => 'Контент(колоночный)',
+            'html2' => 'Контент(обычный)',
         ];
     }
 

@@ -46,10 +46,20 @@ if (isset($parent)) {
         </div>
     </div>
 
+<?php if (!empty($model->html)) { ?>
     <div class="textBlock">
         <div class="content columns">
             <?=$model->html?>
         </div>
     </div>
+<?php } ?>
+
+<?php if (!empty($model->html2)) { ?>
+    <div class="textBlock">
+        <div class="content">
+            <?=$model->html2?>
+        </div>
+    </div>
+<?php } ?>
 
 <?=$this->render('@frontend/views/blocks/news')?>

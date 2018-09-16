@@ -1,5 +1,6 @@
 <?php
 
+use mihaildev\ckeditor\CKEditor;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
@@ -37,7 +38,9 @@ use yii\helpers\StringHelper;
                 2 => 'Компания',
             ]) ?>
 
-            <?= $form->field($model, 'html')->widget(\mihaildev\ckeditor\CKEditor::className()) ?>
+            <?= $form->field($model, 'html')->widget(CKEditor::className()) ?>
+
+            <?= $form->field($model, 'html2')->widget(CKEditor::className()) ?>
 
 <!-- attribute seo_h1 -->
 			<?= $form->field($model, 'seo_h1')->textInput(['maxlength' => true]) ?>
