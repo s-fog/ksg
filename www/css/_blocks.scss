@@ -4835,6 +4835,12 @@ body {
 
   li {
     display: inline-block;
+
+    &.active {
+      span {
+        color: $lightRedColor;
+      }
+    }
   }
 
   a {
@@ -6531,6 +6537,15 @@ r
 
     &_big {
       flex: 0 0 50%;
+    }
+
+    .cart__price {
+      padding: 0 5px;
+      text-align: center;
+
+      &:before {
+        display: none;
+      }
     }
   }
 }

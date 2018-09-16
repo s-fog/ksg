@@ -56,10 +56,16 @@ $someServices = false;
                     ?>
                         <li>
                             <div class="successOrder__artikul">Артикул: <?=$productParam->artikul?></div>
-                            <div class="successOrder__line">
+                            <div class="successOrder__line successOrder__line_big">
                                 <div class="successOrder__lineLeft"><?=$i?>. <?=$productPresent->name?></div>
-                                <div class="successOrder__lineMiddle"></div>
-                                <div class="successOrder__lineRight">1 шт. <span class="lightRedColor" style="text-decoration: line-through;"><?=number_format($product->price, 0, '', ' ')?> <em class="rubl">₽</em></span> <span class="greenColor" style="font-weight: bold;">Подарок</span></div>
+                                <div class="successOrder__lineMiddle successOrder__lineMiddle_big"></div>
+                                <div class="successOrder__lineRight">
+                                    <div class="cart__price">
+                                        <div class="cart__presentImage"></div>
+                                        <div class="cart__oldPrice"><?=number_format($product->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
+                                        <div class="cart__presentText">подарок от KSG</div>
+                                    </div>
+                                </div>
                             </div>
                         </li>
                     <?php } ?>
@@ -125,7 +131,7 @@ $someServices = false;
                     </div>
                 </li>
                 <?php
-                if (strlen($values['value']) > 75) { ?>
+                if (strlen($order->address) > 75) { ?>
                     <li>
                         <div class="successOrder__line successOrder__line_big">
                             <div class="successOrder__lineLeft">3. Адрес</div>
@@ -143,13 +149,6 @@ $someServices = false;
                         </div>
                     </li>
                 <?php } ?>
-                <li>
-                    <div class="successOrder__line">
-                        <div class="successOrder__lineLeft">3. Адрес</div>
-                        <div class="successOrder__lineMiddle"></div>
-                        <div class="successOrder__lineRight"><?=(!empty($order->address) ? $order->address : '<span class="lightRedColor">Не заполнено</span>')?></div>
-                    </div>
-                </li>
                 <li>
                     <div class="successOrder__line">
                         <div class="successOrder__lineLeft">4. Телефон</div>
