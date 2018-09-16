@@ -6149,6 +6149,9 @@ r
   .mainHeader, .mainHeader__popup, .filterTrigger {
     padding-right: 17px;
     box-sizing: border-box;
+    @include respond-to(900) {
+      padding-right: 0;
+    }
   }
 }
 
