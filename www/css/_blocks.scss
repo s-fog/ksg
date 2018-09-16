@@ -3517,7 +3517,7 @@ body {
 .content {
 
   :first-letter {
-    @extend .heavyCaps;
+    //@extend .heavyCaps;
   }
 
   img {

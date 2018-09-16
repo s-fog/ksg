@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Brand;
 use common\models\Category;
 use common\models\Textpage;
 use yii\helpers\Url;
@@ -1297,12 +1298,21 @@ $childrenCategories = $model->getChildrenCategories();
         <div class="container">
             <h2 class="brands__header"><?=$bHeader?></h2>
             <div class="brands__inner owl-carousel">
-                <?php foreach($productsBrands as $brand) {
-                    echo $this->render('@frontend/views/brand/_item', [
-                        'model' => $brand,
-                        'header' => $bHeader2
-                    ]);
-                } ?>
+                <?php foreach($brands as $brand) {
+                    $currentBrand = Brand::findOne($brand->brand_id);
+
+                    if ($currentBrand) {
+                        $filename = explode('.', basename($currentBrand->image));
+                        ?>
+                        <div class="brands__item">
+                            <a href="<?=$brand->url?>" class="brands__itemImage"><img src="/images/thumbs/<?=$filename[0]?>-280-140.<?=$filename[1]?>" alt=""></a>
+                            <div class="brands__itemText"><?=$currentBrand->description?></div>
+                            <a href="<?=$brand->url?>" class="brands__itemLink">
+                                <span>смотреть <?=$bHeader2?> <?=$currentBrand->name?> ––></span>
+                            </a>
+                        </div>
+                <?php } ?>
+                <?php } ?>
             </div>
         </div>
         <div class="brands__list">

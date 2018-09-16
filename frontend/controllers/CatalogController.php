@@ -231,14 +231,11 @@ class CatalogController extends Controller
                 }
             }
 
-            $productsBrands = Product::getBrandsCategoriesBrands($brands);
-
             return $this->render('index', [
                 'model' => $model,
                 'products' => $products,
                 'pages' => $pages,
                 'tags' => $tags,
-                'productsBrands' => $productsBrands,
                 'brands' => $brands,
                 'years' => $years,
                 'brandsSerial' => $brandsSerial,
