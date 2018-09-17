@@ -119,9 +119,12 @@ $this->params['name'] = $model->name;
             <div class="header2">Аксессуары</div>
             <div class="productSlider__inner owl-carousel">
                 <?php foreach($accessories as $accessory) {
-                    echo $this->render('@frontend/views/catalog/_item', [
-                        'model' => $accessory
-                    ]);
+                    if ($accessory->available) {
+                        echo $this->render('@frontend/views/catalog/_item', [
+                            'model' => $accessory,
+                            'accessory' => true
+                        ]);
+                    }
                 } ?>
             </div>
         </div>

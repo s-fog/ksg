@@ -10,19 +10,16 @@ $imageModel = $model->images[0];
 $filename = explode('.', basename($imageModel->image));
 $url = Url::to(['catalog/view', 'alias' => $model->alias]);
 $variants = ProductParam::find()->where(['product_id' => $model->id])->orderBy(['id' => SORT_ASC])->all();
-$available = false;
-
-foreach($variants as $variant) {
-    if (!empty($variant->available)) {
-        $available = true;
-        break;
-    }
-}
+$available = $model->available;
 
 if ($variants[0]->params) {
     $paramsV0 = implode('|', $variants[0]->params);
 } else {
     $paramsV0 = '';
+}
+
+if (!isset($accessory)) {
+    $accessory = false;
 }
 
 
@@ -50,35 +47,55 @@ if ($variants[0]->params) {
     </a>
     <a href="<?=$url?>" class="catalog__itemMore"><span>Узнать подробнее</span></a>
     <a href="<?=$url?>" class="catalog__itemName"><span><?=$model->name?></span></a>
-    <div class="catalog__itemBottom">
-        <div class="catalog__itemBottomLeft">
-            <div class="catalog__itemBottomLeftTop">
+    <?php if ($accessory) { ?>
+        <div class="catalog__itemBottomAksess">
+            <div class="catalog__itemBottomAksessLeft">
                 <?php if (!empty($model->price_old)) { ?>
-                    <span class="catalog__itemOldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></span>
-                    &nbsp;&nbsp;/&nbsp;&nbsp;
-                    <span class="catalog__itemPrice"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></span>
-                <?php } else { ?>
-                    <span class="catalog__itemPrice"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></span>
+                    <div class="product__oldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></div>
+                <?php } ?>
+                <div class="product__price"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
+            </div>
+            <div class="catalog__itemBottomAksessRight">
+                <button class="button button222 js-add-to-cart"
+                        data-id="<?=$model->id?>"
+                        data-paramsV="<?=$paramsV0?>"
+                        data-quantity="1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 34"><g><polygon points="7.07 0 0 7.07 0 34 211.93 34 219 26.93 219 0 7.07 0"></polygon></g></svg>
+                    <span>Добавить в корзину</span>
+                </button>
+            </div>
+        </div>
+    <?php } else { ?>
+        <div class="catalog__itemBottom">
+            <div class="catalog__itemBottomLeft">
+                <div class="catalog__itemBottomLeftTop">
+                    <?php if (!empty($model->price_old)) { ?>
+                        <span class="catalog__itemOldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></span>
+                        &nbsp;&nbsp;/&nbsp;&nbsp;
+                        <span class="catalog__itemPrice"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></span>
+                    <?php } else { ?>
+                        <span class="catalog__itemPrice"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></span>
+                    <?php } ?>
+                </div>
+                <?php if ($available) { ?>
+                    <div class="catalog__itemBottomLeftBottom" data-fancybox="oneClick" data-src="#oneClick"><span>купить в один клик</span></div>
                 <?php } ?>
             </div>
             <?php if ($available) { ?>
-                <div class="catalog__itemBottomLeftBottom" data-fancybox="oneClick" data-src="#oneClick"><span>купить в один клик</span></div>
+                <div class="catalog__itemBottomRight">
+                    <div type="submit"
+                         data-id="<?=$model->id?>"
+                         data-paramsV="<?=$paramsV0?>"
+                         data-quantity="1"
+                         class="button button5 js-add-to-cart catalog__itemToCart">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136.84 45.96"><g><polygon points="117.25 0 19.5 0 10.99 0 0 9.1 0 45.96 19.59 45.96 117.34 45.96 125.85 45.96 136.84 36.87 136.84 0 117.25 0"/></g></svg>
+                        <span>Купить</span>
+                    </div>
+                </div>
             <?php } ?>
         </div>
-        <?php if ($available) { ?>
-            <div class="catalog__itemBottomRight">
-                <div type="submit"
-                     data-id="<?=$model->id?>"
-                     data-paramsV="<?=$paramsV0?>"
-                     data-quantity="1"
-                     class="button button5 js-add-to-cart catalog__itemToCart">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136.84 45.96"><g><polygon points="117.25 0 19.5 0 10.99 0 0 9.1 0 45.96 19.59 45.96 117.34 45.96 125.85 45.96 136.84 36.87 136.84 0 117.25 0"/></g></svg>
-                    <span>Купить</span>
-                </div>
-            </div>
+        <?php if (!$available) { ?>
+            <div class="catalog__itemName catalog__itemNotAvailable">Товара нет в наличии</div>
         <?php } ?>
-    </div>
-    <?php if (!$available) { ?>
-        <div class="catalog__itemName catalog__itemNotAvailable">Товара нет в наличии</div>
     <?php } ?>
 </div>

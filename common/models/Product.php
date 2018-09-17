@@ -217,4 +217,18 @@ class Product extends BaseProduct implements CartPositionInterface
 
         return $result;
     }
+
+    public function getAvailable() {
+        $available = false;
+        $variants = ProductParam::find()->where(['product_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
+
+        foreach($variants as $variant) {
+            if (!empty($variant->available)) {
+                $available = true;
+                break;
+            }
+        }
+
+        return $available;
+    }
 }
