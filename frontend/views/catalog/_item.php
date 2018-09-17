@@ -11,6 +11,7 @@ $filename = explode('.', basename($imageModel->image));
 $url = Url::to(['catalog/view', 'alias' => $model->alias]);
 $variants = ProductParam::find()->where(['product_id' => $model->id])->orderBy(['id' => SORT_ASC])->all();
 $available = $model->available;
+var_dump($available);
 
 if ($variants[0]->params) {
     $paramsV0 = implode('|', $variants[0]->params);
