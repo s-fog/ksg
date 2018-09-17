@@ -353,7 +353,7 @@ class CatalogController extends Controller
 
             var_dump($parent->aksses_ids);
             if (!empty($parent->aksses_ids)) {
-                $accessoriesCategory = Category::find()->where(['id' => $parent->aksses_ids])->all;
+                $accessoriesCategory = Category::find()->where(['id' => $parent->aksses_ids])->all();
                 $accessories = Product::find()
                     ->where(['parent_id' => ArrayHelper::map($accessoriesCategory, 'id', 'id')])
                     ->orderBy(new Expression('rand()'))
