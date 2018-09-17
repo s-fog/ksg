@@ -371,13 +371,14 @@ class CatalogController extends Controller
             for($i = 15; $i < 100; $i = $i + 5) {
                 $priceFrom = (int) $model->price * ((100 - $i) / 100);
                 $priceTo = (int) $model->price * ((100 + $i) / 100);
-                $similar = Product::find()
+                $similarQuery = Product::find()
                     ->where(['parent_id' => $parent->id])
                     ->andWhere("price > $priceFrom  AND price < $priceTo")
                     ->orderBy(new Expression('rand()'))
                     ->limit(9);
 
-                if ($similar->count() >= 6) {
+                if ($similarQuery->count() >= 6) {
+                    $similar = $similarQuery->all();
                     break;
                 }
             }
