@@ -12,6 +12,7 @@ use common\models\Textpage;
 use frontend\models\Pagination;
 use Yii;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -349,10 +350,11 @@ class CatalogController extends Controller
             $model->save();
             $parent = Category::findOne($model->parent_id);
 
-            $accessoriesCategory = Category::findOne($parent->parent_id);
+            $accessoriesCategory = Category::findOne($parent->aksses_ids);
             $accessories = Product::find()
-                ->where(['parent_id' => $accessoriesCategory->id])
+                ->where(['parent_id' => ArrayHelper::map($accessoriesCategory, 'id', 'id')])
                 ->orderBy(new Expression('rand()'))
+                ->limit(10)
                 ->all();
 
             return $this->render('view', [
