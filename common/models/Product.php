@@ -230,6 +230,8 @@ class Product extends BaseProduct implements CartPositionInterface
             }
         }
 
+        die();
+
         return $available;
     }
 }
