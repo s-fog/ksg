@@ -3778,7 +3778,7 @@ body {
       padding: 0;
     }
     
-    /*&:before {
+    &:before {
       content: '';
       display: block;
       position: absolute;
@@ -3796,7 +3796,7 @@ body {
       @include respond-to(700) {
         display: none;
       }
-    }*/
+    }
   }
 
   &__itemImage {
@@ -3847,16 +3847,16 @@ body {
       padding: 0;
     }
 
-    /*&:before {
+    &:before {
       content: '';
       display: block;
       position: absolute;
       top: 0;
       bottom: 0;
-      right: -200px;
+      right: -165px;
       margin: auto;
       border-bottom: 1px dotted $textColor;
-      width: 200px;
+      width: 165px;
       height: 1px;
       @include respond-to(900) {
         right: -100px;
@@ -3865,7 +3865,7 @@ body {
       @include respond-to(700) {
         display: none;
       }
-    }*/
+    }
   }
 
   &__presentImage {
