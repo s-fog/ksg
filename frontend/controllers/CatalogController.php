@@ -351,7 +351,7 @@ class CatalogController extends Controller
             $parent = Category::findOne($model->parent_id);
             $accessories = [];
 
-            var_dump($parent->aksses_ids);
+            var_dump(json_decode($parent->aksses_ids));die();
             if (!empty($parent->aksses_ids)) {
                 $accessoriesCategory = Category::find()->where(['id' => $parent->aksses_ids])->all();
                 $accessories = Product::find()
