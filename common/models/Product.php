@@ -223,6 +223,7 @@ class Product extends BaseProduct implements CartPositionInterface
         $variants = ProductParam::find()->where(['product_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
 
         foreach($variants as $variant) {
+            var_dump($variant->available);
             if (!empty($variant->available)) {
                 $available = true;
                 break;
