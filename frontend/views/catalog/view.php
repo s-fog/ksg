@@ -142,8 +142,7 @@ $this->params['name'] = $model->name;
                 <?php foreach($similar as $s) {
                     if ($s->available) {
                         echo $this->render('@frontend/views/catalog/_item', [
-                            'model' => $s,
-                            'accessory' => true
+                            'model' => $s
                         ]);
                     }
                 } ?>
