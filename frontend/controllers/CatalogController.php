@@ -370,7 +370,7 @@ class CatalogController extends Controller
             $priceTo = $model->price * 1.15;
             $similar = Product::find()
                 ->where(['parent_id' => $parent->id])
-                ->andWhere("$priceFrom >= price AND $priceTo < price")
+                ->andWhere("$priceFrom < price AND $priceTo > price")
                 ->orderBy(new Expression('rand()'))
                 ->limit(15)
                 ->all();
