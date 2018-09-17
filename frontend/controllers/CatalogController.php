@@ -11,6 +11,7 @@ use common\models\ProductParam;
 use common\models\Textpage;
 use frontend\models\Pagination;
 use Yii;
+use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -344,8 +345,15 @@ class CatalogController extends Controller
 
             return json_encode([$productView, $addToCartView]);
         } else {
-            $model->popular = $model->popular + 1;
+            $model->popular++;
             $model->save();
+            $parent = Category::findOne($model->parent_id);
+
+            $accessoriesCategory = Category::findOne($parent->parent_id);
+            $accessories = Product::find()
+                ->where(['parent_id' => $accessoriesCategory->id])
+                ->orderBy(new Expression('rand()'))
+                ->all();
 
             return $this->render('view', [
                 'model' => $model,
@@ -355,6 +363,7 @@ class CatalogController extends Controller
                 'selects' => $selects,
                 'adviser' => $adviser,
                 'features' => $features,
+                'accessories' => $accessories,
             ]);
         }
 

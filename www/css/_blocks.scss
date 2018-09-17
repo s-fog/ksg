@@ -3778,7 +3778,7 @@ body {
       padding: 0;
     }
     
-    &:before {
+    /*&:before {
       content: '';
       display: block;
       position: absolute;
@@ -3796,7 +3796,7 @@ body {
       @include respond-to(700) {
         display: none;
       }
-    }
+    }*/
   }
 
   &__itemImage {
@@ -3847,7 +3847,7 @@ body {
       padding: 0;
     }
 
-    &:before {
+    /*&:before {
       content: '';
       display: block;
       position: absolute;
@@ -3865,7 +3865,7 @@ body {
       @include respond-to(700) {
         display: none;
       }
-    }
+    }*/
   }
 
   &__presentImage {
