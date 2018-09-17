@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use \common\models\base\Product as BaseProduct;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yz\shoppingcart\CartPositionInterface;
 use yz\shoppingcart\CartPositionTrait;
 
@@ -230,5 +231,70 @@ class Product extends BaseProduct implements CartPositionInterface
         }
 
         return $available;
+    }
+
+    public function getBreadcrumbs() {
+        $items = [];
+        $parent0 = Category::findOne(['id' => $this->parent_id]);
+
+        if (!$parent0) {
+            $items[0] = $this->name;
+            return $items;
+        }
+
+        if ($parent0->parent_id == 0) {
+            $parent0Url = Url::to(['catalog/index', 'alias' => $parent0->alias]);
+            $items[$parent0Url] = $parent0->name;
+        } else {
+            $parent1 = Category::findOne(['id' => $parent0->parent_id]);
+            $items = [];
+
+            if ($parent1->parent_id == 0) {
+                $parent1Url = Url::to(['catalog/index', 'alias' => $parent1->alias]);
+                $parent0Url = Url::to(['catalog/index', 'alias' => $parent1->alias, 'alias2' => $parent0->alias]);
+                $items[$parent1Url] = $parent1->name;
+                $items[$parent0Url] = $parent0->name;
+            } else {
+                $parent2 = Category::findOne(['id' => $parent1->parent_id]);
+                $items = [];
+
+                if ($parent2->parent_id == 0) {
+                    $parent2Url = Url::to(['catalog/index', 'alias' => $parent2->alias]);
+                    $parent1Url = Url::to(['catalog/index', 'alias' => $parent2->alias, 'alias2' => $parent1->alias]);
+                    $parent0Url = Url::to(['catalog/index', 'alias' => $parent2->alias, 'alias2' => $parent1->alias, 'alias3' => $parent0->alias]);
+                    $items[$parent2Url] = $parent2->name;
+                    $items[$parent1Url] = $parent1->name;
+                    $items[$parent0Url] = $parent0->name;
+                } else {
+                    $parent3 = Category::findOne(['id' => $parent2->parent_id]);
+                    $items = [];
+
+                    if ($parent3->parent_id == 0) {
+                        $parent3Url = Url::to(['catalog/index', 'alias' => $parent3->alias]);
+                        $parent2Url = Url::to(['catalog/index', 'alias' => $parent3->alias, 'alias2' => $parent2->alias]);
+                        $parent1Url = Url::to([
+                            'catalog/index',
+                            'alias' => $parent3->alias,
+                            'alias2' => $parent2->alias,
+                            'alias3' => $parent1->alias
+                        ]);
+                        $parent0Url = Url::to([
+                            'catalog/index',
+                            'alias' => $parent3->alias,
+                            'alias2' => $parent2->alias,
+                            'alias3' => $parent1->alias,
+                            'alias4' => $parent0->alias,
+                        ]);
+                        $items[$parent3Url] = $parent3->name;
+                        $items[$parent2Url] = $parent2->name;
+                        $items[$parent1Url] = $parent1->name;
+                        $items[$parent0Url] = $parent0->name;
+                    }
+                }
+            }
+        }
+
+        $items[0] = $this->name;
+        return $items;
     }
 }

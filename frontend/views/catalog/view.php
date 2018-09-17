@@ -7,7 +7,10 @@ $this->params['seo_title'] = $model->seo_title;
 $this->params['seo_description'] = $model->seo_description;
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
+
 ?>
+
+<?=$this->render('@frontend/views/blocks/breadcrumbs', ['items' => $model->getBreadcrumbs()])?>
 
 <?=$this->render('_product', [
     'model' => $model,
