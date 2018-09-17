@@ -350,10 +350,14 @@ class CatalogController extends Controller
             $model->save();
             $parent = Category::findOne($model->parent_id);
             $accessories = [];
+            $ids = [];
 
-            var_dump(json_decode($parent->aksses_ids));die();
             if (!empty($parent->aksses_ids)) {
-                $accessoriesCategory = Category::find()->where(['id' => $parent->aksses_ids])->all();
+                foreach(json_decode($parent->aksses_ids) as $value) {
+                    $ids[] = (int) $value;
+                }
+
+                $accessoriesCategory = Category::find()->where(['id' => $ids])->all();
                 $accessories = Product::find()
                     ->where(['parent_id' => ArrayHelper::map($accessoriesCategory, 'id', 'id')])
                     ->orderBy(new Expression('rand()'))
