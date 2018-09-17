@@ -243,6 +243,17 @@ class Header {
         });
     }
 
+    picked(element) {
+        let w1 = (($('.mainHeader__popupOuter').width() - $('.mainHeader__popupMenuInner').width()) / 2);
+        let left = element.offset().left + ((element.outerWidth() / 2) - (this.nodes.mainHeader__popupMenuPicked.width() / 2)) - w1;
+        let top = element.position().top + 30;
+
+        this.nodes.mainHeader__popupMenuPicked.css({
+            'left': `${left}px`,
+            'top': `${top}px`
+        });
+    }
+
     _ready() {
         this.minicartAnimation();
     }
@@ -353,17 +364,6 @@ class Header {
             this.nodes.mainHeader__popupTriangle.removeClass('active');
             element.removeClass('active');
         }
-    }
-
-    picked(element) {
-        let w1 = (($('.mainHeader__popupOuter').width() - $('.mainHeader__popupMenuInner').width()) / 2);
-        let left = element.offset().left + ((element.outerWidth() / 2) - (this.nodes.mainHeader__popupMenuPicked.width() / 2)) - w1;
-        let top = element.offset().top - 50;
-
-        this.nodes.mainHeader__popupMenuPicked.css({
-            'left': `${left}px`,
-            'top': `${top}px`
-        });
     }
 
     triangleLeft(element) {
