@@ -369,8 +369,8 @@ class CatalogController extends Controller
             $similar = [];
 
             for($i = 15; $i < 100; $i = $i + 5) {
-                $priceFrom = $model->price * ((100 - $i) / 100);
-                $priceTo = $model->price * ((100 + $i) / 100);
+                $priceFrom = (int) $model->price * ((100 - $i) / 100);
+                $priceTo = (int) $model->price * ((100 + $i) / 100);
                 $similar = Product::find()
                     ->where(['parent_id' => $parent->id])
                     ->andWhere("price > $priceFrom  AND price < $priceTo")
