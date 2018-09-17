@@ -366,14 +366,21 @@ class CatalogController extends Controller
                     ->all();
             }
             ////////////////////////////////////////////////////////////////////////////////////////////
-            $priceFrom = $model->price * 0.85;
-            $priceTo = $model->price * 1.15;
-            $similar = Product::find()
-                ->where(['parent_id' => $parent->id])
-                ->andWhere("price > $priceFrom  AND price < $priceTo")
-                ->orderBy(new Expression('rand()'))
-                ->limit(15)
-                ->all();
+            $similar = [];
+
+            for($i = 15; $i < 100; $i = $i + 5) {
+                $priceFrom = $model->price * ((100 - $i) / 100);
+                $priceTo = $model->price * ((100 + $i) / 100);
+                $similar = Product::find()
+                    ->where(['parent_id' => $parent->id])
+                    ->andWhere("price > $priceFrom  AND price < $priceTo")
+                    ->orderBy(new Expression('rand()'))
+                    ->limit(9);
+
+                if ($similar->count() >= 6) {
+                    break;
+                }
+            }
             ////////////////////////////////////////////////////////////////////////////////////////////
 
             return $this->render('view', [

@@ -26,6 +26,7 @@
                     ['label' => 'Гарантия', 'url' => ['/waranty/index']],
                     ['label' => 'Подарки', 'url' => ['/present/index']],
                     ['label' => 'Заказы', 'url' => ['/order/index']],
+                    ['label' => 'Новости', 'url' => ['/news/index']],
                 ],
             ]
         ) ?>
