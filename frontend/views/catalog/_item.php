@@ -22,7 +22,6 @@ if (!isset($accessory)) {
     $accessory = false;
 }
 
-
 ?>
 <div class="catalog__item" data-id="<?=$model->id?>">
     <div class="catalog__itemTop">

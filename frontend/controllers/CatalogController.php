@@ -349,6 +349,7 @@ class CatalogController extends Controller
             $model->popular++;
             $model->save();
             $parent = Category::findOne($model->parent_id);
+            ////////////////////////////////////////////////////////////////////////////////////////////
             $accessories = [];
             $ids = [];
 
@@ -361,9 +362,19 @@ class CatalogController extends Controller
                 $accessories = Product::find()
                     ->where(['parent_id' => ArrayHelper::map($accessoriesCategory, 'id', 'id')])
                     ->orderBy(new Expression('rand()'))
-                    ->limit(10)
+                    ->limit(15)
                     ->all();
             }
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            $priceFrom = $model->price * 0.85;
+            $priceTo = $model->price * 1.15;
+            $similar = Product::find()
+                ->where(['parent_id' => $parent->id])
+                -andWhere("$priceFrom >= price AND $priceTo < price")
+                ->orderBy(new Expression('rand()'))
+                ->limit(15)
+                ->all();
+            ////////////////////////////////////////////////////////////////////////////////////////////
 
             return $this->render('view', [
                 'model' => $model,
@@ -374,6 +385,7 @@ class CatalogController extends Controller
                 'adviser' => $adviser,
                 'features' => $features,
                 'accessories' => $accessories,
+                'similar' => $similar,
             ]);
         }
 
