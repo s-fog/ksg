@@ -349,13 +349,17 @@ class CatalogController extends Controller
             $model->popular++;
             $model->save();
             $parent = Category::findOne($model->parent_id);
+            $accessories = [];
 
-            $accessoriesCategory = Category::findOne($parent->aksses_ids);
-            $accessories = Product::find()
-                ->where(['parent_id' => ArrayHelper::map($accessoriesCategory, 'id', 'id')])
-                ->orderBy(new Expression('rand()'))
-                ->limit(10)
-                ->all();
+            if (!empty($parent->aksses_ids)) {
+                var_dump($parent->aksses_ids);
+                $accessoriesCategory = Category::findOne($parent->aksses_ids);
+                $accessories = Product::find()
+                    ->where(['parent_id' => ArrayHelper::map($accessoriesCategory, 'id', 'id')])
+                    ->orderBy(new Expression('rand()'))
+                    ->limit(10)
+                    ->all();
+            }
 
             return $this->render('view', [
                 'model' => $model,
