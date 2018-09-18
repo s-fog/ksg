@@ -15,7 +15,7 @@ if (empty($model->seo_h1)) {
 }
 
 $this->params['seo_title'] = $h1.' - купите по выгодной цене в интернет-магазине KSG.ru';
-$this->params['seo_description'] = 'Спортивный интернет магазин KSG.ru предлагает купить '.mb_strtolower($h1).' от лучших мировых и российских брендов с доставкой по Москве и регионам России. В наличии '.$model->productCount.' моделей по цене от '.$minPrice.' рублей! ';
+$this->params['seo_description'] = 'Спортивный интернет магазин KSG.ru предлагает купить '.strtolower($h1).' от лучших мировых и российских брендов с доставкой по Москве и регионам России. В наличии '.$model->productCount.' моделей по цене от '.$minPrice.' рублей! ';
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
 
