@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\models\Brand;
 use common\models\Mainpage;
+use common\models\News;
 use common\models\Textpage;
 use Yii;
 use yii\base\InvalidParamException;
@@ -79,27 +80,37 @@ class SiteController extends Controller
     {
         if (!empty($alias2)) {
             $textpage = Textpage::findOne(['alias' => $alias2]);
+            $newsItem = News::findOne(['alias' => $alias2]);
 
-            if (!$textpage) {
+            if ($textpage || $newsItem) {
+                if ($textpage) {
+                    if ($textpage->type == 1) {
+                        $parent = Textpage::findOne(8);
+                    } else {
+                        $parent = Textpage::findOne(9);
+                    }
+
+                    $textpages = Textpage::find()
+                        ->where(['type' => $textpage->type])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
+
+                    return $this->render('@frontend/views/textpage/index', [
+                        'model' => $textpage,
+                        'textpages' => $textpages,
+                        'parent' => $parent,
+                    ]);
+                }
+
+                if ($newsItem) {
+                    return $this->render('@frontend/views/news/view', [
+                        'model' => $newsItem,
+                        'parent' => Textpage::findOne(10),
+                    ]);
+                }
+            } else {
                 throw new NotFoundHttpException;
             }
-
-            if ($textpage->type == 1) {
-                $parent = Textpage::findOne(8);
-            } else {
-                $parent = Textpage::findOne(9);
-            }
-
-            $textpages = Textpage::find()
-                ->where(['type' => $textpage->type])
-                ->orderBy(['sort_order' => SORT_DESC])
-                ->all();
-
-            return $this->render('@frontend/views/textpage/index', [
-                'model' => $textpage,
-                'textpages' => $textpages,
-                'parent' => $parent,
-            ]);
         }
 
         if (!empty($alias)) {
@@ -159,6 +170,14 @@ class SiteController extends Controller
                     return $this->render('@frontend/views/textpage/index', [
                         'model' => $textpage,
                         'textpages' => $textpages,
+                    ]);
+                }
+                case 10: {
+                    $news = News::find()->orderBy(['created_at' => SORT_ASC])->all();
+
+                    return $this->render('@frontend/views/news/index', [
+                        'model' => $textpage,
+                        'news' => $news,
                     ]);
                 }
             }
