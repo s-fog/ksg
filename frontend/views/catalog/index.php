@@ -7,11 +7,15 @@ use yii\helpers\Url;
 use yii\widgets\LinkPager;
 
 $page = (isset($_GET['page'])) ? $_GET['page'] : '1';
-$h1 = '';
 $pagePart = ($page != 1) ? ' - Страница '.$page : '';
+if (empty($model->seo_h1)) {
+    $h1 = $model->name.$pagePart;
+} else {
+    $h1 = $model->seo_h1.$pagePart;
+}
 
-$this->params['seo_title'] = $model->seo_h1.$pagePart;
-$this->params['seo_description'] = $model->seo_description;
+$this->params['seo_title'] = $h1.' - купите по выгодной цене в интернет-магазине KSG.ru';
+$this->params['seo_description'] = 'Спортивный интернет магазин KSG.ru предлагает купить '.mb_strtolower($h1).' от лучших мировых и российских брендов с доставкой по Москве и регионам России. В наличии '.$model->productCount.' моделей по цене от '.$minPrice.' рублей! ';
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
 
@@ -1143,13 +1147,6 @@ $childrenCategories = $model->getChildrenCategories();
 
 <div class="infs">
     <div class="container">
-        <?php
-            if (empty($model->seo_h1)) {
-                $h1 = $model->name.$pagePart;
-            } else {
-                $h1 = $model->seo_h1.$pagePart;
-            }
-        ?>
         <div class="infs__header"><h1><?=$h1?></h1><span>(<?=$model->productCount?>)</span></div>
         <div class="infs__text"><?=$h1?> по цене от <?=number_format($minPrice, 0, '', ' ')?> руб.! Купите в интернет-магазине KSG.ru и  вы получите фирменную гарантию от производителя, поскольку мы являемся официальным дилером всех брендов представленных на сайте. Доставка по Москве и в регионы России.</div>
     </div>
