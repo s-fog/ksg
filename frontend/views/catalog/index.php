@@ -1151,8 +1151,7 @@ $childrenCategories = $model->getChildrenCategories();
             }
         ?>
         <div class="infs__header"><h1><?=$h1?></h1><span>(<?=$model->productCount?>)</span></div>
-        <div class="infs__text">
-        </div>
+        <div class="infs__text"><?=$model->name?> по цене от <?=$minPrice?> руб.! Купите в интернет-магазине KSG.ru и  вы получите фирменную гарантию от производителя, поскольку мы являемся официальным дилером всех брендов представленных на сайте. Доставка по Москве и в регионы России.</div>
     </div>
 </div>
 

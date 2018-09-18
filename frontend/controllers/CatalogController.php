@@ -222,6 +222,13 @@ class CatalogController extends Controller
 
             $allproducts = Product::sortAvailable($allproducts);
             $products = [];
+            $minPrice = 100000000;
+
+            foreach($allproducts as $product) {
+                if ($product->price < $minPrice) {
+                    $minPrice = $product->price;
+                }
+            }
 
             for ($i = 0; $i < count($allproducts); $i++) {
                 if (count($products) >= $pages->limit) {
@@ -243,6 +250,7 @@ class CatalogController extends Controller
                 'brandsSerial' => $brandsSerial,
                 'bHeader' => $bHeader,
                 'bHeader2' => $bHeader2,
+                'minPrice' => $minPrice,
             ]);
         }
 
