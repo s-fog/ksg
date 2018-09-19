@@ -24,6 +24,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
         $model = new Category;
         $model->disallow_xml = 0;
         $model->parent_id = 0;
+        $model->active = 1;
         $modelsFeature = [new Feature];
         $modelsFeatureValue = [[new FeatureValue]];
 

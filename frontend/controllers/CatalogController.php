@@ -90,15 +90,15 @@ class CatalogController extends Controller
 
             if ($model->type == 0) {//Если категория
                 $tags = Category::find()
-                    ->where(['parent_id' => $model->id, 'type' => 1])
+                    ->where(['parent_id' => $model->id, 'type' => 1, 'active' => 1])
                     ->orderBy(['sort_order' => SORT_DESC])
                     ->all();
                 $years = Category::find()
-                    ->where(['parent_id' => $model->id, 'type' => 4])
+                    ->where(['parent_id' => $model->id, 'type' => 4, 'active' => 1])
                     ->orderBy(['sort_order' => SORT_DESC])
                     ->all();
                 $brands = Category::find()
-                    ->where(['parent_id' => $model->id, 'type' => 2])
+                    ->where(['parent_id' => $model->id, 'type' => 2, 'active' => 1])
                     ->orderBy(['name' => SORT_ASC])
                     ->all();
 
@@ -111,15 +111,15 @@ class CatalogController extends Controller
                     $parent = Category::findOne(['id' => $model->parent_id]);
 
                     $tags = Category::find()
-                        ->where(['parent_id' => $parent->id, 'type' => 1])
+                        ->where(['parent_id' => $parent->id, 'type' => 1, 'active' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
                     $years = Category::find()
-                        ->where(['parent_id' => $parent->id, 'type' => 4])
+                        ->where(['parent_id' => $parent->id, 'type' => 4, 'active' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
                     $brands = Category::find()
-                        ->where(['parent_id' => $parent->id, 'type' => 2])
+                        ->where(['parent_id' => $parent->id, 'type' => 2, 'active' => 1])
                         ->orderBy(['name' => SORT_ASC])
                         ->all();
 
@@ -138,21 +138,21 @@ class CatalogController extends Controller
                     $parent = Category::findOne(['id' => $parentBrand->parent_id]);
 
                     $tags = Category::find()
-                        ->where(['parent_id' => $parent->id, 'type' => 1])
+                        ->where(['parent_id' => $parent->id, 'type' => 1, 'active' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
                     $years = Category::find()
-                        ->where(['parent_id' => $parent->id, 'type' => 4])
+                        ->where(['parent_id' => $parent->id, 'type' => 4, 'active' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
                     $brands = Category::find()
-                        ->where(['parent_id' => $parent->id, 'type' => 2])
+                        ->where(['parent_id' => $parent->id, 'type' => 2, 'active' => 1])
                         ->orderBy(['name' => SORT_ASC])
                         ->all();
 
                     foreach ($brands as $brand) {
                         foreach (Category::find()
-                            ->where(['parent_id' => $brand->id, 'type' => 3])
+                            ->where(['parent_id' => $brand->id, 'type' => 3, 'active' => 1])
                             ->orderBy(['name' => SORT_ASC])
                             ->all() as $brandSerial) {
                             $brandsSerial[] = $brandSerial;
@@ -360,7 +360,7 @@ class CatalogController extends Controller
         } else {
             $model->popular++;
             $model->save();
-            $parent = Category::findOne($model->parent_id);
+            $parent = Category::find()->where(['id' => $model->parent_id])->one();
             ////////////////////////////////////////////////////////////////////////////////////////////
             $accessories = [];
             $ids = [];

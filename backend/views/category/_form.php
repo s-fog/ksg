@@ -36,6 +36,11 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
                 ['' => 'Ничего не выбрано'],
                 Yii::$app->params['categoryTypes']
             )) ?>
+            <?= $form->field($model, 'active')->widget(CheckboxX::classname(), [
+                'pluginOptions' => [
+                    'threeState'=>false
+                ]
+            ]) ?>
 
             <?php
 

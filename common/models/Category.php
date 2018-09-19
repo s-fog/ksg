@@ -32,7 +32,7 @@ class Category extends BaseCategory
         return [
             [['aksses_ids'], 'safe'],
             [['name', 'type'], 'required'],
-            [['type', 'sort_order', 'parent_id', 'priority', 'disallow_xml', 'brand_id'], 'integer'],
+            [['type', 'sort_order', 'parent_id', 'priority', 'disallow_xml', 'brand_id', 'active'], 'integer'],
             [['text_advice', 'descr', 'seo_description'], 'string'],
             [['name', 'alias', 'image_catalog', 'image_menu', 'video', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255],
             ['parent_id', 'compare', 'compareValue' => 0, 'operator' => '!=', 'type' => 'number', 'when' => function ($model) {
@@ -413,9 +413,9 @@ class Category extends BaseCategory
             }
 
             if ($parent_id != 0) {
-                $model = Category::findOne(['alias' => $alias, 'parent_id' => $parent_id]);
+                $model = Category::findOne(['alias' => $alias, 'parent_id' => $parent_id, 'active' => 1]);
             } else {
-                $model = Category::findOne(['alias' => $alias]);
+                $model = Category::findOne(['alias' => $alias, 'active' => 1]);
             }
 
             $parent_id = $model->id;
