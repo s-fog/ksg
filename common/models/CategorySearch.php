@@ -18,7 +18,7 @@ class CategorySearch extends Category
 public function rules()
 {
 return [
-[['id', 'type', 'created_at', 'updated_at', 'sort_order', 'parent_id', 'priority'], 'integer'],
+[['id', 'type', 'created_at', 'updated_at', 'sort_order', 'parent_id', 'priority', 'active'], 'integer'],
             [['name', 'alias', 'text_advice', 'descr', 'image_catalog', 'image_menu', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords', 'seo_description'], 'safe'],
 ];
 }
@@ -63,6 +63,7 @@ $query->andFilterWhere([
             'sort_order' => $this->sort_order,
             'parent_id' => $this->parent_id,
             'priority' => $this->priority,
+            'active' => $this->active,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

@@ -103,6 +103,7 @@ abstract class Category extends \yii\db\ActiveRecord
             'seo_keywords' => 'Seo Keywords',
             'seo_description' => 'Seo Description',
             'brand_id' => 'Соответствующий бренд',
+            'active' => 'Активна?',
         ];
     }
 
