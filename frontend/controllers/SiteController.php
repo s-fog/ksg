@@ -243,6 +243,7 @@ class SiteController extends Controller
                     return $this->render('@frontend/views/favourite/index', [
                         'model' => $textpage,
                         'products' => $products,
+                        'pages' => $pages,
                     ]);
                 }
                 case 12: {
