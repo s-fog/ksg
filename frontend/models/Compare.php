@@ -35,4 +35,8 @@ class Compare extends Model
 
         return count($ids);
     }
+
+    public static function getIds() {
+        return json_decode($_COOKIE['compare'], true);
+    }
 }

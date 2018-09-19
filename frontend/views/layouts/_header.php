@@ -315,7 +315,13 @@ use yii\helpers\Url;
     <div class="mainHeader__popupSuccess mainHeader__popupSuccess_compare">
         <div class="mainHeader__popupSuccessText">Добавлено к сравнению</div>
     </div>
+    <div class="mainHeader__popupSuccess mainHeader__popupSuccess_compareAlready">
+        <div class="mainHeader__popupSuccessText">Товар уже в сравнении</div>
+    </div>
     <div class="mainHeader__popupSuccess mainHeader__popupSuccess_favourite">
         <div class="mainHeader__popupSuccessText">Добавлено в избранное</div>
+    </div>
+    <div class="mainHeader__popupSuccess mainHeader__popupSuccess_favouriteAlready">
+        <div class="mainHeader__popupSuccessText">Товар уже в избранном</div>
     </div>
 </div>

@@ -14,13 +14,17 @@ class CompareController extends Controller
 {
     public function actionAdd()
     {
-        $id = $_POST['id'];
+        $id = (int) $_POST['id'];
 
         if (isset($_COOKIE['compare'])) {
             $ids = $_COOKIE['compare'];
             $ids = json_decode($ids, true);
         } else {
             $ids = [];
+        }
+
+        if (in_array($id, $ids)) {
+            return 'already';
         }
 
         if(empty($ids)){

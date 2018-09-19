@@ -22,6 +22,10 @@ class FavouriteController extends Controller
             $ids = [];
         }
 
+        if (in_array($id, $ids)) {
+            return 'already';
+        }
+
         if(empty($ids)){
             $ids[0] = $id;
         }else{
@@ -79,24 +83,5 @@ class FavouriteController extends Controller
     public function actionCount()
     {
         return Favourite::getCount();
-    }
-
-    public function actionIndex()
-    {
-        $this->layout = 'textpage';
-        
-        if (isset($_COOKIE['favourite'])) {
-            $ids = $_COOKIE['favourite'];
-            $ids = json_decode($ids, true);
-
-            if (empty($ids)) {
-                return $this->render('index', ['empty' => true]);
-            } else {
-                $products = Product::find()->where(['id' => $ids])->all();
-                return $this->render('index', ['products' => $products]);
-            }
-        } else {
-            return $this->render('index', ['empty' => true]);
-        }
     }
 }

@@ -4,7 +4,9 @@ namespace frontend\controllers;
 use common\models\Brand;
 use common\models\Mainpage;
 use common\models\News;
+use common\models\Product;
 use common\models\Textpage;
+use frontend\models\Favourite;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -178,6 +180,74 @@ class SiteController extends Controller
                     return $this->render('@frontend/views/news/index', [
                         'model' => $textpage,
                         'news' => $news,
+                    ]);
+                }
+                case 11: {
+                    $orderBy = [];
+
+                    if (isset($_GET['sort'])) {
+                        $sort = explode('_', $_GET['sort']);
+
+                        if ($sort[0] == 'price') {
+                            if ($sort[1] == 'desc') {
+                                $orderBy = [$sort[0] => SORT_DESC];
+                            } else if ($sort[1] == 'asc') {
+                                $orderBy = [$sort[0] => SORT_ASC];
+                            }
+                        }
+                    } else {
+                        $orderBy = ['popular' => SORT_DESC];
+                    }
+
+                    $allproducts = Product::find()->where(['id' => Favourite::getIds()])->orderBy($orderBy)->all();
+                    $defaultPageSize = 40;
+                    $countAllProducts = count($allproducts);
+                    $page = (isset($_GET['page'])) ? (int) $_GET['page'] : 1;
+                    $per_page = (isset($_GET['per_page'])) ? (int) $_GET['per_page'] : $defaultPageSize;
+
+                    if ($page <= 0) {
+                        throw new NotFoundHttpException;
+                    }
+
+                    if ($page >= 2 && $countAllProducts <= $defaultPageSize) {
+                        throw new NotFoundHttpException;
+                    }
+
+                    if ($countAllProducts != 0) {
+                        if (($per_page * $page) - $countAllProducts > $per_page) {
+                            throw new NotFoundHttpException;
+                        }
+                    }
+
+                    $pages = new \yii\data\Pagination([
+                        'totalCount' => $countAllProducts,
+                        'defaultPageSize' => $defaultPageSize,
+                        'pageSizeParam' => 'per_page',
+                        'forcePageParam' => false,
+                        'pageSizeLimit' => 200
+                    ]);
+
+                    $allproducts = Product::sortAvailable($allproducts);
+                    $products = [];
+
+                    for ($i = 0; $i < count($allproducts); $i++) {
+                        if (count($products) >= $pages->limit) {
+                            break;
+                        }
+
+                        if ($i >= $pages->offset) {
+                            $products[] = $allproducts[$i];
+                        }
+                    }
+
+                    return $this->render('@frontend/views/favourite/index', [
+                        'model' => $textpage,
+                        'products' => $products,
+                    ]);
+                }
+                case 12: {
+                    return $this->render('@frontend/views/compare/index', [
+                        'model' => $textpage,
                     ]);
                 }
             }

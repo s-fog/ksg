@@ -42,11 +42,9 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'mail/index' => 'mail/index',
-                'favourite' => 'favourite/index',
                 'favourite/add' => 'favourite/add',
                 'favourite/delete' => 'favourite/delete',
                 'favourite/count' => 'favourite/count',
-                'compare' => 'compare/index',
                 'compare/add' => 'compare/add',
                 'compare/delete' => 'compare/delete',
                 'compare/count' => 'compare/count',

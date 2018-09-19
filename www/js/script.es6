@@ -879,21 +879,42 @@ class Cart {
             let data = `id=${id}`;
 
             $.post('/compare/add', data, (response) => {
-                this.nodes.mainHeader__popupSuccess_compare.addClass('unhidden');
-                this.nodes.mainHeader__popupSuccess_compare.addClass('active');
-                this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-                this.nodes.mainHeader.removeClass('hide');
-
-                setTimeout(() => {
-                    this.nodes.mainHeader__popupSuccess_compare.removeClass('active');
-                    this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+                if (response == 'success') {
+                    thisElement.find('svg').addClass('active');
+                    thisElement.attr('title', 'Товар в сравнении');
+                    this.nodes.mainHeader__popupSuccess_compare.addClass('unhidden');
+                    this.nodes.mainHeader__popupSuccess_compare.addClass('active');
+                    this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                    this.nodes.mainHeader.removeClass('hide');
 
                     setTimeout(() => {
-                        this.nodes.mainHeader__popupSuccess_compare.removeClass('unhidden');
-                    }, 500)
-                }, 2000);
+                        this.nodes.mainHeader__popupSuccess_compare.removeClass('active');
+                        this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
 
-                this.minicartReload();
+                        setTimeout(() => {
+                            this.nodes.mainHeader__popupSuccess_compare.removeClass('unhidden');
+                        }, 500)
+                    }, 2000);
+
+                    this.minicartReload();
+                } else if (response == 'already') {
+                    let already = $('.mainHeader__popupSuccess_compareAlready');
+                    already.addClass('unhidden');
+                    already.addClass('active');
+                    this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                    this.nodes.mainHeader.removeClass('hide');
+
+                    setTimeout(() => {
+                        already.removeClass('active');
+                        this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+
+                        setTimeout(() => {
+                            already.removeClass('unhidden');
+                        }, 500)
+                    }, 2000);
+                } else {
+
+                }
             });
 
             return false;
@@ -905,21 +926,42 @@ class Cart {
             let data = `id=${id}`;
 
             $.post('/favourite/add', data, (response) => {
-                this.nodes.mainHeader__popupSuccess_favourite.addClass('unhidden');
-                this.nodes.mainHeader__popupSuccess_favourite.addClass('active');
-                this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-                this.nodes.mainHeader.removeClass('hide');
-
-                setTimeout(() => {
-                    this.nodes.mainHeader__popupSuccess_favourite.removeClass('active');
-                    this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+                if (response == 'success') {
+                    thisElement.find('svg').addClass('active');
+                    thisElement.attr('title', 'Товар в избранном');
+                    this.nodes.mainHeader__popupSuccess_favourite.addClass('unhidden');
+                    this.nodes.mainHeader__popupSuccess_favourite.addClass('active');
+                    this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                    this.nodes.mainHeader.removeClass('hide');
 
                     setTimeout(() => {
-                        this.nodes.mainHeader__popupSuccess_favourite.removeClass('unhidden');
-                    }, 500)
-                }, 2000);
+                        this.nodes.mainHeader__popupSuccess_favourite.removeClass('active');
+                        this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
 
-                this.minicartReload();
+                        setTimeout(() => {
+                            this.nodes.mainHeader__popupSuccess_favourite.removeClass('unhidden');
+                        }, 500)
+                    }, 2000);
+
+                    this.minicartReload();
+                } else if (response == 'already') {
+                    let already = $('.mainHeader__popupSuccess_favouriteAlready');
+                    already.addClass('unhidden');
+                    already.addClass('active');
+                    this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                    this.nodes.mainHeader.removeClass('hide');
+
+                    setTimeout(() => {
+                        already.removeClass('active');
+                        this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+
+                        setTimeout(() => {
+                            already.removeClass('unhidden');
+                        }, 500)
+                    }, 2000);
+                } else {
+
+                }
             });
 
             return false;

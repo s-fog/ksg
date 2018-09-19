@@ -35,4 +35,14 @@ class Favourite extends Model
 
         return count($ids);
     }
+
+    public static function getIds() {
+        $result = [];
+
+        foreach (json_decode($_COOKIE['favourite'], true) as $item) {
+            $result[] = (int) $item;
+        }
+        
+        return $result;
+    }
 }
