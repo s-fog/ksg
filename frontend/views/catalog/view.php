@@ -4,7 +4,7 @@ use common\models\Param;
 use yii\helpers\Url;
 
 $this->params['seo_title'] = $model->name.' - купите за '.number_format($model->price, 0, '', ' ').' рублей в интернет-магазине KSG.ru';
-$this->params['seo_description'] = $model->name.' - купите у официального дилера “MATRIX” и получите фирменную гарантию от производителя. Доставка по Москве и в регионы России.';
+$this->params['seo_description'] = $model->name.' - купите у официального дилера '.$brand->name.' и получите фирменную гарантию от производителя. Доставка по Москве и в регионы России.';
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
 
