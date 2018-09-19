@@ -8,14 +8,15 @@ use yii\widgets\LinkPager;
 
 $page = (isset($_GET['page'])) ? $_GET['page'] : '1';
 $pagePart = ($page != 1) ? ' - Страница '.$page : '';
+
 if (empty($model->seo_h1)) {
     $h1 = $model->name.$pagePart;
 } else {
     $h1 = $model->seo_h1.$pagePart;
 }
 
-$this->params['seo_title'] = $h1.' - купите по выгодной цене в интернет-магазине KSG.ru';
-$this->params['seo_description'] = 'Спортивный интернет магазин KSG.ru предлагает купить '.strtolower($h1).' от лучших мировых и российских брендов с доставкой по Москве и регионам России. В наличии '.$model->productCount.' моделей по цене от '.$minPrice.' рублей!';
+$this->params['seo_title'] = ($page == 1) ? $h1.' - купите по выгодной цене в интернет-магазине KSG.ru': $h1;
+$this->params['seo_description'] = ($page == 1) ? 'Спортивный интернет магазин KSG.ru предлагает купить '.strtolower($h1).' от лучших мировых и российских брендов с доставкой по Москве и регионам России. В наличии '.$model->productCount.' моделей по цене от '.$minPrice.' рублей!' : $h1;
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
 
