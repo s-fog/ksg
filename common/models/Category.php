@@ -417,8 +417,6 @@ class Category extends BaseCategory
             } else {
                 $model = Category::findOne(['alias' => $alias, 'active' => 1]);
             }
-
-            $parent_id = $model->id;
         }
 
         return $model;
