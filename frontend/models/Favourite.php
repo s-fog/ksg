@@ -39,10 +39,12 @@ class Favourite extends Model
     public static function getIds() {
         $result = [];
 
-        foreach (json_decode($_COOKIE['favourite'], true) as $item) {
-            $result[] = (int) $item;
+        if (isset($_COOKIE['favourite'])) {
+            foreach (json_decode($_COOKIE['favourite'], true) as $item) {
+                $result[] = (int) $item;
+            }
         }
-        
+
         return $result;
     }
 }

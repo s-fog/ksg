@@ -199,7 +199,12 @@ class SiteController extends Controller
                         $orderBy = ['popular' => SORT_DESC];
                     }
 
-                    $allproducts = Product::find()->where(['id' => Favourite::getIds()])->orderBy($orderBy)->all();
+                    if (!empty(Favourite::getIds())) {
+                        $allproducts = Product::find()->where(['id' => Favourite::getIds()])->orderBy($orderBy)->all();
+                    } else {
+                        $allproducts = [];
+                    }
+
                     $defaultPageSize = 40;
                     $countAllProducts = count($allproducts);
                     $page = (isset($_GET['page'])) ? (int) $_GET['page'] : 1;
