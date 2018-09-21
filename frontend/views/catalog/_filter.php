@@ -1,4 +1,4 @@
-<div class="filterTrigger">
+<div class="filterTrigger active">
     <div class="container">
         <ul class="filterTrigger__top breadcrumbs__inner">
             <li>
@@ -13,7 +13,7 @@
             <li><a href="#" class="filterTrigger__topItem breadcrumbs__item"><span>{Ничего не выбрано}</span></a></li>
         </ul>
     </div>
-    <form class="filter" method="GET">
+    <form class="filter" method="GET" style="display: none;">
         <div class="filter__outer">
             <div class="container">
                 <div class="filter__top js-filter-close">

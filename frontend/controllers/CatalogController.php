@@ -310,15 +310,18 @@ class CatalogController extends Controller
 
             foreach($unfilteredProducts as $product) {
                 if (
-                (empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds))
+                    (empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds))
                     &&
-                (empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds))
+                    (empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds))
                     &&
-                ($product->price >= $priceFrom && $product->price <= $priceTo)
+                    ($product->price >= $priceFrom && $product->price <= $priceTo)
                 ) {
                     $products[] = $product;
                 }
             }
+            var_dump($model->id);
+            var_dump($model->name);
+            var_dump($model->parent_id);
 
             return $this->render('index', [
                 'model' => $model,
@@ -350,7 +353,7 @@ class CatalogController extends Controller
         if (!$model) {
             throw new NotFoundHttpException;
         }
-        
+
         if (isset($_POST['reload']) && $_POST['reload'] == 1) {
             $currentVariant = ProductParam::find()
                 ->where(['product_id' => $model->id])
@@ -365,7 +368,7 @@ class CatalogController extends Controller
         $variants = $model->params;
         $adviser = Adviser::findOne($model->adviser_id);
         $features = [];
-        
+
         foreach($model->features as $index => $feature) {
             $features[$index]['feature'] = $feature;
 
@@ -410,7 +413,7 @@ class CatalogController extends Controller
                 }
             }
         }
-        
+
         ///////////////////////////////////////////////////////////////////////
 
         if (isset($_POST['reload']) && $_POST['reload'] == 1) {
