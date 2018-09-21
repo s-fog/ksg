@@ -282,12 +282,12 @@ class CatalogController extends Controller
 
                 $brand = Brand::findOne($product->brand_id);
 
-                //if (!array_key_exists($brand->id, $filterBrands)) {
-                if (!array_search(40489, array_column($filterBrands, $brand->id))) {
+                if (!self::in_multiarray($brand->id, $filterBrands)) {
                     $filterBrands[$i]['id'] = $brand->id;
                     $filterBrands[$i]['name'] = $brand->name;
                     $i++;
                 }
+
             }
 
             usort($filterBrands, function($a,$b){
@@ -489,5 +489,27 @@ class CatalogController extends Controller
             ]);
         }
 
+    }
+
+    function in_multiarray( $e, $a )
+    {
+        $t = sizeof( $a ) - 1;
+        $b = 0;
+        while($b <= $t)
+        {
+            if( isset( $a[ $b ] ) )
+            {
+                if( $a[ $b ] == $e )
+                    return true;
+                else
+                    if( is_array( $a[ $b ] ) )
+                        if( in_multiarray( $e, ( $a[ $b ] ) ) )
+                            return true;
+            }
+
+            $b++;
+        }
+
+        return false;
     }
 }
