@@ -231,8 +231,8 @@ class CatalogController extends Controller
             /////////////////////////////////////////////////////////////////////////
             $filterFeaturesIds = [];
             $filterBrandsIds = [];
-            $priceFrom = $minPrice;
-            $priceTo = $maxPrice;
+            $priceFrom = 0;
+            $priceTo = 0;
 
             if (isset($_GET['priceTo']) && isset($_GET['priceFrom'])) {
                 $filterFeatures = [];
@@ -310,6 +310,9 @@ class CatalogController extends Controller
             if ($minPrice == 100000000) {
                 $minPrice = 0;
             }
+
+            $priceFrom = $minPrice;
+            $priceTo = $maxPrice;
 
             for ($i = 0; $i < count($allproducts); $i++) {
                 if (count($products) >= $pages->limit) {
