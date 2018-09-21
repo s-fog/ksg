@@ -306,7 +306,7 @@ class CatalogController extends Controller
             }
 
             $unfilteredProducts = $products;
-            $products = [];
+            /*$products = [];
 
             foreach($unfilteredProducts as $product) {
                 if (
@@ -318,7 +318,7 @@ class CatalogController extends Controller
                 ) {
                     $products[] = $product;
                 }
-            }
+            }*/
 
 
             return $this->render('index', [
