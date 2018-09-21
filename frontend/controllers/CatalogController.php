@@ -311,8 +311,8 @@ class CatalogController extends Controller
                 $minPrice = 0;
             }
 
-            $priceFrom = $minPrice;
-            $priceTo = $maxPrice;
+            if ($priceFrom == 0) $priceFrom = $minPrice;
+            if ($priceTo == 0) $priceTo = $maxPrice;
 
             for ($i = 0; $i < count($allproducts); $i++) {
                 if (count($products) >= $pages->limit) {
