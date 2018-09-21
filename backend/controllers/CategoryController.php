@@ -175,9 +175,6 @@ class CategoryController extends \backend\controllers\base\CategoryController
             Model::loadMultiple($modelsFilterFeature, Yii::$app->request->post());
             $deletedIDsFF = array_diff($oldIDsFF, array_filter(ArrayHelper::map($modelsFilterFeature, 'id', 'id')));
 
-            /*echo '<pre>',print_r($modelsFilterFeature),'</pre>';
-            die();*/
-
             // ajax validation
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;

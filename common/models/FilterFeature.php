@@ -31,4 +31,8 @@ class FilterFeature extends BaseFilterFeature
             ]
         );
     }
+
+    public function getFilterFeatureValues() {
+        return $this->hasMany(FilterFeatureValue::className(), ['filter_feature_id' => 'id'])->orderBy(['name' => SORT_ASC]);
+    }
 }

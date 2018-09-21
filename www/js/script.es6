@@ -1254,6 +1254,7 @@ class Filter {
         this.nodes = {
             filter__item: $('.'+this.filter__item_class),
             filter: $('.filter'),
+            filter__submit: $('.filter__submit'),
             filter__itemCategoriesContentListItem: $('.'+this.filter__itemCategoriesContentListItem_class),
             filter__itemCategoriesContentHeader: $('.'+this.filter__itemCategoriesContentHeader_class),
             filter__itemCategoriesContentItem: $('.'+this.filter__itemCategoriesContentItem_class),
@@ -1271,6 +1272,13 @@ class Filter {
     }
 
     _bindEvents() {
+        this.nodes.filter.on('submit', () => {
+            let serialize = $(".filter :input[value!='']").serialize();
+
+            location = location.pathname + '?' + serialize;
+            return false;
+        });
+
         this.nodes.filter__priceInput.focus((event) => {
             let thisElement = $(event.currentTarget);
 
@@ -1283,7 +1291,6 @@ class Filter {
 
             thisElement.val(thisElement.data('number'));
         });
-
 
         this.nodes.filter__priceInput.keyup((event) => {
             let thisElement = $(event.currentTarget);
@@ -1320,11 +1327,8 @@ class Filter {
             let parent = thisElement.parents('.'+this.filter__item_class);
 
             if (val.length > 0) {
-                parent.find('.'+this.filter__itemCategoriesContentHeader_class).each((index, element) => {
-                    $(element)
-                        .siblings('.filter__itemCategoriesContentList')
-                        .find('.'+this.filter__itemCategoriesContentListItem_class)
-                        .each((index, element2) => {
+                parent.find('.filter__itemCategoriesContentItem').each((index, element) => {
+                    $(element).find('.'+this.filter__itemCategoriesContentListItem_class).each((index, element2) => {
                         let text = $(element2).find('span').text().toLowerCase();
 
                         if (text.indexOf(val) >= 0) {
@@ -1446,11 +1450,14 @@ class Filter {
         });
 
         $('.js-filter-clear').click(() => {
+            let minprice = this.nodes.filter__priceFrom.data('minprice');
+            let maxprice = this.nodes.filter__priceTo.data('maxprice');
+
             this.nodes.filter.find('.'+this.filter__itemCategoriesContentListItem_class+' input').prop('checked', false);
-            this.nodes.filter__priceFrom.val(this.number_format(0, 0, '.', ' '));
-            this.nodes.filter__priceTo.val(this.number_format(10000000, 0, '.', ' '));
-            this.nodes.filter__priceSlider.slider("values", 0, 0);
-            this.nodes.filter__priceSlider.slider("values", 1, 10000000);
+            this.nodes.filter__priceFrom.val(this.number_format(minprice, 0, '.', ' '));
+            this.nodes.filter__priceTo.val(this.number_format(maxprice, 0, '.', ' '));
+            this.nodes.filter__priceSlider.slider("values", 0, minprice);
+            this.nodes.filter__priceSlider.slider("values", 1, maxprice);
             this.fillCheckWhenReady();
         });
 
@@ -1473,6 +1480,7 @@ class Filter {
 
     _ready() {
         this.fillCheckWhenReady();
+        this.priceDescription();
 
         setTimeout(() => {
             $('.filterTrigger').addClass('active');
@@ -1482,10 +1490,15 @@ class Filter {
             $('.js-filter-close').click();
         }, 1000);
 
+        let minprice = parseInt(this.nodes.filter__priceFrom.data('minprice'));
+        let maxprice = parseInt(this.nodes.filter__priceTo.data('maxprice'));
+        let currentFrom = parseInt(this.nodes.filter__priceFrom.val().replace(/\s/g, ''));
+        let currentTo = parseInt(this.nodes.filter__priceTo.val().replace(/\s/g, ''));
+
         this.nodes.filter__priceSlider.slider({
-            min: 0,
-            max: 200000,
-            values: [0, 200000],
+            min: minprice,
+            max: maxprice,
+            values: [currentFrom, currentTo],
             range: true,
             slide: (event, ui) => {
                 this.priceSlide();
@@ -1500,7 +1513,10 @@ class Filter {
         let value01 = this.nodes.filter__priceSlider.slider("values", 0);
         let value02 = this.nodes.filter__priceSlider.slider("values", 1);
 
-        if(value01 < 100000) {
+        this.nodes.filter__priceFrom.val(this.number_format(value01, 0, '.', ' '));
+        this.nodes.filter__priceTo.val(this.number_format(value02, 0, '.', ' '));
+
+        /*if(value01 < 100000) {
             this.nodes.filter__priceFrom.val(this.number_format(value01, 0, '.', ' '));
         } else {
             let R1 = value01 - 100000;
@@ -1516,7 +1532,7 @@ class Filter {
             let vR1 = 99*R1+100000;
             vR1 = Math.round(vR1/100) * 100;
             this.nodes.filter__priceTo.val(this.number_format(vR1, 0, '.', ' '));
-        }
+        }*/
 
         this.priceDescription();
     }
@@ -1528,7 +1544,7 @@ class Filter {
         let height = windowHeight - mainHeaderHeight - breadcrumbsHeight;
 
         this.nodes.filter.slideDown(500, () => {
-            this.nodes.filter.height(height);
+            //this.nodes.filter.height(height);
         });
     }
 
@@ -1541,8 +1557,16 @@ class Filter {
 
         parent.find('.'+this.filter__itemCategoriesContentListItem_class).each((index, element) => {
             if ($(element).find('input').prop('checked') == true) {
+                let header = $(element).parent().siblings('.filter__itemCategoriesContentHeader').find('span').html();
+
+                if (!header) {
+                    header = '';
+                } else {
+                    header += ': ';
+                }
+
                 if ($count < 0) {
-                    $items += ', ' + $(element).find('span').text();
+                    $items += ', ' + header + $(element).find('span').text();
                 }
 
                 if ($items.length >= $maxLength) {
@@ -1575,7 +1599,16 @@ class Filter {
 
     fillTriggerDescr() {
         $('.filter__item .filter__description').each((index, element) => {
-            this.nodes.filterTrigger__top_li.eq(index + 1).find('.filterTrigger__topItem span').html($(element).html());
+            let text = $(element).html();
+            let gg = this.nodes.filterTrigger__top_li.eq(index + 1);
+            let ggIn = gg.find('.filterTrigger__topItem');
+
+            if (text == '{Ничего не выбрано}') {
+                gg.removeClass('active');
+            } else {
+                gg.addClass('active');
+                ggIn.find('span').html(text);
+            }
         });
     }
 

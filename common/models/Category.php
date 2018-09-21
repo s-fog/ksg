@@ -478,6 +478,6 @@ class Category extends BaseCategory
     }
 
     public function getFilterFeatures () {
-        return FilterFeature::find()->where(['category_id' => $this->id])->orderBy(['sort_order' => SORT_ASC])->all();
+        return $this->hasMany(FilterFeature::className(), ['category_id' => 'id'])->orderBy(['sort_order' => SORT_ASC]);
     }
 }

@@ -7,6 +7,7 @@ use common\models\Category;
 use common\models\FeatureValue;
 use common\models\Product;
 use common\models\ProductHasCategory;
+use common\models\ProductHasFilterFeatureValue;
 use common\models\ProductParam;
 use common\models\Textpage;
 use frontend\models\Pagination;
@@ -223,12 +224,72 @@ class CatalogController extends Controller
             $allproducts = Product::sortAvailable($allproducts);
             $products = [];
             $minPrice = 100000000;
+            $maxPrice = 0;
+            $filterBrands = [];
+            $i = 0;
+
+            /////////////////////////////////////////////////////////////////////////
+            $filterFeaturesIds = [];
+            $filterBrandsIds = [];
+            $priceFrom = $minPrice;
+            $priceTo = $maxPrice;
+
+            if (isset($_GET['priceTo']) && isset($_GET['priceFrom'])) {
+                $filterFeatures = [];
+                $priceFrom = (int) str_replace(' ', '', $_GET['priceFrom']);
+                $priceTo = (int) str_replace(' ', '', $_GET['priceTo']);
+
+                foreach($_GET as $index => $value) {
+                    ////////////////////////////////////////////////////////////////////
+                    preg_match('#^feature(.+)_(.+)$#siU', $index, $match);
+
+                    if (!empty($match)) {
+                        $a1 = (int) $match[1];//$filterFeature->id
+                        $a2 = (int) $match[2];//$filterFeatureValue->id
+                        $filterFeatures[$a1][] = $a2;
+                    }
+                    ////////////////////////////////////////////////////////////////////
+                    preg_match('#^brand_(.+)$#siU', $index, $match);
+
+                    if (!empty($match)) {
+                        $a1 = (int) $match[1];//$brand->id
+                        $filterBrandsIds[] = $a1;
+                    }
+                    ////////////////////////////////////////////////////////////////////
+                }
+
+                foreach($filterFeatures as $filterFeatureId => $filterFeatureValueIds) {
+                    $phffv = ProductHasFilterFeatureValue::findAll(['filter_feature_value_id' => $filterFeatureValueIds]);
+
+                    foreach($phffv as $hgg) {
+                        $filterFeaturesIds[] = $hgg->product_id;
+                    }
+                }
+
+                $filterFeaturesIds = array_unique($filterFeaturesIds);
+            }
+
+            /////////////////////////////////////////////////////////////////////////
 
             foreach($allproducts as $product) {
                 if ($product->price < $minPrice) {
                     $minPrice = $product->price;
                 }
+
+                if ($product->price > $maxPrice) {
+                    $maxPrice = $product->price;
+                }
+
+                $brand = Brand::findOne($product->brand_id);
+
+                if (!array_key_exists($brand->id, $filterBrands)) {
+                    $filterBrands[$i]['id'] = $brand->id;
+                    $filterBrands[$i]['name'] = $brand->name;
+                    $i++;
+                }
             }
+
+            sort($filterBrands);
 
             if ($minPrice == 100000000) {
                 $minPrice = 0;
@@ -244,6 +305,21 @@ class CatalogController extends Controller
                 }
             }
 
+            $unfilteredProducts = $products;
+            $products = [];
+
+            foreach($unfilteredProducts as $product) {
+                if (
+                (empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds))
+                    &&
+                (empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds))
+                    &&
+                ($product->price >= $priceFrom && $product->price <= $priceTo)
+                ) {
+                    $products[] = $product;
+                }
+            }
+
             return $this->render('index', [
                 'model' => $model,
                 'products' => $products,
@@ -255,6 +331,8 @@ class CatalogController extends Controller
                 'bHeader' => $bHeader,
                 'bHeader2' => $bHeader2,
                 'minPrice' => $minPrice,
+                'maxPrice' => $maxPrice,
+                'filterBrands' => $filterBrands,
             ]);
         }
 

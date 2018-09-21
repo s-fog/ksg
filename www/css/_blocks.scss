@@ -5109,9 +5109,11 @@ body {
         }
       }
       &:nth-child(n+2) {
-        @include respond-to(800) {
-          display: none;
-        }
+        display: none;
+      }
+
+      &.active {
+        display: inline-block;
       }
     }
 
@@ -5223,7 +5225,6 @@ body {
     }
 
     .filter__filterOff {
-      margin-left: 50px;
       @include respond-to(700) {
         display: none;
       }
