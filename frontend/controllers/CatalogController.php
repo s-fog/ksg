@@ -327,7 +327,7 @@ class CatalogController extends Controller
             foreach($unfilteredProducts as $product) {
                 if (empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds)) {
                     if (empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds)) {
-                        if ($product->price <= $priceFrom && $product->price >= $priceTo) {
+                        if ($product->price >= $priceFrom && $product->price <= $priceTo) {
                             $products[] = $product;
                         }
                     }
