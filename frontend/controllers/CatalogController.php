@@ -319,9 +319,7 @@ class CatalogController extends Controller
                     $products[] = $product;
                 }
             }
-            var_dump($model->id);
-            var_dump($model->name);
-            var_dump($model->parent_id);
+
 
             return $this->render('index', [
                 'model' => $model,
