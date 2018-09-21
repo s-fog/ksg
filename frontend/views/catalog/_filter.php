@@ -67,6 +67,7 @@
                                 foreach($filterBrands as $index => $brand) {
                                     if ($index == 0) {
                                         echo '<div class="filter__itemCategoriesContentItem">
+                                        <div class="filter__itemCategoriesContentHeader" style="display: none;"><span>Бренд</span></div>
                                         <div class="filter__itemCategoriesContentList">';
                                     }
 
@@ -81,6 +82,7 @@
                                     if (($index + 1) % $elementsInColumn == 0) {
                                         echo '</div></div>
                                     <div class="filter__itemCategoriesContentItem">
+                                    <div class="filter__itemCategoriesContentHeader" style="display: none;"><span>Бренд</span></div>
                                         <div class="filter__itemCategoriesContentList">';
                                     }
 
