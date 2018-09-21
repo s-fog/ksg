@@ -119,6 +119,75 @@ class ProductController extends \backend\controllers\base\ProductController
 
                 try {
                     if ($flag = $model->save(false)) {
+                        //////////////////////////////////////////////////////////////////////////////
+                        if (!empty($_POST['Product']['FilterFeature'])) {
+                            foreach($_POST['Product']['FilterFeature'] as $item) {
+                                $filter_feature = FilterFeature::findOne($item['id']);
+                                $a1 = ProductHasFilterFeatureValue::findAll(['product_id' => $model->id]);
+                                $a2 = FilterFeatureValue::find()
+                                    ->where([
+                                        'id' => ArrayHelper::map($a1, 'filter_feature_value_id', 'filter_feature_value_id'),
+                                        'filter_feature_id' => $filter_feature->id,
+                                    ])
+                                    ->orderBy(['name' => SORT_ASC])
+                                    ->all();
+                                $alreadyHereValues = ArrayHelper::map($a2, 'name', 'name');
+
+                                foreach($item['values'] as $index => $valueName) {
+                                    $here = FilterFeatureValue::find()
+                                        ->where([
+                                            'name' => $valueName,
+                                            'filter_feature_id' => $filter_feature->id
+                                        ])->one();
+
+                                    if (!$here) {
+                                        $filter_feature_value = new FilterFeatureValue;
+                                        $filter_feature_value->name = $valueName;
+                                        $filter_feature_value->filter_feature_id = $filter_feature->id;
+
+                                        if ($filter_feature_value->save()) {
+                                            $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
+                                            $product_has_filter_feature_value->product_id = $model->id;
+                                            $product_has_filter_feature_value->filter_feature_value_id = $filter_feature_value->id;
+                                            $product_has_filter_feature_value->save();
+                                        }
+                                    } else {
+                                        if (!ProductHasFilterFeatureValue::findOne([
+                                            'product_id' => $model->id,
+                                            'filter_feature_value_id' => $here->id
+                                        ])) {
+                                            $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
+                                            $product_has_filter_feature_value->product_id = $model->id;
+                                            $product_has_filter_feature_value->filter_feature_value_id = $here->id;
+                                            $product_has_filter_feature_value->save();
+                                        }
+                                    }
+
+                                    unset($alreadyHereValues[$valueName]);
+                                }
+
+                                if (!empty($alreadyHereValues)) {
+                                    foreach($alreadyHereValues as $value) {
+                                        $fv = FilterFeatureValue::find()
+                                            ->where([
+                                                'name' => $value,
+                                                'filter_feature_id' => $filter_feature->id
+                                            ])->one();
+                                        ProductHasFilterFeatureValue::findOne([
+                                            'product_id' => $model->id,
+                                            'filter_feature_value_id' => $fv->id
+                                        ])->delete();
+
+                                        if (!ProductHasFilterFeatureValue::findOne([
+                                            'filter_feature_value_id' => $fv->id
+                                        ]   )) {
+                                            $fv->delete();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //////////////////////////////////////////////////////////////////////////////
                         foreach ($modelsFeature as $indexFeature => $modelFeature) {
                             $modelFeature->product_id = $model->id;
 
