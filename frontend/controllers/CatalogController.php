@@ -308,10 +308,10 @@ class CatalogController extends Controller
             $unfilteredProducts = $products;
             $products = [];
 
-            var_dump($filterBrandsIds);
-            var_dump($filterFeaturesIds);
-
             foreach($unfilteredProducts as $product) {
+                var_dump(empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds));
+                var_dump(empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds));
+                var_dump($product->price >= $priceFrom && $product->price <= $priceTo);
                 if (empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds)) {
                     if (empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds)) {
                         if ($product->price >= $priceFrom && $product->price <= $priceTo) {
