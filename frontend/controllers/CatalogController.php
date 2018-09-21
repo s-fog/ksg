@@ -285,6 +285,7 @@ class CatalogController extends Controller
                 if (empty($filterBrands)) {
                     $filterBrands[$i]['id'] = $brand->id;
                     $filterBrands[$i]['name'] = $brand->name;
+                    $i++;
                 } else {
                     $flag = false;
 
@@ -297,6 +298,7 @@ class CatalogController extends Controller
                     if (!$flag) {
                         $filterBrands[$i]['id'] = $brand->id;
                         $filterBrands[$i]['name'] = $brand->name;
+                        $i++;
                     }
                 }
             }
