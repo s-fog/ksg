@@ -282,12 +282,23 @@ class CatalogController extends Controller
 
                 $brand = Brand::findOne($product->brand_id);
 
-                if (!self::in_multiarray($brand->id, $filterBrands)) {
+                if (empty($filterBrands)) {
                     $filterBrands[$i]['id'] = $brand->id;
                     $filterBrands[$i]['name'] = $brand->name;
-                    $i++;
-                }
+                } else {
+                    $flag = false;
 
+                    foreach($filterBrands as $index => $arr) {
+                        if ($brand->id == $arr['id']) {
+                            $flag = true;
+                        }
+                    }
+
+                    if (!$flag) {
+                        $filterBrands[$i]['id'] = $brand->id;
+                        $filterBrands[$i]['name'] = $brand->name;
+                    }
+                }
             }
 
             usort($filterBrands, function($a,$b){
