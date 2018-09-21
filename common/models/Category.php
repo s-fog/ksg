@@ -414,6 +414,7 @@ class Category extends BaseCategory
 
             if (!empty($parent_id)) {
                 $model = Category::findOne(['alias' => $alias, 'parent_id' => $parent_id, 'active' => 1]);
+                $parent_id = $model->id;
             } else {
                 $model = Category::findOne(['alias' => $alias, 'active' => 1]);
                 $parent_id = $model->id;
