@@ -476,4 +476,8 @@ class Category extends BaseCategory
 
         return $products->count();
     }
+
+    public function getFilterFeatures () {
+        return FilterFeature::find()->where(['category_id' => $this->id])->orderBy(['sort_order' => SORT_ASC])->all();
+    }
 }

@@ -21,6 +21,7 @@ class Product extends BaseProduct implements CartPositionInterface
     public $build_cost;
     public $waranty_cost;
     public $link;
+    public $filterValues;
 
     public function getPrice()
     {

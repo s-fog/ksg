@@ -38,7 +38,7 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
             )) ?>
             <?= $form->field($model, 'active')->widget(CheckboxX::classname(), [
                 'pluginOptions' => [
-                    'threeState'=>false
+                    'threeState' => false
                 ]
             ]) ?>
 
@@ -91,6 +91,14 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
                         'form' => $form,
                         'modelsFeature' => $modelsFeature,
                         'modelsFeatureValue' => $modelsFeatureValue,
+                        'formId' => 'Category',
+                    ]);
+                    echo '<br>';
+
+                    echo '<br>';
+                    echo $this->render('_filterFeature', [
+                        'form' => $form,
+                        'modelsFilterFeature' => $modelsFilterFeature,
                         'formId' => 'Category',
                     ]);
                     echo '<br>';

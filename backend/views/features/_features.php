@@ -43,12 +43,14 @@ use yii\helpers\Html;
                     <?= $form->field($modelFeature, "[{$indexFeature}]sort_order")->label('Порядок сортировки')->textInput(['maxlength' => true]) ?>
                 </td>
                 <td style="width: 75%;">
+                    <?php if (!empty($modelsFeatureValue[$indexFeature])) { ?>
                     <?= $this->render('@backend/views/features/_featureValues', [
                         'form' => $form,
                         'indexFeature' => $indexFeature,
                         'modelsFeatureValue' => $modelsFeatureValue[$indexFeature],
                         'formId' => $formId,
                     ]) ?>
+                    <?php } ?>
                 </td>
                 <td class="text-center vcenter" style="width: 90px; verti">
                     <button type="button" class="remove-features btn btn-danger btn-xs"><span class="fa fa-minus"></span></button>

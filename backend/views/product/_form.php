@@ -51,6 +51,13 @@ use yii\helpers\StringHelper;
                 ])
             ],
             [
+                'label'     => 'Фильтр',
+                'content'   =>  $this->render('_filter', [
+                    'form' => $form,
+                    'model' => $model,
+                ])
+            ],
+            [
                 'label'     => 'Отзывы',
                 'content'   =>  $this->render('_reviews', [
                     'form' => $form,

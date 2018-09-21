@@ -8,8 +8,11 @@ use backend\models\UploadFileDynamicForm;
 use common\models\Category;
 use common\models\Feature;
 use common\models\FeatureValue;
+use common\models\FilterFeature;
+use common\models\FilterFeatureValue;
 use common\models\Image;
 use common\models\Product;
+use common\models\ProductHasFilterFeatureValue;
 use common\models\ProductParam;
 use common\models\ProductReview;
 use Exception;
@@ -309,7 +312,6 @@ class ProductController extends \backend\controllers\base\ProductController
             $valid = Model::validateMultiple($modelsParams) && $valid;
 
             $featureValueIDs = [];
-
             if (isset($_POST['FeatureValue'][0][0])) {
                 foreach ($_POST['FeatureValue'] as $indexFeature => $featureValues) {
                     $featureValueIDs = ArrayHelper::merge($featureValueIDs, array_filter(ArrayHelper::getColumn($featureValues, 'id')));
@@ -361,6 +363,79 @@ class ProductController extends \backend\controllers\base\ProductController
 
                 try {
                     if ($flag = $model->save(false)) {
+                        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        if (!empty($_POST['Product']['FilterFeature'])) {
+                            foreach($_POST['Product']['FilterFeature'] as $item) {
+                                $filter_feature = FilterFeature::findOne($item['id']);
+                                $a1 = ProductHasFilterFeatureValue::findAll(['product_id' => $model->id]);
+                                $a2 = FilterFeatureValue::find()
+                                    ->where([
+                                        'id' => ArrayHelper::map($a1, 'filter_feature_value_id', 'filter_feature_value_id'),
+                                        'filter_feature_id' => $filter_feature->id,
+                                    ])
+                                    ->orderBy(['name' => SORT_ASC])
+                                    ->all();
+                                $alreadyHereValues = ArrayHelper::map($a2, 'name', 'name');
+
+                                foreach($item['values'] as $index => $valueName) {
+                                    $here = FilterFeatureValue::find()
+                                        ->where([
+                                            'name' => $valueName,
+                                            'filter_feature_id' => $filter_feature->id
+                                        ])->one();
+
+                                    if (!$here) {
+                                        $filter_feature_value = new FilterFeatureValue;
+                                        $filter_feature_value->name = $valueName;
+                                        $filter_feature_value->filter_feature_id = $filter_feature->id;
+
+                                        if ($filter_feature_value->save()) {
+                                            $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
+                                            $product_has_filter_feature_value->product_id = $model->id;
+                                            $product_has_filter_feature_value->filter_feature_value_id = $filter_feature_value->id;
+                                            $product_has_filter_feature_value->save();
+                                        }
+                                    } else {
+                                        if (!ProductHasFilterFeatureValue::findOne([
+                                            'product_id' => $model->id,
+                                            'filter_feature_value_id' => $here->id
+                                        ])) {
+                                            $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
+                                            $product_has_filter_feature_value->product_id = $model->id;
+                                            $product_has_filter_feature_value->filter_feature_value_id = $here->id;
+                                            $product_has_filter_feature_value->save();
+                                        }
+                                    }
+
+                                    unset($alreadyHereValues[$valueName]);
+                                }
+
+                                if (!empty($alreadyHereValues)) {
+                                    foreach($alreadyHereValues as $value) {
+                                        $fv = FilterFeatureValue::find()
+                                            ->where([
+                                                'name' => $value,
+                                                'filter_feature_id' => $filter_feature->id
+                                            ])->one();
+                                        ProductHasFilterFeatureValue::findOne([
+                                            'product_id' => $model->id,
+                                            'filter_feature_value_id' => $fv->id
+                                        ])->delete();
+
+                                        if (!ProductHasFilterFeatureValue::findOne([
+                                                'filter_feature_value_id' => $fv->id
+                                        ]   )) {
+                                            $fv->delete();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        /*echo '<pre>',print_r($_POST),'</pre>';
+                        die();*/
+                        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                         if (! empty($deletedFeatureValueIDs)) {
                             FeatureValue::deleteAll(['id' => $deletedFeatureValueIDs]);
                         }
