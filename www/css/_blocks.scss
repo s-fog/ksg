@@ -5585,7 +5585,10 @@ r
 
   &__itemCategoriesContentItem {
     margin-bottom: 15px;
-    flex: 0 0 320px;
+    flex: 0 0 25%;
+    @include respond-to(1000) {
+      flex: 0 0 320px;
+    }
     @include respond-to(360) {
       flex-shrink: 1;
     }

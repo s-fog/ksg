@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="filter__item">
+                <div class="filter__item filter__item_brands">
                     <div class="filter__itemTop">
                         <div class="filter__header filter__itemHeader"><em class="filter__headerMinus"></em><span>Бренды</span></div>
                         <div class="filter__description">{Ничего не выбрано}</div>
