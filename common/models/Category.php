@@ -412,7 +412,7 @@ class Category extends BaseCategory
                 continue;
             }
 
-            if ($parent_id != 0) {
+            if (!empty($parent_id)) {
                 $model = Category::findOne(['alias' => $alias, 'parent_id' => $parent_id, 'active' => 1]);
             } else {
                 $model = Category::findOne(['alias' => $alias, 'active' => 1]);
