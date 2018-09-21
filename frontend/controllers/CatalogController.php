@@ -213,14 +213,6 @@ class CatalogController extends Controller
                 }
             }
 
-            $pages = new \yii\data\Pagination([
-                'totalCount' => $countAllProducts,
-                'defaultPageSize' => $defaultPageSize,
-                'pageSizeParam' => 'per_page',
-                'forcePageParam' => false,
-                'pageSizeLimit' => 200
-            ]);
-
             $allproducts = Product::sortAvailable($allproducts);
             $products = [];
             $minPrice = 100000000;
@@ -314,6 +306,27 @@ class CatalogController extends Controller
             if ($priceFrom == 0) $priceFrom = $minPrice;
             if ($priceTo == 0) $priceTo = $maxPrice;
 
+            $unfilteredProducts = $allproducts;
+            $allproducts = [];
+
+            foreach($unfilteredProducts as $product) {
+                if (empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds)) {
+                    if (empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds)) {
+                        if ($product->price >= $priceFrom && $product->price <= $priceTo) {
+                            $allproducts[] = $product;
+                        }
+                    }
+                }
+            }
+
+            $pages = new \yii\data\Pagination([
+                'totalCount' => count($allproducts),
+                'defaultPageSize' => $defaultPageSize,
+                'pageSizeParam' => 'per_page',
+                'forcePageParam' => false,
+                'pageSizeLimit' => 200
+            ]);
+
             for ($i = 0; $i < count($allproducts); $i++) {
                 if (count($products) >= $pages->limit) {
                     break;
@@ -321,19 +334,6 @@ class CatalogController extends Controller
 
                 if ($i >= $pages->offset) {
                     $products[] = $allproducts[$i];
-                }
-            }
-
-            $unfilteredProducts = $products;
-            $products = [];
-
-            foreach($unfilteredProducts as $product) {
-                if (empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds)) {
-                    if (empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds)) {
-                        if ($product->price >= $priceFrom && $product->price <= $priceTo) {
-                            $products[] = $product;
-                        }
-                    }
                 }
             }
 
