@@ -282,14 +282,17 @@ class CatalogController extends Controller
 
                 $brand = Brand::findOne($product->brand_id);
 
-                if (!array_key_exists($brand->id, $filterBrands)) {
+                //if (!array_key_exists($brand->id, $filterBrands)) {
+                if (!array_search(40489, array_column($filterBrands, $brand->id))) {
                     $filterBrands[$i]['id'] = $brand->id;
                     $filterBrands[$i]['name'] = $brand->name;
                     $i++;
                 }
             }
 
-            sort($filterBrands);
+            usort($filterBrands, function($a,$b){
+                return ($a['name']-$b['name']);
+            });
 
             if ($minPrice == 100000000) {
                 $minPrice = 0;
@@ -309,9 +312,6 @@ class CatalogController extends Controller
             $products = [];
 
             foreach($unfilteredProducts as $product) {
-                var_dump(empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds));
-                var_dump(empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds));
-                var_dump($product->price >= $priceFrom && $product->price <= $priceTo);
                 if (empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds)) {
                     if (empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds)) {
                         if ($product->price <= $priceFrom && $product->price >= $priceTo) {
