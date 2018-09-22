@@ -177,14 +177,6 @@ class SiteController extends Controller
                         'textpages' => $textpages,
                     ]);
                 }
-                /*case 13: {
-                    $news = News::find()->orderBy(['created_at' => SORT_DESC])->all();
-
-                    return $this->render('@frontend/views/news/index', [
-                        'model' => $textpage,
-                        'news' => $news,
-                    ]);
-                }*/
                 case 11: {
                     $orderBy = [];
 
@@ -309,6 +301,8 @@ class SiteController extends Controller
                         'products' => $products,
                     ]);
                 }
+                default:
+                    throw new NotFoundHttpException;
             }
         }
 
