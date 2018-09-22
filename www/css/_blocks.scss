@@ -5224,12 +5224,6 @@ body {
       flex-wrap: wrap;
     }
 
-    .filter__filterOff {
-      @include respond-to(700) {
-        display: none;
-      }
-    }
-
     .filter__description {
       @include respond-to(1100) {
         padding-left: 30px;
@@ -6615,4 +6609,40 @@ body.fancybox-active {
 
 .BC {
   display: none;
+}
+
+.html-hidden {
+  overflow: hidden;
+
+  .this_is_not_safari {
+    .mainHeader {
+      padding-right: 17px;
+      background-color: #353a49;
+      box-sizing: border-box;
+      @include respond-to(1000) {
+        padding-right: 0;
+      }
+    }
+    .filterTrigger {
+      padding-right: 17px;
+      box-sizing: border-box;
+      @include respond-to(1000) {
+        padding-right: 0;
+      }
+    }
+    .filter {
+      padding-right: 17px;
+      box-sizing: border-box;
+      @include respond-to(1000) {
+        padding-right: 0;
+      }
+    }
+    .breadcrumbs {
+      padding-right: 17px;
+      box-sizing: border-box;
+      @include respond-to(1000) {
+        padding-right: 0;
+      }
+    }
+  }
 }

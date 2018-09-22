@@ -106,7 +106,7 @@ class Header {
 
                     console.log($(event.target).attr('class'));
 
-                    $('.js-filter-close').click();
+                    this.filterClose();
 
                     return false;
                 }
@@ -115,7 +115,7 @@ class Header {
             if ($('.filter').get(0)) {
                 if ($('.filter').css('display') != 'none') {
                     if (!$(event.target).parents('.filter').get(0)) {
-                        $('.js-filter-close').click();
+                        this.filterClose();
 
                         return false;
                     }
@@ -1442,7 +1442,7 @@ class Filter {
         });
 
         $('.js-filter-close').click(() => {
-            this.nodes.filter.slideUp(500);
+            this.filterClose();
         });
 
         $('.js-filter-open').click(() => {
@@ -1487,7 +1487,7 @@ class Filter {
         }, 1500);
 
         setTimeout(() => {
-            $('.js-filter-close').click();
+            this.filterClose();
         }, 1000);
 
         let minprice = parseInt(this.nodes.filter__priceFrom.data('minprice'));
@@ -1537,6 +1537,10 @@ class Filter {
         this.priceDescription();
     }
 
+    filterClose() {
+        this.nodes.filter.slideUp(500);
+        $('html').removeClass('html-hidden');
+    }
     filterOpen() {
         let mainHeaderHeight = $('.mainHeader').height();
         let breadcrumbsHeight = $('.breadcrumbs').height();
@@ -1546,6 +1550,8 @@ class Filter {
         this.nodes.filter.slideDown(500, () => {
             this.nodes.filter.height(height);
         });
+
+        $('html').addClass('html-hidden');
     }
 
     fillChecked(parent) { //$('.filter__item)
