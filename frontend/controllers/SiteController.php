@@ -91,8 +91,10 @@ class SiteController extends Controller
                 if ($textpage) {
                     if ($textpage->type == 1) {
                         $parent = Textpage::findOne(8);
-                    } else {
+                    } else if ($textpage->type == 2) {
                         $parent = Textpage::findOne(9);
+                    } else {
+                        throw new NotFoundHttpException;
                     }
 
                     $textpages = Textpage::find()
