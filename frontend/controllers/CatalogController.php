@@ -10,6 +10,7 @@ use common\models\ProductHasCategory;
 use common\models\ProductHasFilterFeatureValue;
 use common\models\ProductParam;
 use common\models\Textpage;
+use frontend\models\City;
 use frontend\models\Pagination;
 use Yii;
 use yii\db\Expression;
@@ -22,6 +23,8 @@ class CatalogController extends Controller
 {
     public function actionIndex($alias = '', $alias2 = '', $alias3 = '', $alias4 = '', $alias5 = '')
     {
+        City::setCity();
+
         if (Category::isAliasesEmpty([$alias, $alias2, $alias3, $alias4, $alias5])) {
             $model = Textpage::findOne(1);
 
@@ -363,6 +366,8 @@ class CatalogController extends Controller
     }
     public function actionView($alias)
     {
+        City::setCity();
+
         $model = Product::findOne(['alias' => $alias]);
 
         if (!$model) {

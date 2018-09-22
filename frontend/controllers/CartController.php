@@ -134,6 +134,8 @@ class CartController extends Controller
 
     public function actionIndex()
     {
+        City::setCity();
+
         if (!empty($_POST['Order'])) {
             $model = new Order;
             $cart = new ShoppingCart();

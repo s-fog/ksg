@@ -85,6 +85,7 @@ class SiteController extends Controller
     public function actionIndex($alias = '', $alias2 = '')
     {
         City::setCity();
+
         if (!empty($alias2)) {
             $textpage = Textpage::findOne(['alias' => $alias2]);
             $newsItem = News::findOne(['alias' => $alias2]);
@@ -315,7 +316,7 @@ class SiteController extends Controller
                 }
                 case 14: {
                     $this->layout = 'textpage';
-                    
+
                     return $this->render('@frontend/views/textpage/contacts', [
                         'model' => $textpage
                     ]);
