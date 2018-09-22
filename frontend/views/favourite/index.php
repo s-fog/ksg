@@ -24,7 +24,8 @@ $this->params['seo_h1'] = $model->seo_h1;
                 <?php
                 foreach($products as $index => $item) {
                     echo $this->render('@frontend/views/catalog/_item', [
-                        'model' => $item
+                        'model' => $item,
+                        'favourite' => true
                     ]);
                 }
                 ?>

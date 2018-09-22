@@ -1252,6 +1252,12 @@ body {
     flex: 0 0 17px;
     width: 17px;
     height: 17px;
+
+    &_delete {
+      flex: 0 0 21px;
+      width: 21px;
+      height: 21px;
+    }
   }
 
   &__itemCompareDelete {

@@ -706,6 +706,7 @@ class Cart {
             catalog__itemCart: $('.js-add-to-cart'),
             catalog__itemCompare: $('.js-add-to-compare'),
             catalog__itemFavourite: $('.js-add-to-favourite'),
+            js_delete_from_favourite: $('.js-delete-from-favourite'),
             addToCart__tocart: $('.addToCart__tocart'),
             js_service_change: $('.js-service-change'),
         }
@@ -962,6 +963,18 @@ class Cart {
                 } else {
 
                 }
+            });
+
+            return false;
+        });
+
+        this.nodes.js_delete_from_favourite.click((event) => {
+            let thisElement = $(event.currentTarget);
+            let id = thisElement.data('id');
+            let data = `id=${id}`;
+
+            $.post('/favourite/delete', data, (response) => {
+                location.reload();
             });
 
             return false;
