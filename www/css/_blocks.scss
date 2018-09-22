@@ -3460,6 +3460,9 @@ body {
     @include respond-to(750) {
       font-size: 18px;
     }
+    @include respond-to(500) {
+      margin-top: 60px;
+    }
 
     h1 {
       display: inline;
@@ -5124,7 +5127,7 @@ body {
         @include respond-to(500) {
           display: inline-block !important;
         }
-        
+
         .filterTrigger__topItem {
           padding-left: 25px;
         }
