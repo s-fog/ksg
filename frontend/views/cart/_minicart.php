@@ -53,7 +53,7 @@ if ($compareCount == 0) {
             <div class="mainHeader__popupCartItemBottom"><?=$cartCount?> <?=$cartPadezh?> на <?=$cartCost?> <span class="rubl">₽</span></div>
         </div>
         <div class="mainHeader__popupCartItem">
-            <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(2)->alias])?>" class="mainHeader__popupCartItemTop"><span>Добавлено к сравнению</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.37 18.97"><defs><style>.cls-1{fill:#fff;}</style></defs><g><g><path class="cls-1" d="M11.41,19a1,1,0,0,1-1-1V1a1,1,0,0,1,1.92,0V18A1,1,0,0,1,11.41,19Z"/><path class="cls-1" d="M6.18,19a1,1,0,0,1-1-1V6.24a1,1,0,0,1,1.92,0V18A1,1,0,0,1,6.18,19Z"/><path class="cls-1" d="M1,19a1,1,0,0,1-1-1v-7.5a1,1,0,0,1,1.92,0V18A1,1,0,0,1,1,19Z"/></g></g></svg></a>
+            <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(12)->alias])?>" class="mainHeader__popupCartItemTop"><span>Добавлено к сравнению</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.37 18.97"><defs><style>.cls-1{fill:#fff;}</style></defs><g><g><path class="cls-1" d="M11.41,19a1,1,0,0,1-1-1V1a1,1,0,0,1,1.92,0V18A1,1,0,0,1,11.41,19Z"/><path class="cls-1" d="M6.18,19a1,1,0,0,1-1-1V6.24a1,1,0,0,1,1.92,0V18A1,1,0,0,1,6.18,19Z"/><path class="cls-1" d="M1,19a1,1,0,0,1-1-1v-7.5a1,1,0,0,1,1.92,0V18A1,1,0,0,1,1,19Z"/></g></g></svg></a>
             <div class="mainHeader__popupCartItemBottom"><?=$compareCount?> <?=$comparePadezh?></div>
         </div>
         <div class="mainHeader__popupCartItem">

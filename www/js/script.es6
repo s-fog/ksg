@@ -707,6 +707,7 @@ class Cart {
             catalog__itemCompare: $('.js-add-to-compare'),
             catalog__itemFavourite: $('.js-add-to-favourite'),
             js_delete_from_favourite: $('.js-delete-from-favourite'),
+            js_delete_from_compare: $('.js-delete-from-compare'),
             addToCart__tocart: $('.addToCart__tocart'),
             js_service_change: $('.js-service-change'),
         }
@@ -974,6 +975,18 @@ class Cart {
             let data = `id=${id}`;
 
             $.post('/favourite/delete', data, (response) => {
+                location.reload();
+            });
+
+            return false;
+        });
+
+        this.nodes.js_delete_from_compare.click((event) => {
+            let thisElement = $(event.currentTarget);
+            let id = thisElement.data('id');
+            let data = `id=${id}`;
+
+            $.post('/compare/delete', data, (response) => {
                 location.reload();
             });
 
@@ -1411,8 +1424,10 @@ class Filter {
         });
 
         this.nodes.filter__priceFrom.change((event) => {
-            var value1 = parseInt(this.nodes.filter__priceFrom.val().replace(/\s/g, ''));
-            var value2 = parseInt(this.nodes.filter__priceTo.val().replace(/\s/g, ''));
+            var value1 = this.nodes.filter__priceFrom.val();
+            if (value1) value1 = parseInt(value1.replace(/\s/g, ''));
+            var value2 = this.nodes.filter__priceTo.val();
+            if (value2) value2 = parseInt(value2.replace(/\s/g, ''));
 
             if(parseInt(value1) > parseInt(value2)){
                 value1 = value2;
@@ -1433,8 +1448,10 @@ class Filter {
         });
 
         this.nodes.filter__priceTo.change((event) => {
-            var value1 = parseInt(this.nodes.filter__priceFrom.val().replace(/\s/g, ''));
-            var value2 = parseInt(this.nodes.filter__priceTo.val().replace(/\s/g, ''));
+            var value1 = this.nodes.filter__priceFrom.val();
+            if (value1) value1 = parseInt(value1.replace(/\s/g, ''));
+            var value2 = this.nodes.filter__priceTo.val();
+            if (value2) value2 = parseInt(value2.replace(/\s/g, ''));
 
             if(parseInt(value1) > parseInt(value2)){
                 value2 = value1;
@@ -1492,34 +1509,38 @@ class Filter {
     }
 
     _ready() {
-        this.fillCheckWhenReady();
-        this.priceDescription();
+        if (this.nodes.filter.get(0)) {
+            this.fillCheckWhenReady();
+            this.priceDescription();
 
-        setTimeout(() => {
-            $('.filterTrigger').addClass('active');
-        }, 1500);
+            setTimeout(() => {
+                $('.filterTrigger').addClass('active');
+            }, 1500);
 
-        setTimeout(() => {
-            this.filterClose();
-        }, 1000);
+            setTimeout(() => {
+                this.filterClose();
+            }, 1000);
 
-        let minprice = parseInt(this.nodes.filter__priceFrom.data('minprice'));
-        let maxprice = parseInt(this.nodes.filter__priceTo.data('maxprice'));
-        let currentFrom = parseInt(this.nodes.filter__priceFrom.val().replace(/\s/g, ''));
-        let currentTo = parseInt(this.nodes.filter__priceTo.val().replace(/\s/g, ''));
+            let minprice = parseInt(this.nodes.filter__priceFrom.data('minprice'));
+            let maxprice = parseInt(this.nodes.filter__priceTo.data('maxprice'));
+            var currentFrom = this.nodes.filter__priceFrom.val();
+            if (currentFrom) currentFrom = parseInt(currentFrom.replace(/\s/g, ''));
+            var currentTo = this.nodes.filter__priceTo.val();
+            if (currentTo) currentTo = parseInt(currentTo.replace(/\s/g, ''));
 
-        this.nodes.filter__priceSlider.slider({
-            min: minprice,
-            max: maxprice,
-            values: [currentFrom, currentTo],
-            range: true,
-            slide: (event, ui) => {
-                this.priceSlide();
-            },
-            stop: (event, ui) => {
-                this.priceSlide();
-            }
-        });
+            this.nodes.filter__priceSlider.slider({
+                min: minprice,
+                max: maxprice,
+                values: [currentFrom, currentTo],
+                range: true,
+                slide: (event, ui) => {
+                    this.priceSlide();
+                },
+                stop: (event, ui) => {
+                    this.priceSlide();
+                }
+            });
+        }
     }
 
     priceSlide() {

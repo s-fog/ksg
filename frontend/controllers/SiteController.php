@@ -2,10 +2,13 @@
 namespace frontend\controllers;
 
 use common\models\Brand;
+use common\models\Feature;
+use common\models\FeatureValue;
 use common\models\Mainpage;
 use common\models\News;
 use common\models\Product;
 use common\models\Textpage;
+use frontend\models\Compare;
 use frontend\models\Favourite;
 use Yii;
 use yii\base\InvalidParamException;
@@ -252,15 +255,61 @@ class SiteController extends Controller
                     ]);
                 }
                 case 12: {
+                    $features = [];
+                    $products = Product::find()
+                        ->where(['id' => Compare::getIds()])
+                        ->orderBy(['name' => SORT_DESC])
+                        ->all();
+
+                    foreach($products as $product) {
+                        $fs = Feature::findAll(['product_id' => $product->id]);
+
+                        foreach($fs as $fsItem) {
+                            if (!array_key_exists($fsItem->header, $features)) {
+                                $features[$fsItem->header] = [];
+                            }
+                        }
+                    }
+
+                    ksort($features);
+
+                    foreach($features as $featureHeader => $notUse) {
+                        $fs = Feature::findOne(['header' => $featureHeader, 'product_id' => $product->id]);
+
+                        foreach(FeatureValue::findAll(['feature_id' => $fs->id]) as $fv) {
+                            $features[$featureHeader][$fv->name] = [];
+                        }
+
+                        ksort($features[$featureHeader]);
+                    }
+
+                    foreach($features as $featureHeader => $featuresName) {
+                        foreach($featuresName as $featureName => $notUse) {
+                            foreach($products as $product) {
+                                $fs = Feature::findOne(['header' => $featureHeader, 'product_id' => $product->id]);
+
+                                if ($fs) {
+                                    $fv = FeatureValue::findOne(['name' => $featureName, 'feature_id' => $fs->id]);
+
+                                    if ($fv) {
+                                        $features[$featureHeader][$featureName][] = $fv->value;
+                                    } else {
+                                        $features[$featureHeader][$featureName][] = '&mdash;';
+                                    }
+                                } else {
+                                    $features[$featureHeader][$featureName][] = '&mdash;';
+                                }
+                            }
+                        }
+                    }
+
                     return $this->render('@frontend/views/compare/index', [
                         'model' => $textpage,
+                        'features' => $features,
+                        'products' => $products,
                     ]);
                 }
             }
-
-            return $this->render('@frontend/views/textpage/'.$view, [
-                'model' => $textpage,
-            ]);
         }
 
 
