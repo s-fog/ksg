@@ -1540,11 +1540,11 @@ class Filter {
     filterOpen() {
         let mainHeaderHeight = $('.mainHeader').height();
         let breadcrumbsHeight = $('.breadcrumbs').height();
-        let windowHeight = $(window).height();
+        let windowHeight = window.innerHeight;
         let height = windowHeight - mainHeaderHeight - breadcrumbsHeight;
 
         this.nodes.filter.slideDown(500, () => {
-            //this.nodes.filter.height(height);
+            this.nodes.filter.height(height);
         });
     }
 
