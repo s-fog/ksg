@@ -1,3 +1,16 @@
+<?php
+
+use common\models\Category;
+
+if ($model->type != 0) {
+    if ($model->type == 3) {
+
+    } else {
+        $model = Category::findOne($model->parent_id);
+    }
+}
+
+?>
 <div class="filterTrigger active">
     <div class="container">
         <ul class="filterTrigger__top breadcrumbs__inner">
