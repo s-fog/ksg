@@ -1559,6 +1559,7 @@ class Filter {
         let $count = -1;
         let $maxLength = 30;
         let $str = '';
+        let $str2 = '';
         let empty = true;
 
         parent.find('.'+this.filter__itemCategoriesContentListItem_class).each((index, element) => {
@@ -1583,6 +1584,21 @@ class Filter {
             }
         });
 
+        let $simv = 'параметров';
+        let c = 0;
+
+        this.nodes.filter.find('[type="checkbox"]').each((i, e) => {
+            if ($(e).prop('checked') == true) {
+                c++;
+            }
+        });
+
+        if (c%10==1) $simv='параметр';
+            else if (c%10==2 || c%10==3 || c%10==4) $simv='параметра';
+
+        $str2 = `Выбрано: ${c} ${$simv}`;
+        console.log($str2);
+
         if ($count > 0) {
             $str = `{${$items.slice(2)}, и еще ${$count}}`;
         } else {
@@ -1594,6 +1610,7 @@ class Filter {
         }
 
         parent.find('.filter__description').html($str);
+        $('.filterTrigger__topItemCount').html($str2);
         this.fillTriggerDescr();
     }
 
