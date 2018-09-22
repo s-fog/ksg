@@ -73,8 +73,9 @@ $company = Textpage::findOne(9);
                 Интернет-магазин спортивного инвентаря.
                 2018 – Все права защищены.</div>
             <div class="footer__item footer__item_bottom">
-                <a href="#" class="footer__itemLink linkSpanReverse"><span>Полный каталог</span></a>
-                <a href="#" class="footer__itemLink linkSpanReverse"><span>Бренды-партнёры KSG</span></a>
+                <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(13)->alias])?>" class="footer__itemLink linkSpanReverse"><span>Наш блог</span></a>
+                <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(1)->alias])?>" class="footer__itemLink linkSpanReverse"><span>Полный каталог</span></a>
+                <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(2)->alias])?>" class="footer__itemLink linkSpanReverse"><span>Бренды-партнёры KSG</span></a>
                 <a href="/documents/politics.pdf" target="_blank" class="footer__itemLink linkSpanReverse"><span>Политика конфиденциальности</span></a>
             </div>
             <div class="footer__item socials">
