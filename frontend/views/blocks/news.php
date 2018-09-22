@@ -4,8 +4,8 @@ use common\models\News;
 use common\models\Textpage;
 use yii\helpers\Url;
 
-$newsPage = Textpage::findOne(10);
-$news = News::find()->limit(4)->orderBy(['created_at' => SORT_ASC])->all();
+$newsPage = Textpage::findOne(13);
+$news = News::find()->limit(4)->orderBy(['created_at' => SORT_DESC])->all();
 
 ?>
 <div class="newsBlock">

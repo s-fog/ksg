@@ -177,8 +177,8 @@ class SiteController extends Controller
                         'textpages' => $textpages,
                     ]);
                 }
-                case 10: {
-                    $news = News::find()->orderBy(['created_at' => SORT_ASC])->all();
+                case 13: {
+                    $news = News::find()->orderBy(['created_at' => SORT_DESC])->all();
 
                     return $this->render('@frontend/views/news/index', [
                         'model' => $textpage,
