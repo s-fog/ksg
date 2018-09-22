@@ -78,6 +78,8 @@ $statuses = Yii::$app->params['callbackStatus'];
             },
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
+            'created_at:datetime',
+            'updated_at:datetime',
             [
                 'attribute' => 'status',
                 'content' => function($data) use ($statuses) {

@@ -41,7 +41,7 @@ return Model::scenarios();
 */
 public function search($params)
 {
-$query = Callback::find()->orderBy(['sort_order' => SORT_DESC]);
+$query = Callback::find()->orderBy(['created_at' => SORT_DESC]);
 
 $dataProvider = new ActiveDataProvider([
 'query' => $query,

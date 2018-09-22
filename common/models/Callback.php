@@ -31,4 +31,15 @@ class Callback extends BaseCallback
             ]
         );
     }
+
+    public function attributeLabels()
+    {
+        return ArrayHelper::merge(
+            parent::attributeLabels(),
+            [
+                'created_at' => 'Время создания',
+                'updated_at' => 'Время Изменения',
+            ]
+        );
+    }
 }

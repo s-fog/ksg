@@ -58,7 +58,8 @@ abstract class Callback extends \yii\db\ActiveRecord
         return [
             [['status'], 'required'],
             [['status', 'sort_order'], 'integer'],
-            [['name', 'phone', 'comment'], 'string', 'max' => 255]
+            [['name', 'phone'], 'string', 'max' => 255],
+            [['comment'], 'string']
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Callback;
 use common\models\Order;
 use common\models\Present;
 use common\models\Product;
@@ -18,6 +19,12 @@ class MailController extends \yii\web\Controller
                 $post = $_POST['CallbackForm'];
                 $files = (isset($_FILES['CallbackForm'])) ? $_FILES['CallbackForm'] : [];
                 $form->send($post, $files);
+
+                $callback = new Callback;
+                $callback->name = $_POST['CallbackForm']['name'];
+                $callback->phone = $_POST['CallbackForm']['phone'];
+                $callback->status = 0;
+                $callback->save();
             }
         }
         if (isset($_POST['OneClickForm'])) {

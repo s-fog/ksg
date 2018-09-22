@@ -1905,16 +1905,19 @@ class Application {
                     if (xhr.status == 200){
                         var response = xhr.responseText;
                         console.log(response);
+                        console.log(form.id);
 
-                        if (form.id = 'oneClick') {
+                        if (form.attr('id') == 'oneClick') {
                             if (response) {
                                 location = '/cart/success/'+response;
                             }
                         } else {
                             if (response == 'success') {
+                                form[0].reset();
                                 submitButton.addClass('send').text('Спасибо!');
 
                                 setTimeout(() => {
+                                    $.fancybox.close();
                                     submitButton.removeClass('send').text(submitButton.data('text'));
                                 }, 3000);
                             } else {

@@ -10,6 +10,11 @@ use yii\helpers\StringHelper;
 * @var common\models\Callback $model
 * @var yii\widgets\ActiveForm $form
 */
+$cre = new DateTime();
+$cre->setTimestamp($model->created_at);
+$upd = new DateTime();
+$upd->setTimestamp($model->updated_at);
+
 ?>
 
 <div class="callback-form">
@@ -24,7 +29,14 @@ use yii\helpers\StringHelper;
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
+            <div class="form-group" style="margin: 40px 0 20px;">
+                <label class="control-label" for="callback-status">Время создания</label>
+                <span><?=$cre->format('c')?></span>
+            </div>
+            <div class="form-group" style="margin: 20px 0 40px;">
+                <label class="control-label" for="callback-status">Время изменения</label>
+                <span><?=$upd->format('c')?></span>
+            </div>
 
 <!-- attribute status -->
 			<?= $form->field($model, 'status')->dropDownList(Yii::$app->params['callbackStatus']) ?>
@@ -36,7 +48,7 @@ use yii\helpers\StringHelper;
 			<?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute comment -->
-			<?= $form->field($model, 'comment')->textInput(['maxlength' => true]) ?>
+			<?= $form->field($model, 'comment')->textarea(['maxlength' => true]) ?>
         </p>
         <?php $this->endBlock(); ?>
         
