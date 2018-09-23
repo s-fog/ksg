@@ -321,6 +321,9 @@ class SiteController extends Controller
                         'model' => $textpage
                     ]);
                 }
+                default: {
+                    throw new NotFoundHttpException;
+                }
             }
         }
 

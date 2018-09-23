@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Category;
+use common\models\Textpage;
 use frontend\models\City;
 use yii\helpers\Url;
 
@@ -55,9 +56,9 @@ $city = City::getCity();
                                 <path d="M24.16,5.42V1.86A1.74,1.74,0,0,0,22.42.12h0L17.69,5.94h0A3.36,3.36,0,0,0,20.4,7.31h1.8V8.37a1,1,0,0,0,1,1h0a1,1,0,0,0,1-1V7.31h.65V5.42Zm-4.49.06,2.58-3.05V5.48Z"/>
                                 <path d="M14.65,20.23H14.6a17.35,17.35,0,0,1-10.35-4.8A15.12,15.12,0,0,1,0,4.91,5.57,5.57,0,0,1,4.92,0,4.2,4.2,0,0,1,6.43,8.14a15.44,15.44,0,0,0,2.19,3.42,14.93,14.93,0,0,0,3.24,2.14A4.2,4.2,0,0,1,20,15.12C20,17.36,17,20.23,14.65,20.23ZM4.92,1.94a3.7,3.7,0,0,0-3,3A13.42,13.42,0,0,0,5.6,14.07a15.51,15.51,0,0,0,9.08,4.24c1.32,0,3.42-2,3.42-3.19a2.28,2.28,0,0,0-4.56,0,1,1,0,0,1-.44.8,1,1,0,0,1-.92.07,20.35,20.35,0,0,1-4.91-3.07,20.71,20.71,0,0,1-3.1-5.08A.94.94,0,0,1,4.24,7,1,1,0,0,1,5,6.5a2.28,2.28,0,0,0-.09-4.56Z"/></g></svg>
                     </a>
-                    <form class="mainHeader__search">
+                    <form class="mainHeader__search" action="<?=Url::to(['site/index', 'alias' => Textpage::findOne(15)->alias])?>" method="GET">
                         <svg class="mainHeader__searchTrigger js-triangle js-popup" data-popup="search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.77 30"><defs><style>.cls-1{fill:#fff;}</style></defs><g><path class="cls-1" d="M19.47,0a11.3,11.3,0,1,0,11.3,11.3A11.35,11.35,0,0,0,19.47,0Zm0,19.9A8.5,8.5,0,1,1,28,11.4,8.49,8.49,0,0,1,19.47,19.9Z"/><path class="cls-1" d="M19.47,4.4a1.37,1.37,0,0,0-1.4,1.4,1.37,1.37,0,0,0,1.4,1.4,4.23,4.23,0,0,1,4.2,4.2,1.41,1.41,0,0,0,2.81,0A7,7,0,0,0,19.47,4.4Z"/><path class="cls-1" d="M7.67,20.3.38,27.6a1.5,1.5,0,0,0,0,2,1.26,1.26,0,0,0,1,.4,1.28,1.28,0,0,0,1-.4l7.29-7.3a1.52,1.52,0,0,0,0-2A1.52,1.52,0,0,0,7.67,20.3Z"/></g></svg>
-                        <input type="text" class="mainHeader__searchInput" placeholder="Поиск по сайту">
+                        <input type="text" name="query" class="mainHeader__searchInput" placeholder="Поиск по сайту">
                         <button class="button button2 mainHeader__searchSubmit" type="submit">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 32.92"><g><polygon points="7.73 1 1 6.57 1 31.92 81.27 31.92 88 26.35 88 1 7.73 1"/></g></svg>
                             <span>искать</span>
@@ -176,11 +177,11 @@ $city = City::getCity();
         <div class="mainHeader__popupOuter">
             <div class="mainHeader__popupSearchInner">
                 <div class="mainHeader__popupSearchHeader">Быстрые ссылки</div>
-                <a href="#" class="mainHeader__popupSearchItem"><span>Доставка</span></a>
-                <a href="#" class="mainHeader__popupSearchItem"><span>Оплата</span></a>
-                <a href="#" class="mainHeader__popupSearchItem"><span>Велотренажёры</span></a>
-                <a href="#" class="mainHeader__popupSearchItem"><span>Кто сделал такой крутой дизайн?</span></a>
-                <a href="#" class="mainHeader__popupSearchItem"><span>Я сделал</span></a>
+                <div class="mainHeader__popupSearchItem"><span>Доставка</span></div>
+                <div class="mainHeader__popupSearchItem"><span>Оплата</span></div>
+                <div class="mainHeader__popupSearchItem"><span>Велотренажёры</span></div>
+                <div class="mainHeader__popupSearchItem"><span>Кто сделал такой крутой дизайн?</span></div>
+                <div class="mainHeader__popupSearchItem"><span>Я сделал</span></div>
             </div>
         </div>
     </div>

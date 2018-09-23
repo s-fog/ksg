@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\models\Order;
 use common\models\Product;
+use frontend\models\City;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

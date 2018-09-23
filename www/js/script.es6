@@ -36,6 +36,7 @@ class Header {
             mainHeader__popupMenuPicked: $('.mainHeader__popupMenuPicked'),
             mainHeader__popupMenuTab: $('.mainHeader__popupMenuTab'),
             mainHeader__popupMenuItems: $('.mainHeader__popupMenuItems'),
+            mainHeader__popupSearchItem: $('.mainHeader__popupSearchItem'),
         }
     }
 
@@ -227,6 +228,10 @@ class Header {
 
         this.nodes.mainHeader__searchClose.click(() => {
             this.nodes.mainHeader__searchTrigger.click();
+        });
+
+        this.nodes.mainHeader__popupSearchItem.click((event) => {
+            this.nodes.mainHeader__searchInput.val($(event.currentTarget).text());
         });
 
         this.nodes.mainHeader__popupMenuTab.click((event) => {
