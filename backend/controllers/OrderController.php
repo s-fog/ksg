@@ -7,6 +7,7 @@ use common\models\Product;
 use common\models\ProductParam;
 use common\models\ProductParamOrder;
 use Yii;
+use yii\helpers\Url;
 
 /**
 * This is the class for controller "OrderController".
@@ -95,6 +96,24 @@ class OrderController extends \backend\controllers\base\OrderController
             }
         } else {
             return $this->redirect('index');
+        }
+    }
+
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load($_POST) && $model->save()) {
+            return $this->redirect(Url::previous());
+        } else {
+            if ($model->status == 0) {
+                $model->status = 1;
+                $model->save();
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
     }
 }
