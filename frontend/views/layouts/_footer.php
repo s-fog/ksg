@@ -53,7 +53,7 @@ $company = Textpage::findOne(9);
                 </ul>
             </div>
             <div class="footer__item">
-                <div class="footer__itemHeader">КОНТАКТЫ</div>
+                <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(14)->alias])?>" class="footer__itemHeader linkSpanReverse"><span>КОНТАКТЫ</span></a>
                 <ul class="footer__itemMenu">
                     <li>В Москве: <a href="tel:+74957775544" class="linkReverse">+7 495 777 55 44</a></li>
                     <li>Для регионов: <a href="tel:+78007775544" class="linkReverse">8 800 777 55 44</a></li>

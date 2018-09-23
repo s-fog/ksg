@@ -1,7 +1,10 @@
 <?php
 
 use common\models\Category;
+use frontend\models\City;
 use yii\helpers\Url;
+
+$city = City::getCity();
 
 ?>
 
@@ -33,7 +36,7 @@ use yii\helpers\Url;
                 <div class="mainHeader__contacts">
                     <a href="#" class="mainHeader__contactsItem mainHeader__contactsItem_address js-hovered js-triangle js-popup" data-popup="contacts">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.8 33.2"><defs><style>.cls-1{fill:#fff;}</style></defs><g><path class="cls-1" d="M11.3,0A11.35,11.35,0,0,0,0,11.3C0,17,9.1,31,10.2,32.6a1.5,1.5,0,0,0,2.4,0c1-1.6,10.2-15.5,10.2-21.3A11.53,11.53,0,0,0,11.3,0Zm0,29.2c-3.1-5-8.5-14.3-8.5-17.9a8.5,8.5,0,0,1,17,0C19.8,14.9,14.5,24.2,11.3,29.2Z"/><path class="cls-1" d="M11.3,7.1a4.8,4.8,0,1,0,4.8,4.8A4.74,4.74,0,0,0,11.3,7.1Zm0,6.9a2.1,2.1,0,1,1,2.1-2.1A2.11,2.11,0,0,1,11.3,14Z"/></g></svg>
-                        <span class="mainHeader__contactsItemBottom">Ростов-на-Дону</span>
+                        <span class="mainHeader__contactsItemBottom"><?=$city?></span>
                     </a>
                     <a href="tel:+78002002020" class="mainHeader__contactsItem mainHeader__contactsItem_phone">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.81 20.23"><g>

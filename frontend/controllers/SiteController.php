@@ -115,7 +115,7 @@ class SiteController extends Controller
                 if ($newsItem) {
                     return $this->render('@frontend/views/news/view', [
                         'model' => $newsItem,
-                        'parent' => Textpage::findOne(10),
+                        'parent' => Textpage::findOne(13),
                     ]);
                 }
             } else {

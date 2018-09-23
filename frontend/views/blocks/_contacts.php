@@ -22,7 +22,7 @@ $others = $array['Others'];
     </div>
     <div class="mainHeader__popupInner">
         <div class="mainHeader__popupItem">
-            <div class="mainHeader__popupItemHeader">Другие регионы</div>
+            <div class="mainHeader__popupItemHeader">Для регионов</div>
             <a href="tel:<?=$others['phoneLink']?>" class="mainHeader__popupItemPhone"><span><?=$others['phone']?></span></a>
             <a href="mailto:<?=$others['email']?>" class="mainHeader__popupItemEmail"><span><?=$others['email']?></span></a>
         </div>

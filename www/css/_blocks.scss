@@ -1935,6 +1935,7 @@ body {
 
   &__itemHeader {
     position: relative;
+    display: block;
     margin-bottom: 35px;
     @extend .heavyCaps;
     font-size: 18px;
