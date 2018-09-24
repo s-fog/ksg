@@ -5,6 +5,7 @@ use common\models\Mainslider;
 use common\models\Product;
 use common\models\Textpage;
 use yii\helpers\Url;
+use yii\widgets\LinkPager;
 
 $this->params['seo_title'] = $model->seo_title;
 $this->params['seo_description'] = $model->seo_description;
@@ -73,6 +74,12 @@ $this->params['name'] = $model->name;
                                 ]);
                             } ?>
                         </div>
+                        <?=LinkPager::widget([
+                            'pagination' => $pages,
+                            'disableCurrentPageButton' => true,
+                            'hideOnSinglePage' => true,
+                            'maxButtonCount' => 6
+                        ]);?>
                         <div class="wantMore">
                             <div class="wantMore__text">Не нашли нужное? Попробуйте</div>
                             <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(1)->alias])?>" class="button button3 wantMore__toCatalog">

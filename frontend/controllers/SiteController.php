@@ -343,11 +343,20 @@ class SiteController extends Controller
                             ]);
                         }
 
+                        $pages = new \yii\data\Pagination([
+                            'totalCount' => count($products),
+                            'defaultPageSize' => 40,
+                            'pageSizeParam' => 'per_page',
+                            'forcePageParam' => false,
+                            'pageSizeLimit' => 200
+                        ]);
+
                         return $this->render('@frontend/views/textpage/search', [
                             'model' => $textpage,
                             'products' => $products,
                             'stati' => $stati,
                             'query' => $_GET['query'],
+                            'pages' => $pages,
                             'empty' => false
                         ]);
                     }
