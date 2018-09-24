@@ -356,6 +356,7 @@ class SiteController extends Controller
                         return $this->render('@frontend/views/textpage/search', [
                             'model' => $textpage,
                             'products' => $products,
+                            'productsCount' => $productsCount,
                             'stati' => $stati,
                             'query' => $_GET['query'],
                             'pages' => $pages,

@@ -45,7 +45,7 @@ $this->params['name'] = $model->name;
             }
 
             if (!empty($products)) {
-                echo '<div class="properties__tab'.$active1.'"><span>Товары('.count($products).')</span></div>';
+                echo '<div class="properties__tab'.$active1.'"><span>Товары('.$productsCount.')</span></div>';
             }
 
             if (!empty($stati)) {
