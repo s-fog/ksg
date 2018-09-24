@@ -134,55 +134,57 @@ class ProductController extends \backend\controllers\base\ProductController
                                     ->all();
                                 $alreadyHereValues = ArrayHelper::map($a2, 'name', 'name');
 
-                                foreach($item['values'] as $index => $valueName) {
-                                    $here = FilterFeatureValue::find()
-                                        ->where([
-                                            'name' => $valueName,
-                                            'filter_feature_id' => $filter_feature->id
-                                        ])->one();
-
-                                    if (!$here) {
-                                        $filter_feature_value = new FilterFeatureValue;
-                                        $filter_feature_value->name = $valueName;
-                                        $filter_feature_value->filter_feature_id = $filter_feature->id;
-
-                                        if ($filter_feature_value->save()) {
-                                            $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
-                                            $product_has_filter_feature_value->product_id = $model->id;
-                                            $product_has_filter_feature_value->filter_feature_value_id = $filter_feature_value->id;
-                                            $product_has_filter_feature_value->save();
-                                        }
-                                    } else {
-                                        if (!ProductHasFilterFeatureValue::findOne([
-                                            'product_id' => $model->id,
-                                            'filter_feature_value_id' => $here->id
-                                        ])) {
-                                            $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
-                                            $product_has_filter_feature_value->product_id = $model->id;
-                                            $product_has_filter_feature_value->filter_feature_value_id = $here->id;
-                                            $product_has_filter_feature_value->save();
-                                        }
-                                    }
-
-                                    unset($alreadyHereValues[$valueName]);
-                                }
-
-                                if (!empty($alreadyHereValues)) {
-                                    foreach($alreadyHereValues as $value) {
-                                        $fv = FilterFeatureValue::find()
+                                if (isset($item['values']) && !empty($item['values'])) {
+                                    foreach($item['values'] as $index => $valueName) {
+                                        $here = FilterFeatureValue::find()
                                             ->where([
-                                                'name' => $value,
+                                                'name' => $valueName,
                                                 'filter_feature_id' => $filter_feature->id
                                             ])->one();
-                                        ProductHasFilterFeatureValue::findOne([
-                                            'product_id' => $model->id,
-                                            'filter_feature_value_id' => $fv->id
-                                        ])->delete();
 
-                                        if (!ProductHasFilterFeatureValue::findOne([
-                                            'filter_feature_value_id' => $fv->id
-                                        ]   )) {
-                                            $fv->delete();
+                                        if (!$here) {
+                                            $filter_feature_value = new FilterFeatureValue;
+                                            $filter_feature_value->name = $valueName;
+                                            $filter_feature_value->filter_feature_id = $filter_feature->id;
+
+                                            if ($filter_feature_value->save()) {
+                                                $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
+                                                $product_has_filter_feature_value->product_id = $model->id;
+                                                $product_has_filter_feature_value->filter_feature_value_id = $filter_feature_value->id;
+                                                $product_has_filter_feature_value->save();
+                                            }
+                                        } else {
+                                            if (!ProductHasFilterFeatureValue::findOne([
+                                                'product_id' => $model->id,
+                                                'filter_feature_value_id' => $here->id
+                                            ])) {
+                                                $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
+                                                $product_has_filter_feature_value->product_id = $model->id;
+                                                $product_has_filter_feature_value->filter_feature_value_id = $here->id;
+                                                $product_has_filter_feature_value->save();
+                                            }
+                                        }
+
+                                        unset($alreadyHereValues[$valueName]);
+                                    }
+
+                                    if (!empty($alreadyHereValues)) {
+                                        foreach($alreadyHereValues as $value) {
+                                            $fv = FilterFeatureValue::find()
+                                                ->where([
+                                                    'name' => $value,
+                                                    'filter_feature_id' => $filter_feature->id
+                                                ])->one();
+                                            ProductHasFilterFeatureValue::findOne([
+                                                'product_id' => $model->id,
+                                                'filter_feature_value_id' => $fv->id
+                                            ])->delete();
+
+                                            if (!ProductHasFilterFeatureValue::findOne([
+                                                'filter_feature_value_id' => $fv->id
+                                            ]   )) {
+                                                $fv->delete();
+                                            }
                                         }
                                     }
                                 }
@@ -449,55 +451,57 @@ class ProductController extends \backend\controllers\base\ProductController
                                     ->all();
                                 $alreadyHereValues = ArrayHelper::map($a2, 'name', 'name');
 
-                                foreach($item['values'] as $index => $valueName) {
-                                    $here = FilterFeatureValue::find()
-                                        ->where([
-                                            'name' => $valueName,
-                                            'filter_feature_id' => $filter_feature->id
-                                        ])->one();
-
-                                    if (!$here) {
-                                        $filter_feature_value = new FilterFeatureValue;
-                                        $filter_feature_value->name = $valueName;
-                                        $filter_feature_value->filter_feature_id = $filter_feature->id;
-
-                                        if ($filter_feature_value->save()) {
-                                            $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
-                                            $product_has_filter_feature_value->product_id = $model->id;
-                                            $product_has_filter_feature_value->filter_feature_value_id = $filter_feature_value->id;
-                                            $product_has_filter_feature_value->save();
-                                        }
-                                    } else {
-                                        if (!ProductHasFilterFeatureValue::findOne([
-                                            'product_id' => $model->id,
-                                            'filter_feature_value_id' => $here->id
-                                        ])) {
-                                            $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
-                                            $product_has_filter_feature_value->product_id = $model->id;
-                                            $product_has_filter_feature_value->filter_feature_value_id = $here->id;
-                                            $product_has_filter_feature_value->save();
-                                        }
-                                    }
-
-                                    unset($alreadyHereValues[$valueName]);
-                                }
-
-                                if (!empty($alreadyHereValues)) {
-                                    foreach($alreadyHereValues as $value) {
-                                        $fv = FilterFeatureValue::find()
+                                if (isset($item['values']) && !empty($item['values'])) {
+                                    foreach($item['values'] as $index => $valueName) {
+                                        $here = FilterFeatureValue::find()
                                             ->where([
-                                                'name' => $value,
+                                                'name' => $valueName,
                                                 'filter_feature_id' => $filter_feature->id
                                             ])->one();
-                                        ProductHasFilterFeatureValue::findOne([
-                                            'product_id' => $model->id,
-                                            'filter_feature_value_id' => $fv->id
-                                        ])->delete();
 
-                                        if (!ProductHasFilterFeatureValue::findOne([
+                                        if (!$here) {
+                                            $filter_feature_value = new FilterFeatureValue;
+                                            $filter_feature_value->name = $valueName;
+                                            $filter_feature_value->filter_feature_id = $filter_feature->id;
+
+                                            if ($filter_feature_value->save()) {
+                                                $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
+                                                $product_has_filter_feature_value->product_id = $model->id;
+                                                $product_has_filter_feature_value->filter_feature_value_id = $filter_feature_value->id;
+                                                $product_has_filter_feature_value->save();
+                                            }
+                                        } else {
+                                            if (!ProductHasFilterFeatureValue::findOne([
+                                                'product_id' => $model->id,
+                                                'filter_feature_value_id' => $here->id
+                                            ])) {
+                                                $product_has_filter_feature_value = new ProductHasFilterFeatureValue;
+                                                $product_has_filter_feature_value->product_id = $model->id;
+                                                $product_has_filter_feature_value->filter_feature_value_id = $here->id;
+                                                $product_has_filter_feature_value->save();
+                                            }
+                                        }
+
+                                        unset($alreadyHereValues[$valueName]);
+                                    }
+
+                                    if (!empty($alreadyHereValues)) {
+                                        foreach($alreadyHereValues as $value) {
+                                            $fv = FilterFeatureValue::find()
+                                                ->where([
+                                                    'name' => $value,
+                                                    'filter_feature_id' => $filter_feature->id
+                                                ])->one();
+                                            ProductHasFilterFeatureValue::findOne([
+                                                'product_id' => $model->id,
                                                 'filter_feature_value_id' => $fv->id
-                                        ]   )) {
-                                            $fv->delete();
+                                            ])->delete();
+
+                                            if (!ProductHasFilterFeatureValue::findOne([
+                                                'filter_feature_value_id' => $fv->id
+                                            ]   )) {
+                                                $fv->delete();
+                                            }
                                         }
                                     }
                                 }
@@ -542,26 +546,28 @@ class ProductController extends \backend\controllers\base\ProductController
                         if (!empty($deletedImageIDs)) {
                             foreach(Image::findAll($deletedImageIDs) as $modelImage) {
                                 //Удаляем старые изображения
-                                $firstPartOfFilename = basename(explode('.', $modelImage->image)[0]);
+                                if (!empty($modelImage->image)) {
+                                    $firstPartOfFilename = basename(explode('.', $modelImage->image)[0]);
 
-                                $uploadPath = Yii::getAlias('@uploadPath');
-                                $uploadPaths = glob($uploadPath . '/*');
+                                    $uploadPath = Yii::getAlias('@uploadPath');
+                                    $uploadPaths = glob($uploadPath . '/*');
 
-                                foreach ($uploadPaths as $fileItem) {
-                                    if (is_file($fileItem)) {
-                                        if (strstr($fileItem, $firstPartOfFilename)) {
-                                            unlink($fileItem);
+                                    foreach ($uploadPaths as $fileItem) {
+                                        if (is_file($fileItem)) {
+                                            if (strstr($fileItem, $firstPartOfFilename)) {
+                                                unlink($fileItem);
+                                            }
                                         }
                                     }
-                                }
 
-                                $thumbsPath = Yii::getAlias('@thumbsPath');
-                                $thumbsPaths = glob($thumbsPath . '/*');
+                                    $thumbsPath = Yii::getAlias('@thumbsPath');
+                                    $thumbsPaths = glob($thumbsPath . '/*');
 
-                                foreach ($thumbsPaths as $fileItem) {
-                                    if (is_file($fileItem)) {
-                                        if (strstr($fileItem, $firstPartOfFilename)) {
-                                            unlink($fileItem);
+                                    foreach ($thumbsPaths as $fileItem) {
+                                        if (is_file($fileItem)) {
+                                            if (strstr($fileItem, $firstPartOfFilename)) {
+                                                unlink($fileItem);
+                                            }
                                         }
                                     }
                                 }

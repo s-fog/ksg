@@ -96,7 +96,7 @@ class UML extends Model
             $filename = explode('.', basename($imageModel->image));
             $link = Url::to(['catalog/view', 'alias' => $product->alias]);
             $variant = ProductParam::find()->where(['product_id' => $product->id])->orderBy(['id' => SORT_ASC])->one();
-            $available = $product->available;
+            //$available = $product->available;
 
             $offer = $dom->createElement('offer');
             $id = $dom->createAttribute('id');
@@ -131,7 +131,7 @@ class UML extends Model
             $pickup = $dom->createElement('pickup', "true");
             $offer->appendChild($pickup);
 
-            $name = $dom->createElement('name', $product->name);
+            $name = $dom->createElement('name', htmlspecialchars($product->name));
             $offer->appendChild($name);
 
             $description = $dom->createElement('description');
