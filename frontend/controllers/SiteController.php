@@ -345,7 +345,7 @@ class SiteController extends Controller
 
                         $pages = new \yii\data\Pagination([
                             'totalCount' => $productsCount,
-                            'defaultPageSize' => 40,
+                            'defaultPageSize' => 39,
                             'pageSizeParam' => 'per_page',
                             'forcePageParam' => false,
                             'pageSizeLimit' => 200
