@@ -100,7 +100,10 @@ $this->params['name'] = $model->name;
                         </div>
                         <div class="wantMore">
                             <div class="wantMore__text">Не нашли нужное? Попробуйте</div>
-                            <a href="<?=Url::to(['site/index', 'alias' => $newsPage->alias])?>" class="wantMore__toCatalog"><span>Перейти в наш блог</span></a>
+                            <a href="<?=Url::to(['site/index', 'alias' => $newsPage->alias])?>" class="button button3 wantMore__toCatalog">
+                                <span>Перейти в наш блог</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227.88 40.99"><g><polygon points="9.8 0 0 8.11 0 40.99 218.07 40.99 227.88 32.88 227.88 0 9.8 0"/></g></svg>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -108,5 +111,7 @@ $this->params['name'] = $model->name;
         <?php } ?>
     </div>
 <?php } ?>
-
+<br>
+<br>
+<br>
 
