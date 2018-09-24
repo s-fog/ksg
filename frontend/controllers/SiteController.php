@@ -321,6 +321,43 @@ class SiteController extends Controller
                         'model' => $textpage
                     ]);
                 }
+                case 15: {
+                    if (isset($_GET['query']) && !empty($_GET['query'])) {
+                        $products = Product::find()
+                            ->where(['like', 'name', $_GET['query']])
+                            ->orderBy(['name' => SORT_ASC])
+                            ->all();
+                        $stati = News::find()
+                            ->orWhere(['like', 'name', $_GET['query']])
+                            ->orWhere(['like', 'html', $_GET['query']])
+                            ->orWhere(['like', 'html2', $_GET['query']])
+                            ->orWhere(['like', 'introtext', $_GET['query']])
+                            ->orderBy(['created_at' => SORT_DESC])
+                            ->all();
+
+                        if (empty($products) && empty($stati)) {
+                            return $this->render('@frontend/views/textpage/search', [
+                                'model' => $textpage,
+                                'query' => $_GET['query'],
+                                'empty' => true
+                            ]);
+                        }
+
+                        return $this->render('@frontend/views/textpage/search', [
+                            'model' => $textpage,
+                            'products' => $products,
+                            'stati' => $stati,
+                            'query' => $_GET['query'],
+                            'empty' => false
+                        ]);
+                    }
+
+                    return $this->render('@frontend/views/textpage/search', [
+                        'model' => $textpage,
+                        'query' => $_GET['query'],
+                        'empty' => true
+                    ]);
+                }
                 default: {
                     throw new NotFoundHttpException;
                 }
