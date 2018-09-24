@@ -323,10 +323,9 @@ class SiteController extends Controller
                 }
                 case 15: {
                     if (isset($_GET['query']) && !empty($_GET['query'])) {
-                        $products = Product::find()
+                        $productsQuery = Product::find()
                             ->where(['like', 'name', $_GET['query']])
-                            ->orderBy(['name' => SORT_ASC])
-                            ->all();
+                            ->orderBy(['name' => SORT_ASC]);
                         $stati = News::find()
                             ->orWhere(['like', 'name', $_GET['query']])
                             ->orWhere(['like', 'html', $_GET['query']])
@@ -334,8 +333,9 @@ class SiteController extends Controller
                             ->orWhere(['like', 'introtext', $_GET['query']])
                             ->orderBy(['created_at' => SORT_DESC])
                             ->all();
+                        $productsCount = $productsQuery->count();
 
-                        if (empty($products) && empty($stati)) {
+                        if ($productsCount == 0 && empty($stati)) {
                             return $this->render('@frontend/views/textpage/search', [
                                 'model' => $textpage,
                                 'query' => $_GET['query'],
@@ -344,12 +344,14 @@ class SiteController extends Controller
                         }
 
                         $pages = new \yii\data\Pagination([
-                            'totalCount' => count($products),
+                            'totalCount' => $productsCount,
                             'defaultPageSize' => 40,
                             'pageSizeParam' => 'per_page',
                             'forcePageParam' => false,
                             'pageSizeLimit' => 200
                         ]);
+
+                        $products = $productsQuery->limit($pages->limit)->offset($pages->offset)->all();
 
                         return $this->render('@frontend/views/textpage/search', [
                             'model' => $textpage,
