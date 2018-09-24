@@ -89,8 +89,8 @@ $childrenCategories = $model->getChildrenCategories();
     'disableCurrentPageButton' => true,
     'hideOnSinglePage' => true,
     'maxButtonCount' => 6,
-    'firstPageLabel' => 'First',
-    'lastPageLabel'  => 'Last'
+    'firstPageLabel' => '««',
+    'lastPageLabel'  => '»»'
 ]);?>
 
 <?php if ($tags) { ?>
