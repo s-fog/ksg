@@ -88,7 +88,9 @@ $childrenCategories = $model->getChildrenCategories();
     'pagination' => $pages,
     'disableCurrentPageButton' => true,
     'hideOnSinglePage' => true,
-    'maxButtonCount' => 6
+    'maxButtonCount' => 6,
+    'firstPageLabel' => 'First',
+    'lastPageLabel'  => 'Last'
 ]);?>
 
 <?php if ($tags) { ?>
