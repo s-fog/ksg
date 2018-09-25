@@ -180,11 +180,11 @@ $others = $array['Others'];
         <div class="mainHeader__popupOuter">
             <div class="mainHeader__popupSearchInner">
                 <div class="mainHeader__popupSearchHeader">Быстрые ссылки</div>
+                <div class="mainHeader__popupSearchItem"><span>Беговая дорожка</span></div>
+                <div class="mainHeader__popupSearchItem"><span>Matrix</span></div>
                 <div class="mainHeader__popupSearchItem"><span>Доставка</span></div>
-                <div class="mainHeader__popupSearchItem"><span>Оплата</span></div>
-                <div class="mainHeader__popupSearchItem"><span>Велотренажёры</span></div>
-                <div class="mainHeader__popupSearchItem"><span>Кто сделал такой крутой дизайн?</span></div>
-                <div class="mainHeader__popupSearchItem"><span>Я сделал</span></div>
+                <div class="mainHeader__popupSearchItem"><span>Способы оплаты</span></div>
+                <div class="mainHeader__popupSearchItem"><span>Контакты</span></div>
             </div>
         </div>
     </div>

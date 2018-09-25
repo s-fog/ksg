@@ -15,6 +15,7 @@ use frontend\models\Favourite;
 use frontend\models\SubscribeForm;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -325,6 +326,14 @@ class SiteController extends Controller
                 }
                 case 15: {
                     if (isset($_GET['query']) && !empty($_GET['query'])) {
+                        if ($textpage = Textpage::findOne(['name' => $_GET['query']])) {
+                            return $this->redirect($textpage->url);
+                        }
+
+                        if ($product = Product::findOne(['name' => $_GET['query']])) {
+                            return $this->redirect(Url::to(['catalog/view', 'alias' => $product->alias]));
+                        }
+
                         $productsQuery = Product::find()
                             ->where(['like', 'name', $_GET['query']])
                             ->orderBy(['name' => SORT_ASC]);
