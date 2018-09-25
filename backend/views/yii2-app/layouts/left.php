@@ -59,6 +59,7 @@ $ordersTemplate = '<a href="{url}">
                         'template' => $ordersTemplate,
                     ],
                     ['label' => 'Новости', 'url' => ['/news/index']],
+                    ['label' => 'Подписки', 'url' => ['/subscribe/index']],
                 ],
             ]
         ) ?>

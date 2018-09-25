@@ -45,7 +45,7 @@ class Sitemap extends Model
             $urlset->appendChild($url);
         }
 
-        foreach(Category::find()->where(['type' => 0, 'active' => 1])->orderBy(['name' => SORT_ASC])->all() as $model) {
+        foreach(Category::find()->where(['active' => 1])->orderBy(['name' => SORT_ASC])->all() as $model) {
             $url = $dom->createElement('url');
             $loc = $dom->createElement('url', $_SERVER['HTTP_HOST'].$model->getUrl(true));
             $url->appendChild($loc);

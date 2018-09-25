@@ -23,6 +23,10 @@ return [
                     'class' => 'yii\i18n\PhpMessageSource',
                     'basePath' => '@common/i18n',
                 ],
+                'cruds*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/i18n',
+                ],
             ],
         ],
     ],
