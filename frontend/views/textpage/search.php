@@ -78,7 +78,9 @@ $this->params['name'] = $model->name;
                             'pagination' => $pages,
                             'disableCurrentPageButton' => true,
                             'hideOnSinglePage' => true,
-                            'maxButtonCount' => 6
+                            'maxButtonCount' => 6,
+                            'firstPageLabel' => '««',
+                            'lastPageLabel'  => '»»'
                         ]);?>
                         <div class="wantMore">
                             <div class="wantMore__text">Не нашли нужное? Попробуйте</div>

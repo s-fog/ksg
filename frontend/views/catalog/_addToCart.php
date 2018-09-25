@@ -16,7 +16,7 @@ use yii\helpers\Url;
                 <div class="addToCart__featureHeader">Сколько штук?</div>
                 <div class="addToCart__featureBottom cart__countInner">
                     <div class="cart__countMinus"></div>
-                    <input type="text" name="count" class="cart__countInput" value="1">
+                    <input type="text" name="count" class="cart__countInput js-cant-zero" value="1">
                     <div class="cart__countPlus"></div>
                 </div>
             </div>

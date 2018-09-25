@@ -3394,6 +3394,11 @@ body {
     color: $textColor;
     letter-spacing: 1px;
     text-transform: lowercase;
+    
+    &.send {
+      border-radius: 15px 0 15px 0;
+      background-color: $greenColor;
+    }
 
     &:hover {
       span {
@@ -4283,12 +4288,6 @@ body {
       input {
         background-color: lighten(#e8394a, 10%);
       }
-    }
-
-    .help-block {
-      margin-top: 2px;
-      font-size: 0.8em;
-      color: lighten(#e8394a, 10%);
     }
   }
 
@@ -6698,4 +6697,11 @@ body.fancybox-active {
       }
     }
   }
+}
+
+
+.help-block {
+  margin-top: 2px;
+  font-size: 0.8em;
+  color: lighten(#e8394a, 10%);
 }

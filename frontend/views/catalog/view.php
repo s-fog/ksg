@@ -1,7 +1,9 @@
 <?php
 
 use common\models\Param;
+use frontend\models\ReviewForm;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 $this->params['seo_title'] = $model->name.' - купите за '.number_format($model->price, 0, '', ' ').' рублей в интернет-магазине KSG.ru';
 $this->params['seo_description'] = $model->name.' - купите у официального дилера '.$brand->name.' и получите фирменную гарантию от производителя. Доставка по Москве и в регионы России.';
@@ -99,18 +101,43 @@ $this->params['name'] = $model->name;
                 <?php } else { ?>
                     <p>Отзывов нет</p>
                 <?php } ?>
-                <form class="reviewForm">
-                    <div class="form-group">
-                        <input type="text" name="name" placeholder="Ваше имя" class="reviewForm__input">
-                    </div>
-                    <div class="form-group">
-                        <textarea name="opinion" placeholder="Ваше мнение" class="reviewForm__input reviewForm__input_textarea"></textarea>
-                    </div>
-                    <button class="button button1 reviewForm__submit" data-fancybox data-src="#callback">
+                <?php
+                $callbackForm = new ReviewForm();
+                $form = ActiveForm::begin([
+                    'options' => [
+                        'class' => 'reviewForm sendForm',
+                        'id' => 'reviewForm'
+                    ],
+                ]);?>
+                        <?=$form->field($callbackForm, 'name')
+                            ->textInput([
+                                'class' => 'reviewForm__input',
+                                'placeholder' => 'Ваше имя'
+                            ])->label(false)?>
+                        <?=$form->field($callbackForm, 'opinion')
+                            ->textarea([
+                                'class' => 'reviewForm__input reviewForm__input_textarea',
+                                'placeholder' => 'Ваше мнение'
+                            ])->label(false)?>
+                    <button class="button button1 reviewForm__submit" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.08 17.94"><g><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 95.07 17.44 98.58 14.53 98.58 0.5 4.01 0.5"/></g></g></svg>
                         <span>оставить свой отзыв</span>
                     </button>
-                </form>
+                <?=$form->field($callbackForm, 'type')
+                    ->hiddenInput([
+                        'value' => 'Оставлен отзыв KSG'
+                    ])->label(false)?>
+                <?=$form->field($callbackForm, 'review_product_id')
+                    ->hiddenInput([
+                        'value' => $model->id
+                    ])->label(false)?>
+
+                <?=$form->field($callbackForm, 'BC')
+                    ->textInput([
+                        'class' => 'BC',
+                        'value' => ''
+                    ])->label(false)?>
+                <?php ActiveForm::end();?>
             </div>
         </div>
     </div>

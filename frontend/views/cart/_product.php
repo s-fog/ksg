@@ -2,6 +2,7 @@
 
 use common\models\Image;
 use common\models\ProductParam;
+use yii\helpers\Url;
 
 if (!isset($paramsV)) {
     $paramsV = $product->paramsV;
@@ -15,17 +16,18 @@ $image = Image::find()
     ->one();
 $filename = explode('.', basename($image->image));
 $quantity = $product->getQuantity();
+$url = Url::to(['catalog/view', 'alias' => $product->alias]);
 ?>
 
 <tr class="cart__row" data-id="<?=$product->getId()?>">
     <td>
         <div class="cart__item">
-            <a href="#" target="_blank" class="cart__itemImage">
+            <a href="<?=$url?>" class="cart__itemImage">
                 <img src="/images/thumbs/<?=$filename[0]?>-350-300.<?=$filename[1]?>" alt="">
             </a>
             <div class="cart__itemInfo">
                 <div class="cart__itemArtikul">Артикуль: <?=$variant->artikul?></div>
-                <a href="#" target="_blank" class="cart__itemName"><span><?=$product->name?></span></a>
+                <a href="<?=$url?>" class="cart__itemName"><span><?=$product->name?></span></a>
             </div>
         </div>
     </td>

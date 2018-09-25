@@ -117,7 +117,7 @@ $inFavourite = Favourite::inFavourite($model->id);
                             </div>
                         <?php } else { ?>
                             <div class="product__toCartRight">
-                                <button class="button button5 catalog__itemToCart js-add-to-cart"
+                                <button class="button button5 catalog__itemToCart" data-fancybox data-src="#addToCart"
                                         data-id="<?=$model->id?>"
                                         data-quantity="1"
                                         data-paramsv="">

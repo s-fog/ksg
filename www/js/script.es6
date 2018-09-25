@@ -831,19 +831,25 @@ class Cart {
             this.cartReload();
         });
 
-        this.nodes.cart.on('click', '.'+this.nodes.cart__countPlus.attr('class'), (event) => {
+        $('body').on('click', '.'+this.nodes.cart__countPlus.attr('class'), (event) => {
             let input = $(event.currentTarget).siblings('input');
             let val = parseInt(input.val());
             input.val(val + 1);
             input.change();
         });
 
-        this.nodes.cart.on('click', '.'+this.nodes.cart__countMinus.attr('class'),(event) => {
+        $('body').on('click', '.'+this.nodes.cart__countMinus.attr('class'),(event) => {
             let input = $(event.currentTarget).siblings('input');
             let val = parseInt(input.val());
 
-            if (val > 0) {
-                input.val(val - 1);
+            if (input.hasClass('js-cant-zero')) {
+                if (val > 1) {
+                    input.val(val - 1);
+                }
+            } else {
+                if (val > 0) {
+                    input.val(val - 1);
+                }
             }
 
             input.change();
@@ -1899,7 +1905,8 @@ class Application {
 
             xhr.open("POST", "/mail/index");
             xhr.send(formData);
-            submitButton.data('text', submitButton.text());
+
+            let buttonHtml = submitButton.html();
 
             xhr.upload.onprogress = () => {
 
@@ -1909,8 +1916,6 @@ class Application {
                 if (xhr.readyState == 4){
                     if (xhr.status == 200){
                         var response = xhr.responseText;
-                        console.log(response);
-                        console.log(form.id);
 
                         if (form.attr('id') == 'oneClick') {
                             if (response) {
@@ -1919,11 +1924,17 @@ class Application {
                         } else {
                             if (response == 'success') {
                                 form[0].reset();
-                                submitButton.addClass('send').text('Спасибо!');
+
+                                if (submitButton.find('span').get(0)) {
+                                    submitButton.addClass('send');
+                                    submitButton.find('span').text('Спасибо!');
+                                } else {
+                                    submitButton.addClass('send').text('Спасибо!');
+                                }
 
                                 setTimeout(() => {
                                     $.fancybox.close();
-                                    submitButton.removeClass('send').text(submitButton.data('text'));
+                                    submitButton.removeClass('send').html(buttonHtml);
                                 }, 3000);
                             } else {
                                 alert('Ошибка');

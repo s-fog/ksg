@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\models\Product;
 use Yii;
 use yii\base\Model;
 
@@ -11,14 +12,8 @@ class Forms extends Model
     public $phone;
     public $email;
     public $text;
-    public $file;
-    public $reason;
-    public $city_name;
-    public $tariff_name;
-    public $videoName;
-    public $district;
-    public $city;
-    public $usl_type;
+    public $opinion;
+    public $review_product_id;
     public $BC;
 
     public function send($post, $files) {
@@ -27,12 +22,14 @@ class Forms extends Model
             'phone' => 'Телефон',
             'email' => 'Эл. адрес',
             'text' => 'Текст',
+            'opinion' => 'Мнение',
+            'review_product_id' => 'Ссылка на товар в админки',
         );
 
         $type = $post['type'];
         $msg = '';
         $to = 's-fog@yandex.ru';
-        $to = 'hello@ksg.ru';
+        //$to = 'hello@ksg.ru';
         $headers = "Content-type: text/html; charset=\"utf-8\"\r\n";
         $headers .= "From: <$to>\r\n";
         $headers .= "MIME-Version: 1.0\r\n";
@@ -45,8 +42,10 @@ class Forms extends Model
             $label = array_key_exists($name, $labels) ? $labels[$name] : $name;
             $value = htmlspecialchars($value);
             if(strlen($value)) {
-                if ($name == 'url') {
-                    $msg .= "<p><b>$label</b>: <a href='$value'>$value</a></p>";
+                if ($name == 'review_product_id') {
+                    $u = $_SERVER['HTTP_HOST'].'/officeback/product/update?id='.$value.'#w3-tab4';
+                    $product = Product::findOne($value);
+                    $msg .= '<p><b>'.$label.'</b>: <a href="'.$u.'">'.$product->name.'</a></p>';
                 } else {
                     $msg .= "<p><b>$label</b>: $value</p>";
                 }
@@ -113,6 +112,7 @@ class Forms extends Model
             'phone' => 'Телефон',
             'email' => 'Эл. адрес',
             'text' => 'Текст',
+            'opinion' => 'Мнение',
         ];
     }
 }
