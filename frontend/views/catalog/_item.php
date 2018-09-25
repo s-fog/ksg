@@ -80,7 +80,9 @@ $inFavourite = Favourite::inFavourite($model->id);
                 <div class="product__price"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
             </div>
             <div class="catalog__itemBottomAksessRight">
-                <button class="button button222 js-add-to-cart"
+                <button class="button button222 catalog__itemToCart"
+                        data-fancybox
+                        data-src="#addToCart<?=$model->id?>"
                         data-id="<?=$model->id?>"
                         data-paramsV="<?=$paramsV0?>"
                         data-quantity="1">
@@ -108,10 +110,12 @@ $inFavourite = Favourite::inFavourite($model->id);
             <?php if ($available) { ?>
                 <div class="catalog__itemBottomRight">
                     <div type="submit"
+                         data-fancybox
+                         data-src="#addToCart<?=$model->id?>"
                          data-id="<?=$model->id?>"
                          data-paramsV="<?=$paramsV0?>"
                          data-quantity="1"
-                         class="button button5 js-add-to-cart catalog__itemToCart">
+                         class="button button5 catalog__itemToCart">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136.84 45.96"><g><polygon points="117.25 0 19.5 0 10.99 0 0 9.1 0 45.96 19.59 45.96 117.34 45.96 125.85 45.96 136.84 36.87 136.84 0 117.25 0"/></g></svg>
                         <span>Купить</span>
                     </div>

@@ -877,9 +877,10 @@ class Cart {
 
         this.nodes.addToCart__tocart.click((event) => {
             let thisElement = $(event.currentTarget);
-            let id = $('.product').data('id');
-            let paramsV = this.getParamsv(true);
-            let quantity = $('.cart__countInput', '#addToCart').val();
+            let wrapper = $(thisElement).parents('.addToCart__wrapper');
+            let id = wrapper.data('id');
+            let paramsV = this.getParamsv(true, wrapper);
+            let quantity = wrapper.find('.cart__countInput').val();
 
             this.addToCart(id, paramsV, quantity, true);
 
@@ -1075,13 +1076,13 @@ class Cart {
         });
     }
 
-    getParamsv(popup = false) {
+    getParamsv(popup = false, wrapper = false) {
         let array = new Array();
         let params = '';
         let selects = $('.select-product-jquery-ui');
 
         if (popup) {
-            selects = $('.select-jquery-ui-popup');
+            selects = wrapper.find('.select-jquery-ui-popup');
         }
 
         selects.each((index, element) => {

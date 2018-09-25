@@ -4669,6 +4669,18 @@ body {
   color: #fff;
   text-align: center;
 
+  &__wrapper {
+    max-width: 960px;
+    width: 100%;
+    padding: 0;
+    font-size: 0;
+
+    .fancybox-close-small {
+      right: 10px;
+      top: 10px;
+    }
+  }
+
   &__beforeHeader {
     margin-bottom: 15px;
     @extend .semibold;

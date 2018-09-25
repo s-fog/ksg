@@ -2,8 +2,12 @@
 use common\models\Param;
 use yii\helpers\Url;
 
+if (!isset($popupId)) {
+    $popupId = 'addToCart';
+}
+
 ?>
-<div class="popup" id="addToCart">
+<div class="popup addToCart__wrapper" id="<?=$popupId?>" data-id="<?=$model->id?>">
     <div class="addToCart">
         <div class="addToCart__beforeHeader">Добавить в корзину</div>
         <div class="addToCart__header"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?> <?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>

@@ -26,12 +26,8 @@ $this->params['name'] = $model->name;
 
 <?=$this->render('_addToCart', [
     'model' => $model,
-    'brand' => $brand,
     'currentVariant' => $currentVariant,
-    'variants' => $variants,
     'selects' => $selects,
-    'adviser' => $adviser,
-    'features' => $features,
 ])?>
 
 
