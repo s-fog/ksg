@@ -396,7 +396,7 @@ class SiteController extends Controller
             $subscribe = Subscribe::findOne(['email' => $post['SubscribeForm']['email']]);
 
             if ($subscribe) {
-                return 'already';
+                return 'success';
             } else {
                 $subscribe = new Subscribe();
                 $subscribe->email = $post['SubscribeForm']['email'];

@@ -1891,6 +1891,12 @@ body {
     top: -3px;
     padding-top: 0;
     letter-spacing: 1px;
+
+    &.send {
+      polygon {
+        fill: $greenColor;
+      }
+    }
   }
 
   &__formText {

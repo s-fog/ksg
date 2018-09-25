@@ -179,7 +179,7 @@ $this->params['name'] = $model->name;
             $sibscribeForm = new SubscribeForm();
             $form = ActiveForm::begin([
                 'options' => [
-                    'class' => 'subscribeBlock__form',
+                    'class' => 'subscribeBlock__form sendForm',
                     'id' => 'subscribe',
                 ],
             ]);?>

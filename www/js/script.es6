@@ -1900,7 +1900,12 @@ class Application {
             var formData = new FormData(form.get(0));
             var xhr = new XMLHttpRequest();
 
-            xhr.open("POST", "/mail/index");
+            if (form.attr('id') == 'subscribe') {
+                xhr.open("POST", "/site/subscribe");
+            } else {
+                xhr.open("POST", "/mail/index");
+            }
+
             xhr.send(formData);
 
             let buttonHtml = submitButton.html();
@@ -1945,7 +1950,7 @@ class Application {
             return false;
         });
 
-        $('body').on('beforeSubmit', '#subscribe', (event) => {
+        /*$('body').on('beforeSubmit', '#subscribe', (event) => {
             var form = $(event.currentTarget);
             var submitButton = form.find('[type="submit"]');
             var formData = new FormData(form.get(0));
@@ -1978,7 +1983,7 @@ class Application {
                 }
             };
             return false;
-        });
+        });*/
 
         $('[href^="tel:"]').click(() => {
             if ($(window).width() < 900) {
