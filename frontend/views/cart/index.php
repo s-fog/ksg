@@ -1,6 +1,7 @@
 <?php
 use common\models\Build;
 use common\models\Category;
+use common\models\Mainpage;
 use common\models\Order;
 use common\models\Textpage;
 use common\models\Waranty;
@@ -14,6 +15,8 @@ $this->params['name'] = 'Корзина';
 
 $cart = Yii::$app->cart;
 $positions = $cart->getPositions();
+
+$mainPage = Mainpage::findOne(1);
 
 ?>
 
@@ -51,7 +54,7 @@ $form = ActiveForm::begin([
             <div class="cart__blockItemLeft" style="background-image: url(/img/delivery.png);"></div>
             <div class="cart__blockItemRight">
                 <div class="cart__blockItemHeader">Условия доставки</div>
-                <div class="cart__blockItemText">tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                <div class="cart__blockItemText"><?=$mainPage->delivery?></div>
             </div>
         </div>
     </div>

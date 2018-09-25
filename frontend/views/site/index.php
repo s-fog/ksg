@@ -4,7 +4,9 @@ use common\models\Brand;
 use common\models\Mainslider;
 use common\models\Product;
 use common\models\Textpage;
+use frontend\models\SubscribeForm;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 $this->params['seo_title'] = $model->seo_title;
 $this->params['seo_description'] = $model->seo_description;
@@ -173,18 +175,26 @@ $this->params['name'] = $model->name;
                     питании, наших акциях и интересных предложениях.<br>
                     Мы пишем только интересные письма и не слишком часто.</div>
             </div>
-            <form class="subscribeBlock__form sendForm">
+            <?php
+            $sibscribeForm = new SubscribeForm();
+            $form = ActiveForm::begin([
+                'options' => [
+                    'class' => 'subscribeBlock__form',
+                    'id' => 'subscribe',
+                ],
+            ]);?>
                 <div class="subscribeBlock__formFieldset">
-                    <div class="form-group">
-                        <input type="email" name="email" class="subscribeBlock__formInput" placeholder="Ваш e-mail">
-                    </div>
+                    <?=$form->field($sibscribeForm, 'email')->textInput([
+                        'class' => 'subscribeBlock__formInput',
+                        'placeholder' => 'Ваш e-mail'
+                    ])->label(false)?>
                     <button class="button button6 subscribeBlock__formSubmit" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 79.08 17.94"><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 75.07 17.44 78.58 14.53 78.58 0.5 4.01 0.5"/></g></svg>
                         <span>Подписаться</span>
                     </button>
                 </div>
-                <div class="subscribeBlock__formText">Вы защищены <a href="#" target="_blank" class="link">политикой обработки персональных данных</a></div>
-            </form>
+                <div class="subscribeBlock__formText">Вы защищены <a href="/documents/politics.pdf" target="_blank" class="link">политикой обработки персональных данных</a></div>
+            <?php ActiveForm::end();?>
         </div>
         <div class="subscribeBlock__image"></div>
     </div>

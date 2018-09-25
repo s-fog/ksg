@@ -36,7 +36,7 @@ abstract class Mainpage extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['seo_description'], 'string'],
+            [['seo_description', 'delivery'], 'string'],
             [['name', 'seo_title', 'seo_keywords'], 'string', 'max' => 255]
         ];
     }
@@ -52,6 +52,8 @@ abstract class Mainpage extends \yii\db\ActiveRecord
             'seo_title' => 'Seo Title',
             'seo_keywords' => 'Seo Keywords',
             'seo_description' => 'Seo Description',
+            'delivery' => 'Текст доставки в корзине
+',
         ];
     }
 

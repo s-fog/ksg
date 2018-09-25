@@ -7,10 +7,12 @@ use common\models\FeatureValue;
 use common\models\Mainpage;
 use common\models\News;
 use common\models\Product;
+use common\models\Subscribe;
 use common\models\Textpage;
 use frontend\models\City;
 use frontend\models\Compare;
 use frontend\models\Favourite;
+use frontend\models\SubscribeForm;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -383,6 +385,33 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+
+    public function actionSubscribe()
+    {
+        $model = new SubscribeForm();
+        $post = Yii::$app->request->post();
+
+        if ($model->load($post) && $model->validate()) {
+            $subscribe = Subscribe::findOne(['email' => $post['SubscribeForm']['email']]);
+
+            if ($subscribe) {
+                return 'already';
+            } else {
+                $subscribe = new Subscribe();
+                $subscribe->email = $post['SubscribeForm']['email'];
+
+                if($subscribe->save()) {
+                    return 'success';
+                } else {
+                    return 'error';
+                }
+            }
+        } else {
+            return 'error';
+        }
+    }
+
     /*
     public function actionLogin()
     {

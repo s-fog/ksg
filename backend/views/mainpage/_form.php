@@ -28,6 +28,7 @@ use yii\helpers\StringHelper;
     <?=$form->field($model, 'seo_title') ?>
     <?=$form->field($model, 'seo_keywords') ?>
     <?=$form->field($model, 'seo_description') ?>
+    <?=$form->field($model, 'delivery')->textarea() ?>
 
         <?php echo $form->errorSummary($model); ?>
 
