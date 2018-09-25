@@ -165,7 +165,6 @@ body {
 
   &__contactsItem {
     position: relative;
-    flex: 0 0 130px;
     color: inherit;
     text-decoration: none;
     @include respond-to(570) {
@@ -206,7 +205,6 @@ body {
 
     &_address {
       margin-right: 30px;
-      flex: 0 0 115px;
       padding: 10px 0 15px 24px;
       @include respond-to(1250) {
         margin-right: 10px;
