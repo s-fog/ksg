@@ -3092,7 +3092,7 @@ body {
       width: 49%;
       box-sizing: border-box;
     }
-    @include respond-to(370) {
+    @include respond-to(420) {
       width: auto;
       flex: 0 0 auto;
     }
