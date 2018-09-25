@@ -12,7 +12,7 @@ $this->params['name'] = $model->name;
 
 <div class="catalogPage">
     <?php foreach($firstLevelCategories = Category::find()
-        ->where(['parent_id' => 0, 'type' => 0])
+        ->where(['parent_id' => 0, 'type' => 0, 'active' => 1])
         ->orderBy(['sort_order' => SORT_DESC])
         ->all() as $firstLevelCategory) {
         $filename = explode('.', basename($firstLevelCategory->image_catalog));
@@ -22,7 +22,7 @@ $this->params['name'] = $model->name;
         }
 
         $secondLevelCategories = Category::find()
-            ->where(['parent_id' => $firstLevelCategory->id, 'type' => 0])
+            ->where(['parent_id' => $firstLevelCategory->id, 'type' => 0, 'active' => 1])
             ->orderBy(['sort_order' => SORT_DESC])
             ->all();
         ?>
@@ -34,7 +34,7 @@ $this->params['name'] = $model->name;
                 <div class="mainHeader__popupMenuItems">
                     <?php foreach($secondLevelCategories as $secondLevelCategory) {
                             $thirdLevelCategories = Category::find()
-                                ->where(['parent_id' => $secondLevelCategory->id, 'type' => 0])
+                                ->where(['parent_id' => $secondLevelCategory->id, 'type' => 0, 'active' => 1])
                                 ->orderBy(['sort_order' => SORT_DESC])
                                 ->all();
                     ?>
