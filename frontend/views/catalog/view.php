@@ -33,8 +33,8 @@ $this->params['name'] = $model->name;
 
 <div class="properties">
     <div class="properties__tabs">
-        <div class="properties__tab active"><span>Описание</span></div>
-        <div class="properties__tab"><span>характеристики</span></div>
+        <div class="properties__tab active"><span>характеристики</span></div>
+        <div class="properties__tab"><span>Описание</span></div>
         <?php if (!empty($model->video)) { ?>
             <div class="properties__tab"><span>видео обзор</span></div>
         <?php } ?>
@@ -42,12 +42,7 @@ $this->params['name'] = $model->name;
         <svg class="properties__tabUnderline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 7.7"><defs></defs><g><polygon points="1.7 0 0 1.4 0 3 39.7 3 44.5 7.7 49.3 3 87.3 3 89 1.5 89 0 1.7 0"></polygon></g></svg>
     </div>
     <div class="properties__contents">
-        <div class="properties__content properties__descr content active">
-            <div class="properties__descrInner">
-                <?=$model->description?>
-            </div>
-        </div>
-        <div class="properties__content properties__features">
+        <div class="properties__content properties__features active">
             <div class="properties__featuresInner">
                 <?php foreach($features as $index => $item) { ?>
                     <div class="properties__feature<?=($index == 0) ? ' active' : ''?>">
@@ -62,17 +57,22 @@ $this->params['name'] = $model->name;
                                         <div class="properties__featureValue properties__featureValue_big"><?=$values['value']?></div>
                                     </li>
                                 <?php } else {
-                                ?>
-                                <li>
-                                    <div class="properties__featureName<?=(strlen($values['name']) > 75) ? ' properties__featureName_big' : ''?>"><?=$values['name']?></div>
-                                    <div class="properties__featureMiddle"></div>
-                                    <div class="properties__featureValue"><?=$values['value']?></div>
-                                </li>
+                                    ?>
+                                    <li>
+                                        <div class="properties__featureName<?=(strlen($values['name']) > 75) ? ' properties__featureName_big' : ''?>"><?=$values['name']?></div>
+                                        <div class="properties__featureMiddle"></div>
+                                        <div class="properties__featureValue"><?=$values['value']?></div>
+                                    </li>
                                 <?php }
                             } ?>
                         </ul>
                     </div>
                 <?php } ?>
+            </div>
+        </div>
+        <div class="properties__content properties__descr content">
+            <div class="properties__descrInner">
+                <?=$model->description?>
             </div>
         </div>
         <?php if (!empty($model->video)) { ?>
