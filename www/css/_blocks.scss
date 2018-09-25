@@ -2376,7 +2376,6 @@ body {
 }
 
 .product {
-  display: none;
   margin-bottom: 30px;
   $productChange: 1070;
 
@@ -3064,6 +3063,7 @@ body {
 }
 
 .properties {
+  display: none;
 
   &__tabs {
     position: relative;
