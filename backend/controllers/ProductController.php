@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\Model;
+use backend\models\Sitemap;
 use backend\models\UML;
 use backend\models\UploadFile;
 use backend\models\UploadFileDynamicForm;
@@ -276,7 +277,7 @@ class ProductController extends \backend\controllers\base\ProductController
                         //Заполняем предзаполненные характеристики из категории для товара END
 
                         $transaction->commit();
-
+                        Sitemap::doIt();
                         UML::doIt();
 
                         if ($_POST['mode'] == 'justSave') {
@@ -611,6 +612,7 @@ class ProductController extends \backend\controllers\base\ProductController
 
                     if ($flag) {
                         $transaction->commit();
+                        Sitemap::doIt();
                         UML::doIt();
 
                         if ($_POST['mode'] == 'justSave') {

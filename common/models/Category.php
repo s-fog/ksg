@@ -295,88 +295,127 @@ class Category extends BaseCategory
         }
     }
 
-    public function getUrl() {
+    public function getUrl($fromBackend = false) {
         if ($this->type == 1) {
             $parent0 = Category::findOne(['id' => $this->parent_id]);
 
             if ($parent0->parent_id == 0) {
-                return Url::to([
-                    'catalog/index',
-                    'alias' => $parent0->alias,
-                    'alias2' => 'tag',
-                    'alias3' => $this->alias,
-                ]);
+                if ($fromBackend) {
+                    return "/catalog/{$parent0->alias}/tag/{$this->alias}";
+                } else {
+                    return Url::to([
+                        'catalog/index',
+                        'alias' => $parent0->alias,
+                        'alias2' => 'tag',
+                        'alias3' => $this->alias,
+                    ]);
+                }
             }
             ////////////////////////////////////////////////////////////
             $parent1 = Category::findOne(['id' => $parent0->parent_id]);
 
             if ($parent1->parent_id == 0) {
-                return Url::to([
-                    'catalog/index',
-                    'alias' => $parent1->alias,
-                    'alias2' => $parent0->alias,
-                    'alias3' => 'tag',
-                    'alias4' => $this->alias,
-                ]);
+                if ($fromBackend) {
+                    return "/catalog/{$parent1->alias}/{$parent0->alias}/tag/{$this->alias}";
+                } else {
+                    return Url::to([
+                        'catalog/index',
+                        'alias' => $parent1->alias,
+                        'alias2' => $parent0->alias,
+                        'alias3' => 'tag',
+                        'alias4' => $this->alias,
+                    ]);
+                }
             }
             ////////////////////////////////////////////////////////////
             $parent2 = Category::findOne(['id' => $parent1->parent_id]);
 
             if ($parent2->parent_id == 0) {
-                return Url::to([
-                    'catalog/index',
-                    'alias' => $parent2->alias,
-                    'alias2' => $parent1->alias,
-                    'alias3' => $parent0->alias,
-                    'alias4' => 'tag',
-                    'alias5' => $this->alias,
-                ]);
+                if ($fromBackend) {
+                    return "/catalog/{$parent2->alias}/{$parent1->alias}/{$parent0->alias}/tag/{$this->alias}";
+                } else {
+                    return Url::to([
+                        'catalog/index',
+                        'alias' => $parent2->alias,
+                        'alias2' => $parent1->alias,
+                        'alias3' => $parent0->alias,
+                        'alias4' => 'tag',
+                        'alias5' => $this->alias,
+                    ]);
+                }
             }
         } else {
-            $parent0 = Category::findOne(['id' => $this->parent_id]);
+            if ($this->parent_id == 0) {
+                if ($fromBackend) {
+                    return "/catalog/{$this->alias}";
+                } else {
+                    return Url::to([
+                        'catalog/index',
+                        'alias' => $this->alias,
+                    ]);
+                }
+            } else {
+                $parent0 = Category::findOne(['id' => $this->parent_id]);
 
-            if ($parent0->parent_id == 0) {
-                return Url::to([
-                    'catalog/index',
-                    'alias' => $parent0->alias,
-                    'alias2' => $this->alias,
-                ]);
-            }
-            ////////////////////////////////////////////////////////////
-            $parent1 = Category::findOne(['id' => $parent0->parent_id]);
+                if ($parent0->parent_id == 0) {
+                    if ($fromBackend) {
+                        return "/catalog/{$parent0->alias}/{$this->alias}";
+                    } else {
+                        return Url::to([
+                            'catalog/index',
+                            'alias' => $parent0->alias,
+                            'alias2' => $this->alias,
+                        ]);
+                    }
+                }
+                ////////////////////////////////////////////////////////////
+                $parent1 = Category::findOne(['id' => $parent0->parent_id]);
 
-            if ($parent1->parent_id == 0) {
-                return Url::to([
-                    'catalog/index',
-                    'alias' => $parent1->alias,
-                    'alias2' => $parent0->alias,
-                    'alias3' => $this->alias,
-                ]);
-            }
-            ////////////////////////////////////////////////////////////
-            $parent2 = Category::findOne(['id' => $parent1->parent_id]);
+                if ($parent1->parent_id == 0) {
+                    if ($fromBackend) {
+                        return "/catalog/{$parent1->alias}/{$parent0->alias}/{$this->alias}";
+                    } else {
+                        return Url::to([
+                            'catalog/index',
+                            'alias' => $parent1->alias,
+                            'alias2' => $parent0->alias,
+                            'alias3' => $this->alias,
+                        ]);
+                    }
+                }
+                ////////////////////////////////////////////////////////////
+                $parent2 = Category::findOne(['id' => $parent1->parent_id]);
 
-            if ($parent2->parent_id == 0) {
-                return Url::to([
-                    'catalog/index',
-                    'alias' => $parent2->alias,
-                    'alias2' => $parent1->alias,
-                    'alias3' => $parent0->alias,
-                    'alias4' => $this->alias,
-                ]);
-            }
-            ////////////////////////////////////////////////////////////
-            $parent3 = Category::findOne(['id' => $parent2->parent_id]);
+                if ($parent2->parent_id == 0) {
+                    if ($fromBackend) {
+                        return "/catalog/{$parent2->alias}/{$parent1->alias}/{$parent0->alias}/{$this->alias}";
+                    } else {
+                        return Url::to([
+                            'catalog/index',
+                            'alias' => $parent2->alias,
+                            'alias2' => $parent1->alias,
+                            'alias3' => $parent0->alias,
+                            'alias4' => $this->alias,
+                        ]);
+                    }
+                }
+                ////////////////////////////////////////////////////////////
+                $parent3 = Category::findOne(['id' => $parent2->parent_id]);
 
-            if ($parent3->parent_id == 0) {
-                return Url::to([
-                    'catalog/index',
-                    'alias' => $parent3->alias,
-                    'alias2' => $parent2->alias,
-                    'alias3' => $parent1->alias,
-                    'alias4' => $parent0->alias,
-                    'alias5' => $this->alias,
-                ]);
+                if ($parent3->parent_id == 0) {
+                    if ($fromBackend) {
+                        return "/catalog/{$parent3->alias}/{$parent2->alias}/{$parent1->alias}/{$parent0->alias}/{$this->alias}";
+                    } else {
+                        return Url::to([
+                            'catalog/index',
+                            'alias' => $parent3->alias,
+                            'alias2' => $parent2->alias,
+                            'alias3' => $parent1->alias,
+                            'alias4' => $parent0->alias,
+                            'alias5' => $this->alias,
+                        ]);
+                    }
+                }
             }
         }
     }

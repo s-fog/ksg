@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Sitemap;
 use backend\models\UploadFile;
 use common\models\News;
 use yii\web\UploadedFile;
@@ -30,6 +31,7 @@ class NewsController extends \backend\controllers\base\NewsController
                     );
 
                     if ($model->save(false)) {
+                        Sitemap::doIt();
                         return $this->redirect(['index']);
                     }
                 }
@@ -69,6 +71,7 @@ class NewsController extends \backend\controllers\base\NewsController
                 }
 
                 if ($model->save(false)) {
+                    Sitemap::doIt();
                     return $this->redirect(['index']);
                 }
             }

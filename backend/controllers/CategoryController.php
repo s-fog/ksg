@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\Model;
+use backend\models\Sitemap;
 use backend\models\UploadFile;
 use common\models\Category;
 use common\models\Feature;
@@ -117,6 +118,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
                     }
                     if ($flag) {
                         $transaction->commit();
+                        Sitemap::doIt();
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
@@ -279,6 +281,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
                     }
                     if ($flag) {
                         $transaction->commit();
+                        Sitemap::doIt();
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
