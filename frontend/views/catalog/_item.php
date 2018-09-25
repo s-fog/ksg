@@ -38,7 +38,9 @@ $inFavourite = Favourite::inFavourite($model->id);
 <div class="catalog__item" data-id="<?=$model->id?>">
     <div class="catalog__itemTop">
         <a href="#"
-           class="catalog__itemCart js-add-to-cart"
+           class="catalog__itemCart catalog__itemToCart"
+           data-fancybox
+           data-src="#addToCart<?=$model->id?>"
            data-id="<?=$model->id?>"
            data-paramsV="<?=$paramsV0?>"
            data-quantity="1"

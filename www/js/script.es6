@@ -882,7 +882,7 @@ class Cart {
             let paramsV = this.getParamsv(true, wrapper);
             let quantity = wrapper.find('.cart__countInput').val();
 
-            this.addToCart(id, paramsV, quantity, true);
+            this.addToCart(id, paramsV, quantity, wrapper);
 
             return false;
         });
@@ -1123,11 +1123,7 @@ class Cart {
         });
     }
 
-    addToCart(id, paramsV, quantity, fromPopup = false) {
-        /*if (!fromPopup) {
-            fromPopup = false;
-        }*/
-
+    addToCart(id, paramsV, quantity, fromPopupWrapper = false) {
         let data = `id=${id}&quantity=${quantity}`;
 
         if (paramsV) {
@@ -1138,9 +1134,9 @@ class Cart {
 
         $.post('/cart/add', data, (response) => {
             if (response == 'success') {
-                if (fromPopup) {
-                    $('.addToCart__bottomTop').addClass('hide');
-                    $('.addToCart__bottomBottom').addClass('active');
+                if (fromPopupWrapper) {
+                    fromPopupWrapper.find('.addToCart__bottomTop').addClass('hide');
+                    fromPopupWrapper.find('.addToCart__bottomBottom').addClass('active');
                 } else {
                     $.fancybox.open($('#addToCartNoParams'));
 

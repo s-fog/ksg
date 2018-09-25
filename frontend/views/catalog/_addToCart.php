@@ -17,7 +17,7 @@ if (!isset($popupId)) {
         <div class="addToCart__image"><div style="background-image: url(/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>);"></div></div>
         <div class="addToCart__features">
             <div class="addToCart__feature">
-                <div class="addToCart__featureHeader">Сколько штук?</div>
+                <div class="addToCart__featureHeader">Количество</div>
                 <div class="addToCart__featureBottom cart__countInner">
                     <div class="cart__countMinus"></div>
                     <input type="text" name="count" class="cart__countInput js-cant-zero" value="1">
