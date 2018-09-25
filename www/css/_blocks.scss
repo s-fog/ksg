@@ -2376,6 +2376,7 @@ body {
 }
 
 .product {
+  display: none;
   margin-bottom: 30px;
   $productChange: 1070;
 
@@ -4713,6 +4714,10 @@ body {
     width: 100%;
     height: 303px;
     background: url(../img/productBack4.png) no-repeat center center;
+    @include respond-to(450) {
+      height: 210px;
+      background-size: 320px auto;
+    }
 
     div {
       width: 100%;
@@ -4720,6 +4725,9 @@ body {
       background-position: center center;
       background-repeat: no-repeat;
       background-size: auto 90%;
+      @include respond-to(450) {
+        background-size: auto 70%;
+      }
     }
   }
 
@@ -4728,6 +4736,9 @@ body {
     justify-content: space-around;
     flex-wrap: wrap;
     margin-top: 30px;
+    @include respond-to(450) {
+      margin-top: 5px;
+    }
   }
 
   &__feature {
