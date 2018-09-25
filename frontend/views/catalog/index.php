@@ -79,6 +79,24 @@ $childrenCategories = $model->getChildrenCategories();
                             </div>
                         </div>';
                 }
+                if (!empty($model->video)) {
+                    if (
+                    ($productCount > 13 && $index == 12)
+                    ||
+                    ($productCount <= 13 && $productCount == ($index + 1))
+                    ) {
+                        echo '<div class="catalog__item newsBlock__item">
+                                <div class="newsBlock__itemInner">
+                                    <div class="newsBlock__itemImage">
+                                        <iframe src="https://www.youtube.com/embed/'.$model->video.'?rel=0&showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                    </div>
+                                    <div class="newsBlock__itemInfo">
+                                        <div class="newsBlock__itemHeader">'.$model->video_header.'</div>
+                                    </div>
+                                </div>
+                            </div>';
+                    }
+                }
             } ?>
         </div>
     </div>

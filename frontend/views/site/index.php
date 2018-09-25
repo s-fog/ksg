@@ -51,7 +51,7 @@ $this->params['name'] = $model->name;
     </div>
     <div class="container">
         <div class="wantMore">
-            <div class="wantMore__text">Не нашли нужное? Попробуйте <span class="wantMore__load">загрузить ещё</span> или</div>
+            <div class="wantMore__text">Не нашли нужное? Попробуйте </div>
             <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(1)->alias])?>" class="button button3 wantMore__toCatalog">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227.88 40.99"><g><polygon points="9.8 0 0 8.11 0 40.99 218.07 40.99 227.88 32.88 227.88 0 9.8 0"/></g></svg>
                 <span>Перейти в каталог</span>

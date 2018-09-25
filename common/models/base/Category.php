@@ -24,12 +24,14 @@ use himiklab\sortablegrid\SortableGridBehavior;
  * @property string $image_catalog
  * @property string $image_menu
  * @property string $video
+ * @property string $video_header
  * @property integer $disallow_xml
  * @property string $seo_h1
  * @property string $seo_title
  * @property string $seo_keywords
  * @property string $seo_description
  * @property integer $brand_id
+ * @property integer $active
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $aliasModel
@@ -70,9 +72,9 @@ abstract class Category extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'type'], 'required'],
-            [['type', 'sort_order', 'parent_id', 'priority', 'disallow_xml', 'brand_id'], 'integer'],
+            [['type', 'sort_order', 'parent_id', 'priority', 'disallow_xml', 'brand_id', 'active'], 'integer'],
             [['aksses_ids', 'text_advice', 'descr', 'seo_description'], 'string'],
-            [['name', 'alias', 'image_catalog', 'image_menu', 'video', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255]
+            [['name', 'alias', 'image_catalog', 'image_menu', 'video', 'video_header', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255]
         ];
     }
 
@@ -97,6 +99,7 @@ abstract class Category extends \yii\db\ActiveRecord
             'image_catalog' => 'Изображение в каталоге(1600x250)',
             'image_menu' => 'Изображение в меню(134x134)',
             'video' => 'id видео на youtube',
+            'video_header' => 'Видео заголовок',
             'disallow_xml' => 'Запретить вывод товаров этой категории в xml?',
             'seo_h1' => 'Seo H1',
             'seo_title' => 'Seo Title',

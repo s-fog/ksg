@@ -34,7 +34,7 @@ class Category extends BaseCategory
             [['name', 'type'], 'required'],
             [['type', 'sort_order', 'parent_id', 'priority', 'disallow_xml', 'brand_id', 'active'], 'integer'],
             [['text_advice', 'descr', 'seo_description'], 'string'],
-            [['name', 'alias', 'image_catalog', 'image_menu', 'video', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255],
+            [['name', 'alias', 'image_catalog', 'image_menu', 'video', 'video_header', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255],
             ['parent_id', 'compare', 'compareValue' => 0, 'operator' => '!=', 'type' => 'number', 'when' => function ($model) {
                 $result = false;
                 $val = $model->type;

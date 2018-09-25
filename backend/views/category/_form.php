@@ -105,6 +105,8 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
 
                     echo $form->field($model, 'video')->textInput();
 
+                    echo $form->field($model, 'video_header')->textInput();
+
                     echo $form->field($model, 'disallow_xml')->widget(CheckboxX::classname(), [
                         'pluginOptions' => [
                             'threeState'=>false
