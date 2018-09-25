@@ -3063,7 +3063,6 @@ body {
 }
 
 .properties {
-  display: none;
 
   &__tabs {
     position: relative;
@@ -3251,6 +3250,9 @@ body {
       justify-content: space-between;
       margin: 10px 0;
       font-size: 14px;
+      @include respond-to(450) {
+        flex-wrap: wrap;
+      }
 
       &.big {
         align-items: flex-start;
@@ -3261,6 +3263,12 @@ body {
   &__featureName {
     flex-shrink: 1;
     line-height: 1.3;
+    @include respond-to(450) {
+      margin-bottom: 7px;
+      border-bottom: 1px solid;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
 
     &_big {
       flex: 0 0 45%;
@@ -3271,6 +3279,9 @@ body {
     margin: 0 5px;
     flex-grow: 1;
     border-bottom: 1px dotted $textColor;
+    @include respond-to(450) {
+      display: none;
+    }
 
     &_big {
       padding-top: 15px;
@@ -3283,6 +3294,11 @@ body {
     align-items: center;
     flex-shrink: 0;
     line-height: 1.4;
+    @include respond-to(450) {
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex: 0 0 100%;
+    }
 
     &_big {
       flex: 0 0 50%;
