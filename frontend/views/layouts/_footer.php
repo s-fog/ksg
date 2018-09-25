@@ -14,6 +14,10 @@ use yii\widgets\MaskedInput;
 $infoAndService = Textpage::findOne(8);
 $company = Textpage::findOne(9);
 
+$array = Yii::$app->params['cities'];
+$moscow = $array['Москва'];
+$others = $array['Others'];
+
 ?>
 
 
@@ -55,8 +59,8 @@ $company = Textpage::findOne(9);
             <div class="footer__item">
                 <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(14)->alias])?>" class="footer__itemHeader linkSpanReverse"><span>КОНТАКТЫ</span></a>
                 <ul class="footer__itemMenu">
-                    <li>В Москве: <a href="tel:+74957775544" class="linkReverse">+7 495 777 55 44</a></li>
-                    <li>Для регионов: <a href="tel:+78007775544" class="linkReverse">8 800 777 55 44</a></li>
+                    <li>В Москве: <a href="tel:<?=$moscow['phoneLink']?>" class="linkReverse"><?=$moscow['phone']?></a></li>
+                    <li>Для регионов: <a href="tel:<?=$others['phoneLink']?>" class="linkReverse"><?=$others['phoneLink']?></a></li>
                     <li>E-mail: <a href="mailto:hello@ksg.ru" class="linkReverse">hello@ksg.ru</a></li>
                     <li>
                         <div class="button button1 callbackButton" data-fancybox data-src="#callback">
@@ -64,14 +68,13 @@ $company = Textpage::findOne(9);
                             <span>заказать обратный звонок</span>
                         </div>
                     </li>
-                    <li class="footer__address">г. Москва, ул Пятницкая дом 1,<br>
-                        строение 1, офис 1</li>
+                    <li class="footer__address"><?=$moscow['addressBr']?></li>
                 </ul>
             </div>
         </div>
         <div class="footer__inner">
             <div class="footer__item footer__item_bottom">ООО "КейЭсДжи"<br>
-                Интернет-магазин спортивного инвентаря.
+                Спортивный интернет-магазин.<br>
                 2018 – Все права защищены.</div>
             <div class="footer__item footer__item_bottom">
                 <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(13)->alias])?>" class="footer__itemLink linkSpanReverse"><span>Наш блог</span></a>
@@ -90,8 +93,7 @@ $company = Textpage::findOne(9);
     <div class="footer__bottom">
         <div class="container">
             <div class="footer__bottomInner">
-                <div class="footer__bottomLeft">Вы достигли дна сайта, и это либо результат упорства (что мы категорически приветствуем!),
-                    либо вы не нашли, то что искали. Во втором случаи предлагем воспользоваться:</div>
+                <div class="footer__bottomLeft">Вы достигли дна сайта, и это либо результат упорства (что мы категорически приветствуем!),<br>либо вы не нашли, то что искали. Во втором случае используйте:</div>
                 <div class="footer__bottomRight">
                     <a href="#" class="footer__bottomLink">
                         <svg class="footer__bottomLinkIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.77 30"><defs></defs><g><path d="M19.47,0a11.3,11.3,0,1,0,11.3,11.3A11.35,11.35,0,0,0,19.47,0Zm0,19.9A8.5,8.5,0,1,1,28,11.4,8.49,8.49,0,0,1,19.47,19.9Z"></path><path d="M19.47,4.4a1.37,1.37,0,0,0-1.4,1.4,1.37,1.37,0,0,0,1.4,1.4,4.23,4.23,0,0,1,4.2,4.2,1.41,1.41,0,0,0,2.81,0A7,7,0,0,0,19.47,4.4Z"></path><path d="M7.67,20.3.38,27.6a1.5,1.5,0,0,0,0,2,1.26,1.26,0,0,0,1,.4,1.28,1.28,0,0,0,1-.4l7.29-7.3a1.52,1.52,0,0,0,0-2A1.52,1.52,0,0,0,7.67,20.3Z"></path></g></svg>

@@ -67,6 +67,19 @@ return [
                 '<alias>' => 'site/index',
             ],
         ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@common/mail',
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.yandex.ru',
+                'username' => 'hello@ksg.ru',
+                'password' => 'hihello123',
+                'port' => '465',
+                'encryption' => 'ssl', // у яндекса SSL
+            ],
+            'useFileTransport' => false, // будем отправлять реальные сообщения, а не в файл
+        ],
     ],
     'params' => $params,
 ];
