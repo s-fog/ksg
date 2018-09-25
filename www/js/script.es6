@@ -246,6 +246,15 @@ class Header {
 
             this.picked(thisElement);
         });
+
+        $('.js-footer__bottomLink').on('click', () => {
+            var body = $("html, body");
+            body.stop().animate({scrollTop:0}, 500, 'swing');
+
+            setTimeout(() => {
+                this.nodes.mainHeader__searchTrigger.click();
+            }, 500);
+        });
     }
 
     picked(element) {
