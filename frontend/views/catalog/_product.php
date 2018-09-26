@@ -105,7 +105,8 @@ $inFavourite = Favourite::inFavourite($model->id);
                         <?php if (!empty($model->price_old)) { ?>
                             <div class="product__oldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></div>
                         <?php } ?>
-                        <div class="product__price"><span itemprop="price"><?=number_format($model->price, 0, '', ' ')?></span> <span class="rubl">₽</span></div>
+                        <div class="product__price"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
+                        <span itemprop="price" style="display: none;"><?=$model->price?></span>
                     </div>
                     <span style="display: none;" itemprop="priceCurrency">RUB</span>
                     <?php if (!$empty) { ?>
