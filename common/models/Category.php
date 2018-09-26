@@ -286,7 +286,7 @@ class Category extends BaseCategory
     }
 
     public function getChildrenCategories() {
-        $categories = Category::find()->where(['parent_id' => $this->id, 'type' => 0])->all();
+        $categories = Category::find()->where(['parent_id' => $this->id, 'type' => 0, 'active' => 1])->all();
 
         if (!empty($categories)) {
             return $categories;
