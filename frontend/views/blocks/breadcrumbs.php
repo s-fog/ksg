@@ -13,6 +13,7 @@
                             echo '<li itemprop="itemListElement" itemscope
       itemtype="http://schema.org/ListItem">
       <span class="breadcrumbs__item" itemprop="name">'.$name.'</span>
+       <meta itemprop="position" content="'.$i.'" />
       </li>';
                         } else {
                             echo '<li itemprop="itemListElement" itemscope
@@ -22,8 +23,8 @@
        </a>
        <meta itemprop="position" content="'.$i.'" />
        </li>';
-                            $i++;
                         }
+                        $i++;
                     }
                 ?>
             </ul>
