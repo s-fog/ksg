@@ -158,10 +158,10 @@ $others = $array['Others'];
                     <div class="mainHeader__popupMenuBottomInner">
                         <a href="#" class="mainHeader__popupMenuBottomToCatalog"><span>В полный каталог</span></a>
                         <ul class="mainHeader__popupMenuBottomMiddle">
-                            <li><a href="#" class="mainHeader__popupMenuBottomMiddleLink">Доставка</a></li>
-                            <li><a href="#" class="mainHeader__popupMenuBottomMiddleLink">Способы оплаты</a></li>
-                            <li><a href="#" class="mainHeader__popupMenuBottomMiddleLink">Обмен и возврат</a></li>
-                            <li><a href="#" class="mainHeader__popupMenuBottomMiddleLink">Гарантийное обслуживание</a></li>
+                            <li><a href="<?=Textpage::findOne(5)->url?>" class="mainHeader__popupMenuBottomMiddleLink">Доставка</a></li>
+                            <li><a href="<?=Textpage::findOne(4)->url?>" class="mainHeader__popupMenuBottomMiddleLink">Способы оплаты</a></li>
+                            <li><a href="<?=Textpage::findOne(16)->url?>" class="mainHeader__popupMenuBottomMiddleLink">Обмен и возврат</a></li>
+                            <li><a href="<?=Textpage::findOne(17)->url?>" class="mainHeader__popupMenuBottomMiddleLink">Гарантийное обслуживание</a></li>
                         </ul>
                         <div class="button button1 callbackButton" data-fancybox data-src="#callback">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.08 17.94"><g><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 95.07 17.44 98.58 14.53 98.58 0.5 4.01 0.5"/></g></g></svg>
