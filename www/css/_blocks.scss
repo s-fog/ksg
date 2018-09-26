@@ -1354,6 +1354,10 @@ body {
 
   &__itemBottomAksessRight {
     flex: 0 0 220px;
+
+    button {
+      padding-top: 0;
+    }
   }
 
   &__itemBottom {

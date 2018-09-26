@@ -15,7 +15,7 @@ $inFavourite = Favourite::inFavourite($model->id);
                 <?php $filename = explode('.', basename($brand->image)); ?>
                 <img src="/images/thumbs/<?=$filename[0]?>-60-30.<?=$filename[1]?>" alt="" class="product__brandImage">
                 <div class="product__brand">Бренд: <a href="<?=$brand->link?>" class="link"><?=$brand->name?></a></div>
-                <h1><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
+                <h1 itemprop="name"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
                 <div class="product__art">Артикул: <?=$currentVariant->artikul?>&nbsp;&nbsp;//&nbsp;&nbsp;Код товара: <?=$model->code?></div>
                 <div class="product__seeAllImage">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.8 37.8"><g><path d="M18.9,0A18.9,18.9,0,1,0,37.8,18.9,18.95,18.95,0,0,0,18.9,0Zm0,35A16.1,16.1,0,1,1,35,18.9,16.09,16.09,0,0,1,18.9,35Z"/><path d="M29.8,10H19.3V8a1.37,1.37,0,0,0-1.4-1.4H11A1.37,1.37,0,0,0,9.6,8v2H8.1a1.37,1.37,0,0,0-1.4,1.4V27a1.37,1.37,0,0,0,1.4,1.4H29.9A1.37,1.37,0,0,0,31.3,27V11.4A1.52,1.52,0,0,0,29.8,10ZM12.4,9.5h4.1V10H12.4Zm16,16.1H9.5V12.8H28.4Z"/><path d="M14.1,19.2A4.8,4.8,0,0,0,18.9,24a4.87,4.87,0,0,0,4.8-4.8,4.8,4.8,0,0,0-4.8-4.8A4.87,4.87,0,0,0,14.1,19.2Zm4.8-2a2,2,0,1,1-2,2A2,2,0,0,1,18.9,17.2Z"/><path d="M24.2,16.1h2.4a1.4,1.4,0,0,0,0-2.8H24.2a1.4,1.4,0,1,0,0,2.8Z"/></g></svg>
@@ -39,7 +39,7 @@ $inFavourite = Favourite::inFavourite($model->id);
                      data-image="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
                      data-fancybox="productImages"
                      data-src="#productImages">
-                    <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="">
+                    <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="" itemprop="image">
                 </div>
                 <?php foreach($model->images as $index => $imageModel) {
                     if ($index != $currentVariant->image_number) {
@@ -100,13 +100,14 @@ $inFavourite = Favourite::inFavourite($model->id);
                         <div class="product__requestSale" data-fancybox="oneClick" data-src="#oneClick">Купить в один клик</div>
                     <?php } ?>
                 </div>
-                <div class="product__toCart">
+                <div class="product__toCart" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                     <div class="product__toCartLeft">
                         <?php if (!empty($model->price_old)) { ?>
                             <div class="product__oldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></div>
                         <?php } ?>
-                        <div class="product__price"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
+                        <div class="product__price"><span itemprop="price"><?=number_format($model->price, 0, '', ' ')?></span> <span class="rubl">₽</span></div>
                     </div>
+                    <span style="display: none;" itemprop="priceCurrency">RUB</span>
                     <?php if (!$empty) { ?>
                         <?php if (!empty($selects)) { ?>
                             <div class="product__toCartRight">
