@@ -92,6 +92,10 @@ $this->params['name'] = $model->name;
                     </div>
                 </div>
             </div>
+
+            <?php foreach($products as $product) {
+                echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
+            } ?>
         <?php } ?>
         <?php if (!empty($stati)) {
             $newsPage = Textpage::findOne(13);

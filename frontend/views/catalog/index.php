@@ -204,3 +204,7 @@ $childrenCategories = $model->getChildrenCategories();
         </div>
     </div>
 <?php } ?>
+
+<?php foreach($products as $product) {
+    echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
+} ?>

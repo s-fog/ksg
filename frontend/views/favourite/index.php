@@ -39,6 +39,10 @@ $this->params['seo_h1'] = $model->seo_h1;
         'hideOnSinglePage' => true,
         'maxButtonCount' => 6
     ]);?>
+
+    <?php foreach($products as $product) {
+        echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
+    } ?>
 <?php } else { ?>
     <div class="container">
         <p>Вы ничего не добавили</p>

@@ -155,6 +155,10 @@ $this->params['name'] = $model->name;
             </div>
         </div>
     </div>
+
+    <?php foreach($accessories as $product) {
+        echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
+    } ?>
 <?php } ?>
 
 <?php if (!empty($similar)) { ?>
@@ -172,6 +176,9 @@ $this->params['name'] = $model->name;
             </div>
         </div>
     </div>
+    <?php foreach($similar as $product) {
+        echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
+    } ?>
 <?php } ?>
 
 <?=$this->render('@frontend/views/blocks/news')?>
