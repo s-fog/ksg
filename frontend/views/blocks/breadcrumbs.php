@@ -10,11 +10,9 @@
                     $i = 2;
                     foreach($items as $url => $name) {
                         if ($url == 0 && is_integer($url)) {
-                            echo '<li itemprop="itemListElement" itemscope
-      itemtype="http://schema.org/ListItem">
-      <span class="breadcrumbs__item" itemprop="name">'.$name.'</span>
-       <meta itemprop="position" content="'.$i.'" />
-      </li>';
+                            echo '<li>
+                              <span class="breadcrumbs__item">'.$name.'</span>
+                              </li>';
                         } else {
                             echo '<li itemprop="itemListElement" itemscope
       itemtype="http://schema.org/ListItem"><a href="'.$url.'" class="breadcrumbs__item" itemid="'.$url.'" itemscope itemtype="http://schema.org/Thing"
@@ -23,8 +21,8 @@
        </a>
        <meta itemprop="position" content="'.$i.'" />
        </li>';
+                            $i++;
                         }
-                        $i++;
                     }
                 ?>
             </ul>
