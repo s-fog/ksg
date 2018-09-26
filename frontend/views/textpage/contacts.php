@@ -20,15 +20,16 @@ $others = $array['Others'];
 ?>
 
 <div class="contactsPage">
-    <div class="container">
+    <div class="container" itemscope itemtype="http://schema.org/Organization">
+        <span itemprop="name" style="display: none;">KSG</span>
         <div class="mainHeader__popupHeader"><?=$city?></div>
         <div class="mainHeader__popupInner">
             <div class="mainHeader__popupItem">
-                <a href="tel:<?=$moscow['phoneLink']?>" class="mainHeader__popupItemPhone"><span><?=$moscow['phone']?></span></a>
-                <a href="mailto:<?=$moscow['email']?>" class="mainHeader__popupItemEmail"><span><?=$moscow['email']?></span></a>
+                <a href="tel:<?=$moscow['phoneLink']?>" class="mainHeader__popupItemPhone"><span itemprop="telephone"><?=$moscow['phone']?></span></a>
+                <a href="mailto:<?=$moscow['email']?>" class="mainHeader__popupItemEmail"><span itemprop="email"><?=$moscow['email']?></span></a>
             </div>
-            <div class="mainHeader__popupItem">
-                <div class="mainHeader__popupItemAddress">Адрес: <?=$moscow['addressBr']?></div>
+            <div class="mainHeader__popupItem" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                <div class="mainHeader__popupItemAddress">Адрес: <?=$moscow['addressBrSchema']?></div>
             </div>
         </div>
         <div class="mainHeader__popupInner">
