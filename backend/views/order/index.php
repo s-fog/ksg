@@ -72,7 +72,13 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
             'id',
-            'created_at:datetime',
+            [
+                'attribute'=>'created_at',
+                'format'=>'text',
+                'content'=>function($data){
+                    return date('d.m.Y h:i', $data->created_at);
+                }
+            ],
             [
                 'attribute'=>'total_cost',
                 'format'=>'text',
