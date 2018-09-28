@@ -88,6 +88,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             ],
             [
                 'attribute'=>'payment',
+                'label'=>'Способ оплаты',
                 'format'=>'text',
                 'content'=>function($data) {
                     foreach(Yii::$app->params['payments'] as $id => $name) {
