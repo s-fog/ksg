@@ -44,7 +44,7 @@ foreach($products as $md5Id => $product) {
             <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Стоимость товаров</span>
+                    <span class="info-box-text" style="word-break: normal">Стоимость товаров</span>
                     <span class="info-box-number"><?=number_format($productCost, 0, '', ' ')?> <small>P</small></span>
                 </div>
             </div>
@@ -53,7 +53,7 @@ foreach($products as $md5Id => $product) {
             <div class="info-box">
                 <span class="info-box-icon bg-red"></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Стоимость услуг</span>
+                    <span class="info-box-text" style="word-break: normal">Стоимость услуг</span>
                     <span class="info-box-number"><?=number_format($serviceCost, 0, '', ' ')?> <small>P</small></span>
                 </div>
             </div>
@@ -62,7 +62,7 @@ foreach($products as $md5Id => $product) {
             <div class="info-box">
                 <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Общая стоимость</span>
+                    <span class="info-box-text" style="word-break: normal">Общая стоимость</span>
                     <span class="info-box-number"><?=number_format($model->total_cost + $serviceCost, 0, '', ' ')?> <small>P</small></span>
                 </div>
             </div>
@@ -71,7 +71,7 @@ foreach($products as $md5Id => $product) {
             <div class="info-box">
                 <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Общая стоимость<br> со скидкой</span>
+                    <span class="info-box-text" style="word-break: normal">Общая стоимость<br> со скидкой</span>
                     <span class="info-box-number"><?=number_format($model->costWithDiscount(), 0, '', ' ')?> <small>P</small></span>
                 </div>
             </div>
