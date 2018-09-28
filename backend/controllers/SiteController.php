@@ -61,6 +61,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        return $this->redirect(['order/index']);
         $model = Mainpage::findOne(1);
 
         $model->load($_POST);

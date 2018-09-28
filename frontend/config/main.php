@@ -67,7 +67,7 @@ return [
                 '<alias>' => 'site/index',
             ],
         ],
-        'mailer' => [
+        /*'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',
             'transport' => [
@@ -79,7 +79,7 @@ return [
                 'encryption' => 'ssl', // у яндекса SSL
             ],
             'useFileTransport' => false, // будем отправлять реальные сообщения, а не в файл
-        ],
+        ],*/
     ],
     'params' => $params,
 ];

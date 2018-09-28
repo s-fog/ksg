@@ -66,7 +66,7 @@ $ordersTemplate = '<a href="{url}">
                             ['label' => 'Слайдер на главной', 'url' => ['/mainslider/index']],
                         ]
                     ],
-                    ['label' => 'Каталог',
+                    ['label' => 'Контент',
                         'items' => [
                             ['label' => 'Новости', 'url' => ['/news/index']],
                             ['label' => 'Текстовые страницы', 'url' => ['/textpage/index']],
