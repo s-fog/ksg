@@ -222,7 +222,7 @@ $others = $array['Others'];
 
         <a href="https://www.facebook.com/KSG-%D0%A1%D0%BF%D0%BE%D1%80%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9-%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD-1908512709457176/" class="socials__item2" target="_blank" rel="nofollow" style="background-image: url(/img/fb_icon.svg);"></a>
         <a href="https://vk.com/ksgru" class="socials__item2" target="_blank" rel="nofollow" style="background-image: url(/img/vk_icon.svg);"></a>
-        <a href="https://www.youtube.com/channel/UCMJH2BdUNdwTQBuAjwspqHQ" class="socials__item2" target="_blank" rel="nofollow" style="background-image: url(/img/youtube_icon.svg);"></a>
+        <a href="https://www.youtube.com/channel/UC2qnabldyyfflW51ngTw3Gw" class="socials__item2" target="_blank" rel="nofollow" style="background-image: url(/img/youtube_icon.svg);"></a>
         <a href="https://www.instagram.com/ksgrussia/" class="socials__item2" target="_blank" rel="nofollow" style="background-image: url(/img/instagram_icon.svg);"></a>
     </div>
     <div class="successOrderBottom__bottomText">или по телефону <?=$moscow['phone']?></div>

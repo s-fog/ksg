@@ -426,10 +426,10 @@ class MainSlider {
 
     _bindEvents() {
         this.nodes.mainSlider.on('initialize.owl.carousel', (event) => {
-            this.dotsFill();
+            //this.dotsFill();
         });
         this.nodes.mainSlider.on('change.owl.carousel', (event) => {
-            this.dotsFill();
+            //this.dotsFill();
         });
     }
 

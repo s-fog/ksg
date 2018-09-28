@@ -85,7 +85,7 @@ $others = $array['Others'];
             <div class="footer__item socials">
                 <a href="https://www.facebook.com/KSG-%D0%A1%D0%BF%D0%BE%D1%80%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9-%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD-1908512709457176/" class="socials__item" target="_blank" rel="nofollow" style="background-image: url(/img/fb_icon.svg);"></a>
                 <a href="https://vk.com/ksgru" class="socials__item" target="_blank" rel="nofollow" style="background-image: url(/img/vk_icon.svg);"></a>
-                <a href="https://www.youtube.com/channel/UCMJH2BdUNdwTQBuAjwspqHQ" class="socials__item" target="_blank" rel="nofollow" style="background-image: url(/img/youtube_icon.svg);"></a>
+                <a href="https://www.youtube.com/channel/UC2qnabldyyfflW51ngTw3Gw" class="socials__item" target="_blank" rel="nofollow" style="background-image: url(/img/youtube_icon.svg);"></a>
                 <a href="https://www.instagram.com/ksgrussia/" class="socials__item" target="_blank" rel="nofollow" style="background-image: url(/img/instagram_icon.svg);"></a>
             </div>
         </div>
@@ -186,8 +186,10 @@ $form = ActiveForm::begin([
     </div>
     <div class="oneClick__bottom">
         <div class="oneClick__bottomLeft">
-            <div class="callback__bottom">Нажимая «заказать обрытный звонок», вы подтверждаете, что прочли и согласны
-                «<a href="#" class="link">Соглашение с KSG</a>», даёте своё согласиена <a href="/documents/politics.pdf" target="_blank" class="link">обработку персональных данных</a></div>
+            <div class="callback__bottom">
+                Нажимая «купить», вы подтверждаете, что прочли<br>
+                и согласны  с “<a href="/kompaniya/publichnaya-oferta" target="_blank" class="link">Публичной офертой</a>”, и даёте своё согласие<br>
+                на <a href="/documents/politics.pdf" target="_blank" class="link">обработку персональных данных</a>
         </div>
         <div class="oneClick__bottomRight">
             <button class="popup__submit" type="submit">купить</button>

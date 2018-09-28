@@ -1012,6 +1012,14 @@ body {
 }
 
 .mainSlider {
+  
+  /*.owl-dot {
+    background-color: #fff !important;
+    
+    &.active {
+      background-color: red !important;
+    }
+  }*/
 
   &__item {
     height: 438px;
