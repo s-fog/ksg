@@ -2695,6 +2695,10 @@ body {
 
   &__toCartRight {
     flex: 0 0 107px;
+
+    button {
+      padding-top: 0;
+    }
   }
 
   &__toCartButton {
@@ -3270,7 +3274,8 @@ body {
     @include respond-to(450) {
       justify-content: flex-start;
       align-items: flex-start;
-      flex: 0 0 100%;
+      flex: 0 0 100% !important;
+      text-align: left !important;
     }
 
     &_big {
