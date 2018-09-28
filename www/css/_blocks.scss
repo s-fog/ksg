@@ -1012,14 +1012,6 @@ body {
 }
 
 .mainSlider {
-  
-  /*.owl-dot {
-    background-color: #fff !important;
-    
-    &.active {
-      background-color: red !important;
-    }
-  }*/
 
   &__item {
     height: 438px;
@@ -1072,41 +1064,12 @@ body {
     margin: 0 10px;
     width: 25px;
     height: 17px;
-  }
+    background-image: url(../img/dot.svg) !important;
+    background-size: 100% 100% !important;
 
-  .dot-active {
-    width: 25px;
-    height: 17px;
-  }
-
-  .dot-unactive {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    width: 19px;
-    height: 13px;
-  }
-}
-
-.svg-dot-active{
-  fill: #e83a4a;
-}
-
-.svg-dot-active-stroke{
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  fill: none;
-  stroke: #e83a4a;
-  stroke-miterlimit: 10;
-  animation: dash 77s linear;
-}
-
-@keyframes dash {
-  to {
-    stroke-dashoffset: 0;
+    &.active {
+      background-image: url(../img/dot-active.svg) !important;
+    }
   }
 }
 

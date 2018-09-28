@@ -425,12 +425,7 @@ class MainSlider {
     }
 
     _bindEvents() {
-        this.nodes.mainSlider.on('initialize.owl.carousel', (event) => {
-            //this.dotsFill();
-        });
-        this.nodes.mainSlider.on('change.owl.carousel', (event) => {
-            //this.dotsFill();
-        });
+
     }
 
     _ready() {
@@ -441,23 +436,6 @@ class MainSlider {
             checkVisible: false,
             smartSpeed: 1000
         });
-    }
-
-    dotsFill() {
-        setTimeout(() => {
-            this.nodes.mainSlider.find('.owl-dot').each((index, element) => {
-                if ($(element).hasClass('active')) {
-                    element.innerHTML = '<svg class="dot-active" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.04 16.1">' +
-                        '<g>' +
-                        '<path class="svg-dot-active" d="M18.41,2.3h-6.8a3.49,3.49,0,0,0-2.4,1L4.41,8.1a3.42,3.42,0,0,0,2.4,5.8h6.9a3.49,3.49,0,0,0,2.4-1l4.8-4.8a3.46,3.46,0,0,0-2.5-5.8Z"/>' +
-                        '<path class="svg-dot-active-stroke" d="M20.11.5h-8.9a4.39,4.39,0,0,0-3.1,1.3L1.81,8.1a4.38,4.38,0,0,0,3.1,7.5h8.9a4.39,4.39,0,0,0,3.1-1.3L23.21,8A4.37,4.37,0,0,0,20.11.5Z"/>' +
-                        '</g>' +
-                        '</svg>';
-                } else {
-                    element.innerHTML = '<svg class="dot-unactive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.39 11.6"><defs><style>.svg-dot{fill:#e83a4a;opacity:0.5;isolation:isolate;}</style></defs><g><path class="svg-dot" d="M15,0H8.18a3.49,3.49,0,0,0-2.4,1L1,5.8a3.42,3.42,0,0,0,2.4,5.8h6.9a3.49,3.49,0,0,0,2.4-1l4.8-4.8A3.46,3.46,0,0,0,15,0Z"/></g></svg>';
-                }
-            });
-        }, 50);
     }
 }
 
