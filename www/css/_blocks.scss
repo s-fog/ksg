@@ -3057,8 +3057,7 @@ body {
 
   .fancybox-close-small {
     top: 10px;
-    width: 51px;
-    height: 51px;
+    right: 54px;
     @include respond-to(750) {
       right: 0;
     }
@@ -5819,6 +5818,15 @@ r
     flex-grow: 1;
     @include respond-to(700) {
       display: none;
+    }
+
+    :nth-child(1) {
+      background-color: transparent !important;
+    }
+
+    :nth-child(4) {
+      position: absolute !important;
+      top: 0;
     }
   }
 

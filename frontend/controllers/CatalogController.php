@@ -491,7 +491,7 @@ class CatalogController extends Controller
                     ->orderBy(new Expression('rand()'))
                     ->limit(9);
 
-                if ($similarQuery->count() >= 6) {
+                if ($similarQuery->count() >= 3) {
                     $similar = $similarQuery->all();
                     break;
                 }
