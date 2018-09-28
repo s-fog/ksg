@@ -172,7 +172,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         ->offset($productParam->image_number)
                         ->one();
 
-                    return '<img src="'.$image->image.'" style="width: 250px;">';
+                    return '<img src="'.$image->image.'" style="width: 50px;">';
                 }
             ],
         ],
