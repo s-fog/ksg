@@ -225,5 +225,5 @@ $others = $array['Others'];
         <a href="https://www.youtube.com/channel/UC2qnabldyyfflW51ngTw3Gw" class="socials__item2" target="_blank" rel="nofollow" style="background-image: url(/img/youtube_icon.svg);"></a>
         <a href="https://www.instagram.com/ksgrussia/" class="socials__item2" target="_blank" rel="nofollow" style="background-image: url(/img/instagram_icon.svg);"></a>
     </div>
-    <div class="successOrderBottom__bottomText">или по телефону <?=$moscow['phone']?></div>
+    <div class="successOrderBottom__bottomText">или по телефону <a href="#" style="text-decoration: none;color: inherit; cursor: default"><?=$moscow['phone']?></a></div>
 </div>
