@@ -32,48 +32,6 @@ $this->params['name'] = $model->name;
                 </div>
             </div>
         </div>
-        <div class="mainSlider__item" style="background-image: url(/images/thumbs/<?=$filename[0]?>-1942-438.<?=$filename[1]?>);">
-            <div class="container">
-                <div class="mainSlider__itemInner">
-                    <div class="mainSlider__itemHeader"><?=$item->header?></div>
-                    <div class="mainSlider__itemText"><?=$item->text?></div>
-                    <?php if (!empty($item->link)) { ?>
-                        <a href="<?=$item->link?>" class="button button4 mainSlider__itemMore">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 34"><g><polygon class="cls-1" points="108.93 0 14.43 0 8.13 0 0 6.73 0 34 14.49 34 109 34 131.87 34 140 27.27 140 0 108.93 0"/></g></svg>
-                            <span>подробнее</span>
-                        </a>
-                    <?php } ?>
-                </div>
-            </div>
-        </div>
-        <div class="mainSlider__item" style="background-image: url(/images/thumbs/<?=$filename[0]?>-1942-438.<?=$filename[1]?>);">
-            <div class="container">
-                <div class="mainSlider__itemInner">
-                    <div class="mainSlider__itemHeader"><?=$item->header?></div>
-                    <div class="mainSlider__itemText"><?=$item->text?></div>
-                    <?php if (!empty($item->link)) { ?>
-                        <a href="<?=$item->link?>" class="button button4 mainSlider__itemMore">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 34"><g><polygon class="cls-1" points="108.93 0 14.43 0 8.13 0 0 6.73 0 34 14.49 34 109 34 131.87 34 140 27.27 140 0 108.93 0"/></g></svg>
-                            <span>подробнее</span>
-                        </a>
-                    <?php } ?>
-                </div>
-            </div>
-        </div>
-        <div class="mainSlider__item" style="background-image: url(/images/thumbs/<?=$filename[0]?>-1942-438.<?=$filename[1]?>);">
-            <div class="container">
-                <div class="mainSlider__itemInner">
-                    <div class="mainSlider__itemHeader"><?=$item->header?></div>
-                    <div class="mainSlider__itemText"><?=$item->text?></div>
-                    <?php if (!empty($item->link)) { ?>
-                        <a href="<?=$item->link?>" class="button button4 mainSlider__itemMore">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 34"><g><polygon class="cls-1" points="108.93 0 14.43 0 8.13 0 0 6.73 0 34 14.49 34 109 34 131.87 34 140 27.27 140 0 108.93 0"/></g></svg>
-                            <span>подробнее</span>
-                        </a>
-                    <?php } ?>
-                </div>
-            </div>
-        </div>
     <?php } ?>
 </div>
 
