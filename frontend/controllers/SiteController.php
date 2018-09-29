@@ -7,6 +7,7 @@ use common\models\FeatureValue;
 use common\models\Mainpage;
 use common\models\News;
 use common\models\Product;
+use common\models\ProductParam;
 use common\models\Subscribe;
 use common\models\Textpage;
 use frontend\models\City;
