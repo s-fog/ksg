@@ -27,7 +27,7 @@ class SimpleexcelController extends \yii\web\Controller
                 $success = $model->doIt();
             }
 
-            return $this->render('index', [f
+            return $this->render('index', [//
                 'model' => $model,
                 'success' => $success
             ]);
