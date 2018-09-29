@@ -2,6 +2,10 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
+if (!isset($load)) {
+    $load = false;
+}
+
 $this->title = Yii::t('models', 'Загрузка Xlsx');
 ?>
 <div class="supplier-form">
@@ -14,10 +18,12 @@ $this->title = Yii::t('models', 'Загрузка Xlsx');
 
     <div class="">
         <?php
-            if ($success !== false) {
-                echo 'Прошло '.$success.' транзакций';
-            } else {
-                echo 'Что-то пошло не так';
+            if ($load) {
+                if ($success !== false) {
+                    echo 'Прошло '.$success.' транзакций';
+                } else {
+                    echo 'Что-то пошло не так';
+                }
             }
         ?>
         <?= $form->field($model, 'file')->fileInput() ?>

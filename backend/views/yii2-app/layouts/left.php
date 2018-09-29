@@ -44,6 +44,7 @@ $ordersTemplate = '<a href="{url}">
                             ],
                             ['label' => 'Подписки', 'url' => ['/subscribe/index']],
                             ['label' => 'Клиенты', 'url' => ['/client/index']],
+                            ['label' => 'Импорт цены и наличия', 'url' => ['/simpleexcel/index']],
                         ]
                     ],
                     ['label' => 'Каталог',

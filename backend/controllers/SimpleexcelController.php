@@ -23,13 +23,14 @@ class SimpleexcelController extends \yii\web\Controller
             $file = UploadedFile::getInstance($model, 'file');
             $success = false;
 
-            if ($file->saveAs(Yii::getAlias('@www').'simple-xls.xlsx', false)) {
+            if ($file->saveAs($_SERVER['DOCUMENT_ROOT'] . '/www/simple-xls.xlsx', false)) {
                 $success = $model->doIt();
             }
 
             return $this->render('index', [//
                 'model' => $model,
-                'success' => $success
+                'success' => $success,
+                'load' => true
             ]);
         } else {
             return $this->render('index', [

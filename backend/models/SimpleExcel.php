@@ -10,7 +10,7 @@ use Yii;
 class SimpleExcel extends Model
 {
     public $file;
-    
+
     public function rules()
     {
         return [
