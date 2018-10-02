@@ -51,7 +51,7 @@ class Forms extends Model
         $emailSendError = false;
         foreach(explode(',', $to) as $email) {
             if(!Yii::$app->mailer->compose()
-                ->setFrom('hello@ksg.ru')
+                ->setFrom($to)
                 ->setTo($email)
                 ->setSubject($type)
                 ->setHtmlBody($msg)
