@@ -73,8 +73,8 @@ return [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.yandex.ru',
-                'username' => 'hello@ksg.ru',
-                'password' => 'hihihello123',
+                'username' => 'magazin@ksg.ru',
+                'password' => 'ghdjkjksk2255hh',
                 'port' => '465',
                 'encryption' => 'ssl', // у яндекса SSL
             ],

@@ -29,7 +29,7 @@ class Forms extends Model
         $type = $post['type'];
         $msg = '';
         $to = 's-fog@yandex.ru';
-        $to = 'hello@ksg.ru';
+        $to = 'magazin@ksg.ru';
         unset($post['type']);
         unset($post['agree']);
         unset($post['file']);
