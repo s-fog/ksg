@@ -29,7 +29,7 @@ class Forms extends Model
         $type = $post['type'];
         $msg = '';
         $to = 's-fog@yandex.ru';
-        $to = 'magazin@ksg.ru';
+        $to = Yii::$app->params['adminEmail'];
         unset($post['type']);
         unset($post['agree']);
         unset($post['file']);

@@ -1190,7 +1190,7 @@ body {
     margin-bottom: 25px;
     opacity: 0;
     transition: all 0.5s ease-in-out;
-    @include respond-to(1000) {
+    @include respond-to(1100) {
       opacity: 1;
     }
 
@@ -1291,7 +1291,7 @@ body {
     text-transform: lowercase;
     opacity: 0;
     transition: all 0.5s ease-in-out;
-    @include respond-to(1000) {
+    @include respond-to(1100) {
       opacity: 1;
     }
   }
@@ -1304,7 +1304,7 @@ body {
     line-height: 1.4;
     opacity: 0.5;
     transition: all 0.5s ease-in-out;
-    @include respond-to(1000) {
+    @include respond-to(1100) {
       opacity: 1;
     }
   }
@@ -1351,7 +1351,7 @@ body {
     cursor: pointer;
     opacity: 0;
     transition: all 0.5s ease-in-out;
-    @include respond-to(1000) {
+    @include respond-to(1100) {
       opacity: 1;
     }
   }
@@ -1362,7 +1362,7 @@ body {
     text-decoration: line-through;
     opacity: 0.5;
     transition: all 0.5s ease-in-out;
-    @include respond-to(1000) {
+    @include respond-to(1100) {
       opacity: 1;
     }
   }
@@ -1372,7 +1372,7 @@ body {
     font-size: 16px;
     opacity: 0.5;
     transition: all 0.5s ease-in-out;
-    @include respond-to(1000) {
+    @include respond-to(1100) {
       opacity: 1;
       color: $lightRedColor;
     }
@@ -1382,7 +1382,7 @@ body {
     flex: 0 0 103px;
     opacity: 0;
     transition: all 0.5s ease-in-out;
-    @include respond-to(1000) {
+    @include respond-to(1100) {
       opacity: 1;
     }
   }

@@ -36,3 +36,5 @@ phpunit.phar
 
 .htaccess
 export-csv.csv
+ai-bolit.php
+AIBOLIT-WHITELIST.db
