@@ -1,10 +1,6 @@
 <?php
-use common\models\Build;
-use common\models\Category;
 use common\models\Mainpage;
-use common\models\Order;
-use common\models\Textpage;
-use common\models\Waranty;
+use frontend\models\Order;
 use yii\widgets\ActiveForm;
 use yii\widgets\MaskedInput;
 

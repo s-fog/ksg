@@ -152,7 +152,7 @@ class CartController extends Controller
                     if (
                         $model->saveMd5Id()
                         &&
-                        $model->sendEmails($model->email, 'Вы создали новый заказ ksg.ru')
+                        $model->sendEmails($model->email, 'Спасибо за заказ!')
                         &&
                         $model->sendEmails(Yii::$app->params['adminEmail'], 'Создан новый заказ ksg.ru')
                     ) {

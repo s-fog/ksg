@@ -24,7 +24,6 @@ class Order extends Model
         return [
             [['name', 'email'], 'required'],
             ['email', 'email'],
-            ['verifyCode', 'captcha'],
         ];
     }
 
