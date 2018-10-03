@@ -94,13 +94,13 @@ use yii\helpers\Url;
                     <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
                         <div class="main__tableProduct">Получатель</div>
                     </td>
-                    <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">Иванов Иван Иванович</td>
+                    <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;"><?=$order->name?></td>
                 </tr>
                 <tr>
                     <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
                         <div class="main__tableProduct">Адрес</div>
                     </td>
-                    <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">Москва, ул. Ивано-Фарнковская д. 4а к.33 ув. 307</td>
+                    <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;"><?=(!empty($order->address) ? $order->address : '<span class="lightRedColor">Не заполнено</span>')?></td>
                 </tr>
                 <tr>
                     <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
