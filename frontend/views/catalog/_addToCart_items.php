@@ -1,5 +1,7 @@
 <?php
 
+use common\models\Product;
+
 $currentParams = [];
 $selects = [];
 $variants = $model->params;

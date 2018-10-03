@@ -149,7 +149,13 @@ class CartController extends Controller
                 $model->status = 0;
 
                 if ($model->save()) {
-                    if ($model->saveMd5Id() && $model->sendEmails()) {
+                    if (
+                        $model->saveMd5Id()
+                        &&
+                        $model->sendEmails($model->email, 'Вы создали новый заказ ksg.ru')
+                        &&
+                        $model->sendEmails(Yii::$app->params['adminEmail'], 'Создан новый заказ ksg.ru')
+                    ) {
                         $cart->removeAll();
 
                         return $this->redirect(['cart/success', 'md5Id' => $model->md5Id]);

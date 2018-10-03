@@ -11,8 +11,6 @@ use yii\helpers\ArrayHelper;
  */
 class Order extends BaseOrder
 {
-    private $adminMail = 'shtepstore@tantci.ru';
-
     public function behaviors()
     {
         return ArrayHelper::merge(
@@ -94,21 +92,18 @@ class Order extends BaseOrder
         }
     }
 
-    public function sendEmails()
+    public function sendEmails($to, $subject, $paying = false)
     {
-        $subject = 'Что-то';
-
         return Yii::$app
             ->mailer_order
             ->compose(
                 ['html' => 'orderSend-html'],
-                ['order' => $this]
+                ['order' => $this, 'paying' => $paying]
             )
             ->setFrom(Yii::$app->params['adminEmail'])
-            ->setTo('s-fog@yandex.ru')
+            ->setTo($to)
             ->setSubject($subject)
             ->send();
-        return ($this->userMessage() && $this->adminMessage());
     }
 
     public function sendEmailsPaid()
