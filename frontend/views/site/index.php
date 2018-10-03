@@ -38,9 +38,7 @@ $this->params['name'] = $model->name;
 <div class="hits">
     <div class="container">
         <div class="header">Хиты продаж</div>
-        <div class="hits__text">Эти вещи расхватывают как горячие пирожки<br>
-            не просто так: это действительно класные предложения,<br>
-            именно по этому мы придержали их для вас</div>
+        <div class="hits__text">Эти товары пользуются особой популярностью, присмотритесь,<br> возможно подберете для себя что-нибудь интересное.</div>
         <div class="catalog">
             <div class="catalog__inner">
                 <?php
