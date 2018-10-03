@@ -23,7 +23,7 @@ class Sitemap extends Model
 
         foreach(Textpage::find()->orderBy(['name' => SORT_ASC])->all() as $model) {
             $url = $dom->createElement('url');
-            $loc = $dom->createElement('url', $_SERVER['HTTP_HOST'].htmlspecialchars($model->backendUrl));
+            $loc = $dom->createElement('loc', $_SERVER['HTTP_HOST'].htmlspecialchars($model->backendUrl));
             $url->appendChild($loc);
             $changefreq = $dom->createElement('changefreq', 'daily');
             $url->appendChild($changefreq);
@@ -47,7 +47,7 @@ class Sitemap extends Model
 
         foreach(Category::find()->where(['active' => 1])->orderBy(['name' => SORT_ASC])->all() as $model) {
             $url = $dom->createElement('url');
-            $loc = $dom->createElement('url', $_SERVER['HTTP_HOST'].$model->getUrl(true));
+            $loc = $dom->createElement('loc', $_SERVER['HTTP_HOST'].$model->getUrl(true));
             $url->appendChild($loc);
             $changefreq = $dom->createElement('changefreq', 'daily');
             $url->appendChild($changefreq);
@@ -58,7 +58,7 @@ class Sitemap extends Model
 
         foreach(Product::find()->orderBy(['name' => SORT_ASC])->all() as $model) {
             $url = $dom->createElement('url');
-            $loc = $dom->createElement('url', $_SERVER['HTTP_HOST'].'/product/'.$model->alias);
+            $loc = $dom->createElement('loc', $_SERVER['HTTP_HOST'].'/product/'.$model->alias);
             $url->appendChild($loc);
             $changefreq = $dom->createElement('changefreq', 'daily');
             $url->appendChild($changefreq);
