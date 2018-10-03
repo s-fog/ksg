@@ -141,9 +141,6 @@ class UML extends Model
             $vendorCode = $dom->createElement('vendorCode', $product->code	);
             $offer->appendChild($vendorCode);
 
-            $available = $dom->createElement('available', 'true');
-            $offer->appendChild($available);
-
             if (!empty($variant->params)) {
                 foreach($variant->params as $paramName => $paramValue) {
                     $param = $dom->createElement('param', $paramValue);
