@@ -117,11 +117,17 @@ foreach(ArrayHelper::map(Supplier::find()->orderBy(['name' => SORT_ASC])->all(),
     ]
 ]) ?>
 
-<?= $form->field($model, 'adviser_id')->dropDownList(
-    array_merge(
-        ['' => 'Ничего не выбрано'],
-        ArrayHelper::map(Adviser::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'))
-) ?>
+<?php
+
+$advisers = ['' => 'Ничего не выбрано'];
+
+foreach(Adviser::find()->orderBy(['name' => SORT_ASC])->all() as $tt) {
+    $advisers[$tt->id] = $tt->name;
+}
+
+?>
+
+<?= $form->field($model, 'adviser_id')->dropDownList($advisers) ?>
 <!-- attribute adviser_text -->
 <?= $form->field($model, 'adviser_text')->textarea(['rows' => 6]) ?>
 
