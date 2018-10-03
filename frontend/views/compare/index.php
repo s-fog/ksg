@@ -18,8 +18,17 @@ $this->params['seo_h1'] = $model->seo_h1;
 <h1 class="header"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
 
 <?php if (empty($products)) { ?>
-    <div class="container">
-        <p>Пусто</p>
+    <div class="empty">
+        <div class="container">
+            <div class="empty__inner">
+                <div class="empty__left" style="background-image: url(/img/compareEmpty.png);"></div>
+                <div class="empty__right">
+                    <div class="empty__header">К сравнению не добавлено товаров</div>
+                    <div class="empty__text">В этом разделе Вы можете сравнить любые товары сайта и сделать обоснованный выбор. Просто нажмите на «иконку с лесенкой» в правом верхнем углу товара, и он окажется в этом списке. Товары в сравнении не исчезают при уходе с сайта, и Вы сможете вернуться к сравнению позже.</div>
+                    <a href="/catalog" class="empty__link">Перейти в каталог</a>
+                </div>
+            </div>
+        </div>
     </div>
 <?php } else { ?>
     <div class="compare">

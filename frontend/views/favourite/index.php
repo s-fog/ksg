@@ -44,8 +44,17 @@ $this->params['seo_h1'] = $model->seo_h1;
         echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
     } ?>
 <?php } else { ?>
-    <div class="container">
-        <p>Вы ничего не добавили</p>
+    <div class="empty">
+        <div class="container">
+            <div class="empty__inner">
+                <div class="empty__left" style="background-image: url(/img/favouriteEmpty.png);"></div>
+                <div class="empty__right">
+                    <div class="empty__header">К избранному не добавлено товаров</div>
+                    <div class="empty__text">В избранном мы сохраняем товары, которые Вам интересны. Для того, чтобы добавить товар в эту вкладку, просто нажмите на иконку сердечка в правом верхнем углу любой карточки товара на нашем сайте.</div>
+                    <a href="/catalog" class="empty__link">Перейти в каталог</a>
+                </div>
+            </div>
+        </div>
     </div>
 <?php } ?>
 
