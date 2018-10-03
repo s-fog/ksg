@@ -1055,12 +1055,15 @@ class Cart {
 
     cartReload() {
         $.post('/cart/reload-cart', $('.cart').serialize(), (response) => {
-            //console.log(response);
-            let result = JSON.parse(response);
+            if (response == 'empty') {
+                location.reload();
+            } else {
+                let result = JSON.parse(response);
 
-            $('.cart__table').replaceWith(result[0]);
-            $('.cart__services').html(result[1]);
-            $('.cartForm__total').html(result[2]);
+                $('.cart__table').replaceWith(result[0]);
+                $('.cart__services').html(result[1]);
+                $('.cartForm__total').html(result[2]);
+            }
         });
     }
 

@@ -17,6 +17,7 @@ $mainPage = Mainpage::findOne(1);
 ?>
 
 <?=$this->render('@frontend/views/blocks/breadcrumbs', ['items' => [0 => 'Корзина']])?>
+    <h1 class="header">Корзина</h1>
 <?php if (!empty($positions)) { ?>
     <?php
     $cartForm = new Order();
@@ -27,7 +28,6 @@ $mainPage = Mainpage::findOne(1);
             'id' => 'cartForm'
         ],
     ]);?>
-    <h1 class="header">Корзина</h1>
     <div class="cart__block">
         <div class="cart__inner">
             <?=$this->render('_products', [

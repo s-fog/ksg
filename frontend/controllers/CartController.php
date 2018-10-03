@@ -124,7 +124,11 @@ class CartController extends Controller
                 'positions' => $positions,
             ]);
 
-            return json_encode([$p0, $p1, $p2]);
+            if (!empty($positions)) {
+                return json_encode([$p0, $p1, $p2]);
+            } else {
+                return 'empty';
+            }
         }
     }
 
