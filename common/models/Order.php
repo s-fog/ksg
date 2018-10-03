@@ -96,6 +96,18 @@ class Order extends BaseOrder
 
     public function sendEmails()
     {
+        $subject = 'Что-то';
+
+        return Yii::$app
+            ->mailer_order
+            ->compose(
+                ['html' => 'orderSend-html'],
+                ['order' => $this]
+            )
+            ->setFrom(Yii::$app->params['adminEmail'])
+            ->setTo('s-fog@yandex.ru')
+            ->setSubject($subject)
+            ->send();
         return ($this->userMessage() && $this->adminMessage());
     }
 

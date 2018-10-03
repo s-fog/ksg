@@ -66,7 +66,11 @@ class MailController extends \yii\web\Controller
 
                 if ($order->save(false)) {
                     if ($md5Id = $order->saveMd5Id(false)) {
-                        return $md5Id;
+                        if ($order->sendEmails()) {
+                            return $md5Id;
+                        } else {
+                            return 'cant send emails';
+                        }
                     } else {
                         return 'cant save md5Id';
                     }

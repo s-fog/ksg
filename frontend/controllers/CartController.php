@@ -149,10 +149,13 @@ class CartController extends Controller
                 $model->status = 0;
 
                 if ($model->save()) {
-                    $cart->removeAll();
-                    $model->saveMd5Id();
+                    if ($model->saveMd5Id() && $model->sendEmails()) {
+                        $cart->removeAll();
 
-                    return $this->redirect(['cart/success', 'md5Id' => $model->md5Id]);
+                        return $this->redirect(['cart/success', 'md5Id' => $model->md5Id]);
+                    }
+                    
+                    return $this->redirect(['cart/index']);
                 }
             }
         } else {
