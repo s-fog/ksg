@@ -1419,6 +1419,7 @@ body {
 .infoBlock {
   padding: 1px 0 50px;
   background: #000 url(../img/infoBg.png) no-repeat center center;
+  background-size: cover;
 
   .header {
     @include respond-to(800) {
@@ -1623,6 +1624,16 @@ body {
   position: relative;
   z-index: 3;
   margin-top: 60px;
+
+  &_main {
+    .newsBlock__item {
+      &:nth-child(4) {
+        @include respond-to(1230) {
+          display: none;
+        }
+      }
+    }
+  }
 
   &__header {
     margin-bottom: 10px;

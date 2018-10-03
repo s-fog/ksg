@@ -7,8 +7,12 @@ use yii\helpers\Url;
 $newsPage = Textpage::findOne(13);
 $news = News::find()->limit(4)->orderBy(['created_at' => SORT_DESC])->all();
 
+if (!isset($class)) {
+    $class = '';
+}
+
 ?>
-<div class="newsBlock">
+<div class="newsBlock<?=$class?>">
     <div class="container">
         <div class="newsBlock__header">Новое в нашем блоге</div>
         <a href="<?=Url::to(['site/index', 'alias' => $newsPage->alias])?>" class="newsBlock__text"><span>Смотреть все статьи</span></a>

@@ -167,7 +167,7 @@ $this->params['name'] = $model->name;
     </div>
 </div>
 
-<?=$this->render('@frontend/views/blocks/news')?>
+<?=$this->render('@frontend/views/blocks/news', ['class' => ' newsBlock_main'])?>
 
 <div class="subscribeBlock">
     <div class="container">
