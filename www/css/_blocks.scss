@@ -1631,6 +1631,9 @@ body {
         @include respond-to(1230) {
           display: none;
         }
+        @include respond-to(920) {
+          display: block;
+        }
       }
     }
   }

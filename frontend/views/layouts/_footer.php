@@ -61,7 +61,7 @@ $others = $array['Others'];
                 <ul class="footer__itemMenu">
                     <li>В Москве: <a href="tel:<?=$moscow['phoneLink']?>" class="linkReverse"><?=$moscow['phone']?></a></li>
                     <li>Для регионов: <a href="tel:<?=$others['phoneLink']?>" class="linkReverse"><?=$others['phone']?></a></li>
-                    <li>E-mail: <a href="mailto:hello@ksg.ru" class="linkReverse">hello@ksg.ru</a></li>
+                    <li>E-mail: <a href="mailto:<?=$moscow['email']?>" class="linkReverse"><?=$moscow['email']?></a></li>
                     <li>
                         <div class="button button1 callbackButton" data-fancybox data-src="#callback">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.08 17.94"><g><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 95.07 17.44 98.58 14.53 98.58 0.5 4.01 0.5"/></g></g></svg>
