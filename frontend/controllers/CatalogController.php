@@ -387,6 +387,7 @@ class CatalogController extends Controller
         $brand = Brand::findOne($model->brand_id);
         $variants = $model->params;
         $adviser = Adviser::findOne($model->adviser_id);
+        var_dump($adviser->id);
         $features = [];
 
         foreach($model->features as $index => $feature) {
