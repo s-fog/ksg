@@ -6,7 +6,7 @@ foreach($positions as $position) {
     if ($build = Build::findOne(['category_id' => $position->parent_id])) {
         $buildPrice = $build->thisPrice($position->price);
 
-        if ($buildPrice >= 0) {
+        if ($buildPrice >= 0 && $buildPrice !== false) {
             $quantity = $position->getQuantity();
             $buildCost = $quantity * $buildPrice;
             $checked = false;
@@ -58,7 +58,7 @@ foreach($positions as $position) {
     if ($waranty = Waranty::findOne(['category_id' => $position->parent_id])) {
         $warantyPrice = $waranty->thisPrice($position->price);
 
-        if ($warantyPrice >= 0) {
+        if ($warantyPrice >= 0 && $warantyPrice !== false) {
             $quantity = $position->getQuantity();
             $warantyCost = $quantity * $warantyPrice;
             $checked = false;
