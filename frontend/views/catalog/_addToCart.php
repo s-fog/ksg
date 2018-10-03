@@ -28,7 +28,7 @@ if (!isset($popupId)) {
                 $param = Param::findOne(['name' => $name]);
                 ?>
                 <div class="addToCart__feature">
-                    <div class="addToCart__featureHeader">Какого цвета?</div>
+                    <div class="addToCart__featureHeader"><?=$param->name?></div>
                     <div class="addToCart__featureBottom">
                         <div class="product__select">
                             <span class="product__selectName"><?=$name?>:</span>

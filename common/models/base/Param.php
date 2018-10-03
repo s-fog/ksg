@@ -70,7 +70,7 @@ abstract class Param extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Параметр',
-            'name_en' => 'Название параметра для кода',
+            'name_en' => 'Название параметра для кода латиницей, пример (size, color)',
             'variants' => 'Значения',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
