@@ -405,7 +405,8 @@ class Header {
             $('.mainHeader__rightOnMobile').removeClass('hide');
         }, 100);
         this.nodes.mainHeader__searchSubmit.removeClass('active');
-        this.nodes.mainHeader__searchClose.removeClass('active');
+        this.nodes.mainHeader__searchSubmit.removeClass('active');
+        this.nodes.mainHeader__searchInput.removeClass('active');
     }
 }
 
