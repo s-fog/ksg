@@ -94,7 +94,6 @@ class UML extends Model
         foreach($products as $product) {
             $imageModel = $product->images[0];
             $filename = explode('.', basename($imageModel->image));
-            $link = Url::to(['catalog/view', 'alias' => $product->alias]);
             $variant = ProductParam::find()->where(['product_id' => $product->id])->orderBy(['id' => SORT_ASC])->one();
             //$available = $product->available;
 
@@ -107,7 +106,7 @@ class UML extends Model
             $offer->appendChild($available);
             ///////////////////////////////////////////////////////////////////////////////////////////
             $https = ($_SERVER['HTTP_HOST'] == 'dev2.ksg.ru') ? 'https://' : 'http://';
-            $url = $dom->createElement('url', $link);
+            $url = $dom->createElement('url', $https.$_SERVER['HTTP_HOST'].'/product/'.$product->alias);
             $offer->appendChild($url);
             ///////////////////////////////////////////////////////////////////////////////////////////
 
