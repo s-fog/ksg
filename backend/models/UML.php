@@ -137,11 +137,15 @@ class UML extends Model
             $description->appendChild($dom->createCDATASection($product->description));
             $offer->appendChild($description);
 
-            $vendorCode = $dom->createElement('vendorCode', $product->variant->artikul);
-            $offer->appendChild($vendorCode);
+            if ($product->variant) {
+                $vendorCode = $dom->createElement('vendorCode', $product->variant->artikul);
+                $offer->appendChild($vendorCode);
+            }
 
-            $vendor = $dom->createElement('vendor', $product->brand->name);
-            $offer->appendChild($vendor);
+            if ($product->brand) {
+                $vendor = $dom->createElement('vendor', $product->brand->name);
+                $offer->appendChild($vendor);
+            }
 
             if (!empty($variant->params)) {
                 foreach($variant->params as $paramName => $paramValue) {
