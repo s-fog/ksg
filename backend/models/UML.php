@@ -8,6 +8,7 @@ use common\models\Product;
 use common\models\ProductParam;
 use DOMDocument;
 use Yii;
+use yii\console\Exception;
 use yii\helpers\Url;
 
 
@@ -137,14 +138,22 @@ class UML extends Model
             $description->appendChild($dom->createCDATASection($product->description));
             $offer->appendChild($description);
 
-            if ($product->variant && !empty($product->variant->artikul)) {
-                $vendorCode = $dom->createElement('vendorCode', $product->variant->artikul);
-                $offer->appendChild($vendorCode);
+            try {
+                if ($product->variant && !empty($product->variant->artikul)) {
+                    $vendorCode = $dom->createElement('vendorCode', $product->variant->artikul);
+                    $offer->appendChild($vendorCode);
+                }
+            } catch (Exception $e) {
+                var_dump($e);die();
             }
 
-            if ($product->brand && !empty($product->brand->name)) {
-                $vendor = $dom->createElement('vendor', $product->brand->name);
-                $offer->appendChild($vendor);
+            try {
+                if ($product->brand && !empty($product->brand->name)) {
+                    $vendor = $dom->createElement('vendor', $product->brand->name);
+                    $offer->appendChild($vendor);
+                }
+            } catch (Exception $e) {
+                var_dump($e);die();
             }
 
             if (!empty($variant->params)) {
