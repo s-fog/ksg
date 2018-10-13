@@ -143,7 +143,7 @@ class UML extends Model
             $vendor = $dom->createElement('vendor', $product->brand->name);
             $offer->appendChild($vendor);
 
-            if (!empty($variant->params)) {
+            /*if (!empty($variant->params)) {
                 foreach($variant->params as $value) {
                     $par = implode(' -> ', $value);
                     $param = $dom->createElement('param', $par[1]);
@@ -152,7 +152,7 @@ class UML extends Model
                     $param->appendChild($name);
                     $offer->appendChild($param);
                 }
-            }
+            }*/
 
             $offers->appendChild($offer);
         }
