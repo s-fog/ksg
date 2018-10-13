@@ -105,10 +105,6 @@ class Header {
                         this.searchClose();
                     }
 
-                    console.log($(event.target).attr('class'));
-
-                    this.filterClose();
-
                     return false;
                 }
             }
@@ -116,7 +112,8 @@ class Header {
             if ($('.filter').get(0)) {
                 if ($('.filter').css('display') != 'none') {
                     if (!$(event.target).parents('.filter').get(0)) {
-                        this.filterClose();
+                        $('.filter').slideUp(500);
+                        $('html').removeClass('html-hidden');
 
                         return false;
                     }
@@ -1444,6 +1441,7 @@ class Filter {
 
             $(event.currentTarget).val(this.number_format($(event.currentTarget).val(), 0, '.', ' '));
             this.priceDescription();
+            this.fillChecked($('filter__item').eq(0));
         });
 
         this.nodes.filter__priceTo.change((event) => {
@@ -1468,6 +1466,7 @@ class Filter {
 
             $(event.currentTarget).val(this.number_format($(event.currentTarget).val(), 0, '.', ' '));
             this.priceDescription();
+            this.fillChecked($('filter__item').eq(0));
         });
 
         $('.js-filter-close').click(() => {
@@ -1549,6 +1548,8 @@ class Filter {
         this.nodes.filter__priceFrom.val(this.number_format(value01, 0, '.', ' '));
         this.nodes.filter__priceTo.val(this.number_format(value02, 0, '.', ' '));
 
+        this.fillChecked($('filter__item').eq(0));
+
         /*if(value01 < 100000) {
             this.nodes.filter__priceFrom.val(this.number_format(value01, 0, '.', ' '));
         } else {
@@ -1574,6 +1575,7 @@ class Filter {
         this.nodes.filter.slideUp(500);
         $('html').removeClass('html-hidden');
     }
+
     filterOpen() {
         let mainHeaderHeight = $('.mainHeader').height();
         let breadcrumbsHeight = $('.breadcrumbs').height();
@@ -1626,11 +1628,21 @@ class Filter {
             }
         });
 
+        if (this.nodes.filter__priceSlider.slider("instance")) {
+            let value01 = this.nodes.filter__priceSlider.slider("values", 0);
+            let value02 = this.nodes.filter__priceSlider.slider("values", 1);
+            let minprice = parseInt(this.nodes.filter__priceFrom.data('minprice'));
+            let maxprice = parseInt(this.nodes.filter__priceTo.data('maxprice'));
+
+            if (value01 != minprice || value02 != maxprice) {
+                c++;
+            }
+        }
+
         if (c%10==1) $simv='параметр';
             else if (c%10==2 || c%10==3 || c%10==4) $simv='параметра';
 
         $str2 = `Выбрано: ${c} ${$simv}`;
-        console.log($str2);
 
         if ($count > 0) {
             $str = `{${$items.slice(2)}, и еще ${$count}}`;

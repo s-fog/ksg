@@ -1,5 +1,5 @@
 <?php
-var_dump($level);
+
 ?>
 <div class="category">
     <div class="container">

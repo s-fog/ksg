@@ -47,7 +47,7 @@ $this->params['seo_h1'] = $model->seo_h1;
     <div class="empty">
         <div class="container">
             <div class="empty__inner">
-                <div class="empty__left" style="background-image: url(/img/favouriteEmpty.png);"></div>
+                <div class="empty__left" style="height: 146px;background-image: url(/img/favouriteEmpty.png);"></div>
                 <div class="empty__right">
                     <div class="empty__header">К избранному не добавлено товаров</div>
                     <div class="empty__text">В избранном мы сохраняем товары, которые Вам интересны. Для того, чтобы добавить товар в эту вкладку, просто нажмите на иконку сердечка в правом верхнем углу любой карточки товара на нашем сайте.</div>

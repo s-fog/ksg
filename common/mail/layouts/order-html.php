@@ -40,7 +40,7 @@ $host = 'https://www.ksg.ru/'
                     $paramsV = $product->paramsV;
                     $variant = ProductParam::findOne(['product_id' => $product->id, 'params' => $paramsV]);
                     $quantity = $product->getQuantity();
-                    $url = $host.'/product/'.$product->alias;
+                    $url = $host.'product/'.$product->alias;
                     ?>
                     <tr>
                         <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
@@ -86,6 +86,13 @@ $host = 'https://www.ksg.ru/'
                     }
                 }
                 ?>
+                <?php if (!empty($order->present_artikul)
+                    &&
+                    $present = ProductParam::findOne(['artikul' => $order->present_artikul])->product) { ?>
+                    <tr>
+                        <td>+ ПОДАРОК "<a href="<?=$host.'product/'.$present->alias?>" style="color: #000;"><?=$present->name?></a>" 1 шт.</td>
+                    </tr>
+                <?php } ?>
             </table>
         </div>
         <div class="main__item" style="margin: 40px 0;color: #1f232f;">

@@ -1,5 +1,6 @@
 <?php
 
+use common\models\ProductParam;
 use kartik\checkbox\CheckboxX;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
@@ -145,6 +146,20 @@ foreach($products as $md5Id => $product) {
         <?= Html::a('Добавить товар', ['order/product-add', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
 
         <?=$this->render('_products', ['order' => $model])?>
+
+        <?php if (!empty($model->present_artikul)
+            &&
+            $present = ProductParam::findOne(['artikul' => $model->present_artikul])->product) { ?>
+            <h2>Подарок</h2>
+
+            <div class="grid-view">
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <td><?=$present->name?></td>
+                    </tr>
+                </table>
+            </div>
+        <?php } ?>
 
         <h2>Услуги</h2>
 

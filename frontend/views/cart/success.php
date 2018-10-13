@@ -20,7 +20,7 @@ $others = $array['Others'];
 <div class="successOrder">
     <div class="container">
         <div class="successOrder__item successOrder__item_number" style="background-image: url(/img/success_cart.svg);">
-            <div class="successOrder__header"><span>Состав заказа:</span> 10000<?=$order->id?></div>
+            <div class="successOrder__header"><span>Состав заказа:</span> <?=$order->id?></div>
             <ul class="successOrder__list">
                 <?php
                 $products = unserialize(base64_decode($order->products));
