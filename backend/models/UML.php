@@ -159,6 +159,6 @@ class UML extends Model
         $shop->appendChild($offers);
         $yml_catalog->appendChild($shop);
         $dom->appendChild($yml_catalog);
-        var_dump($dom->save('../yml.xml'));
+        $dom->save('../yml.xml');
     }
 }
