@@ -381,11 +381,6 @@ class CatalogController extends Controller
 
     }
 
-    public function actionReloadProduct(){
-        $id = $_POST['id'];
-        $quantity = $_POST['quantity'];
-        $paramsV = $_POST['paramsV'];
-    }
     public function actionView($alias)
     {
         City::setCity();

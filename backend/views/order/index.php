@@ -76,7 +76,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 'attribute'=>'created_at',
                 'format'=>'text',
                 'content'=>function($data){
-                    return date('d.m.Y h:i', $data->created_at);
+                    return date('d.m.Y H:i', $data->created_at);
                 }
             ],
             [

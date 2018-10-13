@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Callback;
+use common\models\Client;
 use common\models\Order;
 use common\models\Present;
 use common\models\Product;
@@ -29,6 +30,7 @@ class MailController extends \yii\web\Controller
                 $callback->save();
             }
         }
+
         if (isset($_POST['ReviewForm'])) {
             if (!empty($_POST['ReviewForm']) && isset($_POST['ReviewForm']['type']) && !strlen($_POST['ReviewForm']['BC'])) {
                 $form = new ReviewForm();
@@ -45,6 +47,7 @@ class MailController extends \yii\web\Controller
                 $item->save();
             }
         }
+
         if (isset($_POST['OneClickForm'])) {
             if (!empty($_POST['OneClickForm']) && isset($_POST['OneClickForm']['type']) && !strlen($_POST['OneClickForm']['BC'])) {
                 $product = Product::findOne($_POST['OneClickForm']['product_id']);
@@ -65,6 +68,11 @@ class MailController extends \yii\web\Controller
                 $order->products = base64_encode(serialize($products));
 
                 if ($order->save(false)) {
+                    $client = new Client;
+                    $client->name = $_POST['OneClickForm']['name'];
+                    $client->phone = $_POST['OneClickForm']['phone'];
+                    $client->save();
+
                     if ($md5Id = $order->saveMd5Id(false)) {
                         if ($order->sendEmails(Yii::$app->params['adminEmail'], 'Создан новый заказ ksg.ru')) {
                             return $md5Id;

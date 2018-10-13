@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Client;
 use common\models\Order;
 use common\models\Product;
 use frontend\models\City;
@@ -161,6 +162,11 @@ class CartController extends Controller
                         $model->sendEmails(Yii::$app->params['adminEmail'], 'Создан новый заказ ksg.ru')
                     ) {
                         $cart->removeAll();
+                        $client = new Client;
+                        $client->name = $model->name;
+                        $client->phone = $model->phone;
+                        $client->email = $model->email;
+                        $client->save();
 
                         return $this->redirect(['cart/success', 'md5Id' => $model->md5Id]);
                     }

@@ -6,7 +6,6 @@ namespace common\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use himiklab\sortablegrid\SortableGridBehavior;
 
 /**
  * This is the base-model class for table "client".
@@ -40,10 +39,6 @@ abstract class Client extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'sort' => [
-                'class' => SortableGridBehavior::className(),
-                'sortableAttribute' => 'sort_order'
-            ],
             [
                 'class' => TimestampBehavior::className(),
             ],
@@ -56,7 +51,6 @@ abstract class Client extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
             [['sort_order'], 'integer'],
             [['name', 'phone', 'email', 'comment'], 'string', 'max' => 255]
         ];
