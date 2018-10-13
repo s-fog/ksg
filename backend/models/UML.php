@@ -142,14 +142,14 @@ class UML extends Model
                 $vendorCode = $dom->createElement('vendorCode', (string) $product->variant->artikul);
                 $offer->appendChild($vendorCode);
             } catch (Exception $e) {
-
+                echo $e->getMessage();
             }
 
             try {
                 $vendor = $dom->createElement('vendor', (string) $product->brand->name);
                 $offer->appendChild($vendor);
             } catch (Exception $e) {
-
+                echo $e->getMessage();
             }
 
             if (!empty($variant->params)) {
