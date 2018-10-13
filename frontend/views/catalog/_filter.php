@@ -10,8 +10,11 @@ if ($model->type != 0) {
     }
 }
 
+$cookies = Yii::$app->request->cookies;
+var_dump($cookies->getValue('filter_showed'));
+
 ?>
-<div class="filterTrigger active">
+<div class="filterTrigger<?=(!empty($cookies->getValue('filter_showed'))) ? ' active' : ''?>">
     <div class="container">
         <ul class="filterTrigger__top breadcrumbs__inner">
             <li>
@@ -26,7 +29,7 @@ if ($model->type != 0) {
             <li><a href="#" class="filterTrigger__topItem breadcrumbs__item"><span>{Ничего не выбрано}</span></a></li>
         </ul>
     </div>
-    <form class="filter" method="GET" style="display: none;">
+    <form class="filter" method="GET"<?=(!empty($cookies->getValue('filter_showed'))) ? ' style="display: none;"' : ''?>>
         <div class="filter__outer">
             <div class="container">
                 <div class="filter__top js-filter-close">

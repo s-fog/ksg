@@ -118,6 +118,8 @@ foreach($products as $md5Id => $product) {
 
 			<?= $form->field($model, 'discount')->textInput(['maxlength' => true])->label('Скидка(200 или 10%)') ?>
 
+			<?= $form->field($model, 'delivery_cost')->textInput(['maxlength' => true]) ?>
+
             <?= $form->field($model, 'paid')->widget(CheckboxX::classname(), [
                 'pluginOptions' => [
                     'threeState'=>false

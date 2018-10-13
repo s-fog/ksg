@@ -27,7 +27,7 @@ class Order extends BaseOrder
             [['payment', 'name', 'phone', 'email', 'total_cost'], 'required'],
             [['products', 'comm', 'address'], 'string'],
             [['total_cost'], 'number'],
-            [['paid', 'status', 'payment'], 'integer'],
+            [['paid', 'status', 'payment', 'delivery_cost'], 'integer'],
             [['name', 'phone', 'email', 'present_artikul', 'md5Id', 'discount'], 'string', 'max' => 255]
         ];
     }
@@ -47,7 +47,8 @@ class Order extends BaseOrder
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата изменения',
             'paid' => 'Оплачено?',
-            'status' => 'Статус'
+            'status' => 'Статус',
+            'delivery_cost' => 'Цена доставки'
         ];
     }
 

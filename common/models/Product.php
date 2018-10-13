@@ -221,6 +221,14 @@ class Product extends BaseProduct implements CartPositionInterface
         return $result;
     }
 
+    public function getBrand() {
+        return $this->hasOne(Brand::className(), ['id' => 'brand_id']);
+    }
+
+    public function getVariant() {
+        return $this->hasOne(ProductParam::className(), ['product_id' => 'id'])->orderBy(['id' => SORT_ASC]);
+    }
+
     public function getAvailable() {
         $available = false;
         $variants = ProductParam::find()->where(['product_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();

@@ -23,6 +23,14 @@ class CatalogController extends Controller
 {
     public function actionIndex($alias = '', $alias2 = '', $alias3 = '', $alias4 = '', $alias5 = '')
     {
+        $cookies = Yii::$app->request->cookies;
+        $cookies->readOnly = false;
+        $cookies->add(new \yii\web\Cookie([
+            'name' => 'filter_showed',
+            'value' => '1',
+            'expire' => strtotime('+1 hour'),
+        ]));
+
         City::setCity();
 
         if (Category::isAliasesEmpty([$alias, $alias2, $alias3, $alias4, $alias5])) {

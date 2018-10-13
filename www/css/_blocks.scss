@@ -3022,6 +3022,7 @@ body {
     width: 95px !important;
     height: 60px !important;
     cursor: pointer;
+    user-select: none;
     @include respond-to(500) {
       width: 60px !important;
       height: 38px !important;
@@ -3039,6 +3040,7 @@ body {
     width: 95px !important;
     height: 60px !important;
     cursor: pointer;
+    user-select: none;
     @include respond-to(500) {
       width: 60px !important;
       height: 38px !important;
