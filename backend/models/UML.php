@@ -147,7 +147,7 @@ class UML extends Model
                 $offer->appendChild($vendor);
             }
 
-            if (!empty($variant->params)) {
+            /*if (!empty($variant->params)) {
                 foreach($variant->params as $paramName => $paramValue) {
                     $param = $dom->createElement('param', $paramValue);
                     $name = $dom->createAttribute('name');
@@ -155,7 +155,7 @@ class UML extends Model
                     $param->appendChild($name);
                     $offer->appendChild($param);
                 }
-            }
+            }*/
 
             $offers->appendChild($offer);
         }
