@@ -1,3 +1,6 @@
+<?php
+var_dump($level);
+?>
 <div class="category">
     <div class="container">
         <?php if (isset($childrenCategories) && !empty($childrenCategories)) { ?>
@@ -52,9 +55,21 @@
             <div class="sorting__sort">
                 <span class="sorting__text">сортировать</span>
                 <select name="sort" class="select-jquery-ui">
-                    <option value=""<?=(!isset($_GET['sort'])) ? ' selected' : ''?>>по популярности</option>
-                    <option value="price_asc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'price_asc') ? ' selected' : ''?>>сначала недорогие</option>
-                    <option value="price_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? ' selected' : ''?>>сначала дорогие</option>
+                    <?php if ($level === 3) { ?>
+                        <option value="popular_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'popular_desc') ? ' selected' : ''?>>
+                            по популярности</option>
+                        <option value=""<?=(!isset($_GET['sort'])) ? ' selected' : ''?>>
+                            сначала дешевле</option>
+                        <option value="price_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? ' selected' : ''?>>
+                            сначала дороже</option>
+                    <?php } else { ?>
+                        <option value=""<?=(!isset($_GET['sort'])) ? ' selected' : ''?>>
+                            по популярности</option>
+                        <option value="price_asc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'price_asc') ? ' selected' : ''?>>
+                            сначала дешевле</option>
+                        <option value="price_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? ' selected' : ''?>>
+                            сначала дороже</option>
+                    <?php } ?>
                 </select>
             </div>
         </form>

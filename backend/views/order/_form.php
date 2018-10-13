@@ -140,10 +140,46 @@ foreach($products as $md5Id => $product) {
     );
     ?>
         <hr/>
+        <h2>Товары</h2>
 
         <?= Html::a('Добавить товар', ['order/product-add', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
 
         <?=$this->render('_products', ['order' => $model])?>
+
+        <h2>Услуги</h2>
+
+        <?php if ($model->hasServices()) { ?>
+            <div class="grid-view">
+                <table class="table table-striped table-bordered">
+                    <?php foreach(unserialize(base64_decode($model->products)) as $product) {
+                        $buildCost = $product->build_cost;
+
+                        if ($buildCost !== false && $buildCost !== NULL) {
+                        ?>
+                        <tr>
+                            <td>Сборка <?=$product->name?></td>
+                            <td>
+                                <?=($buildCost != 0) ? ' '.number_format($buildCost, 0, '', ' ').' руб.' : ' Бесплатно'?>
+                            </td>
+                        </tr>
+                        <?php
+                        }
+                        $warantyCost = $product->waranty_cost;
+
+                        if ($warantyCost !== false && $warantyCost !== NULL) {
+                            ?>
+                            <tr>
+                                <td>Гарантия на <?=$product->name?></td>
+                                <td>
+                                    <?=($warantyCost != 0) ? ' '.number_format($warantyCost, 0, '', ' ').' руб.' : ' Бесплатно'?>
+                                </td>
+                            </tr>
+                        <?php
+                        } ?>
+                    <?php } ?>
+                </table>
+            </div>
+        <?php } ?>
 
         <?php echo $form->errorSummary($model); ?>
 

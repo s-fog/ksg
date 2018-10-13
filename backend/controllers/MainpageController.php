@@ -11,7 +11,7 @@ use common\models\LoginForm;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class MainpageController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -61,7 +61,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->redirect(['order/index']);
+        $model = Mainpage::findOne(1);
+
+        $model->load($_POST);
+        $model->save();
+        return $this->render('@backend/views/mainpage/update', [
+            'model' => $model,
+        ]);
     }
 
     /**

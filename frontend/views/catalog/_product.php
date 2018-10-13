@@ -13,7 +13,7 @@ $inFavourite = Favourite::inFavourite($model->id);
         <div class="product__inner">
             <div class="product__topLeft">
                 <?php $filename = explode('.', basename($brand->image)); ?>
-                <img src="/images/thumbs/<?=$filename[0]?>-60-30.<?=$filename[1]?>" alt="" class="product__brandImage">
+                <img src="/images/thumbs/<?=$filename[0]?>-60-30.<?=$filename[1]?>" alt="<?=$model->name?>" class="product__brandImage">
                 <div class="product__brand">Бренд: <a href="<?=$brand->link?>" class="link"><?=$brand->name?></a></div>
                 <h1 itemprop="name"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
                 <div class="product__art">Артикул: <?=$currentVariant->artikul?>&nbsp;&nbsp;//&nbsp;&nbsp;Код товара: <?=$model->code?></div>
@@ -39,7 +39,7 @@ $inFavourite = Favourite::inFavourite($model->id);
                      data-image="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
                      data-fancybox="productImages"
                      data-src="#productImages">
-                    <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="" itemprop="image">
+                    <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?>" itemprop="image">
                 </div>
                 <?php foreach($model->images as $index => $imageModel) {
                     if ($index != $currentVariant->image_number) {

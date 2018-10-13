@@ -63,7 +63,7 @@ $ordersTemplate = '<a href="{url}">
                             ['label' => 'Поставщики', 'url' => ['/supplier/index']],
                             ['label' => 'Валюты', 'url' => ['/currency/index']],
                             ['label' => 'Советчики', 'url' => ['/adviser/index']],
-                            ['label' => 'Главная страница', 'url' => ['/site/index']],
+                            ['label' => 'Главная страница', 'url' => ['/mainpage/index']],
                             ['label' => 'Слайдер на главной', 'url' => ['/mainslider/index']],
                         ]
                     ],

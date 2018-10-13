@@ -40,7 +40,7 @@ $host = 'https://www.ksg.ru/'
                     $paramsV = $product->paramsV;
                     $variant = ProductParam::findOne(['product_id' => $product->id, 'params' => $paramsV]);
                     $quantity = $product->getQuantity();
-                    $url = Url::to(['catalog/view', 'alias' => $product->alias]);
+                    $url = $host.'/product/'.$product->alias;
                     ?>
                     <tr>
                         <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
@@ -57,7 +57,7 @@ $host = 'https://www.ksg.ru/'
                 ?>
                         <tr>
                             <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
-                                <div class="main__tableProduct"><?=$i?>. Сборка <?=$product->name?></div>
+                                <div class="main__tableProduct"><?=$i?>. Сборка "<?=$product->name?>"</div>
                             </td>
                             <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">
                                 <?=$quantity?> шт. <span style="color: #e8394a;">/</span>
@@ -73,7 +73,7 @@ $host = 'https://www.ksg.ru/'
                 ?>
                         <tr>
                             <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
-                                <div class="main__tableProduct"><?=$i?>. Гарантия на <?=$product->name?></div>
+                                <div class="main__tableProduct"><?=$i?>. Гарантия на "<?=$product->name?>"</div>
                             </td>
 
                             <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">

@@ -73,18 +73,40 @@ class CatalogController extends Controller
             /////////////////////////////////////////////////////////
             $orderBy = [];
 
-            if (isset($_GET['sort'])) {
-                $sort = explode('_', $_GET['sort']);
+            if ($model->level === 3) {
+                if (isset($_GET['sort'])) {
+                    $sort = explode('_', $_GET['sort']);
 
-                if ($sort[0] == 'price') {
-                    if ($sort[1] == 'desc') {
-                        $orderBy = [$sort[0] => SORT_DESC];
-                    } else if ($sort[1] == 'asc') {
-                        $orderBy = [$sort[0] => SORT_ASC];
+                    if ($sort[0] == 'price') {
+                        if ($sort[1] == 'desc') {
+                            $orderBy = [$sort[0] => SORT_DESC];
+                        } else if ($sort[1] == 'asc') {
+                            $orderBy = [$sort[0] => SORT_ASC];
+                        }
+                    } else if ($sort[0] == 'popular') {
+                        if ($sort[1] == 'desc') {
+                            $orderBy = [$sort[0] => SORT_DESC];
+                        } else if ($sort[1] == 'asc') {
+                            $orderBy = [$sort[0] => SORT_ASC];
+                        }
                     }
+                } else {
+                    $orderBy = ['price' => SORT_ASC];
                 }
             } else {
-                $orderBy = ['popular' => SORT_DESC];
+                if (isset($_GET['sort'])) {
+                    $sort = explode('_', $_GET['sort']);
+
+                    if ($sort[0] == 'price') {
+                        if ($sort[1] == 'desc') {
+                            $orderBy = [$sort[0] => SORT_DESC];
+                        } else if ($sort[1] == 'asc') {
+                            $orderBy = [$sort[0] => SORT_ASC];
+                        }
+                    }
+                } else {
+                    $orderBy = ['popular' => SORT_DESC];
+                }
             }
             /////////////////////////////////////////////////////////
             $tags = [];

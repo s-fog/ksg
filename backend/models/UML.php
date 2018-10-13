@@ -95,14 +95,14 @@ class UML extends Model
             $imageModel = $product->images[0];
             $filename = explode('.', basename($imageModel->image));
             $variant = ProductParam::find()->where(['product_id' => $product->id])->orderBy(['id' => SORT_ASC])->one();
-            //$available = $product->available;
+            $availableProduct = ($product->available) ? 'true' : 'false';
 
             $offer = $dom->createElement('offer');
             $id = $dom->createAttribute('id');
             $id->value = $product->id;
             $offer->appendChild($id);
             $available = $dom->createAttribute('available');
-            $available->value = "true";
+            $available->value = $availableProduct;
             $offer->appendChild($available);
             ///////////////////////////////////////////////////////////////////////////////////////////
             $https = ($_SERVER['HTTP_HOST'] == 'dev2.ksg.ru') ? 'https://' : 'http://';
