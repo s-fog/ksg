@@ -28,8 +28,16 @@ class Order extends BaseOrder
             [['products', 'comm', 'address'], 'string'],
             [['total_cost'], 'number'],
             [['paid', 'status', 'payment', 'delivery_cost'], 'integer'],
-            [['name', 'phone', 'email', 'present_artikul', 'md5Id', 'discount'], 'string', 'max' => 255]
+            [['name', 'phone', 'email', 'present_artikul', 'md5Id', 'discount'], 'string', 'max' => 255],
+            ['present_artikul', 'artikulExists', 'on' => 'update'],
         ];
+    }
+
+    public function artikulExists($attribute, $params)
+    {
+        if (!ProductParam::findOne(['artikul' => $this->present_artikul])) {
+            $this->addError('new_password', 'Подарка с таким артикулом нет');
+        }
     }
 
     public function attributeLabels()

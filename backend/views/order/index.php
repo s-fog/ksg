@@ -82,6 +82,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             [
                 'attribute'=>'total_cost',
                 'format'=>'text',
+                'label'=>'Обшая сумма со скидкой',
                 'content'=>function($data){
                     return number_format($data->costWithDiscount(), 0, '', ' ').' <span class="rubl">P</span>';
                 }

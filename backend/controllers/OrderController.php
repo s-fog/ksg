@@ -102,6 +102,7 @@ class OrderController extends \backend\controllers\base\OrderController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = 'update';
 
         if ($model->load($_POST) && $model->save()) {
             return $this->redirect(Url::previous());

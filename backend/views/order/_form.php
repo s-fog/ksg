@@ -149,9 +149,16 @@ foreach($products as $md5Id => $product) {
 
         <?=$this->render('_products', ['order' => $model])?>
 
-        <?php if (!empty($model->present_artikul)
+        <?= $form->field($model, 'present_artikul')->textInput(['maxlength' => true])->label('Артикул подарка') ?>
+
+        <?php
+        $present = ProductParam::findOne(['artikul' => $model->present_artikul]);
+
+        if (!empty($model->present_artikul)
             &&
-            $present = ProductParam::findOne(['artikul' => $model->present_artikul])->product) { ?>
+            $present) {
+            $present = ProductParam::findOne(['artikul' => $model->present_artikul])->product;
+            ?>
             <h2>Подарок</h2>
 
             <div class="grid-view">
