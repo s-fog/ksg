@@ -11,7 +11,6 @@ if ($model->type != 0) {
 }
 
 $cookies = Yii::$app->request->cookies;
-var_dump($cookies->getValue('filter_showed'));
 
 ?>
 <div class="filterTrigger<?=(!empty($cookies->getValue('filter_showed'))) ? ' active' : ''?>">
