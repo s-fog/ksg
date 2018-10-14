@@ -83,7 +83,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 'attribute'=>'total_cost',
                 'format'=>'text',
                 'content'=>function($data){
-                    return number_format($data->total_cost, 0, '', ' ').' <span class="rubl">P</span>';
+                    return number_format($data->costWithDiscount(), 0, '', ' ').' <span class="rubl">P</span>';
                 }
             ],
             [
