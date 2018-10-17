@@ -7,17 +7,17 @@ $this->title = 'Логи';
     <div class="grid-view">
         <table class="table table-striped table-bordered table-hover">
             <tr>
-                <th>Тип</th>
-                <th>Артикулы</th>
-                <th>Сообщение</th>
+                <th style="width: 33%;">Тип</th>
+                <th style="width: 33%;">Артикулы</th>
+                <th style="width: 33%;">Сообщение</th>
             </tr>
             <?php foreach ($array as $item) {
 
                 ?>
                 <tr<?=($item['type'] == 'error') ? ' style="background-color: #ff6565;"' : ''?>>
-                    <td><?=$item['type']?></td>
-                    <td><?=$item['artikul']?></td>
-                    <td><?=$item['message']?></td>
+                    <td style="width: 33%;"><?=$item['type']?></td>
+                    <td style="width: 33%;"><?=$item['artikul']?></td>
+                    <td style="width: 33%;"><?=$item['message']?></td>
                 </tr>
             <?php } ?>
 
