@@ -61,6 +61,7 @@ $ordersTemplate = '<a href="{url}">
                         'items' => [
                             ['label' => 'Брэнды', 'url' => ['/brand/index']],
                             ['label' => 'Поставщики', 'url' => ['/supplier/index']],
+                            ['label' => 'Логи поставщиков', 'url' => ['/log/index']],
                             ['label' => 'Валюты', 'url' => ['/currency/index']],
                             ['label' => 'Советчики', 'url' => ['/adviser/index']],
                             ['label' => 'Главная страница', 'url' => ['/mainpage/index']],
