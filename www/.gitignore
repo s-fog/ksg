@@ -4,6 +4,7 @@
 /node_modules
 /uploads
 /images
+/logs
 log.txt
 .htaccess
 yml.xml

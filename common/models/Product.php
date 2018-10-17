@@ -307,8 +307,4 @@ class Product extends BaseProduct implements CartPositionInterface
         $items[0] = $this->name;
         return $items;
     }
-
-    public static function getProductByArtikul($artikul) {
-        
-    }
 }

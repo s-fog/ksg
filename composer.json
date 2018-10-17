@@ -39,7 +39,8 @@
         "omnilight/yii2-shopping-cart": "*",
         "kroshilin/yii2-yandex-kassa": "*",
         "yandex-money/yandex-checkout-sdk-php": "^1.0",
-        "phpoffice/phpspreadsheet": "^1.4"
+        "phpoffice/phpspreadsheet": "^1.4",
+        "ext-simplexml": "^0.1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
