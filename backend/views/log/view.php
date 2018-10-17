@@ -24,3 +24,9 @@ $this->title = 'Логи';
         </table>
     </div>
 </div>
+
+<style>
+    .grid-view td {
+        white-space: normal;
+    }
+</style>
