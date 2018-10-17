@@ -14,7 +14,7 @@ class XmlController extends Controller
     {
         $xml = new Xml();
 
-        $ch = curl_init();
+        /*$ch = curl_init();
         $agent = $_SERVER["HTTP_USER_AGENT"];
         curl_setopt($ch, CURLOPT_USERAGENT, $agent);
         curl_setopt($ch, CURLOPT_URL, 'https://hasttings.ru/diler/fast.yml');
@@ -25,7 +25,7 @@ class XmlController extends Controller
 
         curl_close($ch);
         var_dump($result);
-        die();
+        die();*/
 
         ////////////////////////////////////////////////////////////////////////////////
         $svenson = simplexml_load_file('https://jorgen-svensson.com/ru/data.yml');
