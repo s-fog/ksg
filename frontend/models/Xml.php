@@ -19,7 +19,7 @@ class Xml extends Model
 
             foreach($productParams as $pp) {
                 if (!array_key_exists($pp->artikul, $data)) {
-                    $currentArray[] = "{{$pp->artikul}}";
+                    $currentArray[] = $pp->artikul;
                 }
             }
         }
