@@ -93,7 +93,7 @@ if ($city == 'Москва') {
                         <?php
                         $firstLevelCategories = Category::find()
                             ->where(['parent_id' => 0, 'type' => 0, 'active' => 1])
-                            ->orderBy(['sort_order' => SORT_DESC, 'priority' => SORT_ASC])
+                            ->orderBy(['sort_order' => SORT_DESC])
                             ->all();
 
                         foreach($firstLevelCategories as $index => $firstLevelCategory) {
