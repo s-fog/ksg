@@ -9,9 +9,32 @@ $this->title = 'Логи';
             <tr>
                 <th></th>
                 <th>Название</th>
+                <th>Дата изменения файла</th>
+                <th>Кол-во ошибок</th>
+                <th>Кол-во успехов</th>
             </tr>
             <?php foreach (glob("{$_SERVER['DOCUMENT_ROOT']}/www/logs/*.log") as $filename) {
                 $name = str_replace('.log', '', basename($filename));
+                $date = date('d-m-Y H:i',filemtime($filename));
+
+                $str = file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/www/logs/$name.log");
+                $errors = 0;
+                $successes = 0;
+
+                foreach(explode("\r\n", $str) as $index => $item) {
+                    if ($index != 0 && !empty($item)) {
+                        $arr = explode(';', $item);
+
+                        if ($arr[0] == 'error') {
+                            $errors++;
+                        }
+
+                        if ($arr[0] == 'success') {
+                            $successes++;
+                        }
+                    }
+                }
+
                 ?>
                 <tr>
                     <td nowrap="nowrap">
@@ -22,6 +45,9 @@ $this->title = 'Логи';
                         </div>
                     </td>
                     <td><?=$name?></td>
+                    <td><?=$date?></td>
+                    <td><?=$errors?></td>
+                    <td><?=$successes?></td>
                 </tr>
             <?php } ?>
 
