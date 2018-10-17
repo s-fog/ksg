@@ -16,7 +16,9 @@ $this->params['seo_h1'] = $model->seo_h1;
 <h1 class="header"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
 
 <?php if (!empty($products)) { ?>
-    <?=$this->render('@frontend/views/blocks/sort')?>
+    <?=$this->render('@frontend/views/blocks/sort', [
+        'model' => $model
+    ])?>
 
     <div class="catalog">
         <div class="container">

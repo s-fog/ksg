@@ -55,7 +55,11 @@
             <div class="sorting__sort">
                 <span class="sorting__text">сортировать</span>
                 <select name="sort" class="select-jquery-ui">
-                    <?php if ($level === 3) { ?>
+                    <?php if (
+                        $model::className() == 'common\models\Category'
+                        &&
+                        ($model->level === 3 || in_array($model->type, [1, 2, 3, 4]))
+                    ) { ?>
                         <option value="popular_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'popular_desc') ? ' selected' : ''?>>
                             по популярности</option>
                         <option value=""<?=(!isset($_GET['sort'])) ? ' selected' : ''?>>

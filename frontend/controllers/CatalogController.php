@@ -81,7 +81,7 @@ class CatalogController extends Controller
             /////////////////////////////////////////////////////////
             $orderBy = [];
 
-            if ($model->level === 3) {
+            if ($model->level === 3 || in_array($model->type, [1, 2, 3, 4])) {
                 if (isset($_GET['sort'])) {
                     $sort = explode('_', $_GET['sort']);
 

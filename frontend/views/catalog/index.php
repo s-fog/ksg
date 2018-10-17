@@ -47,7 +47,7 @@ $childrenCategories = $model->getChildrenCategories();
 
 <?=$this->render('@frontend/views/blocks/sort', [
     'childrenCategories' => $childrenCategories,
-    'level' => $model->level
+    'model' => $model
 ])?>
 
 <div class="catalog">
