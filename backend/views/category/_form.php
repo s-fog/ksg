@@ -57,8 +57,6 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
             if (!$model->isNewRecord) {
                 if ($model->type == 0) {
 
-                    echo $form->field($model, 'priority')->textInput();
-
                     echo $form->field($model, 'aksses_ids')->widget(Select2::classname(), [
                         'data' => $parents,
                         'options' => ['placeholder' => 'Выберите категории'],
@@ -122,8 +120,6 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
                     echo $form->field($model, 'seo_keywords')->textInput(['maxlength' => true]);
                 } else if ($model->type == 1) {
 
-                    echo $form->field($model, 'priority')->textInput();
-
                     echo $form->field($model, 'text_advice')->widget(\mihaildev\ckeditor\CKEditor::className());
 
                     echo $form->field($model, 'descr')->textarea();
@@ -152,8 +148,6 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
                             'data' => $array,
                         ]);
                     }
-
-                    echo $form->field($model, 'priority')->textInput();
 
                     echo $form->field($model, 'text_advice')->widget(\mihaildev\ckeditor\CKEditor::className());
 
