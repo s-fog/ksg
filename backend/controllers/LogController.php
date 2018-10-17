@@ -5,6 +5,9 @@ namespace backend\controllers;
 use common\models\Feature;
 use common\models\FeatureValue;
 use common\models\Image;
+use common\models\Product;
+use common\models\ProductParam;
+use yii\helpers\Url;
 use yii\web\Controller;
 
 /**
@@ -24,7 +27,22 @@ class LogController extends Controller
             if ($index != 0 && !empty($item)) {
                 $arr = explode(';', $item);
                 $array[$index]['type'] = $arr[0];
-                $array[$index]['artikul'] = $arr[1];
+                $arts = [];
+
+                foreach(explode(',', $arr[1]) as $art) {
+                    if ($pp = ProductParam::findOne(['artikul' => $art])) {
+                        if ($pp->product) {
+                            $link = Url::to(['product/update', 'id' => $pp->product->id]);
+                            $arts[] = '<a href="'.$link.'" target="_blank">'.$art.'</a>';
+                        } else {
+                            $arts[] = $art;
+                        }
+                    } else {
+                        $arts[] = $art;
+                    }
+                }
+
+                $array[$index]['artikul'] = implode(',', $arts);
                 $array[$index]['message'] = $arr[2];
             }
         }
