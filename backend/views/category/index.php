@@ -28,7 +28,7 @@ $gridType = 0;
 if (
     isset($_GET['CategorySearch']['parent_id'])
     &&
-    !(empty($_GET['CategorySearch']['parent_id']) || $_GET['CategorySearch']['parent_id'] == 0)
+    (!empty($_GET['CategorySearch']['parent_id']) || $_GET['CategorySearch']['parent_id'] == 0)
     &&
     isset($_GET['CategorySearch']['type'])
     &&
