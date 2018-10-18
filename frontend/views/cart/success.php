@@ -18,7 +18,12 @@ $others = $array['Others'];
 
 
 ?>
-<div class="header">Заказ оформлен</div>
+<?php if (isset($_GET['action']) && $_GET['action'] == 'PaymentSuccess') {
+    echo '<div class="header">Заказ оплачен</div>';
+} else {
+    echo '<div class="header">Информация о заказе</div>';
+}  ?>
+
 
 <?php if (isset($_GET['pay']) && $_GET['pay'] == 1) { ?>
     <div class="redirect container">Через <span class="redirect__number">5</span> секунд Вы будете перенаправлены на страницу оплаты. Не закрывайте страницу.</div>
