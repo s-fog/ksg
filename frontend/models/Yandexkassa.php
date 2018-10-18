@@ -12,7 +12,7 @@ use yii\helpers\Url;
 class Yandexkassa extends Model
 {
     public $shopId = 506702;
-    public $scid = 800588;
+    public $scid = 562612;
     public $shopPassword = 'OhZuYQUrbomgObCmVD';
 
     public function returnForm($order) {
