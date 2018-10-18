@@ -65,7 +65,8 @@ class YandexkassaController extends Controller
             if ($order->paid != 1) {
                 $order->paid = 1;
                 $order->save(false);
-                $order->sendEmailsPaid();
+                $order->sendEmails($order->email, 'Ваш заказ оплачен!', true);
+                $order->sendEmails(Yii::$app->params['adminEmail'], 'Оплачен заказ ksg.ru', true);
             }
 
             return $yandexKassa->buildResponse($thisAction, $_POST['invoiceId'], 0);
