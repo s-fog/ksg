@@ -2,7 +2,6 @@
 namespace frontend\controllers;
 
 use common\models\Order;
-use frontend\models\Fiskal;
 use frontend\models\Yandexkassa;
 use Yii;
 use yii\web\Controller;
