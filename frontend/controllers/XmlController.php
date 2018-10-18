@@ -10,6 +10,12 @@ use yii\web\Controller;
  */
 class XmlController extends Controller
 {
+    public function beforeAction()
+    {
+        $this->enableCsrfValidation = false;
+        return true;
+    }
+
     public function actionImport()
     {
         $xml = new Xml();

@@ -3,6 +3,9 @@
 $this->title = 'Логи';
 
 ?>
+<div class="btn btn-success js-reload-logs" data-href="/xml/import">Обновить логи</div>
+<br>
+<br>
 <div class="table-responsive">
     <div class="grid-view">
         <table class="table table-striped table-bordered table-hover">
@@ -54,3 +57,17 @@ $this->title = 'Логи';
         </table>
     </div>
 </div>
+
+<?php
+$script = <<< JS
+    $('.js-reload-logs').click(function() {
+        var button = $(this);
+        button.text('Выполняется');
+        
+        $.post(button.data('href'), '', function() {
+            button.text('Обновить логи');
+        });
+    });
+JS;
+$this->registerJs($script);
+?>
