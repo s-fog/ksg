@@ -46,6 +46,7 @@ class YandexkassaController extends Controller
     }
 
     public function actionPaymentAviso() {
+        die();
         $yandexKassa = new Yandexkassa();
         $order = Order::findOne($_POST['orderNumber']*1);
         $thisAction = 'paymentAviso';
@@ -62,7 +63,6 @@ class YandexkassaController extends Controller
         }
 
         if (mb_strtoupper($yandexKassa->md5($_POST)) == $_POST['md5']) {
-            die();
             if ($order->paid != 1) {
                 $order->paid = 1;
                 $order->save(false);
