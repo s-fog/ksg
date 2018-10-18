@@ -1,12 +1,13 @@
 <?php
 use common\models\ProductParam;
+use frontend\models\Yandexkassa;
 use yii\helpers\Url;
 
 $order = $this->params['order'];
 $products = $this->params['products'];
 
 $orderUrl = 'cart/success/'.$order->md5Id;
-$host = 'https://www.ksg.ru/'
+$host = 'https://www.ksg.ru/';
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -102,7 +103,9 @@ $host = 'https://www.ksg.ru/'
                     <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
                         <div class="main__tableProduct">Стоимость</div>
                     </td>
-                    <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">согласно тарифам ТК</td>
+                    <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">
+                        <?=($order->delivery_cost > 0)? "{$order->delivery_cost} руб." : "Согласно тарифам ТК"?>
+                    </td>
                 </tr>
                 <tr>
                     <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
@@ -133,6 +136,28 @@ $host = 'https://www.ksg.ru/'
         <div class="main__item" style="margin-bottom: 0;margin: 40px 0;color: #1f232f;">
             <div class="main__header" style="font-weight: bold;font-size: 18px;color: #686c7a;">Сумма к оплате (руб.): <?=number_format($order->costWithDiscount(), 0, '', ' ')?></div>
             <table class="main__table" style="width: 100%;">
+                <?php if (!empty($order->discount)) { ?>
+                    <tr>
+                        <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
+                            <div class="main__tableProduct">Общая сумма без скидки</div>
+                        </td>
+                        <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">
+                            <?=number_format($order->totalCost(), 0, '', ' ')?> руб.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
+                            <div class="main__tableProduct">Скидка</div>
+                        </td>
+                        <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">
+                            <?php if (strpos($order->discount, '%')) { ?>
+                                <?=$order->discount?>
+                            <?php } else { ?>
+                                <?=number_format((int) $order->discount, 0, '', ' ')?> руб.
+                            <?php } ?>
+                        </td>
+                    </tr>
+                    <?php } ?>
                 <tr>
                     <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
                         <div class="main__tableProduct">Статус оплаты</div>
@@ -141,13 +166,15 @@ $host = 'https://www.ksg.ru/'
                         <?=($order->paid == 1) ? '<span style="color: #95c11f">Оплачен</span>' : '<span style="color: #e8394a">Не оплачен</span>'?>
                     </td>
                 </tr>
-                <?php if ($order->paid != 1) { ?>
+                <?php if ($order->paid != 1) {
+                    $payUrl = "{$host}{$orderUrl}?pay=1";
+                    ?>
                     <tr>
                         <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
-                            <div class="main__tableProduct">Вы можете <a href="<?=$host?><?=$orderUrl?>?pay=1" target="_blank" style="color: #1f232f;">оплатить онлайн</a></div>
+                            <div class="main__tableProduct">Вы можете <a href="<?=$payUrl?>" target="_blank" style="color: #1f232f;">оплатить онлайн</a></div>
                         </td>
                         <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">
-                            <a href="<?=$host?><?=$orderUrl?>?pay=1" class="main__tablePayImageLink">
+                            <a href="<?=$payUrl?>" class="main__tablePayImageLink">
                                 <img src="<?=$host?>img/mail/pay.png" alt="" class="main__tablePayImage">
                             </a>
                         </td>

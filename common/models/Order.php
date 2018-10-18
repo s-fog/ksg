@@ -77,7 +77,7 @@ class Order extends BaseOrder
         return $hasServices;
     }
 
-    public function costWithDiscount() {
+    public function totalCost($offDelivery = false) {
         $serviceCost = 0;
         $products = unserialize(base64_decode($this->products));
 
@@ -91,7 +91,17 @@ class Order extends BaseOrder
             }
         }
 
-        $total_cost = $this->total_cost + $serviceCost;
+        $deliveryCost = 0;
+
+        if ($this->delivery_cost > 0 && !$offDelivery) {
+            $deliveryCost = $this->delivery_cost;
+        }
+
+        return $this->total_cost + $serviceCost + $deliveryCost;
+    }
+
+    public function costWithDiscount() {
+        $total_cost = $this->totalCost();
 
         if (!empty($this->discount)) {
             $d = (int) $this->discount;

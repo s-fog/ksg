@@ -42,4 +42,4 @@ foreach($positions as $position) {
     <?php } ?>
 </div>
 
-<input type="hidden" name="Order[total_cost]" value="<?=($serviceCost + $cartCost)?>">
+<input type="hidden" name="Order[total_cost]" value="<?=$cartCost?>">

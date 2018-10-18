@@ -1953,41 +1953,6 @@ class Application {
             return false;
         });
 
-        /*$('body').on('beforeSubmit', '#subscribe', (event) => {
-            var form = $(event.currentTarget);
-            var submitButton = form.find('[type="submit"]');
-            var formData = new FormData(form.get(0));
-            var xhr = new XMLHttpRequest();
-
-            xhr.open("POST", "/site/subscribe");
-            xhr.send(formData);
-
-            let buttonHtml = submitButton.html();
-
-            xhr.upload.onprogress = () => {
-
-            };
-
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState == 4){
-                    if (xhr.status == 200){
-                        var response = xhr.responseText;
-
-                        if (response == 'success') {
-                            alert('Вы подписаны');
-                        } else if (response == 'already') {
-                            alert('Вы уже подписаны');
-                        } else {
-                            alert('Ошибка');
-                        }
-                    } else {
-                        console.log('error status');
-                    }
-                }
-            };
-            return false;
-        });*/
-
         $('[href^="tel:"]').click(() => {
             if ($(window).width() < 900) {
                 return true;
@@ -1995,6 +1960,22 @@ class Application {
                 return false;
             }
         });
+
+        var redirect__number = $('.redirect__number')
+        if (redirect__number.get(0)) {
+            setInterval(() => {
+                let value = parseInt(redirect__number.text());
+                let newVal = value - 1;
+
+                if (newVal == 0) {
+                    $('.to-yandex').submit();
+                }
+
+                if (newVal >= 0) {
+                    redirect__number.text(newVal);
+                }
+            }, 1000);
+        }
     }
 
     _initClasses() {

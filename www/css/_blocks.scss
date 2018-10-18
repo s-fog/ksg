@@ -6812,3 +6812,24 @@ body.fancybox-active {
     color: #2d343e;
   }
 }
+
+.formYandex {
+
+  &__button {
+    width: 169px;
+    height: 119px;
+    background-image: url(../img/mail/pay.png);
+    cursor: pointer;
+  }
+}
+
+.redirect {
+  margin-bottom: 25px;
+  font-size: 22px;
+  text-align: center;
+  line-height: 1.2;
+
+  &__number {
+    color: $lightRedColor;
+  }
+}

@@ -2,6 +2,7 @@
 
 use common\models\Product;
 use common\models\ProductParam;
+use frontend\models\Yandexkassa;
 use yz\shoppingcart\ShoppingCart;
 
 $this->params['seo_title'] = '';
@@ -15,8 +16,14 @@ $array = Yii::$app->params['cities'];
 $moscow = $array['Москва'];
 $others = $array['Others'];
 
+
 ?>
 <div class="header">Заказ оформлен</div>
+
+<?php if (isset($_GET['pay']) && $_GET['pay'] == 1) { ?>
+    <div class="redirect container">Через <span class="redirect__number">5</span> секунд Вы будете перенаправлены на страницу оплаты. Не закрывайте страницу.</div>
+<?php } ?>
+
 <div class="successOrder">
     <div class="container">
         <div class="successOrder__item successOrder__item_number" style="background-image: url(/img/success_cart.svg);">
@@ -134,7 +141,9 @@ $others = $array['Others'];
                     <div class="successOrder__line">
                         <div class="successOrder__lineLeft">1. Стоимость</div>
                         <div class="successOrder__lineMiddle"></div>
-                        <div class="successOrder__lineRight">Согласно тарифам ТК</div>
+                        <div class="successOrder__lineRight">
+                            <?=($order->delivery_cost > 0)? "{$order->delivery_cost} <em class=\"rubl\">₽</em>" : "Согласно тарифам ТК"?>
+                        </div>
                     </div>
                 </li>
                 <li>
@@ -179,27 +188,38 @@ $others = $array['Others'];
                 </li>
             </ul>
         </div>
-        <?php
-        $serviceCost = 0;
-
-        foreach($products as $product) {
-            $quantity = $product->getQuantity();
-
-            if ($product->build_cost > 0) {
-                $serviceCost += $product->build_cost * $quantity;
-            }
-
-            if ($product->waranty_cost > 0) {
-                $serviceCost += $product->waranty_cost * $quantity;
-            }
-        }
-        ?>
+        <?php $iii = 1; ?>
         <div class="successOrder__item successOrder__item_summa" style="background-image: url(/img/succsess_money.svg);">
-            <div class="successOrder__header"><span>Сумма к оплате: </span> <?=number_format($order->total_cost + $serviceCost, 0, '', ' ')?> <em class="rubl">₽</em></div>
+            <div class="successOrder__header"><span>Сумма к оплате: </span> <?=number_format($order->costWithDiscount(), 0, '', ' ')?> <em class="rubl">₽</em></div>
             <ul class="successOrder__list">
+                <?php if (!empty($order->discount)) { ?>
+                    <li>
+                        <div class="successOrder__line">
+                            <div class="successOrder__lineLeft"><?=$iii?>. Общая сумма без скидки</div>
+                            <div class="successOrder__lineMiddle"></div>
+                            <div class="successOrder__lineRight">
+                                <?=number_format($order->totalCost(), 0, '', ' ')?> <em class="rubl">₽</em>
+                            </div>
+                        </div>
+                    </li>
+                    <?php $iii++; ?>
+                    <li>
+                        <div class="successOrder__line">
+                            <div class="successOrder__lineLeft"><?=$iii?>. Скидка</div>
+                            <div class="successOrder__lineMiddle"></div>
+                            <div class="successOrder__lineRight">
+                                <?php if (strpos($order->discount, '%')) { ?>
+                                    <?=$order->discount?>
+                                <?php } else { ?>
+                                    <?=number_format((int) $order->discount, 0, '', ' ')?> <em class="rubl">₽</em>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </li>
+                <?php $iii++;} ?>
                 <li>
                     <div class="successOrder__line">
-                        <div class="successOrder__lineLeft">1. Статус оплаты</div>
+                        <div class="successOrder__lineLeft"><?=$iii?>. Статус оплаты</div>
                         <div class="successOrder__lineMiddle"></div>
                         <div class="successOrder__lineRight">
                             <?php if ($order->paid == 0) {
@@ -210,6 +230,20 @@ $others = $array['Others'];
                         </div>
                     </div>
                 </li>
+                <?php $iii++; ?>
+                <?php if ($order->paid != 1) {
+                    $yandexKassa = new Yandexkassa;
+                    ?>
+                    <li>
+                        <div class="successOrder__line successOrder__line_big">
+                            <div class="successOrder__lineLeft"><?=$iii?>. Вы можете оплатить онлайн</div>
+                            <div class="successOrder__lineMiddle successOrder__lineMiddle_big"></div>
+                            <div class="successOrder__lineRight">
+                                <?=$yandexKassa->returnForm($order)?>
+                            </div>
+                        </div>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
     </div>
