@@ -41,6 +41,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'yakassa/order-check' => 'yandexkassa/order-check',
+                'yakassa/payment-aviso' => 'yandexkassa/payment-aviso',
                 'xml/import' => 'xml/import',
                 'site/subscribe' => 'site/subscribe',
                 'mail/index' => 'mail/index',
