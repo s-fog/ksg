@@ -15,7 +15,6 @@ $someServices = false;
 $array = Yii::$app->params['cities'];
 $moscow = $array['Москва'];
 $others = $array['Others'];
-var_dump($order->paid);
 
 
 ?>
