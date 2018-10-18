@@ -16,7 +16,6 @@ $array = Yii::$app->params['cities'];
 $moscow = $array['Москва'];
 $others = $array['Others'];
 
-
 ?>
 <?php if (isset($_GET['action']) && $_GET['action'] == 'PaymentSuccess') {
     echo '<div class="header">Заказ оплачен</div>';
