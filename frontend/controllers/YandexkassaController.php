@@ -18,6 +18,7 @@ class YandexkassaController extends Controller
     }
 
     public function actionOrderCheck() {
+        die();
         $yandexKassa = new Yandexkassa();
         $thisAction = 'checkOrder';
         Yii::$app->response->setStatusCode(200);
