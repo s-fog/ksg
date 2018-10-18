@@ -62,6 +62,7 @@ class YandexkassaController extends Controller
         }
 
         if (mb_strtoupper($yandexKassa->md5($_POST)) == $_POST['md5']) {
+            file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/www/logs/jhhhh.log", $order->paid);
             if ($order->paid != 1) {
                 $order->paid = 1;
                 $order->save(false);
