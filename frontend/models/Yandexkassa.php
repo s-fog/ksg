@@ -62,7 +62,7 @@ class Yandexkassa extends Model
             $discount = $order->discount;
             $perTik = floor($discount / $productCount);
 
-            while($discount > 0) {
+            for($i = 0; $i < 100;$i++) {
                 $minus = ($discount - $perTik > 0) ? $perTik : $discount;
 
                 foreach($items as $index => $item) {
@@ -74,6 +74,10 @@ class Yandexkassa extends Model
                     }
 
                     $items[$index] = $item;
+
+                    if ($discount == 0) {
+                        break;
+                    }
                 }
             }
         }
