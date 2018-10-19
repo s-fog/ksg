@@ -19,18 +19,22 @@ class Yandexkassa extends Model
         $host = 'https://www.ksg.ru';
         $items = [];
         $i = 0;
+        $productCount = 0;
 
         foreach(unserialize(base64_decode($order->products)) as $product) {
             $items[$i]['quantity'] = $product->getQuantity();
             $items[$i]['price']['amount'] = $product->price;
             $items[$i]['tax'] = 1;
             $items[$i]['text'] = $product->name;
+            $items[$i]['type'] = 'product';
+            $productCount++;
 
             if ($product->build_cost > 0) {
                 $items[$i]['quantity'] = $product->getQuantity();
                 $items[$i]['price']['amount'] = $product->build_cost;
                 $items[$i]['tax'] = 1;
                 $items[$i]['text'] = 'Сборка '.$product->name;
+                $items[$i]['type'] = 'service';
                 $i++;
             }
 
@@ -39,6 +43,7 @@ class Yandexkassa extends Model
                 $items[$i]['price']['amount'] = $product->waranty_cost;
                 $items[$i]['tax'] = 1;
                 $items[$i]['text'] = 'Гарантия на '.$product->name;
+                $items[$i]['type'] = 'service';
                 $i++;
             }
 
@@ -50,6 +55,25 @@ class Yandexkassa extends Model
             $items[$i]['price']['amount'] = $order->delivery_cost;
             $items[$i]['tax'] = 1;
             $items[$i]['text'] = 'Доставка';
+            $items[$i]['type'] = 'delivery';
+        }
+
+        if ($order->discount > 0) {
+            $discount = $order->discount;
+            $perTik = floor($discount / $productCount);
+
+            while($discount > 0) {
+                $minus = ($discount - $perTik > 0) ? $perTik : $discount;
+
+                foreach($items as $item) {
+                    if ($item['type'] == 'product') {
+                        if ($item['price'] > $minus) {
+                            $item['price'] = $item['price'] - $minus;
+                            $discount -= $minus;
+                        }
+                    }
+                }
+            }
         }
 
         $merchant = [
