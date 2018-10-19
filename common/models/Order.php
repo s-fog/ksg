@@ -27,8 +27,8 @@ class Order extends BaseOrder
             [['payment', 'name', 'phone', 'email', 'total_cost'], 'required'],
             [['products', 'comm', 'address'], 'string'],
             [['total_cost'], 'number'],
-            [['paid', 'status', 'payment', 'delivery_cost'], 'integer'],
-            [['name', 'phone', 'email', 'present_artikul', 'md5Id', 'discount'], 'string', 'max' => 255],
+            [['paid', 'status', 'payment', 'delivery_cost', 'discount'], 'integer'],
+            [['name', 'phone', 'email', 'present_artikul', 'md5Id'], 'string', 'max' => 255],
             ['present_artikul', 'artikulExists', 'on' => 'update'],
         ];
     }
