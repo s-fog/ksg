@@ -12,7 +12,7 @@ use yii\helpers\Url;
 class Yandexkassa extends Model
 {
     public $shopId = 506702;
-    public $scid = 562612;
+    public $scid = 800588;
     public $shopPassword = 'OhZuYQUrbomgObCmVD';
 
     public function returnForm($order) {
@@ -54,8 +54,7 @@ class Yandexkassa extends Model
         $merchantJson = json_encode($merchant);
         $returnUrl = $host.Url::to(['cart/success', 'md5Id' => $order->md5Id]);
 
-        //$form = '<form action="https://money.yandex.ru/eshop.xml" method="POST" class="formYandex to-yandex">';
-        $form = '<form action="https://demomoney.yandex.ru/eshop.xml" method="POST" class="formYandex to-yandex">';
+        $form = '<form action="https://money.yandex.ru/eshop.xml" method="POST" class="formYandex to-yandex">';
         $form .= '<input type="hidden" name="shopId" value="'.$this->shopId.'">';
         $form .= '<input type="hidden" name="scid" value="'.$this->scid.'">';
         $form .= '<input type="hidden" name="customerNumber" value="'.$order->email.'">';
