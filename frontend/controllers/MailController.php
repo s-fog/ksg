@@ -57,7 +57,7 @@ class MailController extends \yii\web\Controller
                 $order->payment = 0;
                 $order->name = $_POST['OneClickForm']['name'];
                 $order->phone = $_POST['OneClickForm']['phone'];
-                $order->email = '';
+                $order->email = Yii::$app->params['adminEmail'];
                 $order->total_cost = $product->price;
 
                 if ($present = Present::find()->where("$order->total_cost >= min_price AND $order->total_cost < max_price")->one()) {
