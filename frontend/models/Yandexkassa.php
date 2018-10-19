@@ -45,6 +45,13 @@ class Yandexkassa extends Model
             $i++;
         }
 
+        if ($order->delivery_cost > 0) {
+            $items[$i]['quantity'] = '1';
+            $items[$i]['price']['amount'] = $product->delivery_cost;
+            $items[$i]['tax'] = 1;
+            $items[$i]['text'] = 'Доставка';
+        }
+
         $merchant = [
             'customerContact' => $order->email,
             'taxSystem' => 3,
