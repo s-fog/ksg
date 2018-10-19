@@ -194,7 +194,7 @@ $host = 'https://www.ksg.ru/';
                         <span style="font-weight: bold;color: #686c7a;line-height: 1.5;">Мы всегда на связи</span>
                         <a href="tel:+78003500608" style="display: block;color: #1f232f;line-height: 1.5;text-decoration: none;">8 (800) 350 06 08</a>
                         <a href="tel:+74950157017" style="display: block;color: #1f232f;line-height: 1.5;text-decoration: none;">+7 (495) 015-70-17</a>
-                        <a href="mailto:magazin@ksg.ru" style="display: block;color: #1f232f;line-height: 1.5;text-decoration: none;">magazin@ksg.ru</a>
+                        <a href="mailto:<?=Yii::$app->params['adminEmail']?>" style="display: block;color: #1f232f;line-height: 1.5;text-decoration: none;"><?=Yii::$app->params['adminEmail']?></a>
                         <a href="<?=$host?>" style="font-size: 16px;color: #1f232f;">Перейти на сайт</a>
                     </td>
                 </tr>

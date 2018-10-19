@@ -65,7 +65,7 @@ class Yandexkassa extends Model
             while($discount > 0) {
                 $minus = ($discount - $perTik > 0) ? $perTik : $discount;
 
-                foreach($items as $index => $item) {
+                /*foreach($items as $index => $item) {
                     if ($item['type'] == 'product') {
                         if ($item['price']['amount'] > $minus) {
                             $item['price']['amount'] = $item['price']['amount'] - $minus;
@@ -74,7 +74,7 @@ class Yandexkassa extends Model
                     }
 
                     $items[$index] = $item;
-                }
+                }*/
             }
         }
 
