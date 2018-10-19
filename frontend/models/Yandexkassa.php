@@ -47,7 +47,7 @@ class Yandexkassa extends Model
 
         if ($order->delivery_cost > 0) {
             $items[$i]['quantity'] = '1';
-            $items[$i]['price']['amount'] = $product->delivery_cost;
+            $items[$i]['price']['amount'] = $order->delivery_cost;
             $items[$i]['tax'] = 1;
             $items[$i]['text'] = 'Доставка';
         }
