@@ -37,7 +37,7 @@ $host = 'https://www.ksg.ru/';
                 <?php
                 $i = 1;
 
-                foreach($this->params['products'] as $product) {
+                foreach($products as $product) {
                     $paramsV = $product->paramsV;
                     $variant = ProductParam::findOne(['product_id' => $product->id, 'params' => $paramsV]);
                     $quantity = $product->getQuantity();

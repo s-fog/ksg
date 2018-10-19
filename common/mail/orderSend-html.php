@@ -3,8 +3,10 @@ $this->params['order'] = $order;
 $this->params['products'] = unserialize(base64_decode($order->products));
 ?>
 
-<?php if ($paying) {
+<?php echo '<h1 style="padding: 30px 0;text-align: center;"><img src="https://www.ksg.ru/img/mail/zakaz_oplachen.png" class="h1__image" alt="" style="display: inline-block;"></h1>'; ?>
+
+<?php/* if ($paying) {
     echo '<h1 style="padding: 30px 0;text-align: center;"><img src="https://www.ksg.ru/img/mail/zakaz_oplachen.png" class="h1__image" alt="" style="display: inline-block;"></h1>';
 } else {
     echo '<div class="h1" style="padding: 30px 0;text-align: center;"><img src="https://www.ksg.ru/img/mail/thanks.jpg" class="h1__image" alt="" style="display: inline-block;"></div>';
-} ?>
+}*/ ?>
