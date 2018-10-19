@@ -76,8 +76,7 @@ class MailController extends \yii\web\Controller
                     $client->save();
 
                     if ($md5Id = $order->saveMd5Id(false)) {
-                        //if ($order->sendEmails(Yii::$app->params['adminEmail'], 'Создан новый заказ ksg.ru')) {
-                        if ($order->sendEmails('s-fog@yandex.ru', 'Создан новый заказ ksg.ru')) {
+                        if ($order->sendEmails(Yii::$app->params['adminEmail'], 'Создан новый заказ ksg.ru')) {
                             return $md5Id;
                         } else {
                             return 'cant send emails';
