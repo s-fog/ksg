@@ -62,6 +62,7 @@ class Yandexkassa extends Model
             $discount = $order->discount;
             $perTik = floor($discount / $productCount);
             var_dump($perTik);
+            var_dump($productCount);
 
             for($i = 0; $i < 100;$i++) {
                 $minus = ($discount - $perTik > 0) ? $perTik : $discount;
