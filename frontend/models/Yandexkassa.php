@@ -74,7 +74,7 @@ class Yandexkassa extends Model
                             var_dump($discount);
 
                             if ($discount <= 0) {
-                                break;
+                                break 2;
                             }
                         }
                     }
