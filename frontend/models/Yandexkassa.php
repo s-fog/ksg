@@ -20,14 +20,14 @@ class Yandexkassa extends Model
         $items = [];
         $i = 0;
         $productCount = 0;
+        $productsI = [];
 
         foreach(unserialize(base64_decode($order->products)) as $product) {
-            for ($i = 0; $i < $product->getQuantity(); $i++) {
-                $items[$i]['quantity'] = 1;
-                $items[$i]['price']['amount'] = $product->price;
-                $items[$i]['tax'] = 1;
-                $items[$i]['text'] = $product->name;
-                $items[$i]['type'] = 'product';
+            for ($j = 0; $j < $product->getQuantity(); $j++) {
+                $productsI[$j]['quantity'] = 1;
+                $productsI[$j]['price']['amount'] = $product->price;
+                $productsI[$j]['tax'] = 1;
+                $productsI[$j]['text'] = $product->name;
                 $productCount++;
             }
 
@@ -36,7 +36,6 @@ class Yandexkassa extends Model
                 $items[$i]['price']['amount'] = $product->build_cost;
                 $items[$i]['tax'] = 1;
                 $items[$i]['text'] = 'Сборка '.$product->name;
-                $items[$i]['type'] = 'service';
                 $i++;
             }
 
@@ -45,11 +44,8 @@ class Yandexkassa extends Model
                 $items[$i]['price']['amount'] = $product->waranty_cost;
                 $items[$i]['tax'] = 1;
                 $items[$i]['text'] = 'Гарантия на '.$product->name;
-                $items[$i]['type'] = 'service';
                 $i++;
             }
-
-            $i++;
         }
 
         if ($order->delivery_cost > 0) {
@@ -57,7 +53,6 @@ class Yandexkassa extends Model
             $items[$i]['price']['amount'] = $order->delivery_cost;
             $items[$i]['tax'] = 1;
             $items[$i]['text'] = 'Доставка';
-            $items[$i]['type'] = 'delivery';
         }
 
         if ($order->discount > 0) {
@@ -67,26 +62,31 @@ class Yandexkassa extends Model
             for($i = 0; $i < 100;$i++) {
                 $minus = ($discount - $perTik > 0) ? $perTik : $discount;
 
-                foreach($items as $index => $item) {
-                    if ($item['type'] == 'product') {
-                        if ($item['price']['amount'] > $minus) {
-                            $item['price']['amount'] = $item['price']['amount'] - $minus;
-                            $discount = $discount - ($minus * $item['quantity']);
-                            $items[$index] = $item;
+                foreach($productsI as $index => $item) {
+                    if ($item['price']['amount'] > $minus) {
+                        $item['price']['amount'] = $item['price']['amount'] - $minus;
+                        $discount = $discount - ($minus * $item['quantity']);
+                        $productsI[$index] = $item;
 
-                            if ($discount <= 0) {
-                                break 2;
-                            }
+                        if ($discount <= 0) {
+                            break 2;
                         }
                     }
                 }
             }
         }
 
+        foreach($items as $index => $item) {
+            if ($item['type'] == 'product') {
+
+            }
+        }
+
+
         $merchant = [
             'customerContact' => $order->email,
             'taxSystem' => 3,
-            'items' => $items
+            'items' => $productsI
         ];
 
         $merchantJson = json_encode($merchant);
