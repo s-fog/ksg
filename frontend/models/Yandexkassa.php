@@ -87,7 +87,7 @@ class Yandexkassa extends Model
                 $productsB[$mdd5] = $item;
             }
         }
-
+        sort($productsB);
 
         $merchant = [
             'customerContact' => $order->email,
