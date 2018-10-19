@@ -51,14 +51,14 @@ class Yandexkassa extends Model
         }
 
         if ($order->delivery_cost > 0) {
-            $items[$i]['quantity'] = '1';
+            $items[$i]['quantity'] = 1;
             $items[$i]['price']['amount'] = $order->delivery_cost;
             $items[$i]['tax'] = 1;
             $items[$i]['text'] = 'Доставка';
             $items[$i]['type'] = 'delivery';
         }
 
-        /*if ($order->discount > 0) {
+        if ($order->discount > 0) {
             $discount = $order->discount;
             $perTik = floor($discount / $productCount);
 
@@ -69,14 +69,14 @@ class Yandexkassa extends Model
                     if ($item['type'] == 'product') {
                         if ($item['price']['amount'] > $minus) {
                             $item['price']['amount'] = $item['price']['amount'] - $minus;
-                            $discount -= $minus;
+                            $discount = $discount - ($minus * $item['quantity']);
                         }
                     }
 
                     $items[$index] = $item;
                 }
             }
-        }*/
+        }
 
         $merchant = [
             'customerContact' => $order->email,
