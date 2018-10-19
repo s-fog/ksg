@@ -70,14 +70,13 @@ class Yandexkassa extends Model
                         if ($item['price']['amount'] > $minus) {
                             $item['price']['amount'] = $item['price']['amount'] - $minus;
                             $discount = $discount - ($minus * $item['quantity']);
+                            $items[$index] = $item;
                             var_dump($discount);
+
+                            if ($discount <= 0) {
+                                break;
+                            }
                         }
-                    }
-
-                    $items[$index] = $item;
-
-                    if ($discount <= 0) {
-                        break;
                     }
                 }
             }
