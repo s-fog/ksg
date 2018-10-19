@@ -76,7 +76,7 @@ class Yandexkassa extends Model
 
                     $items[$index] = $item;
 
-                    if ($discount == 0) {
+                    if ($discount <= 0) {
                         break;
                     }
                 }
