@@ -76,9 +76,15 @@ class Yandexkassa extends Model
             }
         }
 
-        foreach($items as $index => $item) {
-            if ($item['type'] == 'product') {
+        $productsB = [];
 
+        foreach($productsI as $index => $item) {
+            $mdd5 = md5($item['quantity'].$item['price']['amount']).$item['text'];
+
+            if (isset($productsB[$mdd5])) {
+                $productsB[$mdd5]['quantity']++;
+            } else {
+                $productsB[$mdd5] = $item;
             }
         }
 
@@ -86,7 +92,7 @@ class Yandexkassa extends Model
         $merchant = [
             'customerContact' => $order->email,
             'taxSystem' => 3,
-            'items' => $productsI
+            'items' => $productsB
         ];
 
         $merchantJson = json_encode($merchant);
