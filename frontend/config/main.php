@@ -70,33 +70,6 @@ return [
                 '<alias>' => 'site/index',
             ],
         ],
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            'viewPath' => '@common/mail',
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.yandex.ru',
-                'username' => 'magazin@ksg.ru',
-                'password' => 'ghdjkjksk2255hh',
-                'port' => '465',
-                'encryption' => 'ssl', // у яндекса SSL
-            ],
-            'useFileTransport' => false, // будем отправлять реальные сообщения, а не в файл
-        ],
-        'mailer_order' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            'viewPath' => '@common/mail',
-            'htmlLayout' => 'layouts/order-html',
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.yandex.ru',
-                'username' => 'magazin@ksg.ru',
-                'password' => 'ghdjkjksk2255hh',
-                'port' => '465',
-                'encryption' => 'ssl', // у яндекса SSL
-            ],
-            'useFileTransport' => false, // будем отправлять реальные сообщения, а не в файл
-        ],
     ],
     'params' => $params,
 ];

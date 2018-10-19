@@ -87,13 +87,15 @@ $host = 'https://www.ksg.ru/';
                     }
                 }
                 ?>
-                <?php if (!empty($order->present_artikul)
-                    &&
-                    $present = ProductParam::findOne(['artikul' => $order->present_artikul])->product) { ?>
-                    <tr>
-                        <td>+ ПОДАРОК "<a href="<?=$host.'product/'.$present->alias?>" style="color: #000;"><?=$present->name?></a>" 1 шт.</td>
-                    </tr>
-                <?php } ?>
+                <?php if (!empty($order->present_artikul)) {
+                    if ($present = ProductParam::findOne(['artikul' => $order->present_artikul])) {
+                        if ($presentProduct = $present->product) { ?>
+                            <tr>
+                                <td>+ ПОДАРОК "<a href="<?=$host.'product/'.$presentProduct->alias?>" style="color: #000;"><?=$presentProduct->name?></a>" 1 шт.</td>
+                            </tr>
+                        <?php }
+                    }
+                } ?>
             </table>
         </div>
         <div class="main__item" style="margin: 40px 0;color: #1f232f;">

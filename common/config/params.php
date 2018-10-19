@@ -1,6 +1,6 @@
 <?php
 return [
-    'adminEmail' => 'magazin@ksg.ru',
+    'adminEmail' => 'hi@ksg.ru',
     'supportEmail' => 'support@example.com',
     'user.passwordResetTokenExpire' => 3600,
     'categoryTypes' => [

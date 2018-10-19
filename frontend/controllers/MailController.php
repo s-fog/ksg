@@ -58,6 +58,8 @@ class MailController extends \yii\web\Controller
                 $order->name = $_POST['OneClickForm']['name'];
                 $order->phone = $_POST['OneClickForm']['phone'];
                 $order->email = Yii::$app->params['adminEmail'];
+                $order->discount = 10;
+                $order->delivery_cost = 100;
                 $order->total_cost = $product->price;
 
                 if ($present = Present::find()->where("$order->total_cost >= min_price AND $order->total_cost < max_price")->one()) {
@@ -74,7 +76,8 @@ class MailController extends \yii\web\Controller
                     $client->save();
 
                     if ($md5Id = $order->saveMd5Id(false)) {
-                        if ($order->sendEmails(Yii::$app->params['adminEmail'], 'Создан новый заказ ksg.ru')) {
+                        //if ($order->sendEmails(Yii::$app->params['adminEmail'], 'Создан новый заказ ksg.ru')) {
+                        if ($order->sendEmails('s-fog@yandex.ru', 'Создан новый заказ ksg.ru')) {
                             return $md5Id;
                         } else {
                             return 'cant send emails';
