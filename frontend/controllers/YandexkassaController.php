@@ -34,7 +34,7 @@ class YandexkassaController extends Controller
                 return $yandexKassa->buildResponse($thisAction, $_POST['invoiceId'], 100);
             }
 
-            if (strtoupper($yandexKassa->md5($_POST)) == $_POST['md5']) {
+            if (mb_strtoupper($yandexKassa->md5($_POST)) == $_POST['md5']) {
                 return $yandexKassa->buildResponse($thisAction, $_POST['invoiceId'], 0);
             } else if (mb_strtoupper($yandexKassa->md5) != $_POST['md5']) {
                 return $yandexKassa->buildResponse($thisAction, $_POST['invoiceId'], 1);
@@ -45,7 +45,6 @@ class YandexkassaController extends Controller
     }
 
     public function actionPaymentAviso() {
-        die();
         $yandexKassa = new Yandexkassa();
         $order = Order::findOne($_POST['orderNumber']*1);
         $thisAction = 'paymentAviso';
