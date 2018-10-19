@@ -27,7 +27,7 @@ class Yandexkassa extends Model
             $items[$i]['tax'] = 1;
             $items[$i]['text'] = $product->name;
             $items[$i]['type'] = 'product';
-            $productCount++;
+            $productCount = $productCount + 1*$product->getQuantity();
 
             if ($product->build_cost > 0) {
                 $items[$i]['quantity'] = $product->getQuantity();
