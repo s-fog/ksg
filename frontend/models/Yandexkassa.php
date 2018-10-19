@@ -79,7 +79,7 @@ class Yandexkassa extends Model
         $productsB = [];
 
         foreach($productsI as $index => $item) {
-            $mdd5 = md5($item['quantity'].$item['price']['amount']).$item['text'];
+            $mdd5 = md5($item['quantity'].$item['price']['amount'].$item['text']);
 
             if (isset($productsB[$mdd5])) {
                 $productsB[$mdd5]['quantity']++;
