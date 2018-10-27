@@ -21,8 +21,7 @@ class XmlController extends Controller
         $xml = new Xml();
 
         /*$ch = curl_init();
-        $agent = $_SERVER["HTTP_USER_AGENT"];
-        curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+        curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
         curl_setopt($ch, CURLOPT_URL, 'https://hasttings.ru/diler/fast.yml');
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -33,6 +32,22 @@ class XmlController extends Controller
         var_dump($result);
         die();*/
 
+        ////////////////////////////////////////////////////////////////////////////////
+        $stark = simplexml_load_file('http://xn----dtbgdaodln4afhyim1m.com/price/?sklad=moscow');
+        $starkArray = [];
+
+        foreach($stark->products->product as $product) {
+            foreach($product->offers->offer as $offer) {
+                $available = (string) $offer->amount;
+                $artikul = (string) $offer->id;
+                $price = (int) $product->price;
+
+                $starkArray[$artikul]['price'] = $price;
+                $starkArray[$artikul]['available'] = $available;
+            }
+        }
+
+        $xml->loadXml('stark', $starkArray, 6);
         ////////////////////////////////////////////////////////////////////////////////
         $svenson = simplexml_load_file('https://jorgen-svensson.com/ru/data.yml');
         $svensonArray = [];

@@ -35,6 +35,8 @@ class Xml extends Model
                     $item['available'] === 'Ожидается'
                     ||
                     (is_numeric($item['available']) && $item['available'] == 0)
+                    ||
+                    ((int) $item['available'] < 0)
                 ) {
                     $available = 0;
                 } else if (is_numeric($item['available'])) {
@@ -53,7 +55,9 @@ class Xml extends Model
                     $message[] = "Наличие изменено";
                 }
 
-                $product->price = $item['price'];
+                if ($item['price'] > 0) {
+                    $product->price = $item['price'];
+                }
                 $productParam->available = $available;
 
                 if ($product->save() && $productParam->save()) {
