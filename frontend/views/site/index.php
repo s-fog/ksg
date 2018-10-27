@@ -61,7 +61,7 @@ $this->params['name'] = $model->name;
 </div>
 
 
-<?php foreach($hits as $product) {
+<?php foreach($hitProducts as $product) {
     echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
 } ?>
 
