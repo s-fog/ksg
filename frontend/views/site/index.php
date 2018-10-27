@@ -41,10 +41,7 @@ $this->params['name'] = $model->name;
         <div class="hits__text">Эти товары пользуются особой популярностью, присмотритесь,<br> возможно подберете для себя что-нибудь интересное.</div>
         <div class="catalog">
             <div class="catalog__inner">
-                <?php
-                $hits = Product::find()->where(['hit' => 1])->limit(6)->all();
-
-                foreach($hits as $item) {
+                <?php foreach($hitProducts as $item) {
                     echo $this->render('@frontend/views/catalog/_item', [
                         'model' => $item
                     ]);

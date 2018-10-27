@@ -400,10 +400,19 @@ class SiteController extends Controller
             $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM mainslider ORDER BY updated_at DESC']);
             $cache->set('mainSliders', $mainSliders, null, $dependency);
         }
+        if (!$hitProducts = $cache->get('hitProducts')){
+            //Получаем данные из таблицы (модель TagPost)
+            $hitProducts = Product::find()->where(['hit' => 1])->limit(6)->orderBy(['updated_at' => SORT_DESC])->all();
+
+            //Устанавливаем зависимость кеша от кол-ва записей в таблице
+            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM product ORDER BY updated_at DESC']);
+            $cache->set('hitProducts', $hitProducts, null, $dependency);
+        }
 
         return $this->render('index', [
             'model' => $model,
             'mainSliders' => $mainSliders,
+            'hitProducts' => $hitProducts,
         ]);
     }
 
