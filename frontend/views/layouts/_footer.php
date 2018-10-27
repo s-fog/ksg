@@ -10,6 +10,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\MaskedInput;
 
+$cache = Yii::$app->cache;
 
 $infoAndService = Textpage::findOne(8);
 $company = Textpage::findOne(9);
@@ -28,10 +29,16 @@ $others = $array['Others'];
                 <div class="footer__itemHeader"><?=$infoAndService->name?></div>
                 <ul class="footer__itemMenu">
                     <?php
-                    foreach(Textpage::find()
-                        ->where(['type' => 1])
-                        ->orderBy(['sort_order' => SORT_DESC])
-                        ->all() as $textpage) { ?>
+                    if (!$textpages1 = $cache->get('textpages1')){
+                        $textpages1 = Textpage::find()
+                            ->where(['type' => 1])
+                            ->orderBy(['sort_order' => SORT_DESC])
+                            ->all();
+                        $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM textpage ORDER BY updated_at DESC']);
+                        $cache->set('textpages1', $textpages1, null, $dependency);
+                    }
+
+                    foreach($textpages1 as $textpage) { ?>
                     <li><a href="<?=Url::to([
                             'site/index',
                             'alias' => $infoAndService->alias,
@@ -44,10 +51,15 @@ $others = $array['Others'];
                 <div class="footer__itemHeader"><?=$company->name?></div>
                 <ul class="footer__itemMenu">
                     <?php
-                    foreach(Textpage::find()
-                        ->where(['type' => 2])
-                        ->orderBy(['sort_order' => SORT_DESC])
-                        ->all() as $textpage) { ?>
+                    if (!$textpages2 = $cache->get('textpages2')){
+                        $textpages2 = Textpage::find()
+                            ->where(['type' => 2])
+                            ->orderBy(['sort_order' => SORT_DESC])
+                            ->all();
+                        $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM textpage ORDER BY updated_at DESC']);
+                        $cache->set('textpages2', $textpages2, null, $dependency);
+                    }
+                    foreach($textpages2 as $textpage) { ?>
                         <li><a href="<?=Url::to([
                                 'site/index',
                                 'alias' => $company->alias,

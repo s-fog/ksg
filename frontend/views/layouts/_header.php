@@ -5,6 +5,7 @@ use common\models\Textpage;
 use frontend\models\City;
 use yii\helpers\Url;
 
+$cache = Yii::$app->cache;
 $city = City::getCity();
 $array = Yii::$app->params['cities'];
 $moscow = $array['Москва'];
@@ -91,10 +92,14 @@ if ($city == 'Москва') {
                     <svg class="mainHeader__popupMenuPicked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 3"><title>some-2</title><g id="Слой_2" data-name="Слой 2"><g id="Слой_1-2" data-name="Слой 1"><polygon points="1.7 0 0 1.4 0 3 87.3 3 89 1.5 89 0 1.7 0"/></g></g></svg>
                     <div class="mainHeader__popupMenuTabs">
                         <?php
-                        $firstLevelCategories = Category::find()
-                            ->where(['parent_id' => 0, 'type' => 0, 'active' => 1])
-                            ->orderBy(['sort_order' => SORT_DESC])
-                            ->all();
+                        if (!$firstLevelCategories = $cache->get('firstLevelCategories')){
+                            $firstLevelCategories = Category::find()
+                                ->where(['parent_id' => 0, 'type' => 0, 'active' => 1])
+                                ->orderBy(['sort_order' => SORT_DESC])
+                                ->all();
+                            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
+                            $cache->set('firstLevelCategories', $firstLevelCategories, null, $dependency);
+                        }
 
                         foreach($firstLevelCategories as $index => $firstLevelCategory) {
                             $active = '';
@@ -116,17 +121,25 @@ if ($city == 'Москва') {
                                 $active = ' active';
                             }
 
-                            $secondLevelCategories = Category::find()
-                                ->where(['parent_id' => $firstLevelCategory->id, 'type' => 0, 'active' => 1])
-                                ->orderBy(['sort_order' => SORT_DESC])
-                                ->all();
+                            if (!$secondLevelCategories = $cache->get('secondLevelCategories'.$firstLevelCategory->id)){
+                                $secondLevelCategories = Category::find()
+                                    ->where(['parent_id' => $firstLevelCategory->id, 'type' => 0, 'active' => 1])
+                                    ->orderBy(['sort_order' => SORT_DESC])
+                                    ->all();
+                                $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
+                                $cache->set('secondLevelCategories'.$firstLevelCategory->id, $secondLevelCategories, null, $dependency);
+                            }
                             echo '<div class="mainHeader__popupMenuItems'.$active.'">';
 
                             foreach($secondLevelCategories as $secondLevelCategory) {
-                                $thirdLevelCategories = Category::find()
-                                    ->where(['parent_id' => $secondLevelCategory->id, 'type' => 0, 'active' => 1])
-                                    ->orderBy(['sort_order' => SORT_DESC])
-                                    ->all();
+                                if (!$thirdLevelCategories = $cache->get('thirdLevelCategories'.$secondLevelCategory->id)){
+                                    $thirdLevelCategories = Category::find()
+                                        ->where(['parent_id' => $secondLevelCategory->id, 'type' => 0, 'active' => 1])
+                                        ->orderBy(['sort_order' => SORT_DESC])
+                                        ->all();
+                                    $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
+                                    $cache->set('thirdLevelCategories'.$secondLevelCategory->id, $thirdLevelCategories, null, $dependency);
+                                }
                                 ?>
                                 <div class="mainHeader__popupMenuItem">
                                     <a href="<?=Url::to([
