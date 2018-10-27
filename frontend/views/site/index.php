@@ -15,7 +15,7 @@ $this->params['name'] = $model->name;
 ?>
 
 <div class="mainSlider owl-carousel">
-    <?php foreach(Mainslider::find()->orderBy(['sort_order' => SORT_DESC])->all() as $item) {
+    <?php foreach($mainSliders as $item) {
         $filename = explode('.', basename($item->image));
         ?>
         <div class="mainSlider__item" style="background-image: url(/images/thumbs/<?=$filename[0]?>-1942-438.<?=$filename[1]?>);">

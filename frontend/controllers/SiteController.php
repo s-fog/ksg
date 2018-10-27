@@ -5,6 +5,7 @@ use common\models\Brand;
 use common\models\Feature;
 use common\models\FeatureValue;
 use common\models\Mainpage;
+use common\models\Mainslider;
 use common\models\News;
 use common\models\Product;
 use common\models\ProductParam;
@@ -89,6 +90,7 @@ class SiteController extends Controller
     public function actionIndex($alias = '', $alias2 = '')
     {
         City::setCity();
+        $cache = Yii::$app->cache;
 
         if (!empty($alias2)) {
             $textpage = Textpage::findOne(['alias' => $alias2]);
@@ -388,11 +390,20 @@ class SiteController extends Controller
             }
         }
 
-
         $model = Mainpage::findOne(1);
+
+        if (!$mainSliders = $cache->get('mainSliders')){
+            //Получаем данные из таблицы (модель TagPost)
+            $mainSliders = Mainslider::find()->orderBy(['sort_order' => SORT_DESC])->all();
+
+            //Устанавливаем зависимость кеша от кол-ва записей в таблице
+            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM mainslider ORDER BY updated_at DESC']);
+            $cache->set('mainSliders', $mainSliders, null, $dependency);
+        }
 
         return $this->render('index', [
             'model' => $model,
+            'mainSliders' => $mainSliders,
         ]);
     }
 
