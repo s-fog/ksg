@@ -1269,7 +1269,9 @@ class Sorting {
                 data += `&sort=${sortVal}`;
             }
 
-            location = `${location.pathname}?${data}`;
+            let filterSerialize = $('.filter').serialize();
+
+            location = `${location.pathname}?${data}&${filterSerialize}`;
 
             return false;
         });
@@ -1319,7 +1321,7 @@ class Filter {
         this.nodes.filter.on('submit', () => {
             let serialize = $(".filter :input[value!='']").serialize();
 
-            location = location.pathname + '?' + serialize;
+            location = location.pathname + '?' + serialize+'&'+$('.sorting').serialize();
             return false;
         });
 

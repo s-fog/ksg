@@ -52,7 +52,7 @@ class Mainpage extends \yii\db\ActiveRecord
             'seo_keywords' => 'Seo Keywords',
             'seo_description' => 'Seo Description',
             'delivery' => 'Текст доставки в корзине',
-            'banner_image' => 'Баннер для товара',
+            'banner_image' => 'Баннер для товара(285xany)',
             'delivery_free_from' => 'Начиная с этой цену, у товара будет бесплатная доставка',
             'product_delivery_left' => 'Доставка для товара (левая колонка)',
             'product_delivery_right' => 'Доставка для товара (правая колонка)',
