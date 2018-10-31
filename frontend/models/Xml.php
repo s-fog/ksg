@@ -34,6 +34,8 @@ class Xml extends Model
                     ||
                     $item['available'] === 'Ожидается'
                     ||
+                    $item['available'] === 'false'
+                    ||
                     (is_numeric($item['available']) && $item['available'] == 0)
                     ||
                     ((int) $item['available'] < 0)
@@ -41,7 +43,11 @@ class Xml extends Model
                     $available = 0;
                 } else if (is_numeric($item['available'])) {
                     $available = (int) $item['available'];
-                } else if ($item['available'] == 'более 10') {
+                } else if (
+                    $item['available'] == 'более 10'
+                    ||
+                    $item['available'] == 'true'
+                ) {
                     $available = 10;
                 } else {
                     $available = 10;

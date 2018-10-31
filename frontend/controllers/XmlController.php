@@ -33,6 +33,20 @@ class XmlController extends Controller
         die();*/
 
         ////////////////////////////////////////////////////////////////////////////////
+        $soulfit = simplexml_load_file('http://soulfitnes.ru/wp-content/plugins/saphali-export-yml2/export.yml');
+        $soulfitArray = [];
+
+        foreach($soulfit->shop->offers->offer as $offer) {
+            $available = (string) $offer->attributes()->{'available'};
+            $artikul = (string) $offer->vendorCode;
+            $price = (int) $offer->price;
+
+            $soulfitArray[$artikul]['price'] = $price;
+            $soulfitArray[$artikul]['available'] = $available;
+        }
+
+        $xml->loadXml('soulfit', $soulfitArray, 4);
+        ////////////////////////////////////////////////////////////////////////////////
         $stark = simplexml_load_file('http://xn----dtbgdaodln4afhyim1m.com/price/?sklad=moscow');
         $starkArray = [];
 
