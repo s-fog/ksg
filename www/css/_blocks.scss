@@ -6255,21 +6255,16 @@ r
 
   &__innerMapLeft {
     flex: 0 0 500px;
+    @include respond-to(950) {
+      flex: 0 0 100%;
+    }
   }
 
   &__innerMapRight {
     position: relative;
-    flex: 1 1 auto;
-    
-    #contactsMap {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      margin: auto;
-      width: 100%;
-      height: 100%;
+    flex: 1 0 auto;
+    @include respond-to(950) {
+      flex: 0 0 100%;
     }
   }
 }
