@@ -2688,7 +2688,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 7px 0 20px;
+    margin: 7px 0 18px;
 
     &_desktop {
       @include respond-to(660) {
@@ -2953,23 +2953,23 @@ body {
   &__featureIcon {
 
     &_1 {
-      height: 30px;
+      height: 25px;
       transform: translate(-15px, -5px);
     }
 
     &_2 {
-      height: 35px;
+      height: 30px;
       transform: translate(3px, -5px);
     }
 
     &_3 {
       margin-top: -25px;
-      height: 65px;
+      height: 60px;
       transform: translate(-3px, 5px);
     }
 
     &_4 {
-      height: 40px;
+      height: 35px;
       transform: translate(0, -3px);
     }
 
