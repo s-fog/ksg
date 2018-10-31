@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use backend\models\UploadFile;
 use common\models\Mainpage;
 use Yii;
 use yii\web\Controller;
@@ -63,8 +64,28 @@ class MainpageController extends Controller
     {
         $model = Mainpage::findOne(1);
 
-        $model->load($_POST);
-        $model->save();
+        if ($model->load($_POST)) {
+            $banner_image = $model->banner_image;
+
+            if (!empty($_FILES['Mainpage']['name']['banner_image'])) {
+                $model->banner_image = UploadFile::upload(
+                    $model,
+                    Mainpage::findOne(1),
+                    'banner_image',
+                    'banner_image',
+                    []
+                );
+            } else {
+                $model->banner_image = $banner_image;
+            }
+
+            if ($model->validate()) {
+                if ($model->save()) {
+
+                }
+            }
+        }
+        
         return $this->render('@backend/views/mainpage/update', [
             'model' => $model,
         ]);

@@ -12,6 +12,8 @@ $this->params['seo_description'] = $model->seo_description;
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
 
+$presents = \common\models\Present::find()->all();
+
 ?>
 
 <div class="searchPage">
@@ -94,7 +96,10 @@ $this->params['name'] = $model->name;
             </div>
 
             <?php foreach($products as $product) {
-                echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
+                echo $this->render('@frontend/views/catalog/_addToCart_items', [
+                    'model' => $product,
+                    'presents' => $presents,
+                ]);
             } ?>
         <?php } ?>
         <?php if (!empty($stati)) {

@@ -8,24 +8,23 @@
     use common\models\Present;
     use common\models\Product;
     use common\models\ProductParam;
+    $products = \Yii::$app->cart->getPositions();
 
-    foreach(\Yii::$app->cart->getPositions() as $product) {
+    foreach($products as $product) {
         echo $this->render('_product', ['product' => $product]);
     }
 
     $cartCost = $cart->getCost();
 
-    if ($present = Present::find()->where("$cartCost >= min_price AND $cartCost < max_price")->one()) {
-        $productParam = ProductParam::findOne(['artikul' => $present->product_artikul]);
-        $productPresent = Product::findOne($productParam->product_id);
-        $paramsV = (empty($productParam->params)) ? '' : implode('|', $productParam->params);
-        $productPresent->paramsV = $paramsV;
-        echo '<input type="hidden" name="Order[present_artikul]" value="'.$present->product_artikul.'">';
+    foreach($products as $product) {
+        if (!empty($product->present_artikul)) {
+            $present = $product->getPresent($product->present_artikul);
 
-        echo $this->render('_product', [
-            'product' => $productPresent,
-            'present' => true,
-            'paramsV' => $paramsV,
-        ]);
+            echo $this->render('_product', [
+                'product' => $present,
+                'present' => true,
+                'paramsV' => $present->paramsV,
+            ]);
+        }
     } ?>
 </table>

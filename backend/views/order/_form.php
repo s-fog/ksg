@@ -222,4 +222,3 @@ foreach($products as $md5Id => $product) {
     </div>
 
 </div>
-

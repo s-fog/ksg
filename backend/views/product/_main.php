@@ -161,4 +161,11 @@ if ($model->instruction) {
 <!-- attribute video -->
 <?= $form->field($model, 'video')->textInput(['maxlength' => true]) ?>
 
+<?=$this->render('@backend/views/blocks/image', [
+    'form' => $form,
+    'model' => $model,
+    'image' => $model->present_image,
+    'name' => 'present_image'
+])?>
+
 <?=$this->render('@backend/views/features/_sortableJs')?>

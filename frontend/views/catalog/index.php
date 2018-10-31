@@ -24,6 +24,7 @@ $this->params['name'] = $model->name;
 
 $childrenCategories = $model->getChildrenCategories();
 
+$presents = \common\models\Present::find()->all();
 
 ?>
 
@@ -207,5 +208,8 @@ $childrenCategories = $model->getChildrenCategories();
 <?php } ?>
 
 <?php foreach($products as $product) {
-    echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
+    echo $this->render('@frontend/views/catalog/_addToCart_items', [
+        'model' => $product,
+        'presents' => $presents,
+    ]);
 } ?>

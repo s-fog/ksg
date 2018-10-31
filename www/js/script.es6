@@ -773,7 +773,7 @@ class Cart {
 
         $('.select-product-jquery-ui').customselectmenu({
             change: (event, ui) => {
-                this.reloadProduct();
+                //this.reloadProduct();
             }
         });
 
@@ -866,8 +866,10 @@ class Cart {
             let id = wrapper.data('id');
             let paramsV = this.getParamsv(true, wrapper);
             let quantity = wrapper.find('.cart__countInput').val();
+            let delivery_date = wrapper.data('delivery_date');
+            let present_artikul = wrapper.data('present_artikul');
 
-            this.addToCart(id, paramsV, quantity, wrapper);
+            this.addToCart(id, paramsV, quantity, wrapper, present_artikul, delivery_date);
 
             return false;
         });
@@ -1035,6 +1037,18 @@ class Cart {
                 $('.productImages__image img').prop('src', image);
             },
         });
+
+        $('.js-product-in-js').fancybox({
+            beforeLoad: (instance, slide) => {
+                let thisElement = $(slide.opts.$orig);
+                let productArtikul = $('[name="present_artikul"]:checked').val();
+                let deliveryDate = $('[name="delivery_date"] option:selected').val();
+                let addToCart = $('#addToCart');
+
+                addToCart.attr('data-present_artikul', productArtikul);
+                addToCart.attr('data-delivery_date', deliveryDate);
+            }
+        })
     }
 
     _ready() {
@@ -1111,13 +1125,21 @@ class Cart {
         });
     }
 
-    addToCart(id, paramsV, quantity, fromPopupWrapper = false) {
+    addToCart(id, paramsV, quantity, fromPopupWrapper = false, presentArtikul = false, deliveryDate = false) {
         let data = `id=${id}&quantity=${quantity}`;
 
         if (paramsV) {
             data += `&paramsV=${paramsV}`;
         } else {
             data += `&paramsV=`;
+        }
+
+        if (presentArtikul) {
+            data += `&presentArtikul=${presentArtikul}`;
+        }
+
+        if (deliveryDate) {
+            data += `&deliveryDate=${deliveryDate}`;
         }
 
         $.post('/cart/add', data, (response) => {

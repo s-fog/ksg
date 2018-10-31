@@ -71,7 +71,7 @@ abstract class Present extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'sort_order' => 'Sort Order',
-            'product_artikul' => 'Артикул товара',
+            'product_artikul' => 'Артикулы товаров(через запятую, без пробелов)',
             'min_price' => 'Цена от(включительно)',
             'max_price' => 'Цена до',
         ];

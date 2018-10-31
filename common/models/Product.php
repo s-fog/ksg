@@ -22,6 +22,10 @@ class Product extends BaseProduct implements CartPositionInterface
     public $waranty_cost;
     public $link;
     public $filterValues;
+    public $present;
+    public $present_artikul;
+    public $delivery_date;
+    public $artikul;
 
     public function getPrice()
     {
@@ -59,6 +63,7 @@ class Product extends BaseProduct implements CartPositionInterface
             [['code'], 'unique'],
             [['parent_id'], 'compare', 'compareValue' => 0, 'operator' => '!=', 'type' => 'number'],
             [['instruction'], 'file'],
+            [['present_image'], 'image', 'maxSize' => 1000000,  'minWidth' => 39, 'minHeight' => 50, 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\Category::className(), 'targetAttribute' => ['parent_id' => 'id'], 'message' => 'Нельзя удалить категорию, в ней есть товары']
         ];
     }
@@ -306,5 +311,49 @@ class Product extends BaseProduct implements CartPositionInterface
 
         $items[0] = $this->name;
         return $items;
+    }
+
+    public function getPresents() {
+        $products = [];
+
+        $presents = Present::find()
+            ->where(['<=', 'min_price', $this->price])
+            ->andWhere(['>=', 'max_price', $this->price])
+            ->all();
+
+        foreach($presents as $present) {
+            foreach(explode(',', $present->product_artikul) as $artikul) {
+                $pp = ProductParam::findOne(['artikul' => $artikul]);
+                $product = $pp->product;
+                $product->paramsV = $pp->params;
+                $product->artikul = $artikul;
+                $products[] = $product;
+            }
+        }
+
+        return $products;
+    }
+
+    public function getPresent($present_artikul) {
+        if (empty($present_artikul)) {
+            return false;
+        } else {
+            $pp = ProductParam::findOne(['artikul' => $present_artikul]);
+            $product = $pp->product;
+            $product->paramsV = $pp->params;
+            $product->artikul = $present_artikul;
+
+            return $product;
+        }
+    }
+
+    public static function getNearDates() {
+        $dates = [];
+
+        for ($i = 1; $i <= 7; $i++) {
+            $dates[] = date('d.m.Y', strtotime("+$i day"));
+        }
+
+        return $dates;
     }
 }

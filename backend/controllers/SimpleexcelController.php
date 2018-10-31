@@ -15,8 +15,7 @@ use yii\web\UploadedFile;
 */
 class SimpleexcelController extends \yii\web\Controller
 {
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $model = new SimpleExcel();
 
         if ($model->load($_POST)) {

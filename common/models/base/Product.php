@@ -111,6 +111,7 @@ abstract class Product extends \yii\db\ActiveRecord
             'seo_description' => 'Seo Description',
             'sort_order' => 'Sort Order',
             'popular' => 'Popular',
+            'present_image' => 'Изображение, если этот товар подарок(39x50)',
         ];
     }
 

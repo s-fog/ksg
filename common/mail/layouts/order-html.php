@@ -87,6 +87,19 @@ $host = 'https://www.ksg.ru/';
                     }
                 }
                 ?>
+
+                <?php foreach($products as $product) {
+                    if (!empty($product->present_artikul)) {
+                        $present = $product->getPresent($product->present_artikul);
+
+                        if ($present) { ?>
+                            <tr>
+                                <td>+ ПОДАРОК "<a href="<?=$host.'product/'.$present->alias?>" style="color: #000;"><?=$present->name?></a>" 1 шт.</td>
+                            </tr>
+                        <?php }
+                    }
+                } ?>
+
                 <?php if (!empty($order->present_artikul)) {
                     if ($present = ProductParam::findOne(['artikul' => $order->present_artikul])) {
                         if ($presentProduct = $present->product) { ?>

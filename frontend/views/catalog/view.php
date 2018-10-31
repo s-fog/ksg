@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Param;
+use common\models\Product;
 use frontend\models\ReviewForm;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -9,6 +10,15 @@ $this->params['seo_title'] = $model->name.' - купите за '.number_format(
 $this->params['seo_description'] = $model->name.' - купите у официального дилера '.$brand->name.' и получите фирменную гарантию от производителя. Доставка по Москве и в регионы России.';
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
+
+$presents = \common\models\Present::find()->all();
+$presentArtikul = '';
+
+foreach($presents as $present) {
+    if ($model->price >= $present->min_price && $model->price <= $present->max_price) {
+        $presentArtikul = explode(',', $present->product_artikul)[0];
+    }
+}
 
 ?>
 
@@ -151,7 +161,10 @@ $this->params['name'] = $model->name;
     </div>
 
     <?php foreach($accessories as $product) {
-        echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
+        echo $this->render('@frontend/views/catalog/_addToCart_items', [
+            'model' => $product,
+            'presents' => $presents,
+        ]);
     } ?>
 <?php } ?>
 
@@ -171,7 +184,10 @@ $this->params['name'] = $model->name;
         </div>
     </div>
     <?php foreach($similar as $product) {
-        echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
+        echo $this->render('@frontend/views/catalog/_addToCart_items', [
+            'model' => $product,
+            'presents' => $presents,
+        ]);
     } ?>
 <?php } ?>
 
@@ -193,9 +209,10 @@ $this->params['name'] = $model->name;
     </div>
 </div>
 
-
 <?=$this->render('_addToCart', [
     'model' => $model,
     'currentVariant' => $currentVariant,
     'selects' => $selects,
+    'presentArtikul' => $presentArtikul,
+    'delivery_date' => Product::getNearDates()[0],
 ])?>

@@ -8,6 +8,7 @@ $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
 $this->params['seo_h1'] = $model->seo_h1;
 
+$presents = \common\models\Present::find()->all();
 
 ?>
 
@@ -43,7 +44,10 @@ $this->params['seo_h1'] = $model->seo_h1;
     ]);?>
 
     <?php foreach($products as $product) {
-        echo $this->render('@frontend/views/catalog/_addToCart_items', ['model' => $product]);
+        echo $this->render('@frontend/views/catalog/_addToCart_items', [
+            'model' => $product,
+            'presents' => $presents,
+        ]);
     } ?>
 <?php } else { ?>
     <div class="empty">

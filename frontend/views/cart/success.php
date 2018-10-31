@@ -73,30 +73,36 @@ file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/www/logs/jhhhh.log", $order->paid
                     <?php } ?>
                 <?php $i++;} ?>
 
+                <?php foreach($products as $product) {
+                    if (!empty($product->present_artikul)) {
+                        $present = $product->getPresent($product->present_artikul);
+
+                        if ($present) {
+                            echo $this->render('_successPresent', [
+                                'artikul' => $product->present_artikul,
+                                'present' => $present,
+                                'i' => $i,
+                            ]);
+                        }
+                    }
+                } ?>
+
                 <?php
                 if (!empty($order->present_artikul)) {
                     $productParam = ProductParam::findOne(['artikul' => $order->present_artikul]);
+                    $artikul = $productParam->artikul;
+
                     if ($productParam) {
                         $productPresent = Product::findOne($productParam->product_id);
 
                         if ($productPresent) {
-                        ?>
-                            <li>
-                                <div class="successOrder__artikul">Артикул: <?=$productParam->artikul?></div>
-                                <div class="successOrder__line successOrder__line_big">
-                                    <div class="successOrder__lineLeft successOrder__lineLeft_big"><?=$i?>. <?=$productPresent->name?></div>
-                                    <div class="successOrder__lineMiddle successOrder__lineMiddle_big"></div>
-                                    <div class="successOrder__lineRight">
-                                        <div class="cart__price">
-                                            <div class="cart__presentImage"></div>
-                                            <div class="cart__oldPrice"><?=number_format($productPresent->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
-                                            <div class="cart__presentText">подарок от KSG</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        <?php } ?>
-                    <?php } ?>
+                            echo $this->render('_successPresent', [
+                                'artikul' => $artikul,
+                                'present' => $productPresent,
+                                'i' => $i,
+                            ]);
+                        }
+                    } ?>
                 <?php } ?>
             </ul>
         </div>

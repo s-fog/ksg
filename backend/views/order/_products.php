@@ -28,6 +28,33 @@ foreach($products as $product) {
                 return "<a href='$data->link' target='_blank'>$data->name</a>";
             }
         ],
+        [
+            'label' => 'Подарок',
+            'format' => 'html',
+            'value' => function ($data) use ($order) {
+                $present = $data->getPresent($data->present_artikul);
+
+                if ($present) {
+                    $str = "<a href='".Url::to(['product/update', 'id' => $present->id])."' target='_blank'>$present->name</a><br>";
+                    $str .= "<a href='".Url::to(['order/delete-present-from-product', 'order_id' => $order->id, 'product_id' => $data->id])."' target='_blank'>Удалить подарок</a>";
+
+                    return $str;
+                } else {
+                    return 'Нет подарка';
+                }
+            }
+        ],
+        [
+            'label' => 'Дата доставки',
+            'format' => 'html',
+            'value' => function ($data) {
+                if ($data->delivery_date) {
+                    return $data->delivery_date;
+                } else {
+                    return 'Не указана';
+                }
+            }
+        ],
         /*[
             'class' => 'yii\grid\ActionColumn',
             'template' => "{delete}",

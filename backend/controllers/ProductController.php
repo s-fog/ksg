@@ -60,6 +60,16 @@ class ProductController extends \backend\controllers\base\ProductController
                 $modelImage->scenario = 'create';
             }
 
+            if (!empty($_FILES['Product']['name']['present_image'])) {
+                $model->present_image = UploadFile::upload(
+                    $model,
+                    Product::findOne($model->id),
+                    'present_image',
+                    'present_image',
+                    ['39x50']
+                );
+            }
+
             // ajax validation
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
@@ -319,6 +329,7 @@ class ProductController extends \backend\controllers\base\ProductController
         $modelsFeature = $model->features;
         $modelsFeatureValue = [];
         $oldFeatureValue = [];
+        $present_image = $model->present_image;
 
         foreach($modelsImage as $index => $modelImage) {
             $images[$modelImage->id] = $modelImage->image;
@@ -364,6 +375,18 @@ class ProductController extends \backend\controllers\base\ProductController
 
             foreach($modelsReview as $index => $modelReview) {
                 $modelReview->date = strtotime($_POST['ProductReview'][$index]['date']);
+            }
+
+            if (!empty($_FILES['Product']['name']['present_image'])) {
+                $model->present_image = UploadFile::upload(
+                    $model,
+                    Product::findOne($model->id),
+                    'present_image',
+                    'present_image',
+                    ['39x50']
+                );
+            } else {
+                $model->present_image = $present_image;
             }
 
             // ajax validation

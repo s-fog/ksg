@@ -20,11 +20,19 @@ class CartController extends Controller
         $id = $_POST['id'];
         $count = $_POST['quantity'];
         $paramsV = $_POST['paramsV'];
-
+        
         $cart = new ShoppingCart();
 
         $model = Product::findOne($id);
         $model->paramsV = $paramsV;
+
+        if (isset($_POST['presentArtikul'])) {
+            $model->present_artikul = $_POST['presentArtikul'];
+        }
+
+        if (isset($_POST['deliveryDate'])) {
+            $model->delivery_date = $_POST['deliveryDate'];
+        }
 
         if ($model) {
             $cart->put($model, $count);

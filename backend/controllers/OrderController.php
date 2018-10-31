@@ -117,4 +117,31 @@ class OrderController extends \backend\controllers\base\OrderController
             ]);
         }
     }
+
+    public function actionDeletePresentFromProduct($order_id, $product_id) {
+        $order = Order::findOne($order_id);
+        $product_id = (int) $product_id;
+
+        if ($order) {
+            $products = unserialize(base64_decode($order->products));
+
+            foreach ($products as $md5Id => $product) {
+                if ($product->id == $product_id) {
+                    $product->present_artikul = '';
+                    $products[$md5Id] = $product;
+                }
+            }
+
+            $order->products = base64_encode(serialize($products));
+
+            if ($order->save()) {
+                return $this->redirect(['order/update', 'id' => $order_id]);
+            } else {
+                return $this->redirect('index');
+            }
+        } else {
+            die();
+            return $this->redirect('index');
+        }
+    }
 }
