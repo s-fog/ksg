@@ -2,6 +2,7 @@
 
 use common\models\Performance;
 use kartik\widgets\FileInput;
+use mihaildev\ckeditor\CKEditor;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
@@ -24,8 +25,8 @@ use yii\helpers\StringHelper;
     );
     ?>
     <?=$form->field($model, 'delivery')->textarea(['maxlength' => true]) ?>
-    <?=$form->field($model, 'product_delivery_left')->textarea(['maxlength' => true]) ?>
-    <?=$form->field($model, 'product_delivery_right')->textarea(['maxlength' => true]) ?>
+    <?=$form->field($model, 'product_delivery_left')->widget(CKEditor::className()) ?>
+    <?=$form->field($model, 'product_delivery_right')->widget(CKEditor::className()) ?>
     <?php
         echo '<div style="margin: 15px 0;border: 1px solid #000;border-radius: 10px;padding: 10px;">';
         if ($model->banner_image) {

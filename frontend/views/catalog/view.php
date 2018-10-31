@@ -147,7 +147,7 @@ $mainpage = Mainpage::findOne(1);
                 <div class="properties__deliveryInner">
                     <div class="content columnsFlex">
                         <div class="columnsFlex__column"><?=$mainpage->product_delivery_left?></div>
-                        <div class="columnsFlex__column"><?=$mainpage->product_delivery_left?></div>
+                        <div class="columnsFlex__column"><?=$mainpage->product_delivery_right?></div>
                     </div>
                 </div>
             </div>
