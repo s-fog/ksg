@@ -19,7 +19,6 @@ class AppAsset extends AssetBundle
         'css/styles.css',
     ];
     public $js = [
-        'https://api-maps.yandex.ru/2.1/?lang=ru_RU',
         'js/vendor.js',
         'js/flex-grid-add-elements.js',
         'js/script.js',
