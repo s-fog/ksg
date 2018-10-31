@@ -15,7 +15,6 @@ $someServices = false;
 $array = Yii::$app->params['cities'];
 $moscow = $array['Москва'];
 $others = $array['Others'];
-file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/www/logs/jhhhh.log", $order->paid);
 
 ?>
 <?php if (isset($_GET['action']) && $_GET['action'] == 'PaymentSuccess') {
