@@ -3528,6 +3528,14 @@ body {
     }
   }
 
+  &__deliveryInner {
+    margin: 0 auto;
+    max-width: 1000px;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
   &__reviews {
     padding: 10px 0 30px;
     background-color: $lightGreyColor;
@@ -7008,5 +7016,14 @@ body.fancybox-active {
 
   &__number {
     color: $lightRedColor;
+  }
+}
+
+.columnsFlex {
+  display: flex;
+  justify-content: space-between;
+
+  &__column {
+    flex: 0 0 49%;
   }
 }

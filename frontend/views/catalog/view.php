@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Mainpage;
 use common\models\Param;
 use common\models\Product;
 use frontend\models\ReviewForm;
@@ -19,6 +20,8 @@ foreach($presents as $present) {
         $presentArtikul = explode(',', $present->product_artikul)[0];
     }
 }
+
+$mainpage = Mainpage::findOne(1);
 
 ?>
 
@@ -42,6 +45,7 @@ foreach($presents as $present) {
                 <div class="properties__tab"><span>видео обзор</span></div>
             <?php } ?>
             <div class="properties__tab"><span>отзывы</span></div>
+            <div class="properties__tab"><span>доставка</span></div>
             <svg class="properties__tabUnderline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 7.7"><defs></defs><g><polygon points="1.7 0 0 1.4 0 3 39.7 3 44.5 7.7 49.3 3 87.3 3 89 1.5 89 0 1.7 0"></polygon></g></svg>
         </div>
         <div class="properties__contents">
@@ -137,6 +141,14 @@ foreach($presents as $present) {
                             'value' => ''
                         ])->label(false)?>
                     <?php ActiveForm::end();?>
+                </div>
+            </div>
+            <div class="properties__content properties__features">
+                <div class="properties__deliveryInner">
+                    <div class="content columnsFlex">
+                        <div class="columnsFlex__column"><?=$mainpage->product_delivery_left?></div>
+                        <div class="columnsFlex__column"><?=$mainpage->product_delivery_left?></div>
+                    </div>
                 </div>
             </div>
         </div>
