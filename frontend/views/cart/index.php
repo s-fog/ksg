@@ -90,7 +90,7 @@ $mainPage = Mainpage::findOne(1);
                     </div>
                     <div class="cartForm__item1 cartForm__itemAddress">
                         <div class="cartForm__addressTrigger" data-fancybox="addressMap" data-src="#addressMap" title="Выберите адрес доставки на карте">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.8 33.2"><g><path d="M11.3,0A11.35,11.35,0,0,0,0,11.3C0,17,9.1,31,10.2,32.6a1.5,1.5,0,0,0,2.4,0c1-1.6,10.2-15.5,10.2-21.3A11.53,11.53,0,0,0,11.3,0Zm0,29.2c-3.1-5-8.5-14.3-8.5-17.9a8.5,8.5,0,0,1,17,0C19.8,14.9,14.5,24.2,11.3,29.2Z"></path><path d="M11.3,7.1a4.8,4.8,0,1,0,4.8,4.8A4.74,4.74,0,0,0,11.3,7.1Zm0,6.9a2.1,2.1,0,1,1,2.1-2.1A2.11,2.11,0,0,1,11.3,14Z"></path></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.8 33.2"><path d="M11.3,0A11.35,11.35,0,0,0,0,11.3C0,17,9.1,31,10.2,32.6a1.5,1.5,0,0,0,2.4,0c1-1.6,10.2-15.5,10.2-21.3A11.53,11.53,0,0,0,11.3,0Zm0,29.2c-3.1-5-8.5-14.3-8.5-17.9a8.5,8.5,0,0,1,17,0C19.8,14.9,14.5,24.2,11.3,29.2Z"></path><path d="M11.3,7.1a4.8,4.8,0,1,0,4.8,4.8A4.74,4.74,0,0,0,11.3,7.1Zm0,6.9a2.1,2.1,0,1,1,2.1-2.1A2.11,2.11,0,0,1,11.3,14Z"></path></svg>
                         </div>
                         <?=$form->field($cartForm, 'address')
                             ->textInput([
@@ -145,7 +145,7 @@ $mainPage = Mainpage::findOne(1);
                 </div>
                 <div class="cartForm__bottomRight">
                     <button class="button button7 cartForm__submit" type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 95.76 35.29"><g><polygon points="8.44 0 0 6.99 0 35.3 87.32 35.3 95.76 28.31 95.76 0 8.44 0"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 95.76 35.29"><polygon points="8.44 0 0 6.99 0 35.3 87.32 35.3 95.76 28.31 95.76 0 8.44 0"/></svg>
                         <span>Купить -></span>
                     </button>
                 </div>
