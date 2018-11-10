@@ -4,6 +4,7 @@ namespace backend\models;
 
 use common\models\Catalog;
 use common\models\Category;
+use common\models\Present;
 use common\models\Product;
 use common\models\ProductParam;
 use DOMDocument;
@@ -158,6 +159,63 @@ class UML extends Model
         }
 
         $shop->appendChild($offers);
+
+        if ($presents = Present::find()->all()) {
+            $promos = $dom->createElement('promos');
+
+            foreach($presents as $present) {
+                $productsInThisRange = Product::find()
+                    ->joinWith('category')
+                    ->andWhere(['>=', 'price', $present->min_price])
+                    ->andWhere(['<=', 'price', $present->max_price])
+                    ->andWhere(['category.active' => 1])
+                    ->all();
+
+                if ($productsInThisRange) {
+                    $artikuls = explode(',', $present->product_artikul);
+                    $promo = $dom->createElement('promo');
+
+                    $id = $dom->createAttribute('id');
+                    $id->value = $present->id;
+                    $promo->appendChild($id);
+
+                    $type = $dom->createAttribute('type');
+                    $type->value = 'gift with purchase';
+                    $promo->appendChild($type);
+
+                    $promoDescription = $dom->createElement('description', 'Подарок');
+                    $promo->appendChild($promoDescription);
+
+                    $purchase = $dom->createElement('purchase');
+                    foreach($productsInThisRange as $p) {
+                        $pr = $dom->createElement('product');
+                        $offer_id = $dom->createAttribute('offer-id');
+                        $offer_id->value = $p->id;
+                        $pr->appendChild($offer_id);
+                        $purchase->appendChild($pr);
+                    }
+                    $promo->appendChild($purchase);
+
+                    $promo_gifts = $dom->createElement('promo-gifts');
+                    foreach($artikuls as $artikul) {
+                        if ($presentP = ProductParam::findOne(['artikul' => $artikul])
+                            ->product) {
+                            $promo_gift = $dom->createElement('promo-gift');
+                            $offer_id = $dom->createAttribute('offer-id');
+                            $offer_id->value = $presentP->id;
+                            $promo_gift->appendChild($offer_id);
+                            $promo_gifts->appendChild($promo_gift);
+                        };
+                    }
+                    $promo->appendChild($promo_gifts);
+
+                    $promos->appendChild($promo);
+                }
+            }
+
+            $shop->appendChild($promos);
+        }
+
         $yml_catalog->appendChild($shop);
         $dom->appendChild($yml_catalog);
         $dom->save('../yml.xml');

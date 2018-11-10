@@ -68,6 +68,10 @@ class Product extends BaseProduct implements CartPositionInterface
         ];
     }
 
+    public function getCategory() {
+        return $this->hasOne(Category::className(), ['id' => 'parent_id']);
+    }
+
     public function getImages() {
         return Image::find()
             ->where(['product_id' => $this->id])
@@ -158,6 +162,10 @@ class Product extends BaseProduct implements CartPositionInterface
             ->where(['product_id' => $this->id])
             ->orderBy(['id' => SORT_ASC])
             ->all();
+    }
+
+    public function getParam() {
+        return $this->hasMany(ProductParam::className(), ['product_id', 'id']);
     }
 
     public static function sortAvailable($products) {
