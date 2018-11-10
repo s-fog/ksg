@@ -59,13 +59,13 @@ if (!isset($delivery_date)) {
         <div class="addToCart__bottom">
             <div class="addToCart__bottomTop">
                 <button class="button button222 addToCart__tocart">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 34"><polygon points="7.07 0 0 7.07 0 34 211.93 34 219 26.93 219 0 7.07 0"></polygon></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 34"><g><polygon points="7.07 0 0 7.07 0 34 211.93 34 219 26.93 219 0 7.07 0"></polygon></g></svg>
                     <span>Добавить в корзину</span>
                 </button>
             </div>
             <div class="addToCart__bottomBottom">
                 <a href="<?=Url::to(['cart/index'])?>" class="button button222 addToCart__of">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 34"><polygon points="7.07 0 0 7.07 0 34 211.93 34 219 26.93 219 0 7.07 0"></polygon></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 34"><g><polygon points="7.07 0 0 7.07 0 34 211.93 34 219 26.93 219 0 7.07 0"></polygon></g></svg>
                     <span>Перейти к оформлению</span>
                 </a>
                 <div class="addToCart__continue"><span>Продолжить покупки</span></div>
