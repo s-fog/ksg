@@ -28,7 +28,7 @@ $presents = \common\models\Present::find()->all();
                     <div class="mainSlider__itemText"><?=$item->text?></div>
                     <?php if (!empty($item->link)) { ?>
                         <a href="<?=$item->link?>" class="button button4 mainSlider__itemMore">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 34"><g><polygon class="cls-1" points="108.93 0 14.43 0 8.13 0 0 6.73 0 34 14.49 34 109 34 131.87 34 140 27.27 140 0 108.93 0"/></g></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 34"><g><polygon class="cls-1" points="108.93 0 14.43 0 8.13 0 0 6.73 0 34 14.49 34 109 34 131.87 34 140 27.27 140 0 108.93 0"/></svg>
                             <span>подробнее</span>
                         </a>
                     <?php } ?>
@@ -56,7 +56,7 @@ $presents = \common\models\Present::find()->all();
         <div class="wantMore">
             <div class="wantMore__text">Не нашли нужное? Попробуйте </div>
             <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(1)->alias])?>" class="button button3 wantMore__toCatalog">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227.88 40.99"><g><polygon points="9.8 0 0 8.11 0 40.99 218.07 40.99 227.88 32.88 227.88 0 9.8 0"/></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227.88 40.99"><g><polygon points="9.8 0 0 8.11 0 40.99 218.07 40.99 227.88 32.88 227.88 0 9.8 0"/></svg>
                 <span>Перейти в каталог</span>
             </a>
         </div>
@@ -193,7 +193,7 @@ $presents = \common\models\Present::find()->all();
                         'placeholder' => 'Ваш e-mail'
                     ])->label(false)?>
                     <button class="button button6 subscribeBlock__formSubmit" type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 79.08 17.94"><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 75.07 17.44 78.58 14.53 78.58 0.5 4.01 0.5"/></g></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 79.08 17.94"><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 75.07 17.44 78.58 14.53 78.58 0.5 4.01 0.5"/></svg>
                         <span>Подписаться</span>
                     </button>
                 </div>

@@ -76,7 +76,7 @@ $others = $array['Others'];
                     <li>E-mail: <a href="mailto:<?=$moscow['email']?>" class="linkReverse"><?=$moscow['email']?></a></li>
                     <li>
                         <div class="button button1 callbackButton" data-fancybox data-src="#callback">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.08 17.94"><g><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 95.07 17.44 98.58 14.53 98.58 0.5 4.01 0.5"/></g></g></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.08 17.94"><g><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 95.07 17.44 98.58 14.53 98.58 0.5 4.01 0.5"/></svg>
                             <span>заказать обратный звонок</span>
                         </div>
                     </li>
@@ -108,7 +108,7 @@ $others = $array['Others'];
                 <div class="footer__bottomLeft">Вы достигли дна сайта, и это либо результат упорства (что мы категорически приветствуем!), либо вы не нашли, что искали. Во втором случае используйте:</div>
                 <div class="footer__bottomRight">
                     <div class="footer__bottomLink js-footer__bottomLink">
-                        <svg class="footer__bottomLinkIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.77 30"><defs></defs><g><path d="M19.47,0a11.3,11.3,0,1,0,11.3,11.3A11.35,11.35,0,0,0,19.47,0Zm0,19.9A8.5,8.5,0,1,1,28,11.4,8.49,8.49,0,0,1,19.47,19.9Z"></path><path d="M19.47,4.4a1.37,1.37,0,0,0-1.4,1.4,1.37,1.37,0,0,0,1.4,1.4,4.23,4.23,0,0,1,4.2,4.2,1.41,1.41,0,0,0,2.81,0A7,7,0,0,0,19.47,4.4Z"></path><path d="M7.67,20.3.38,27.6a1.5,1.5,0,0,0,0,2,1.26,1.26,0,0,0,1,.4,1.28,1.28,0,0,0,1-.4l7.29-7.3a1.52,1.52,0,0,0,0-2A1.52,1.52,0,0,0,7.67,20.3Z"></path></g></svg>
+                        <svg class="footer__bottomLinkIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.77 30"><defs></defs><g><path d="M19.47,0a11.3,11.3,0,1,0,11.3,11.3A11.35,11.35,0,0,0,19.47,0Zm0,19.9A8.5,8.5,0,1,1,28,11.4,8.49,8.49,0,0,1,19.47,19.9Z"></path><path d="M19.47,4.4a1.37,1.37,0,0,0-1.4,1.4,1.37,1.37,0,0,0,1.4,1.4,4.23,4.23,0,0,1,4.2,4.2,1.41,1.41,0,0,0,2.81,0A7,7,0,0,0,19.47,4.4Z"></path><path d="M7.67,20.3.38,27.6a1.5,1.5,0,0,0,0,2,1.26,1.26,0,0,0,1,.4,1.28,1.28,0,0,0,1-.4l7.29-7.3a1.52,1.52,0,0,0,0-2A1.52,1.52,0,0,0,7.67,20.3Z"></path></svg>
                         <span>поиск по сайту</span>
                     </div>
                 </div>
@@ -236,7 +236,7 @@ $form = ActiveForm::begin([
         <div class="addToCart__beforeHeader">Добавлено в корзину</div>
         <div class="addToCart__bottom">
             <a href="<?=Url::to(['cart/index'])?>" class="button button222 addToCart__of">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 34"><g><polygon points="7.07 0 0 7.07 0 34 211.93 34 219 26.93 219 0 7.07 0"></polygon></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 34"><g><polygon points="7.07 0 0 7.07 0 34 211.93 34 219 26.93 219 0 7.07 0"></polygon></svg>
                 <span>Перейти к оформлению</span>
             </a>
             <div class="addToCart__continue"><span>Продолжить покупки</span></div>

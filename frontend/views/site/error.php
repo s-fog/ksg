@@ -20,7 +20,7 @@ $this->params['name'] = '404';
         <div class="notFound__text">УПС, ЧТО-ТО ПОШЛО НЕ ТАК...<br>
             ТАКОЙ СТРАНИЦЫ НЕ СУЩЕСТВУЕТ</div>
         <a href="/" class="button button4 notFound__toMain">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 34"><g><polygon class="cls-1" points="108.93 0 14.43 0 8.13 0 0 6.73 0 34 14.49 34 109 34 131.87 34 140 27.27 140 0 108.93 0"></polygon></g></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 34"><g><polygon class="cls-1" points="108.93 0 14.43 0 8.13 0 0 6.73 0 34 14.49 34 109 34 131.87 34 140 27.27 140 0 108.93 0"></polygon></svg>
             <span>на главную</span>
         </a>
         <a href="<?=Url::to(['catalog/index'])?>" class="notFound__toCatalog"><span>в каталог</span></a>
