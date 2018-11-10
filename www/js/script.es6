@@ -1062,6 +1062,10 @@ class Cart {
         $('.productImages__arrowRight').click(() => {
             $('.fancybox-button--arrow_right').click();
         });
+
+        $('.productImages__arrowLeft, .productImages__arrowRight').onselectstart(function() {
+            return false;
+        });
     }
 
     cartReload() {
