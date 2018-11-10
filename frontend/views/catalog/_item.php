@@ -111,8 +111,7 @@ $inFavourite = Favourite::inFavourite($model->id);
             </div>
             <?php if ($available) { ?>
                 <div class="catalog__itemBottomRight">
-                    <div type="submit"
-                         data-fancybox
+                    <div data-fancybox
                          data-src="#addToCart<?=$model->id?>"
                          data-id="<?=$model->id?>"
                          data-paramsV="<?=$paramsV0?>"
