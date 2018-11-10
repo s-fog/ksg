@@ -23,7 +23,7 @@
         if (isset($_GET['per_page']))
             $per_page = $_GET['per_page'];
         ?>
-        <form action="" method="get" class="sorting">
+        <form method="get" class="sorting">
             <div class="sorting__perpage">
                 <span class="sorting__text">показывать по </span>
                 <label class="sorting__label">
