@@ -1063,9 +1063,9 @@ class Cart {
             $('.fancybox-button--arrow_right').click();
         });
 
-        $('.productImages__arrowLeft, .productImages__arrowRight').onselectstart(function() {
-            return false;
-        });
+        $('.productImages__arrowLeft, .productImages__arrowRight').attr('unselectable', 'on')
+            .css('user-select', 'none')
+            .on('selectstart', false);
     }
 
     cartReload() {
