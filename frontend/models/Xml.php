@@ -83,7 +83,7 @@ class Xml extends Model
                         Yii::$app->mailer
                             ->compose()
                             ->setFrom(Yii::$app->params['adminEmail'])
-                            ->setTo('s-fog@yandex.ru')
+                            ->setTo(Yii::$app->params['adminEmail'])
                             ->setSubject("Для $artikul есть цена ниже у {$supplier->name}")
                             ->send();
                     }
@@ -94,7 +94,7 @@ class Xml extends Model
                         Yii::$app->mailer
                             ->compose()
                             ->setFrom(Yii::$app->params['adminEmail'])
-                            ->setTo('s-fog@yandex.ru')
+                            ->setTo(Yii::$app->params['adminEmail'])
                             ->setSubject("Для $artikul у {$supplier->name} товар есть в наличии")
                             ->send();
                     }
