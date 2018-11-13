@@ -116,7 +116,7 @@ foreach($variants as $variant) {
                             $filename = explode('.', basename($imageModel->image));
                             $var = ProductParam::findOne(['product_id' => $model->id, 'image_number' => $index]);
                             ?>
-                            <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?> Фото <?=($index+2)?>" style="display: none;">
+                            <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?> Фото <?=($index+1)?>" style="display: none;">
                             <div class="product__otherImage js-product-image"
                                  data-paramsv="<?=($var) ? implode('|', $var->params) : ''?>"
                                  data-header="<?=$model->name?>"
