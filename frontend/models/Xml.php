@@ -79,10 +79,20 @@ class Xml extends Model
                 } else {
                     if ($product->price > $item['price']) {
                         $str .= "attention;$artikul; Есть цена ниже у {$supplier->name}\r\n";
+
+                        Yii::$app->mailer->setFrom(Yii::$app->params['adminEmail'])
+                            ->setTo('s-fog@yandex.ru')
+                            ->setSubject("Для $artikul есть цена ниже у {$supplier->name}")
+                            ->send();
                     }
 
                     if ($available > 0 && $productParam->available == 0) {
                         $str .= "attention;$artikul; У {$supplier->name} товар есть в наличии\r\n";
+
+                        Yii::$app->mailer->setFrom(Yii::$app->params['adminEmail'])
+                            ->setTo('s-fog@yandex.ru')
+                            ->setSubject("Для $artikul у {$supplier->name} товар есть в наличии")
+                            ->send();
                     }
                 }
 
