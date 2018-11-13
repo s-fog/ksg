@@ -37,31 +37,31 @@ class Xml extends Model
                 $message = [];
                 $product = Product::findOne($productParam->product_id);
 
-                if ($product->supplier == $supplierId) {
-                    if (
-                        $item['available'] === 'Отсутствует'
-                        ||
-                        $item['available'] === 'Ожидается'
-                        ||
-                        $item['available'] === 'false'
-                        ||
-                        (is_numeric($item['available']) && $item['available'] == 0)
-                        ||
-                        ((int) $item['available'] < 0)
-                    ) {
-                        $available = 0;
-                    } else if (is_numeric($item['available'])) {
-                        $available = (int) $item['available'];
-                    } else if (
-                        $item['available'] == 'более 10'
-                        ||
-                        $item['available'] == 'true'
-                    ) {
-                        $available = 10;
-                    } else {
-                        $available = 10;
-                    }
+                if (
+                    $item['available'] === 'Отсутствует'
+                    ||
+                    $item['available'] === 'Ожидается'
+                    ||
+                    $item['available'] === 'false'
+                    ||
+                    (is_numeric($item['available']) && $item['available'] == 0)
+                    ||
+                    ((int) $item['available'] < 0)
+                ) {
+                    $available = 0;
+                } else if (is_numeric($item['available'])) {
+                    $available = (int) $item['available'];
+                } else if (
+                    $item['available'] == 'более 10'
+                    ||
+                    $item['available'] == 'true'
+                ) {
+                    $available = 10;
+                } else {
+                    $available = 10;
+                }
 
+                if ($product->supplier == $supplierId) {
                     if ($product->price != $item['price']) {
                         $message[] = "Изменена цена";
                     }
@@ -73,18 +73,21 @@ class Xml extends Model
                     if ($item['price'] > 0) {
                         $product->price = $item['price'];
                     }
+
                     $productParam->available = $available;
-
-                    if ($product->save() && $productParam->save()) {
-                        $message[] = 'Всё сохранено успешно';
-                    } else {
-                        $message[] = 'Не сохранено';
-                    }
-
-                    $str .= "success;$artikul;".implode(' && ', $message)."\r\n";
                 } else {
-                    $str .= "attention;$artikul; Если цена ниже у ".Supplier::findOne($product->supplier)->name."\r\n";
+                    if ($product->price > $item['price']) {
+                        $str .= "attention;$artikul; Есть цена ниже у ".Supplier::findOne($supplierId)->name."\r\n";
+                    }
                 }
+
+                if ($product->save() && $productParam->save()) {
+                    $message[] = 'Всё сохранено успешно';
+                } else {
+                    $message[] = 'Не сохранено';
+                }
+
+                $str .= "success;$artikul;".implode(' && ', $message)."\r\n";
             } else {
                 $str .= "error;$artikul;Такого артикула нет\r\n";
             }
