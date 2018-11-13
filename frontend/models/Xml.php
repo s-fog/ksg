@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use common\models\Product;
 use common\models\ProductParam;
+use common\models\Supplier;
 use Yii;
 use yii\base\Model;
 
@@ -36,50 +37,54 @@ class Xml extends Model
                 $message = [];
                 $product = Product::findOne($productParam->product_id);
 
-                if (
-                    $item['available'] === 'Отсутствует'
-                    ||
-                    $item['available'] === 'Ожидается'
-                    ||
-                    $item['available'] === 'false'
-                    ||
-                    (is_numeric($item['available']) && $item['available'] == 0)
-                    ||
-                    ((int) $item['available'] < 0)
-                ) {
-                    $available = 0;
-                } else if (is_numeric($item['available'])) {
-                    $available = (int) $item['available'];
-                } else if (
-                    $item['available'] == 'более 10'
-                    ||
-                    $item['available'] == 'true'
-                ) {
-                    $available = 10;
+                if ($product->supplier == $supplierId) {
+                    if (
+                        $item['available'] === 'Отсутствует'
+                        ||
+                        $item['available'] === 'Ожидается'
+                        ||
+                        $item['available'] === 'false'
+                        ||
+                        (is_numeric($item['available']) && $item['available'] == 0)
+                        ||
+                        ((int) $item['available'] < 0)
+                    ) {
+                        $available = 0;
+                    } else if (is_numeric($item['available'])) {
+                        $available = (int) $item['available'];
+                    } else if (
+                        $item['available'] == 'более 10'
+                        ||
+                        $item['available'] == 'true'
+                    ) {
+                        $available = 10;
+                    } else {
+                        $available = 10;
+                    }
+
+                    if ($product->price != $item['price']) {
+                        $message[] = "Изменена цена";
+                    }
+
+                    if ($productParam->available != $available) {
+                        $message[] = "Наличие изменено";
+                    }
+
+                    if ($item['price'] > 0) {
+                        $product->price = $item['price'];
+                    }
+                    $productParam->available = $available;
+
+                    if ($product->save() && $productParam->save()) {
+                        $message[] = 'Всё сохранено успешно';
+                    } else {
+                        $message[] = 'Не сохранено';
+                    }
+
+                    $str .= "success;$artikul;".implode(' && ', $message)."\r\n";
                 } else {
-                    $available = 10;
+                    $str .= "attention;$artikul; Если цена ниже у ".Supplier::findOne($product->supplier)->name."\r\n";
                 }
-
-                if ($product->price != $item['price']) {
-                    $message[] = "Изменена цена";
-                }
-
-                if ($productParam->available != $available) {
-                    $message[] = "Наличие изменено";
-                }
-
-                if ($item['price'] > 0) {
-                    $product->price = $item['price'];
-                }
-                $productParam->available = $available;
-
-                if ($product->save() && $productParam->save()) {
-                    $message[] = 'Всё сохранено успешно';
-                } else {
-                    $message[] = 'Не сохранено';
-                }
-
-                $str .= "success;$artikul;".implode(' && ', $message)."\r\n";
             } else {
                 $str .= "error;$artikul;Такого артикула нет\r\n";
             }
