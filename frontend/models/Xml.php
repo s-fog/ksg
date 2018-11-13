@@ -14,6 +14,7 @@ class Xml extends Model
         $str = "type;artikul;message\r\n";
         $currentProducts = Product::findAll(['supplier' => $supplierId]);
         $currentArray = [];
+        $supplier = Supplier::findOne($supplierId);
 
         foreach($currentProducts as $product) {
             $productParams = $product->getParams();
@@ -77,7 +78,11 @@ class Xml extends Model
                     $productParam->available = $available;
                 } else {
                     if ($product->price > $item['price']) {
-                        $str .= "attention;$artikul; Есть цена ниже у ".Supplier::findOne($supplierId)->name."\r\n";
+                        $str .= "attention;$artikul; Есть цена ниже у {$supplier->name}\r\n";
+                    }
+
+                    if ($available > 0 && $productParam->available == 0) {
+                        $str .= "attention;$artikul; У {$supplier->name} товар есть в наличии\r\n";
                     }
                 }
 
