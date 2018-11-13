@@ -9,7 +9,7 @@ use yii\base\Model;
 
 class Xml extends Model
 {
-    public function loadXml($supplierName, $data, $supplierId) {
+    public function loadXml($supplierName, $data, $supplierId, $notAvailableIfExists = false) {
         $str = "type;artikul;message\r\n";
         $currentProducts = Product::findAll(['supplier' => $supplierId]);
         $currentArray = [];
@@ -18,13 +18,20 @@ class Xml extends Model
             $productParams = $product->getParams();
 
             foreach($productParams as $pp) {
-                if (!array_key_exists($pp->artikul, $data)) {
-                    $currentArray[] = $pp->artikul;
+                if (!array_key_exists(trim($pp->artikul), $data)) {
+                    $currentArray[] = trim($pp->artikul);
+
+                    if ($notAvailableIfExists) {
+                        $pp->available = 0;
+                        $pp->save();
+                    }
                 }
             }
         }
 
         foreach($data as $artikul => $item) {
+            $artikul = trim($artikul);
+
             if ($productParam = ProductParam::findOne(['artikul' => $artikul])) {
                 $message = [];
                 $product = Product::findOne($productParam->product_id);

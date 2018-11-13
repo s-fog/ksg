@@ -33,6 +33,20 @@ class XmlController extends Controller
         die();*/
 
         ////////////////////////////////////////////////////////////////////////////////
+        $fitnessBoutique = simplexml_load_file('https://www.fitness-boutique.ru/system/files/dealer/stock_fitness-boutique_xml.xml');
+        $fitnessBoutiqueArray = [];
+
+        foreach($fitnessBoutique->shop->offers->offer as $offer) {
+            $available = 10;
+            $artikul = (string) $offer->param;
+            $price = (int) $offer->price;
+
+            $fitnessBoutiqueArray[$artikul]['price'] = $price;
+            $fitnessBoutiqueArray[$artikul]['available'] = $available;
+        }
+
+        $xml->loadXml('fitnessBoutique', $fitnessBoutiqueArray, 8, true);
+        ////////////////////////////////////////////////////////////////////////////////
         $soulfit = simplexml_load_file('http://soulfitnes.ru/wp-content/plugins/saphali-export-yml2/export.yml');
         $soulfitArray = [];
 
