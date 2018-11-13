@@ -109,13 +109,14 @@ foreach($variants as $variant) {
                          data-image="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
                          data-fancybox="productImages"
                          data-src="#productImages">
-                        <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?>" itemprop="image">
+                        <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?> Фото 1" itemprop="image">
                     </div>
                     <?php foreach($model->images as $index => $imageModel) {
                         if ($index != $currentVariant->image_number) {
                             $filename = explode('.', basename($imageModel->image));
                             $var = ProductParam::findOne(['product_id' => $model->id, 'image_number' => $index]);
                             ?>
+                            <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?> Фото <?=($index+2)?>">
                             <div class="product__otherImage js-product-image"
                                  data-paramsv="<?=($var) ? implode('|', $var->params) : ''?>"
                                  data-header="<?=$model->name?>"
