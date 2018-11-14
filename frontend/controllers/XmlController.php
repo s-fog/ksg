@@ -35,7 +35,7 @@ class XmlController extends Controller
 
         ////////////////////////////////////////////////////////////////////////////////
         try {
-            $fitnessBoutique = simplexml_load_file('https://www.fitness-boutique.ru/system/files/dealer/stock_fitness-boutique_xml.xml');
+            $fitnessBoutique = simplexml_load_file('https://www.fitness-boutique.ru/system/files/dealer/stock_fitness-boutique_xml_0.xml');
             $fitnessBoutiqueArray = [];
 
             foreach($fitnessBoutique->shop->offers->offer as $offer) {
