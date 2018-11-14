@@ -79,24 +79,12 @@ class Xml extends Model
                 } else {
                     if ($product->price > $item['price']) {
                         $str .= "attention;$artikul; Есть цена ниже у {$supplier->name}\r\n";
-
-                        Yii::$app->mailer
-                            ->compose()
-                            ->setFrom(Yii::$app->params['adminEmail'])
-                            ->setTo(Yii::$app->params['adminEmail'])
-                            ->setSubject("Для $artikul есть цена ниже у {$supplier->name}")
-                            ->send();
+                        $this->sendMessage("Для $artikul есть цена ниже у {$supplier->name}", '');
                     }
 
                     if ($available > 0 && $productParam->available == 0) {
                         $str .= "attention;$artikul; У {$supplier->name} товар есть в наличии\r\n";
-
-                        Yii::$app->mailer
-                            ->compose()
-                            ->setFrom(Yii::$app->params['adminEmail'])
-                            ->setTo(Yii::$app->params['adminEmail'])
-                            ->setSubject("Для $artikul у {$supplier->name} товар есть в наличии")
-                            ->send();
+                        $this->sendMessage("Для $artikul у {$supplier->name} товар есть в наличии", '');
                     }
                 }
 
@@ -117,5 +105,15 @@ class Xml extends Model
         }
 
         file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/www/logs/$supplierName.log", $str);
+    }
+
+    public function sendMessage($subject, $message) {
+        Yii::$app->mailer
+            ->compose()
+            ->setFrom(Yii::$app->params['adminEmail'])
+            ->setTo(Yii::$app->params['adminEmail'])
+            ->setTextBody($message)
+            ->setSubject($subject)
+            ->send();
     }
 }

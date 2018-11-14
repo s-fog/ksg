@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use Exception;
 use frontend\models\Xml;
 use Yii;
 use yii\web\Controller;
@@ -33,81 +34,99 @@ class XmlController extends Controller
         die();*/
 
         ////////////////////////////////////////////////////////////////////////////////
-        $fitnessBoutique = simplexml_load_file('https://www.fitness-boutique.ru/system/files/dealer/stock_fitness-boutique_xml.xml');
-        $fitnessBoutiqueArray = [];
+        try {
+            $fitnessBoutique = simplexml_load_file('https://www.fitness-boutique.ru/system/files/dealer/stock_fitness-boutique_xml.xml');
+            $fitnessBoutiqueArray = [];
 
-        foreach($fitnessBoutique->shop->offers->offer as $offer) {
-            $available = 10;
-            $artikul = (string) $offer->param;
-            $price = (int) $offer->price;
+            foreach($fitnessBoutique->shop->offers->offer as $offer) {
+                $available = 10;
+                $artikul = (string) $offer->param;
+                $price = (int) $offer->price;
 
-            $fitnessBoutiqueArray[$artikul]['price'] = $price;
-            $fitnessBoutiqueArray[$artikul]['available'] = $available;
-        }
-
-        $xml->loadXml('fitnessBoutique', $fitnessBoutiqueArray, 8, true);
-        ////////////////////////////////////////////////////////////////////////////////
-        $soulfit = simplexml_load_file('http://soulfitnes.ru/wp-content/plugins/saphali-export-yml2/export.yml');
-        $soulfitArray = [];
-
-        foreach($soulfit->shop->offers->offer as $offer) {
-            $available = (string) $offer->attributes()->{'available'};
-            $artikul = (string) $offer->vendorCode;
-            $price = (int) $offer->price;
-
-            $soulfitArray[$artikul]['price'] = $price;
-            $soulfitArray[$artikul]['available'] = $available;
-        }
-
-        $xml->loadXml('soulfit', $soulfitArray, 4);
-        ////////////////////////////////////////////////////////////////////////////////
-        $stark = simplexml_load_file('http://xn----dtbgdaodln4afhyim1m.com/price/?sklad=moscow');
-        $starkArray = [];
-
-        foreach($stark->products->product as $product) {
-            foreach($product->offers->offer as $offer) {
-                $available = (string) $offer->amount;
-                $artikul = (string) $offer->id;
-                $price = (int) $product->price;
-
-                $starkArray[$artikul]['price'] = $price;
-                $starkArray[$artikul]['available'] = $available;
+                $fitnessBoutiqueArray[$artikul]['price'] = $price;
+                $fitnessBoutiqueArray[$artikul]['available'] = $available;
             }
+
+            $xml->loadXml('fitnessBoutique', $fitnessBoutiqueArray, 8, true);
+        } catch(Exception $e) {
+            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
-
-        $xml->loadXml('stark', $starkArray, 6);
         ////////////////////////////////////////////////////////////////////////////////
-        $svenson = simplexml_load_file('https://jorgen-svensson.com/ru/data.yml');
-        $svensonArray = [];
+        try {
+            $soulfit = simplexml_load_file('http://soulfitnes.ru/wp-content/plugins/saphali-export-yml2/export.yml');
+            $soulfitArray = [];
 
-        foreach($svenson->shop->offers->offer as $offer) {
-            $available = (string) $offer->param;
-            $artikul = (string) $offer->vendorCode;
-            $price = (int) $offer->price;
+            foreach($soulfit->shop->offers->offer as $offer) {
+                $available = (string) $offer->attributes()->{'available'};
+                $artikul = (string) $offer->vendorCode;
+                $price = (int) $offer->price;
 
-            $svensonArray[$artikul]['price'] = $price;
-            $svensonArray[$artikul]['available'] = $available;
+                $soulfitArray[$artikul]['price'] = $price;
+                $soulfitArray[$artikul]['available'] = $available;
+            }
+
+            $xml->loadXml('soulfit', $soulfitArray, 4);
+        } catch(Exception $e) {
+            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
-
-        $xml->loadXml('jorgen-svensson', $svensonArray, 2);
         ////////////////////////////////////////////////////////////////////////////////
-        $driada = simplexml_load_file('http://driada-sport.ru/data/files/XML_prise_s.xml');
-        $driadaArray = [];
+        try {
+            $stark = simplexml_load_file('http://xn----dtbgdaodln4afhyim1m.com/price/?sklad=moscow');
+            $starkArray = [];
 
-        foreach($driada->price as $offer) {
-            $values = $offer->attributes();
-            $available = (string) $values['Остаток'];
-            $artikul = (string) $values['Артикул'];
-            $price = (int) $values['Цена'];
+            foreach($stark->products->product as $product) {
+                foreach($product->offers->offer as $offer) {
+                    $available = (string) $offer->amount;
+                    $artikul = (string) $offer->id;
+                    $price = (int) $product->price;
 
-            $driadaArray[$artikul]['price'] = $price;
-            $driadaArray[$artikul]['available'] = $available;
+                    $starkArray[$artikul]['price'] = $price;
+                    $starkArray[$artikul]['available'] = $available;
+                }
+            }
+
+            $xml->loadXml('stark', $starkArray, 6);
+        } catch(Exception $e) {
+            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
-
-        $xml->loadXml('driada', $driadaArray, 1);
         ////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////
+        try {
+            $svenson = simplexml_load_file('https://jorgen-svensson.com/ru/data.yml');
+            $svensonArray = [];
 
+            foreach($svenson->shop->offers->offer as $offer) {
+                $available = (string) $offer->param;
+                $artikul = (string) $offer->vendorCode;
+                $price = (int) $offer->price;
+
+                $svensonArray[$artikul]['price'] = $price;
+                $svensonArray[$artikul]['available'] = $available;
+            }
+
+            $xml->loadXml('jorgen-svensson', $svensonArray, 2);
+        } catch(Exception $e) {
+            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+        }
+        ////////////////////////////////////////////////////////////////////////////////
+        try {
+            $driada = simplexml_load_file('http://driada-sport.ru/data/files/XML_prise_s.xml');
+            $driadaArray = [];
+
+            foreach($driada->price as $offer) {
+                $values = $offer->attributes();
+                $available = (string) $values['Остаток'];
+                $artikul = (string) $values['Артикул'];
+                $price = (int) $values['Цена'];
+
+                $driadaArray[$artikul]['price'] = $price;
+                $driadaArray[$artikul]['available'] = $available;
+            }
+
+            $xml->loadXml('driada', $driadaArray, 1);
+        } catch(Exception $e) {
+            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+        }
+        ////////////////////////////////////////////////////////////////////////////////
         //echo '<pre>',print_r($driada->shop->offers),'</pre>';
     }
 }
