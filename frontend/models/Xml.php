@@ -20,12 +20,16 @@ class Xml extends Model
             $productParams = $product->getParams();
 
             foreach($productParams as $pp) {
-                if (!array_key_exists(trim($pp->artikul), $data)) {
-                    $currentArray[] = trim($pp->artikul);
+                $ppArtikul = trim($pp->artikul);
 
-                    if ($notAvailableIfExists) {
-                        $pp->available = 0;
-                        $pp->save();
+                if (!empty($ppArtikul)) {
+                    if (!array_key_exists($ppArtikul, $data)) {
+                        $currentArray[] = $ppArtikul;
+
+                        if ($notAvailableIfExists) {
+                            $pp->available = 0;
+                            $pp->save();
+                        }
                     }
                 }
             }
@@ -34,69 +38,71 @@ class Xml extends Model
         foreach($data as $artikul => $item) {
             $artikul = trim($artikul);
 
-            if ($productParam = ProductParam::findOne(['artikul' => $artikul])) {
-                $message = [];
-                $product = Product::findOne($productParam->product_id);
+            if (!empty($artikul)) {
+                if ($productParam = ProductParam::findOne(['artikul' => $artikul])) {
+                    $message = [];
+                    $product = Product::findOne($productParam->product_id);
 
-                if (
-                    $item['available'] === 'Отсутствует'
-                    ||
-                    $item['available'] === 'Ожидается'
-                    ||
-                    $item['available'] === 'false'
-                    ||
-                    (is_numeric($item['available']) && $item['available'] == 0)
-                    ||
-                    ((int) $item['available'] < 0)
-                ) {
-                    $available = 0;
-                } else if (is_numeric($item['available'])) {
-                    $available = (int) $item['available'];
-                } else if (
-                    $item['available'] == 'более 10'
-                    ||
-                    $item['available'] == 'true'
-                ) {
-                    $available = 10;
+                    if (
+                        $item['available'] === 'Отсутствует'
+                        ||
+                        $item['available'] === 'Ожидается'
+                        ||
+                        $item['available'] === 'false'
+                        ||
+                        (is_numeric($item['available']) && $item['available'] == 0)
+                        ||
+                        ((int) $item['available'] < 0)
+                    ) {
+                        $available = 0;
+                    } else if (is_numeric($item['available'])) {
+                        $available = (int) $item['available'];
+                    } else if (
+                        $item['available'] == 'более 10'
+                        ||
+                        $item['available'] == 'true'
+                    ) {
+                        $available = 10;
+                    } else {
+                        $available = 10;
+                    }
+
+                    if ($product->supplier == $supplierId) {
+                        if ($product->price != $item['price']) {
+                            $message[] = "Изменена цена";
+                        }
+
+                        if ($productParam->available != $available) {
+                            $message[] = "Наличие изменено";
+                        }
+
+                        if ($item['price'] > 0) {
+                            $product->price = $item['price'];
+                        }
+
+                        $productParam->available = $available;
+                    } else {
+                        if ($product->price > $item['price']) {
+                            $str .= "attention;$artikul; Есть цена ниже у {$supplier->name}\r\n";
+                            $this->sendMessage("Для $artikul есть цена ниже у {$supplier->name}", '');
+                        }
+
+                        if ($available > 0 && $productParam->available == 0) {
+                            $str .= "attention;$artikul; У {$supplier->name} товар есть в наличии\r\n";
+                            $this->sendMessage("Для $artikul у {$supplier->name} товар есть в наличии", '');
+                        }
+                    }
+
+                    if ($product->save() && $productParam->save()) {
+                        $message[] = 'Всё сохранено успешно';
+                    } else {
+                        $message[] = 'Не сохранено';
+                    }
+
+                    $str .= "success;$artikul;".implode(' && ', $message)."\r\n";
                 } else {
-                    $available = 10;
+                    $str .= "error;$artikul;Такого артикула нет\r\n";
                 }
-
-                if ($product->supplier == $supplierId) {
-                    if ($product->price != $item['price']) {
-                        $message[] = "Изменена цена";
-                    }
-
-                    if ($productParam->available != $available) {
-                        $message[] = "Наличие изменено";
-                    }
-
-                    if ($item['price'] > 0) {
-                        $product->price = $item['price'];
-                    }
-
-                    $productParam->available = $available;
-                } else {
-                    if ($product->price > $item['price']) {
-                        $str .= "attention;$artikul; Есть цена ниже у {$supplier->name}\r\n";
-                        $this->sendMessage("Для $artikul есть цена ниже у {$supplier->name}", '');
-                    }
-
-                    if ($available > 0 && $productParam->available == 0) {
-                        $str .= "attention;$artikul; У {$supplier->name} товар есть в наличии\r\n";
-                        $this->sendMessage("Для $artikul у {$supplier->name} товар есть в наличии", '');
-                    }
-                }
-
-                if ($product->save() && $productParam->save()) {
-                    $message[] = 'Всё сохранено успешно';
-                } else {
-                    $message[] = 'Не сохранено';
-                }
-
-                $str .= "success;$artikul;".implode(' && ', $message)."\r\n";
-            } else {
-                $str .= "error;$artikul;Такого артикула нет\r\n";
             }
         }
 
