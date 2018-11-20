@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use Exception;
 use Yii;
 use yii\base\Model;
 
@@ -12,8 +13,8 @@ class City extends Model
         $sessionCity = $session->get('city');
 
         if (!$sessionCity) {
-            $city = ''
-                
+            $city = '';
+
             try {
                 $ip = $_SERVER['REMOTE_ADDR'];
                 if ($ip == '127.0.0.1') $ip = '5.3.164.145';
