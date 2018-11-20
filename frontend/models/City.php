@@ -12,20 +12,26 @@ class City extends Model
         $sessionCity = $session->get('city');
 
         if (!$sessionCity) {
-            $ip = $_SERVER['REMOTE_ADDR'];
-            if ($ip == '127.0.0.1') $ip = '5.3.164.145';
-            $xml = file_get_contents("http://ipgeobase.ru:7020/geo?ip=$ip");
-            $str = iconv('windows-1251', 'utf-8', $xml);
-            preg_match('#<city>([^<]+)</city><region>([^<]+)</region>#siU', $str, $match);
+            $city = ''
+                
+            try {
+                $ip = $_SERVER['REMOTE_ADDR'];
+                if ($ip == '127.0.0.1') $ip = '5.3.164.145';
+                $xml = file_get_contents("http://ipgeobase.ru:7020/geo?ip=$ip");
+                $str = iconv('windows-1251', 'utf-8', $xml);
+                preg_match('#<city>([^<]+)</city><region>([^<]+)</region>#siU', $str, $match);
 
-            if (isset($match[1]) && !empty($match[1]) && isset($match[2]) && !empty($match[2])) {
-                $city = $match[1];
-                $region = $match[2];
+                if (isset($match[1]) && !empty($match[1]) && isset($match[2]) && !empty($match[2])) {
+                    $city = $match[1];
+                    $region = $match[2];
 
-                if ($region == 'Московская область') {
+                    if ($region == 'Московская область') {
+                        $city = 'Москва';
+                    }
+                } else {
                     $city = 'Москва';
                 }
-            } else {
+            } catch (Exception $e) {
                 $city = 'Москва';
             }
 
