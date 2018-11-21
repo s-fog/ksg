@@ -56,21 +56,23 @@ $mainpage = Mainpage::findOne(1);
                             <div class="properties__featurePlus"></div>
                             <div class="properties__featureHeader"><span><?=$item['feature']->header?></span></div>
                             <ul class="properties__featureList"<?=($index == 0) ? ' style="display: block;"' : ''?>>
-                                <?php foreach($item['values'] as $values) {
-                                    if (strlen($values['value']) > 75) { ?>
-                                        <li class="big">
-                                            <div class="properties__featureName<?=(strlen($values['name']) > 75) ? ' properties__featureName_big' : ''?>"><?=$values['name']?></div>
-                                            <div class="properties__featureMiddle properties__featureMiddle_big"></div>
-                                            <div class="properties__featureValue properties__featureValue_big"><?=$values['value']?></div>
-                                        </li>
-                                    <?php } else {
-                                        ?>
-                                        <li>
-                                            <div class="properties__featureName<?=(strlen($values['name']) > 75) ? ' properties__featureName_big' : ''?>"><?=$values['name']?></div>
-                                            <div class="properties__featureMiddle"></div>
-                                            <div class="properties__featureValue"><?=$values['value']?></div>
-                                        </li>
-                                    <?php }
+                                <?php if (is_array($item['values'])) { ?>
+                                    <?php foreach($item['values'] as $values) {
+                                        if (strlen($values['value']) > 75) { ?>
+                                            <li class="big">
+                                                <div class="properties__featureName<?=(strlen($values['name']) > 75) ? ' properties__featureName_big' : ''?>"><?=$values['name']?></div>
+                                                <div class="properties__featureMiddle properties__featureMiddle_big"></div>
+                                                <div class="properties__featureValue properties__featureValue_big"><?=$values['value']?></div>
+                                            </li>
+                                        <?php } else {
+                                            ?>
+                                            <li>
+                                                <div class="properties__featureName<?=(strlen($values['name']) > 75) ? ' properties__featureName_big' : ''?>"><?=$values['name']?></div>
+                                                <div class="properties__featureMiddle"></div>
+                                                <div class="properties__featureValue"><?=$values['value']?></div>
+                                            </li>
+                                        <?php }
+                                    }
                                 } ?>
                             </ul>
                         </div>
