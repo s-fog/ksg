@@ -30,6 +30,7 @@ class CatalogController extends Controller
             'value' => '1',
             'expire' => strtotime('+1 hour'),
         ]));
+        $cache = Yii::$app->cache;
 
         City::setCity();
 
@@ -41,6 +42,35 @@ class CatalogController extends Controller
             ]);
         } else {
             $model = Category::getCurrentCategory([$alias, $alias2, $alias3, $alias4, $alias5]);
+
+            if (!isset($_GET['page']) &&$model->type == 0 && $products = $cache->get('products-cat'.$model->id)) {
+                $pages = $cache->get('pages-cat'.$model->id);
+                $tags = $cache->get('tags-cat'.$model->id);
+                $brands = $cache->get('brands-cat'.$model->id);
+                $years = $cache->get('years-cat'.$model->id);
+                $brandsSerial = $cache->get('brandsSerial-cat'.$model->id);
+                $bHeader = $cache->get('bHeader-cat'.$model->id);
+                $bHeader2 = $cache->get('bHeader2-cat'.$model->id);
+                $minPrice = $cache->get('minPrice-cat'.$model->id);
+                $maxPrice = $cache->get('maxPrice-cat'.$model->id);
+                $filterBrands = $cache->get('filterBrands-cat'.$model->id);
+
+                return $this->render('index', [
+                    'model' => $model,
+                    'products' => $products,
+                    'pages' => $pages,
+                    'tags' => $tags,
+                    'brands' => $brands,
+                    'years' => $years,
+                    'brandsSerial' => $brandsSerial,
+                    'bHeader' => $bHeader,
+                    'bHeader2' => $bHeader2,
+                    'minPrice' => $minPrice,
+                    'maxPrice' => $maxPrice,
+                    'filterBrands' => $filterBrands,
+                ]);
+            }
+
             $innerIdsWhere = [];
 
             if (!$model) {
@@ -370,6 +400,19 @@ class CatalogController extends Controller
                 }
             }
 
+            if (!isset($_GET['page']) &&$model->type == 0) {
+                $cache->set('products-cat'.$model->id, $products);
+                $cache->set('pages-cat'.$model->id, $pages);
+                $cache->set('tags-cat'.$model->id, $tags);
+                $cache->set('brands-cat'.$model->id, $brands);
+                $cache->set('years-cat'.$model->id, $years);
+                $cache->set('brandsSerial-cat'.$model->id, $brandsSerial);
+                $cache->set('bHeader-cat'.$model->id, $bHeader);
+                $cache->set('bHeader2-cat'.$model->id, $bHeader2);
+                $cache->set('minPrice-cat'.$model->id, $minPrice);
+                $cache->set('maxPrice-cat'.$model->id, $maxPrice);
+                $cache->set('filterBrands-cat'.$model->id, $filterBrands);
+            }
 
             return $this->render('index', [
                 'model' => $model,
