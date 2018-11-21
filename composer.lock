@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5591516648cd1ac3e4ee9df06ced40eb",
-    "content-hash": "151b8976cf913573cd725adce6cf1b4e",
+    "hash": "15e93e5f6d1792871df92fbef8e8187a",
+    "content-hash": "4ab0cefafc82be00f44bd3e1658bbe25",
     "packages": [
         {
             "name": "2amigos/yii2-file-upload-widget",
@@ -4158,6 +4158,35 @@
                 "yii2"
             ],
             "time": "2017-12-22 20:31:41"
+        },
+        {
+            "name": "s-fog/yii2-sfog-image",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/s-fog/yii2-sfog-image.git",
+                "reference": "242e26503b7b59e79b7b5147f17f55af7e260430"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/s-fog/yii2-sfog-image/zipball/242e26503b7b59e79b7b5147f17f55af7e260430",
+                "reference": "242e26503b7b59e79b7b5147f17f55af7e260430",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "sfog\\image\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "time": "2018-11-20 11:40:41"
         },
         {
             "name": "schmunk42/retry",

@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\Sitemap;
 use backend\models\UploadFile;
 use common\models\News;
+use sfog\image\Image;
 use yii\web\UploadedFile;
 
 /**
@@ -22,9 +23,9 @@ class NewsController extends \backend\controllers\base\NewsController
                 $model->image = UploadedFile::getInstance($model, "image");
 
                 if ($model->validate()) {
-                    $model->image = UploadFile::upload(
+                    $sfogImage = new Image;
+                    $model->image = $sfogImage->uploadFile(
                         $model,
-                        News::findOne($model->id),
                         'image',
                         'image',
                         ['260x150']
@@ -59,9 +60,9 @@ class NewsController extends \backend\controllers\base\NewsController
         if ($model->load($_POST)) {
             if ($model->validate()) {
                 if (!empty($_FILES['News']['name']['image'])) {
-                    $model->image = UploadFile::upload(
+                    $sfogImage = new Image;
+                    $model->image = $sfogImage->uploadFile(
                         $model,
-                        News::findOne($model->id),
                         'image',
                         'image',
                         ['260x150']

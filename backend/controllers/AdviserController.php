@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\UploadFile;
 use common\models\Adviser;
+use sfog\image\Image;
 use yii\web\UploadedFile;
 
 /**
@@ -21,9 +22,9 @@ class AdviserController extends \backend\controllers\base\AdviserController
                 $model->image = UploadedFile::getInstance($model, "image");
 
                 if ($model->validate()) {
-                    $model->image = UploadFile::upload(
+                    $sfogImage = new Image;
+                    $model->image = $sfogImage->uploadFile(
                         $model,
-                        Adviser::findOne($model->id),
                         'image',
                         'image',
                         ['130x175']
@@ -52,9 +53,9 @@ class AdviserController extends \backend\controllers\base\AdviserController
         if ($model->load($_POST)) {
             if ($model->validate()) {
                 if (!empty($_FILES['Adviser']['name']['image'])) {
-                    $model->image = UploadFile::upload(
+                    $sfogImage = new Image;
+                    $model->image = $sfogImage->uploadFile(
                         $model,
-                        Adviser::findOne($model->id),
                         'image',
                         'image',
                         ['130x175']

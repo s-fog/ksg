@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\UploadFile;
 use common\models\Brand;
+use sfog\image\Image;
 use Yii;
 use yii\web\UploadedFile;
 
@@ -22,9 +23,9 @@ class BrandController extends \backend\controllers\base\BrandController
                 $model->image = UploadedFile::getInstance($model, "image");
 
                 if ($model->validate()) {
-                    $model->image = UploadFile::upload(
+                    $sfogImage = new Image;
+                    $model->image = $sfogImage->uploadFile(
                         $model,
-                        Brand::findOne($model->id),
                         'image',
                         'image',
                         ['280x140', '60x30']
@@ -58,9 +59,9 @@ class BrandController extends \backend\controllers\base\BrandController
         if ($model->load($_POST)) {
             if ($model->validate()) {
                 if (!empty($_FILES['Brand']['name']['image'])) {
-                    $model->image = UploadFile::upload(
+                    $sfogImage = new Image;
+                    $model->image = $sfogImage->uploadFile(
                         $model,
-                        Brand::findOne($model->id),
                         'image',
                         'image',
                         ['280x140', '60x30']

@@ -10,6 +10,7 @@ use common\models\Feature;
 use common\models\FeatureValue;
 use common\models\FilterFeature;
 use Exception;
+use sfog\image\Image;
 use Yii;
 use yii\web\UploadedFile;
 use yii\helpers\ArrayHelper;
@@ -69,16 +70,15 @@ class CategoryController extends \backend\controllers\base\CategoryController
             }
 
             if ($valid) {
-                $model->image_catalog = UploadFile::upload(
+                $sfogImage = new Image;
+                $model->image_catalog = $sfogImage->uploadFile(
                     $model,
-                    Category::findOne($model->id),
                     'image_catalog',
                     'image_catalog',
                     ['1600x250']
                 );
-                $model->image_menu = UploadFile::upload(
+                $model->image_menu = $sfogImage->uploadFile(
                     $model,
-                    Category::findOne($model->id),
                     'image_menu',
                     'image_menu',
                     ['134x134']
@@ -213,10 +213,11 @@ class CategoryController extends \backend\controllers\base\CategoryController
 
 
             if ($valid) {
+                $sfogImage = new Image;
+
                 if (!empty($_FILES['Category']['name']['image_catalog'])) {
-                    $model->image_catalog = UploadFile::upload(
+                    $model->image_catalog = $sfogImage->uploadFile(
                         $model,
-                        Category::findOne($model->id),
                         'image_catalog',
                         'image_catalog',
                         ['1600x250']
@@ -226,9 +227,8 @@ class CategoryController extends \backend\controllers\base\CategoryController
                 }
 
                 if (!empty($_FILES['Category']['name']['image_menu'])) {
-                    $model->image_menu = UploadFile::upload(
+                    $model->image_menu = $sfogImage->uploadFile(
                         $model,
-                        Category::findOne($model->id),
                         'image_menu',
                         'image_menu',
                         ['134x134']
