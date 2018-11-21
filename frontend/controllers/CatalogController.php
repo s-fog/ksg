@@ -45,7 +45,8 @@ class CatalogController extends Controller
             $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM product ORDER BY updated_at DESC']);
             $lpua = $cache->get('last_product_updated_at');
 
-            if (!isset($_GET['page']) && $model->type == 0 && $products = $cache->get('products-cat'.$model->id) && $lpua) {
+            //if (!isset($_GET['page']) && $model->type == 0 && $products = $cache->get('products-cat'.$model->id) && $lpua) {
+            if (false) {
                 $pages = $cache->get('pages-cat'.$model->id);
                 $tags = $cache->get('tags-cat'.$model->id);
                 $brands = $cache->get('brands-cat'.$model->id);
