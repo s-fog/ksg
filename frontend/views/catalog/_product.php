@@ -36,7 +36,7 @@ foreach($variants as $variant) {
                             <span>смотреть инструкцию</span>
                         </a>
                     <?php } ?>
-                    <?php if (!empty($mainpage->banner_image)) { ?>
+                    <?php if (!empty($mainpage->banner_image) && $mainpage->is_banner == 1) { ?>
                         <img class="product__banner" src="<?=$mainpage->banner_image?>">
                     <?php } ?>
                 </div>

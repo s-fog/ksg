@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use sfog\image\Image as SfogImage;
 
 /**
  * Site controller
@@ -65,12 +66,12 @@ class MainpageController extends Controller
         $model = Mainpage::findOne(1);
 
         if ($model->load($_POST)) {
+            $sfogImage = new SfogImage;
             $banner_image = $model->banner_image;
 
             if (!empty($_FILES['Mainpage']['name']['banner_image'])) {
-                $model->banner_image = UploadFile::upload(
+                $model->banner_image = $sfogImage->uploadFile(
                     $model,
-                    Mainpage::findOne(1),
                     'banner_image',
                     'banner_image',
                     []

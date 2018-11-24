@@ -48,7 +48,7 @@ class CatalogController extends Controller
                 $cache->set('last_product_updated_at', 1, null, $dependency);
             }
 
-            if (!isset($_GET['page']) && $model->type == 0 && $cache->get('products-cat'.$model->id) && $lpua) {
+            if (!isset($_GET['page']) && !isset($_GET['per_page']) && $model->type == 0 && $cache->get('products-cat'.$model->id) && $lpua) {
                 $products = $cache->get('products-cat'.$model->id);
                 $pages = $cache->get('pages-cat'.$model->id);
                 $tags = $cache->get('tags-cat'.$model->id);
@@ -406,27 +406,17 @@ class CatalogController extends Controller
                 }
             }
 
-            if (!isset($_GET['page']) && $model->type == 0) {
+            if (!isset($_GET['page']) && !isset($_GET['per_page']) && $model->type == 0) {
                 $cache->set('products-cat'.$model->id, $products);
-
                 $cache->set('pages-cat'.$model->id, $pages);
-
                 $cache->set('tags-cat'.$model->id, $tags);
-
                 $cache->set('brands-cat'.$model->id, $brands);
-
                 $cache->set('years-cat'.$model->id, $years);
-
                 $cache->set('brandsSerial-cat'.$model->id, $brandsSerial);
-
                 $cache->set('bHeader-cat'.$model->id, $bHeader);
-
                 $cache->set('bHeader2-cat'.$model->id, $bHeader2);
-
                 $cache->set('minPrice-cat'.$model->id, $minPrice);
-
                 $cache->set('maxPrice-cat'.$model->id, $maxPrice);
-
                 $cache->set('filterBrands-cat'.$model->id, $filterBrands);
             }
 

@@ -34,7 +34,7 @@ class Mainpage extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['delivery_free_from'], 'integer'],
+            [['delivery_free_from', 'is_banner'], 'integer'],
             [['seo_description', 'delivery', 'product_delivery_left', 'product_delivery_right'], 'string'],
             [['name', 'seo_title', 'seo_keywords', 'banner_image'], 'string', 'max' => 255]
         ];
@@ -56,6 +56,7 @@ class Mainpage extends \yii\db\ActiveRecord
             'delivery_free_from' => 'Начиная с этой цену, у товара будет бесплатная доставка',
             'product_delivery_left' => 'Доставка для товара (левая колонка)',
             'product_delivery_right' => 'Доставка для товара (правая колонка)',
+            'is_banner' => 'Баннер активен?',
         ];
     }
 
