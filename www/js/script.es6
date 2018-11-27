@@ -1928,57 +1928,61 @@ class Application {
         $('body').on('beforeSubmit', '.sendForm', (event) => {
             var form = $(event.currentTarget);
             var submitButton = form.find('[type="submit"]');
-            var formData = new FormData(form.get(0));
-            var xhr = new XMLHttpRequest();
 
-            if (form.attr('id') == 'subscribe') {
-                xhr.open("POST", "/site/subscribe");
-            } else {
-                xhr.open("POST", "/mail/index");
-            }
+            if (!submitButton.hasClass('loading')) {
+                var formData = new FormData(form.get(0));
+                var xhr = new XMLHttpRequest();
+                let buttonHtml = submitButton.html();
 
-            xhr.send(formData);
+                if (form.attr('id') == 'subscribe') {
+                    xhr.open("POST", "/site/subscribe");
+                } else {
+                    xhr.open("POST", "/mail/index");
+                }
 
-            let buttonHtml = submitButton.html();
+                xhr.send(formData);
+                submitButton.addClass('loading');
 
-            xhr.upload.onprogress = () => {
+                xhr.upload.onprogress = () => {
 
-            };
+                };
 
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState == 4){
-                    if (xhr.status == 200){
-                        var response = xhr.responseText;
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                            var response = xhr.responseText;
+                            submitButton.removeClass('loading');
 
-                        if (form.attr('id') == 'oneClick') {
-                            if (response) {
-                                location = '/cart/success/'+response;
+                            if (form.attr('id') == 'oneClick') {
+                                if (response) {
+                                    location = '/cart/success/' + response;
+                                }
+                            } else {
+                                if (response == 'success') {
+                                    form[0].reset();
+
+                                    if (submitButton.find('span').get(0)) {
+                                        submitButton.addClass('send');
+                                        submitButton.find('span').text('Спасибо!');
+                                    } else {
+                                        submitButton.addClass('send').text('Спасибо!');
+                                    }
+
+                                    setTimeout(() => {
+                                        $.fancybox.close();
+                                        submitButton.removeClass('send').html(buttonHtml);
+                                    }, 3000);
+                                } else {
+                                    alert('Ошибка');
+                                }
                             }
                         } else {
-                            if (response == 'success') {
-                                form[0].reset();
-
-                                if (submitButton.find('span').get(0)) {
-                                    submitButton.addClass('send');
-                                    submitButton.find('span').text('Спасибо!');
-                                } else {
-                                    submitButton.addClass('send').text('Спасибо!');
-                                }
-
-                                setTimeout(() => {
-                                    $.fancybox.close();
-                                    submitButton.removeClass('send').html(buttonHtml);
-                                }, 3000);
-                            } else {
-                                alert('Ошибка');
-                            }
+                            console.log('error status');
                         }
-                    } else {
-                        console.log('error status');
                     }
-                }
-            };
-            return false;
+                };
+                return false;
+            }
         });
 
         $('[href^="tel:"]').click(() => {

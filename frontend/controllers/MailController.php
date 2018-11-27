@@ -58,12 +58,10 @@ class MailController extends \yii\web\Controller
                 $order->name = $_POST['OneClickForm']['name'];
                 $order->phone = $_POST['OneClickForm']['phone'];
                 $order->email = Yii::$app->params['adminEmail'];
-                $order->discount = 10;
-                $order->delivery_cost = 100;
                 $order->total_cost = $product->price;
 
                 if ($present = Present::find()->where("$order->total_cost >= min_price AND $order->total_cost < max_price")->one()) {
-                    $order->present_artikul = $present->product_artikul;
+                    $order->present_artikul = explode(',', $present->product_artikul)[0];
                 }
 
                 $products[$product->getId()] = $product;

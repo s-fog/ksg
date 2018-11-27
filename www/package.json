@@ -7,11 +7,9 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "@babel/core": "*",
         "browser-sync": "*",
         "gulp": "*",
         "gulp-autoprefixer": "*",
-        "gulp-babel": "*",
         "gulp-concat": "*",
         "gulp-imagemin": "*",
         "gulp-minify-css": "*",
@@ -25,6 +23,9 @@
     "author": "S-fog",
     "license": "ISC",
     "devDependencies": {
+        "@babel/core": "*",
+        "@babel/preset-env": "*",
+        "gulp-babel": "*",
         "gulp-cache-files": "*",
         "gulp-clone": "*",
         "gulp-sourcemaps": "*",

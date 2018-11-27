@@ -3137,6 +3137,28 @@ body {
     &.send {
       background-color: $greenColor;
     }
+
+    &.loading {
+      background-color: rgba(213, 25, 43, 0.3);
+      overflow: hidden;
+      
+      span {
+        color: transparent;
+
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: -32px;
+          margin: auto;
+          height: 100px;
+          background-image: url(../img/loading.svg);
+          background-size: 100% 100%;
+        }
+      }
+    }
   }
 }
 

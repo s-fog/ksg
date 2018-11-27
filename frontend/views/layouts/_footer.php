@@ -148,7 +148,7 @@ $form = ActiveForm::begin([
             'clearIncomplete' => true
         ]
     ])->label(false) ?>
-        <button class="popup__submit" type="submit">заказать обратный звонок</button>
+        <button class="popup__submit" type="submit"><span>заказать обратный звонок</span></button>
     </div>
 </div>
 <div class="callback__bottom">
@@ -207,7 +207,7 @@ $form = ActiveForm::begin([
             </div>
         </div>
         <div class="oneClick__bottomRight">
-            <button class="popup__submit" type="submit">купить</button>
+            <button class="popup__submit" type="submit"><span>купить</span></button>
         </div>
     </div>
 </div>
