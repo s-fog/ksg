@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use backend\models\Sitemap;
+use backend\models\UML;
 use Exception;
 use frontend\models\Xml;
 use Yii;
@@ -126,6 +128,9 @@ class XmlController extends Controller
         } catch(Exception $e) {
             $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
+
+        Sitemap::doIt();
+        UML::doIt();
         ////////////////////////////////////////////////////////////////////////////////
         //echo '<pre>',print_r($driada->shop->offers),'</pre>';
     }
