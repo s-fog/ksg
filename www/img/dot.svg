@@ -1,1 +1,8 @@
-<svg class="dot-unactive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.39 11.6"><path d="M15 0H8.18a3.49 3.49 0 0 0-2.4 1L1 5.8a3.42 3.42 0 0 0 2.4 5.8h6.9a3.49 3.49 0 0 0 2.4-1l4.8-4.8A3.46 3.46 0 0 0 15 0z" style="isolation:isolate" fill="#e83a4a" opacity=".5"/></svg>
+<svg class="dot-unactive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.39 11.6">
+    <defs>
+        <style>.svg-dot{fill:#e83a4a;opacity:0.5;isolation:isolate;}</style>
+    </defs>
+    <g>
+        <path class="svg-dot" d="M15,0H8.18a3.49,3.49,0,0,0-2.4,1L1,5.8a3.42,3.42,0,0,0,2.4,5.8h6.9a3.49,3.49,0,0,0,2.4-1l4.8-4.8A3.46,3.46,0,0,0,15,0Z"/>
+    </g>
+</svg>
