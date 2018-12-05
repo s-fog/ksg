@@ -21,6 +21,7 @@ class XmlController extends Controller
 
     public function actionImport()
     {
+        return UML::doIt();
         $xml = new Xml();
 
         /*$ch = curl_init();
