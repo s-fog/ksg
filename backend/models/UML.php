@@ -16,7 +16,6 @@ use yii\helpers\Url;
 class UML extends Model
 {
     public static function doIt() {
-        $return = '';
         $dom = new DOMDocument('1.0', 'utf-8');
         $yml_catalog = $dom->createElement('yml_catalog');
         $date = $dom->createAttribute('date');
@@ -113,11 +112,8 @@ class UML extends Model
             $offer->appendChild($url);
             ///////////////////////////////////////////////////////////////////////////////////////////
 
-            if ($product->id == 624) {
-                $return .= $product->price;
-                $price = $dom->createElement('price', $product->price);
-                $offer->appendChild($price);
-            }
+            $price = $dom->createElement('price', $product->price);
+            $offer->appendChild($price);
 
             if (!empty($product->price_old)) {
                 $oldprice = $dom->createElement('oldprice', $product->price_old);
@@ -223,6 +219,5 @@ class UML extends Model
         $yml_catalog->appendChild($shop);
         $dom->appendChild($yml_catalog);
         $dom->save('../yml.xml');
-        return $return;
     }
 }
