@@ -21,7 +21,6 @@ class XmlController extends Controller
 
     public function actionImport()
     {
-        return UML::doIt();
         $xml = new Xml();
 
         /*$ch = curl_init();
@@ -130,8 +129,7 @@ class XmlController extends Controller
             $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
 
-
-        return UML::doIt();
+        UML::doIt();
         ////////////////////////////////////////////////////////////////////////////////
         //echo '<pre>',print_r($driada->shop->offers),'</pre>';
     }
