@@ -113,9 +113,11 @@ class UML extends Model
             $offer->appendChild($url);
             ///////////////////////////////////////////////////////////////////////////////////////////
 
-            $price = $dom->createElement('price', $product->price);
-            $offer->appendChild($price);
-            $return = $product->price;
+            if ($product->id == 624) {
+                $return .= $product->price;
+                $price = $dom->createElement('price', $product->price);
+                $offer->appendChild($price);
+            }
 
             if (!empty($product->price_old)) {
                 $oldprice = $dom->createElement('oldprice', $product->price_old);
