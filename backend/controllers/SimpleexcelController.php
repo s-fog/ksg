@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\SimpleExcel;
+use backend\models\UML;
 use common\models\Subscribe;
 use common\models\SubscribeSearch;
 use dmstr\bootstrap\Tabs;
@@ -25,6 +26,8 @@ class SimpleexcelController extends \yii\web\Controller
             if ($file->saveAs($_SERVER['DOCUMENT_ROOT'] . '/www/simple-xls.xlsx', false)) {
                 $success = $model->doIt();
             }
+
+            UML::doIt();
 
             return $this->render('index', [//
                 'model' => $model,

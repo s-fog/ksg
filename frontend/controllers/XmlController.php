@@ -129,8 +129,8 @@ class XmlController extends Controller
             $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
 
-        Sitemap::doIt();
         UML::doIt();
+        return 'success';
         ////////////////////////////////////////////////////////////////////////////////
         //echo '<pre>',print_r($driada->shop->offers),'</pre>';
     }
