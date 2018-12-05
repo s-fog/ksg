@@ -95,70 +95,69 @@ class UML extends Model
             ->all();
 
         foreach($products as $product) {
-            $imageModel = $product->images[0];
-            $filename = explode('.', basename($imageModel->image));
-            $variant = ProductParam::find()->where(['product_id' => $product->id])->orderBy(['id' => SORT_ASC])->one();
-            $availableProduct = ($product->available) ? 'true' : 'false';
+            if ($product->id == '624') {
+                $imageModel = $product->images[0];
+                $filename = explode('.', basename($imageModel->image));
+                $variant = ProductParam::find()->where(['product_id' => $product->id])->orderBy(['id' => SORT_ASC])->one();
+                $availableProduct = ($product->available) ? 'true' : 'false';
 
-            $offer = $dom->createElement('offer');
-            $id = $dom->createAttribute('id');
-            $id->value = $product->id;
-            $offer->appendChild($id);
-            $available = $dom->createAttribute('available');
-            $available->value = $availableProduct;
-            $offer->appendChild($available);
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            $https = ($_SERVER['HTTP_HOST'] == 'dev2.ksg.ru') ? 'https://' : 'http://';
-            $url = $dom->createElement('url', $https.$_SERVER['HTTP_HOST'].'/product/'.$product->alias);
-            $offer->appendChild($url);
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            if ($product->id == 624) {
-                $return .= $product->price;
-            }
-            $price = $dom->createElement('price', $product->price);
-            $offer->appendChild($price);
+                $offer = $dom->createElement('offer');
+                $id = $dom->createAttribute('id');
+                $id->value = $product->id;
+                $offer->appendChild($id);
+                $available = $dom->createAttribute('available');
+                $available->value = $availableProduct;
+                $offer->appendChild($available);
+                ///////////////////////////////////////////////////////////////////////////////////////////
+                $https = ($_SERVER['HTTP_HOST'] == 'dev2.ksg.ru') ? 'https://' : 'http://';
+                $url = $dom->createElement('url', $https.$_SERVER['HTTP_HOST'].'/product/'.$product->alias);
+                $offer->appendChild($url);
+                ///////////////////////////////////////////////////////////////////////////////////////////
+                $price = $dom->createElement('price', $product->price);
+                $offer->appendChild($price);
 
-            if (!empty($product->price_old)) {
-                $oldprice = $dom->createElement('oldprice', $product->price_old);
-                $offer->appendChild($oldprice);
-            }
-
-            $currencyId = $dom->createElement('currencyId', "RUR");
-            $offer->appendChild($currencyId);
-
-            $categoryId = $dom->createElement('categoryId', $product->parent_id);
-            $offer->appendChild($categoryId);
-
-            $picture = $dom->createElement('picture', $https.$_SERVER['HTTP_HOST']."/images/thumbs/{$filename[0]}-770-553.{$filename[1]}");
-            $offer->appendChild($picture);
-
-            $pickup = $dom->createElement('pickup', "true");
-            $offer->appendChild($pickup);
-
-            $name = $dom->createElement('name', htmlspecialchars($product->name));
-            $offer->appendChild($name);
-
-            $description = $dom->createElement('description');
-            $description->appendChild($dom->createCDATASection($product->description));
-            $offer->appendChild($description);
-
-            $vendorCode = $dom->createElement('vendorCode', htmlspecialchars($product->variant->artikul));
-            $offer->appendChild($vendorCode);
-
-            $vendor = $dom->createElement('vendor', htmlspecialchars($product->brand->name));
-            $offer->appendChild($vendor);
-
-            if (!empty($variant->params)) {
-                foreach($variant->params as $paramName => $paramValue) {
-                    $param = $dom->createElement('param', $paramValue);
-                    $name = $dom->createAttribute('name');
-                    $name->value = $paramName;
-                    $param->appendChild($name);
-                    $offer->appendChild($param);
+                if (!empty($product->price_old)) {
+                    $oldprice = $dom->createElement('oldprice', $product->price_old);
+                    $offer->appendChild($oldprice);
                 }
-            }
 
-            $offers->appendChild($offer);
+                $currencyId = $dom->createElement('currencyId', "RUR");
+                $offer->appendChild($currencyId);
+
+                $categoryId = $dom->createElement('categoryId', $product->parent_id);
+                $offer->appendChild($categoryId);
+
+                $picture = $dom->createElement('picture', $https.$_SERVER['HTTP_HOST']."/images/thumbs/{$filename[0]}-770-553.{$filename[1]}");
+                $offer->appendChild($picture);
+
+                $pickup = $dom->createElement('pickup', "true");
+                $offer->appendChild($pickup);
+
+                $name = $dom->createElement('name', htmlspecialchars($product->name));
+                $offer->appendChild($name);
+
+                $description = $dom->createElement('description');
+                $description->appendChild($dom->createCDATASection($product->description));
+                $offer->appendChild($description);
+
+                $vendorCode = $dom->createElement('vendorCode', htmlspecialchars($product->variant->artikul));
+                $offer->appendChild($vendorCode);
+
+                $vendor = $dom->createElement('vendor', htmlspecialchars($product->brand->name));
+                $offer->appendChild($vendor);
+
+                if (!empty($variant->params)) {
+                    foreach($variant->params as $paramName => $paramValue) {
+                        $param = $dom->createElement('param', $paramValue);
+                        $name = $dom->createAttribute('name');
+                        $name->value = $paramName;
+                        $param->appendChild($name);
+                        $offer->appendChild($param);
+                    }
+                }
+
+                $offers->appendChild($offer);
+            }
         }
 
         $shop->appendChild($offers);
