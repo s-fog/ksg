@@ -21,8 +21,6 @@ class XmlController extends Controller
 
     public function actionImport()
     {
-        UML::doIt();
-        return Yii::getAlias('@www');
         $xml = new Xml();
 
         /*$ch = curl_init();
@@ -131,6 +129,7 @@ class XmlController extends Controller
             $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
 
+        UML::doIt();
         ////////////////////////////////////////////////////////////////////////////////
         //echo '<pre>',print_r($driada->shop->offers),'</pre>';
     }
