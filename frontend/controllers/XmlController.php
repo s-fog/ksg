@@ -22,7 +22,7 @@ class XmlController extends Controller
     public function actionImport()
     {
         UML::doIt();
-        return '';
+        return Yii::getAlias('@www');
         $xml = new Xml();
 
         /*$ch = curl_init();
