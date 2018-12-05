@@ -16,7 +16,6 @@ use yii\helpers\Url;
 class UML extends Model
 {
     public static function doIt() {
-        $return = '';
         $dom = new DOMDocument('1.0', 'utf-8');
         $yml_catalog = $dom->createElement('yml_catalog');
         $date = $dom->createAttribute('date');
@@ -95,69 +94,68 @@ class UML extends Model
             ->all();
 
         foreach($products as $product) {
-            if ($product->id == '624') {
-                $imageModel = $product->images[0];
-                $filename = explode('.', basename($imageModel->image));
-                $variant = ProductParam::find()->where(['product_id' => $product->id])->orderBy(['id' => SORT_ASC])->one();
-                $availableProduct = ($product->available) ? 'true' : 'false';
+            $imageModel = $product->images[0];
+            $filename = explode('.', basename($imageModel->image));
+            $variant = ProductParam::find()->where(['product_id' => $product->id])->orderBy(['id' => SORT_ASC])->one();
+            $availableProduct = ($product->available) ? 'true' : 'false';
 
-                $offer = $dom->createElement('offer');
-                $id = $dom->createAttribute('id');
-                $id->value = $product->id;
-                $offer->appendChild($id);
-                $available = $dom->createAttribute('available');
-                $available->value = $availableProduct;
-                $offer->appendChild($available);
-                ///////////////////////////////////////////////////////////////////////////////////////////
-                $https = ($_SERVER['HTTP_HOST'] == 'dev2.ksg.ru') ? 'https://' : 'http://';
-                $url = $dom->createElement('url', $https.$_SERVER['HTTP_HOST'].'/product/'.$product->alias);
-                $offer->appendChild($url);
-                ///////////////////////////////////////////////////////////////////////////////////////////
-                $price = $dom->createElement('price', $product->price);
-                $offer->appendChild($price);
+            $offer = $dom->createElement('offer');
+            $id = $dom->createAttribute('id');
+            $id->value = $product->id;
+            $offer->appendChild($id);
+            $available = $dom->createAttribute('available');
+            $available->value = $availableProduct;
+            $offer->appendChild($available);
+            ///////////////////////////////////////////////////////////////////////////////////////////
+            $https = ($_SERVER['HTTP_HOST'] == 'dev2.ksg.ru') ? 'https://' : 'http://';
+            $url = $dom->createElement('url', $https.$_SERVER['HTTP_HOST'].'/product/'.$product->alias);
+            $offer->appendChild($url);
+            ///////////////////////////////////////////////////////////////////////////////////////////
 
-                if (!empty($product->price_old)) {
-                    $oldprice = $dom->createElement('oldprice', $product->price_old);
-                    $offer->appendChild($oldprice);
-                }
+            $price = $dom->createElement('price', $product->price);
+            $offer->appendChild($price);
 
-                $currencyId = $dom->createElement('currencyId', "RUR");
-                $offer->appendChild($currencyId);
-
-                $categoryId = $dom->createElement('categoryId', $product->parent_id);
-                $offer->appendChild($categoryId);
-
-                $picture = $dom->createElement('picture', $https.$_SERVER['HTTP_HOST']."/images/thumbs/{$filename[0]}-770-553.{$filename[1]}");
-                $offer->appendChild($picture);
-
-                $pickup = $dom->createElement('pickup', "true");
-                $offer->appendChild($pickup);
-
-                $name = $dom->createElement('name', htmlspecialchars($product->name));
-                $offer->appendChild($name);
-
-                $description = $dom->createElement('description');
-                $description->appendChild($dom->createCDATASection($product->description));
-                $offer->appendChild($description);
-
-                $vendorCode = $dom->createElement('vendorCode', htmlspecialchars($product->variant->artikul));
-                $offer->appendChild($vendorCode);
-
-                $vendor = $dom->createElement('vendor', htmlspecialchars($product->brand->name));
-                $offer->appendChild($vendor);
-
-                if (!empty($variant->params)) {
-                    foreach($variant->params as $paramName => $paramValue) {
-                        $param = $dom->createElement('param', $paramValue);
-                        $name = $dom->createAttribute('name');
-                        $name->value = $paramName;
-                        $param->appendChild($name);
-                        $offer->appendChild($param);
-                    }
-                }
-
-                $offers->appendChild($offer);
+            if (!empty($product->price_old)) {
+                $oldprice = $dom->createElement('oldprice', $product->price_old);
+                $offer->appendChild($oldprice);
             }
+
+            $currencyId = $dom->createElement('currencyId', "RUR");
+            $offer->appendChild($currencyId);
+
+            $categoryId = $dom->createElement('categoryId', $product->parent_id);
+            $offer->appendChild($categoryId);
+
+            $picture = $dom->createElement('picture', $https.$_SERVER['HTTP_HOST']."/images/thumbs/{$filename[0]}-770-553.{$filename[1]}");
+            $offer->appendChild($picture);
+
+            $pickup = $dom->createElement('pickup', "true");
+            $offer->appendChild($pickup);
+
+            $name = $dom->createElement('name', htmlspecialchars($product->name));
+            $offer->appendChild($name);
+
+            $description = $dom->createElement('description');
+            $description->appendChild($dom->createCDATASection($product->description));
+            $offer->appendChild($description);
+
+            $vendorCode = $dom->createElement('vendorCode', htmlspecialchars($product->variant->artikul));
+            $offer->appendChild($vendorCode);
+
+            $vendor = $dom->createElement('vendor', htmlspecialchars($product->brand->name));
+            $offer->appendChild($vendor);
+
+            if (!empty($variant->params)) {
+                foreach($variant->params as $paramName => $paramValue) {
+                    $param = $dom->createElement('param', $paramValue);
+                    $name = $dom->createAttribute('name');
+                    $name->value = $paramName;
+                    $param->appendChild($name);
+                    $offer->appendChild($param);
+                }
+            }
+
+            $offers->appendChild($offer);
         }
 
         $shop->appendChild($offers);
@@ -220,7 +218,6 @@ class UML extends Model
 
         $yml_catalog->appendChild($shop);
         $dom->appendChild($yml_catalog);
-        $dom->save('../yml.xml');
-        return $return;
+        return $dom->save('../yml.xml');
     }
 }
