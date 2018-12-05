@@ -101,6 +101,8 @@ class SimpleExcel extends Model
             }
         }
 
+        UML::doIt();
+
         return $changedCount;
     }
 }
