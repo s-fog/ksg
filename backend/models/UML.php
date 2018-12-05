@@ -218,6 +218,6 @@ class UML extends Model
 
         $yml_catalog->appendChild($shop);
         $dom->appendChild($yml_catalog);
-        $dom->save('../yml.xml');
+        $dom->save('../yml2.xml');
     }
 }
