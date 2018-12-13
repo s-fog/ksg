@@ -43,18 +43,12 @@ class CatalogController extends Controller
         } else {
             $model = Category::getCurrentCategory([$alias, $alias2, $alias3, $alias4, $alias5]);
 
-            if (!$lpua = $cache->get('last_product_updated_at')) {
+            /*if (!$lpua = $cache->get('last_product_updated_at')) {
                 $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM product ORDER BY updated_at DESC']);
                 $cache->set('last_product_updated_at', 1, null, $dependency);
             }
 
-            if (isset($_GET)) {
-                if ($_GET['gty'] == 1) {
-                    var_dump($lpua);die();
-                }
-            }
-
-            /*if (!isset($_GET['page']) && !isset($_GET['per_page']) && $model->type == 0 && $cache->get('products-cat'.$model->id) && $lpua) {
+            if (!isset($_GET['page']) && !isset($_GET['per_page']) && $model->type == 0 && $cache->get('products-cat'.$model->id) && $lpua) {
                 $products = $cache->get('products-cat'.$model->id);
                 $pages = $cache->get('pages-cat'.$model->id);
                 $tags = $cache->get('tags-cat'.$model->id);
