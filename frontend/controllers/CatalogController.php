@@ -43,7 +43,7 @@ class CatalogController extends Controller
         } else {
             $model = Category::getCurrentCategory([$alias, $alias2, $alias3, $alias4, $alias5]);
 
-            if (!$lpua = $cache->get('last_product_updated_at')) {
+            /*if (!$lpua = $cache->get('last_product_updated_at')) {
                 $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM product ORDER BY updated_at DESC']);
                 $cache->set('last_product_updated_at', 1, null, $dependency);
             }
@@ -75,7 +75,7 @@ class CatalogController extends Controller
                     'maxPrice' => $maxPrice,
                     'filterBrands' => $filterBrands,
                 ]);
-            }
+            }*/
 
             $innerIdsWhere = [];
 
@@ -406,7 +406,7 @@ class CatalogController extends Controller
                 }
             }
 
-            if (!isset($_GET['page']) && !isset($_GET['per_page']) && $model->type == 0) {
+            /*if (!isset($_GET['page']) && !isset($_GET['per_page']) && $model->type == 0) {
                 $cache->set('products-cat'.$model->id, $products);
                 $cache->set('pages-cat'.$model->id, $pages);
                 $cache->set('tags-cat'.$model->id, $tags);
@@ -418,7 +418,7 @@ class CatalogController extends Controller
                 $cache->set('minPrice-cat'.$model->id, $minPrice);
                 $cache->set('maxPrice-cat'.$model->id, $maxPrice);
                 $cache->set('filterBrands-cat'.$model->id, $filterBrands);
-            }
+            }*/
 
             return $this->render('index', [
                 'model' => $model,
