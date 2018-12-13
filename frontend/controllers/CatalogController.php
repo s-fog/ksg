@@ -50,7 +50,7 @@ class CatalogController extends Controller
 
             if (isset($_GET)) {
                 if ($_GET['gty'] == 1) {
-                    var_dump($lpua);
+                    var_dump($lpua);die();
                 }
             }
 
