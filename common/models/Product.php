@@ -60,7 +60,7 @@ class Product extends BaseProduct implements CartPositionInterface
             [['hit', 'parent_id', 'brand_id', 'supplier', 'price', 'price_old', 'currency_id', 'adviser_id', 'sort_order', 'popular'], 'integer'],
             [['description', 'adviser_text', 'seo_description'], 'string'],
             [['name', 'alias', 'code', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255],
-            [['code'], 'unique'],
+            [['code', 'alias'], 'unique'],
             [['parent_id'], 'compare', 'compareValue' => 0, 'operator' => '!=', 'type' => 'number'],
             [['instruction'], 'file'],
             [['present_image'], 'image', 'maxSize' => 1000000,  'minWidth' => 39, 'minHeight' => 50, 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
