@@ -37,6 +37,24 @@ class XmlController extends Controller
 
         ////////////////////////////////////////////////////////////////////////////////
         try {
+            $neotren = simplexml_load_file('https://neotren.ru/yml.php', 'SimpleXMLElement', LIBXML_SCHEMA_CREATE);
+            $neotrenArray = [];
+
+            foreach($neotren->shop->offers->offer as $offer) {
+                $available = empty((string) $offer->param) ? 0 : (string) $offer->param;
+                $artikul = (string) $offer->vendorCode;
+                $price = (int) $offer->price;
+
+                $neotrenArray[$artikul]['price'] = $price;
+                $neotrenArray[$artikul]['available'] = $available;
+            }
+
+            $xml->loadXml('neotren', $neotrenArray, 5, true);
+        } catch(Exception $e) {
+            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+        }
+        ////////////////////////////////////////////////////////////////////////////////
+        try {
             $fitnessBoutique = simplexml_load_file('https://www.fitness-boutique.ru/system/files/dealer/stock_fitness-boutique_xml_0.xml');
             $fitnessBoutiqueArray = [];
 
