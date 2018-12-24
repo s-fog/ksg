@@ -56,7 +56,6 @@ class XmlController extends Controller
                 $neotrenArray[$artikul]['price'] = $price;
                 $neotrenArray[$artikul]['available'] = $available;
             }
-            die();
 
             $xml->loadXml('neotren', $neotrenArray, 5, false);
         } catch(Exception $e) {
