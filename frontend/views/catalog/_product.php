@@ -283,14 +283,14 @@ foreach($variants as $variant) {
                         </div>
                         <div class="product__featureHeader">
                             <div class="product__featureHeaderText">
-                                <?php if (!$empty) { ?>
-                                    <?php if ($mainpage->delivery_free_from >= $model->price) { ?>
-                                        Доставим к
-                                    <?php } else { ?>
-                                        Бесплатно доставим к
-                                    <?php } ?>
+                                <?php if ($mainpage->delivery_free_from >= $model->price) { ?>
+                                    Доставим к
                                 <?php } else { ?>
-                                    Бесплатно доставим
+                                    <?php if (!$empty) { ?>
+                                        Бесплатно доставим к
+                                    <?php } else { ?>
+                                        Бесплатно доставим
+                                    <?php } ?>
                                 <?php } ?>
                             </div>
                             <?php if (!$empty) { ?>
