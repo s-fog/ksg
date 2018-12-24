@@ -41,7 +41,8 @@ class XmlController extends Controller
             $neotrenArray = [];
 
             foreach($neotren->shop->offers->offer as $offer) {
-                $available = empty((string) $offer->param) ? 0 : (string) $offer->param;
+                //$available = empty((string) $offer->param) ? 0 : (string) $offer->param;
+                $available = 5;
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
 
