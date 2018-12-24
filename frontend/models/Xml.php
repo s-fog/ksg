@@ -21,10 +21,13 @@ class Xml extends Model
 
             foreach($productParams as $pp) {
                 $ppArtikul = trim($pp->artikul);
-                echo $ppArtikul;echo '<br>';
+                //echo $ppArtikul;echo '<br>';
 
                 if (!empty($ppArtikul)) {
                     if (!array_key_exists($ppArtikul, $data)) {
+                        if (stristr($ppArtikul, 'ELITE_E4000')) {
+                            var_dump(1);die();
+                        }
                         $currentArray[] = $ppArtikul;
 
                         if ($notAvailableIfExists) {
@@ -46,9 +49,6 @@ class Xml extends Model
                 if ($productParam = ProductParam::findOne(['artikul' => $artikul])) {
                     $message = [];
                     $product = Product::findOne($productParam->product_id);
-                    if ($artikul == 'ELITE_E4000\'13') {
-                        echo 1;die();
-                    }
                     if (
                         $item['available'] === 'Отсутствует'
                         ||
