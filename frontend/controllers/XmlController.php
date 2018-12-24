@@ -37,12 +37,11 @@ class XmlController extends Controller
 
         ////////////////////////////////////////////////////////////////////////////////
         try {
-            $neotren = simplexml_load_file('https://neotren.ru/yml.php', 'SimpleXMLElement', LIBXML_SCHEMA_CREATE);
+            $neotren = simplexml_load_file('https://neotren.ru/yml.php');
             $neotrenArray = [];
 
             foreach($neotren->shop->offers->offer as $offer) {
-                //$available = empty((string) $offer->param) ? 0 : (string) $offer->param;
-                $available = 5;
+                $available = empty((string) $offer->param) ? 0 : (string) $offer->param;
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
 
