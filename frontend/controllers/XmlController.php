@@ -41,13 +41,22 @@ class XmlController extends Controller
             $neotrenArray = [];
 
             foreach($neotren->shop->offers->offer as $offer) {
-                $available = empty((string) $offer->param) ? 0 : (string) $offer->param;
+                $offerXml = $offer->asXml();
+
+                if (strstr($offerXml, '<param name="status"/>')) {
+                    $available = 0;
+                } else {
+                    preg_match('#<param name="status">([^<]+)</param>#siU', $offerXml, $match);
+                    $available = $match[1];
+                }
+
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
 
                 $neotrenArray[$artikul]['price'] = $price;
                 $neotrenArray[$artikul]['available'] = $available;
             }
+            die();
 
             $xml->loadXml('neotren', $neotrenArray, 5, false);
         } catch(Exception $e) {
