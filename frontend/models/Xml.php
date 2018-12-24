@@ -25,7 +25,7 @@ class Xml extends Model
 
                 if (!empty($ppArtikul)) {
                     if (!array_key_exists($ppArtikul, $data)) {
-                        if (stristr($ppArtikul, 'ELITE_E4000')) {
+                        if ($pp->id == 485) {
                             var_dump($ppArtikul);die();
                         }
                         $currentArray[] = $ppArtikul;
