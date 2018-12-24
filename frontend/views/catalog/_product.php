@@ -80,20 +80,24 @@ foreach($variants as $variant) {
                                 <span>Купить</span>
                             </button>
                         </div>
+                    <?php } else { ?>
+                        <div class="product__toCartRight">
+                            <button class="button button5 js-product-in-js" data-fancybox data-src="#addToCart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136.84 45.96"><g><polygon points="117.25 0 19.5 0 10.99 0 0 9.1 0 45.96 19.59 45.96 117.34 45.96 125.85 45.96 136.84 36.87 136.84 0 117.25 0"></polygon></g></svg>
+                                <span>Предзаказ</span>
+                            </button>
+                        </div>
                     <?php } ?>
                 </div>
                 <div class="product__req product__req_mobile">
                     <?php if ($empty) { ?>
-                        <div class="product__available">
-                            <span>Нет в наличии</span>
-                        </div>
                     <?php } else { ?>
                         <div class="product__available active">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 23.1"><g><polygon points="16.1 0 13.6 1 6.8 17.9 2.8 12.7 0.3 12.4 0 15 6.3 23.1 8.6 23.1 17 2.4 16.1 0"/></g></svg>
                             <span>Есть в наличии</span>
                         </div>
+                        &nbsp;/&nbsp;
                     <?php } ?>
-                    &nbsp;/&nbsp;
                     <?php if (!$empty) { ?>
                         <div class="product__requestSale" data-fancybox="oneClick" data-src="#oneClick">Купить в один клик</div>
                     <?php } ?>
@@ -169,20 +173,24 @@ foreach($variants as $variant) {
                                 <span>Купить</span>
                             </button>
                         </div>
+                    <?php } else { ?>
+                        <div class="product__toCartRight">
+                            <button class="button button4 js-product-in-js" data-fancybox data-src="#addToCart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 36"><polygon points="132 0 7.58 0 0 7.58 0 36 124.21 36 132 28.35 132 0"/></svg>
+                                <span>Предзаказ</span>
+                            </button>
+                        </div>
                     <?php } ?>
                 </div>
                 <div class="product__req product__req_desktop">
                     <?php if ($empty) { ?>
-                        <div class="product__available">
-                            <span>Нет в наличии</span>
-                        </div>
                     <?php } else { ?>
                         <div class="product__available active">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 23.1"><g><polygon points="16.1 0 13.6 1 6.8 17.9 2.8 12.7 0.3 12.4 0 15 6.3 23.1 8.6 23.1 17 2.4 16.1 0"/></g></svg>
                             <span>Есть в наличии</span>
                         </div>
+                        &nbsp;/&nbsp;
                     <?php } ?>
-                    &nbsp;/&nbsp;
                     <?php if (!$empty) { ?>
                         <div class="product__requestSale" data-fancybox="oneClick" data-src="#oneClick">Купить в один клик</div>
                     <?php } ?>
@@ -275,17 +283,23 @@ foreach($variants as $variant) {
                         </div>
                         <div class="product__featureHeader">
                             <div class="product__featureHeaderText">
-                                <?php if ($mainpage->delivery_free_from >= $model->price) { ?>
-                                    Доставим к
+                                <?php if (!$empty) { ?>
+                                    <?php if ($mainpage->delivery_free_from >= $model->price) { ?>
+                                        Доставим к
+                                    <?php } else { ?>
+                                        Бесплатно доставим к
+                                    <?php } ?>
                                 <?php } else { ?>
-                                    Бесплатно доставим к
+                                    Бесплатно доставим
                                 <?php } ?>
                             </div>
-                            <select name="delivery_date" class="select-jquery-ui">
-                                <?php foreach($model->getNearDates() as $index => $date) { ?>
-                                    <option value="<?=$date?>"<?=($index == 0) ? ' selected' : ''?>><?=$date?></option>
-                                <?php } ?>
-                            </select>
+                            <?php if (!$empty) { ?>
+                                <select name="delivery_date" class="select-jquery-ui">
+                                    <?php foreach($model->getNearDates() as $index => $date) { ?>
+                                        <option value="<?=$date?>"<?=($index == 0) ? ' selected' : ''?>><?=$date?></option>
+                                    <?php } ?>
+                                </select>
+                            <?php } ?>
                         </div>
                     </div>
                     <?php if ($build = Build::findOne(['category_id' => $model->parent_id])) {
