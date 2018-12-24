@@ -73,12 +73,6 @@ class Xml extends Model
                         $available = 10;
                     }
 
-                    if ($productParam->id == 485) {
-                        var_dump($item['available']);
-                        var_dump(stristr($item['available'], 'жидается'));
-                        var_dump($available);die();
-                    }
-
                     if ($product->supplier == $supplierId) {
                         if ($product->price != $item['price']) {
                             $message[] = "Изменена цена";
