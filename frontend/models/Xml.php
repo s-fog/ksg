@@ -21,19 +21,13 @@ class Xml extends Model
 
             foreach($productParams as $pp) {
                 $ppArtikul = trim($pp->artikul);
-                //echo $ppArtikul;echo '<br>';
 
                 if (!empty($ppArtikul)) {
                     if (!array_key_exists($ppArtikul, $data)) {
-                        if ($pp->id == 485) {
-                            var_dump($ppArtikul);die();
-                        }
                         $currentArray[] = $ppArtikul;
 
                         if ($notAvailableIfExists) {
                             $pp->available = 0;
-                        } else {
-                            $pp->available = 7;
                         }
 
                         $pp->save();
@@ -62,7 +56,7 @@ class Xml extends Model
                         ||
                         stristr($item['available'], 'Под заказ')
                         ||
-                        stristr($item['available'], 'Ожидается')
+                        stristr($item['available'], 'жидается')
                     ) {
                         $available = 0;
                     } else if (is_numeric($item['available'])) {
@@ -77,6 +71,11 @@ class Xml extends Model
                         $available = 10;
                     } else {
                         $available = 10;
+                    }
+
+                    if ($productParam == 485) {
+                        var_dump(stristr($item['available'], 'жидается'));
+                        var_dump($available);die();
                     }
 
                     if ($product->supplier == $supplierId) {
