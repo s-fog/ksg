@@ -33,7 +33,7 @@ class Xml extends Model
                         if ($notAvailableIfExists) {
                             $pp->available = 0;
                         } else {
-                            $pp->available = 10;
+                            $pp->available = 7;
                         }
 
                         $pp->save();
