@@ -28,8 +28,11 @@ class Xml extends Model
 
                         if ($notAvailableIfExists) {
                             $pp->available = 0;
-                            $pp->save();
+                        } else {
+                            $pp->available = 10;
                         }
+
+                        $pp->save();
                     }
                 }
             }

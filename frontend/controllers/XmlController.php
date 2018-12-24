@@ -50,7 +50,7 @@ class XmlController extends Controller
                 $neotrenArray[$artikul]['available'] = $available;
             }
 
-            $xml->loadXml('neotren', $neotrenArray, 5, true);
+            $xml->loadXml('neotren', $neotrenArray, 5, false);
         } catch(Exception $e) {
             $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
