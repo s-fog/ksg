@@ -20,17 +20,14 @@ class Xml extends Model
             $productParams = $product->getParams();
 
             foreach($productParams as $pp) {
-                if (stristr($pp->artikul, 'ELITE_E4000')) {
-                    var_dump($pp->artikul);
-                }
                 $ppArtikul = trim($pp->artikul);
                 //echo $ppArtikul;echo '<br>';
-                if (stristr($ppArtikul, 'ELITE_E4000')) {
-                    var_dump($ppArtikul);die();
-                }
 
                 if (!empty($ppArtikul)) {
                     if (!array_key_exists($ppArtikul, $data)) {
+                        if (stristr($ppArtikul, 'ELITE_E4000')) {
+                            var_dump($ppArtikul);die();
+                        }
                         $currentArray[] = $ppArtikul;
 
                         if ($notAvailableIfExists) {
