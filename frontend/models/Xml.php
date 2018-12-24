@@ -74,6 +74,7 @@ class Xml extends Model
                     }
 
                     if ($productParam->id == 485) {
+                        var_dump($item['available']);
                         var_dump(stristr($item['available'], 'жидается'));
                         var_dump($available);die();
                     }
