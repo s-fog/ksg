@@ -24,7 +24,6 @@ class Yandexkassa extends Model
         $products = unserialize(base64_decode($order->products));
 
         foreach($products as $product) {
-            $i = 0;
             for ($j = 0; $j < $product->getQuantity(); $j++) {
                 if (isset($_GET['hgh']) && $_GET['hgh'] = 1) {
                     var_dump($product->price);
