@@ -97,7 +97,7 @@ class Yandexkassa extends Model
         $merchant = [
             'customerContact' => $order->email,
             'taxSystem' => 3,
-            'items' => $productsB
+            'items' => array_merge($productsB, $items)
         ];
 
         $merchantJson = json_encode($merchant);
