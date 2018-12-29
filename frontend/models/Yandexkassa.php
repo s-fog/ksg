@@ -21,9 +21,13 @@ class Yandexkassa extends Model
         $i = 0;
         $productCount = 0;
         $productsI = [];
+        $products = unserialize(base64_decode($order->products));
 
-        foreach(unserialize(base64_decode($order->products)) as $product) {
+        foreach($products as $product) {
             for ($j = 0; $j < $product->getQuantity(); $j++) {
+                if (isset($_GET['hgh']) && $_GET['hgh'] = 1) {
+                    var_dump($product->price);
+                }
                 $productsI[$j]['quantity'] = 1;
                 $productsI[$j]['price']['amount'] = $product->price;
                 $productsI[$j]['tax'] = 1;
