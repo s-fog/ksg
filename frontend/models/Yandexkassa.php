@@ -25,9 +25,6 @@ class Yandexkassa extends Model
 
         foreach($products as $product) {
             for ($j = 0; $j < $product->getQuantity(); $j++) {
-                if (isset($_GET['hgh']) && $_GET['hgh'] = 1) {
-                    var_dump($product->price);
-                }
                 $productsI[$i]['quantity'] = 1;
                 $productsI[$i]['price']['amount'] = $product->price;
                 $productsI[$i]['tax'] = 1;
