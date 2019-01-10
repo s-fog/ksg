@@ -87,7 +87,7 @@ $others = $array['Others'];
         <div class="footer__inner">
             <div class="footer__item footer__item_bottom">ООО "КейЭсДжи"<br>
                 Спортивный интернет-магазин.<br>
-                2018 – Все права защищены.</div>
+                <?=date('Y')?> – Все права защищены.</div>
             <div class="footer__item footer__item_bottom">
                 <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(13)->alias])?>" class="footer__itemLink linkSpanReverse"><span>Наш блог</span></a>
                 <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(1)->alias])?>" class="footer__itemLink linkSpanReverse"><span>Полный каталог</span></a>
