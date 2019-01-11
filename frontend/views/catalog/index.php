@@ -10,6 +10,10 @@ use yii\widgets\LinkPager;
 $page = (isset($_GET['page'])) ? $_GET['page'] : '1';
 $pagePart = ($page != 1) ? ' - Страница '.$page : '';
 
+if ($page != 1) {
+    $this->params['canonical'] = Url::canonical();
+}
+
 if (empty($model->seo_h1)) {
     $h1 = $model->name.$pagePart;
 } else {
