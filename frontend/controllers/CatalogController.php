@@ -370,14 +370,16 @@ class CatalogController extends Controller
                 if (empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds)) {
                     if (empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds)) {
                         if ($product->price >= $priceFrom && $product->price <= $priceTo) {
-                            if ($product->price < $minPrice) {
-                                $minPrice = $product->price;
+                            if ($product->available) {
+                                if ($product->price < $minPrice) {
+                                    $minPrice = $product->price;
+                                }
+
+                                if ($product->price > $maxPrice) {
+                                    $maxPrice = $product->price;
+                                }
                             }
 
-                            if ($product->price > $maxPrice) {
-                                $maxPrice = $product->price;
-                            }
-                            
                             $allproducts[] = $product;
                         }
                     }
