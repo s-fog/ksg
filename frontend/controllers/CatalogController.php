@@ -333,14 +333,12 @@ class CatalogController extends Controller
             /////////////////////////////////////////////////////////////////////////
 
             foreach($allproducts as $product) {
-                if ($product->available) {
-                    if ($product->price < $minPrice) {
-                        $minPrice = $product->price;
-                    }
+                if ($product->price < $minPrice) {
+                    $minPrice = $product->price;
+                }
 
-                    if ($product->price > $maxPrice) {
-                        $maxPrice = $product->price;
-                    }
+                if ($product->price > $maxPrice) {
+                    $maxPrice = $product->price;
                 }
 
                 $brand = Brand::findOne($product->brand_id);
