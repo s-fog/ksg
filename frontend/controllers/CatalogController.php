@@ -286,6 +286,8 @@ class CatalogController extends Controller
             $products = [];
             $minPrice = 100000000;
             $maxPrice = 0;
+            $minPriceAvailable = 100000000;
+            $maxPriceAvailable = 0;
             $filterBrands = [];
             $i = 0;
 
@@ -333,6 +335,16 @@ class CatalogController extends Controller
             /////////////////////////////////////////////////////////////////////////
 
             foreach($allproducts as $product) {
+                if ($product->available) {
+                    if ($product->price < $minPriceAvailable) {
+                        $minPriceAvailable = $product->price;
+                    }
+
+                    if ($product->price > $maxPriceAvailable) {
+                        $maxPriceAvailable = $product->price;
+                    }
+                }
+
                 if ($product->price < $minPrice) {
                     $minPrice = $product->price;
                 }
@@ -430,8 +442,8 @@ class CatalogController extends Controller
                 'brandsSerial' => $brandsSerial,
                 'bHeader' => $bHeader,
                 'bHeader2' => $bHeader2,
-                'minPrice' => $minPrice,
-                'maxPrice' => $maxPrice,
+                'minPrice' => $minPriceAvailable,
+                'maxPrice' => $maxPriceAvailable,
                 'filterBrands' => $filterBrands,
             ]);
         }
