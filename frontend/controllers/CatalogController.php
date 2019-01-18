@@ -384,6 +384,10 @@ class CatalogController extends Controller
                 $minPrice = 0;
             }
 
+            if ($minPriceAvailable == 100000000) {
+                $minPriceAvailable = 0;
+            }
+
             if ($priceFrom == 0) $priceFrom = $minPrice;
             if ($priceTo == 0) $priceTo = $maxPrice;
 
