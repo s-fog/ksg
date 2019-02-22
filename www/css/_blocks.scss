@@ -7161,6 +7161,9 @@ body.fancybox-active {
     opacity: 0;
     visibility: hidden;
     @extend .transition;
+    @include respond-to(500) {
+      display: none;
+    }
   }
 
   &:hover {

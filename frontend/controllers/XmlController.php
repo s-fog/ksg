@@ -37,6 +37,24 @@ class XmlController extends Controller
 
         ////////////////////////////////////////////////////////////////////////////////
         try {
+            $unixfit = simplexml_load_file('http://unixfit.ru/bitrix/catalog_export/catalog.php');
+            $unixfitArray = [];
+
+            foreach($unixfit->shop->offers->offer as $offer) {
+                $available = (int) $offer->quantity;
+                $artikul = (string) $offer->vendorCode;
+                $price = (int) $offer->price;
+
+                $unixfitArray[$artikul]['price'] = $price;
+                $unixfitArray[$artikul]['available'] = $available;
+            }
+
+            $xml->loadXml('unixfit', $unixfitArray, 7, false);
+        } catch(Exception $e) {
+            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+        }
+        ////////////////////////////////////////////////////////////////////////////////
+        try {
             $neotren = simplexml_load_file('https://neotren.ru/yml.php');
             $neotrenArray = [];
 
