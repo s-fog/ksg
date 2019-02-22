@@ -84,11 +84,20 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 'attribute' => 'available',
                 'label' => 'Наличие',
                 'content' => function($data) {
-                    if ($data->available) {
-                        return '+';
-                    } else {
-                        return '-';
+                    return $data->productParams[0]->available;
+                }
+            ],
+           [
+                'attribute' => 'ppArtikul',
+                'label' => 'Артикул',
+                'content' => function($data) {
+                    $return = [];
+
+                    foreach($data->productParams as $pp) {
+                        $return[] = $pp->artikul;
                     }
+
+                    return implode(',', $return);
                 }
             ],
             [

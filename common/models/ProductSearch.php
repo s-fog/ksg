@@ -13,6 +13,7 @@ use common\models\Product;
 class ProductSearch extends Product
 {
         public $supplierName;
+        public $ppArtikul;
         /**
          * @inheritdoc
          */
@@ -20,7 +21,7 @@ class ProductSearch extends Product
         {
                 return [
                     [['id', 'hit', 'parent_id', 'brand_id', 'supplier', 'price', 'price_old', 'currency_id', 'adviser_id', 'created_at', 'updated_at'], 'integer'],
-                    [['name', 'alias', 'code', 'description', 'adviser_text', 'instruction', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords', 'seo_description', 'supplierName'], 'safe'],
+                    [['name', 'alias', 'code', 'description', 'adviser_text', 'instruction', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords', 'seo_description', 'supplierName', 'ppArtikul'], 'safe'],
                 ];
         }
 
@@ -87,6 +88,10 @@ class ProductSearch extends Product
 
                 if (!empty($this->supplierName)) {
                         $query->andFilterWhere([Supplier::tableName().'.id' => $this->supplierName]);
+                }
+
+                if (!empty($this->ppArtikul)) {
+                        $query->andFilterWhere(['like', ProductParam::tableName().'.artikul', $this->ppArtikul]);
                 }
 
                 return $dataProvider;
