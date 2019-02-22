@@ -43,7 +43,7 @@ class ProductSearch extends Product
         public function search($params)
         {
                 $query = Product::find()
-                    ->joinWith(['supplierModel'])
+                    ->joinWith(['supplierModel', 'productParams'])
                     ->orderBy(['sort_order' => SORT_DESC]);
 
                 $dataProvider = new ActiveDataProvider([

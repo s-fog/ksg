@@ -116,19 +116,19 @@ $catalogPage = Textpage::findOne(1);
         <div class="popular__inner">
             <a href="/catalog/trenazhery/kardiotrenazhery/begovye-dorozhki" class="popular__item">
                 <span class="popular__itemText">Беговые дорожки</span>
-                <span class="popular__itemImage" style="background-image: url(/img/begovie.jpg);"></span>
+                <span class="popular__itemImage" style='background-image: url("/img/begovie.jpg");'></span>
             </a>
             <a href="/catalog/trenazhery/kardiotrenazhery/velotrenazhery" class="popular__item">
                 <span class="popular__itemText">Велотренажеры</span>
-                <span class="popular__itemImage" style="background-image: url(/img/velo.jpg);"></span>
+                <span class="popular__itemImage" style='background-image: url("/img/velo.jpg");'></span>
             </a>
             <a href="/catalog/trenazhery/silovye/multistancyy" class="popular__item">
                 <span class="popular__itemText">Мультистанции</span>
-                <span class="popular__itemImage" style="background-image: url(/img/multistanciya.jpg);"></span>
+                <span class="popular__itemImage" style='background-image: url("/img/multistanciya.jpg");'></span>
             </a>
             <a href="/catalog/trenazhery/kardiotrenazhery/ellipticheskie" class="popular__item">
                 <span class="popular__itemText">Эллипсы</span>
-                <span class="popular__itemImage" style="background-image: url(/img/elips.jpg);"></span>
+                <span class="popular__itemImage" style='background-image: url("/img/elips.jpg");'></span>
             </a>
         </div>
     </div>

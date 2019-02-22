@@ -82,12 +82,18 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 			'price',
            [
                 'attribute' => 'available',
+                'label' => 'Наличие',
                 'content' => function($data) {
-                    return $data->available;
+                    if ($data->available) {
+                        return '+';
+                    } else {
+                        return '-';
+                    }
                 }
             ],
             [
                 'attribute' => 'supplierName',
+                'label' => 'Поставщик',
                 'content' => function($data) {
                     return $data->supplierModel->name;
                 },
