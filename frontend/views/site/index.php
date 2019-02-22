@@ -116,7 +116,7 @@ $catalogPage = Textpage::findOne(1);
         <div class="popular__inner">
             <a href="/catalog/trenazhery/kardiotrenazhery/begovye-dorozhki" class="popular__item">
                 <span class="popular__itemText">Беговые дорожки</span>
-                <span class="popular__itemImage" style='background-image: url("/img-full/begovie.jpg");'></span>
+                <span class="popular__itemImage" style='background-image: url("/img/begovie.jpg");'></span>
             </a>
             <a href="/catalog/trenazhery/kardiotrenazhery/velotrenazhery" class="popular__item">
                 <span class="popular__itemText">Велотренажеры</span>
