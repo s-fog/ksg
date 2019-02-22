@@ -1,5 +1,7 @@
 <?php
 
+use common\models\Supplier;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
@@ -77,7 +79,20 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
 			'name',
-			'alias',
+			'price',
+           [
+                'attribute' => 'available',
+                'content' => function($data) {
+                    return $data->available;
+                }
+            ],
+            [
+                'attribute' => 'supplierName',
+                'content' => function($data) {
+                    return $data->supplierModel->name;
+                },
+                'filter' => ArrayHelper::map(Supplier::find()->all(), 'id', 'name')
+            ],
         ],
         ]); ?>
     </div>

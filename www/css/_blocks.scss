@@ -2617,9 +2617,18 @@ body {
     .owl-next {
       right: 0;
     }
+
+    .owl-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   &__sliderImage {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto !important;
     cursor: pointer;
   }
 
@@ -7140,8 +7149,8 @@ body.fancybox-active {
   &:before {
     content: attr(data-title);
     position: absolute;
-    left: 130%;
-    top: 150%;
+    right: 10px;
+    top: 30px;
     display: inline-block;
     border-radius: 3px;
     border: 1px solid darken(#ececec, 10%);

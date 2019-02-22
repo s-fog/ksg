@@ -73,6 +73,10 @@ class Product extends BaseProduct implements CartPositionInterface
         return $this->hasOne(Category::className(), ['id' => 'parent_id']);
     }
 
+    public function getSupplierModel() {
+        return $this->hasOne(Supplier::className(), ['id' => 'supplier']);
+    }
+
     public function getImages() {
         return $this->hasMany(Image::className(), ['product_id' => 'id'])
             ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC]);
