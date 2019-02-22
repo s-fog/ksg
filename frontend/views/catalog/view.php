@@ -136,7 +136,7 @@ $mainpage = Mainpage::findOne(1);
                         ->hiddenInput([
                             'value' => $model->id
                         ])->label(false)?>
-    
+
                     <?=$form->field($callbackForm, 'BC')
                         ->textInput([
                             'class' => 'BC',

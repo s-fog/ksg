@@ -2,7 +2,6 @@
 use common\models\Build;
 use common\models\Mainpage;
 use common\models\Param;
-use common\models\ProductParam;
 use frontend\models\Compare;
 use frontend\models\Favourite;
 
@@ -118,7 +117,13 @@ foreach($variants as $variant) {
                     <?php foreach($model->images as $index => $imageModel) {
                         if ($index != $currentVariant->image_number) {
                             $filename = explode('.', basename($imageModel->image));
-                            $var = ProductParam::findOne(['product_id' => $model->id, 'image_number' => $index]);
+                            $var = '';
+
+                            foreach($model->productParams as $pp) {
+                                if ($pp->image_number == $index) {
+                                    $var = $pp;
+                                }
+                            }
                             ?>
                             <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?> Фото <?=($index+1)?>" style="display: none;">
                             <div class="product__otherImage js-product-image"

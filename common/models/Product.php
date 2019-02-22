@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\Feature;
 use Yii;
 use \common\models\base\Product as BaseProduct;
 use yii\helpers\ArrayHelper;
@@ -149,10 +150,8 @@ class Product extends BaseProduct implements CartPositionInterface
     }
 
     public function getFeatures() {
-        return Feature::find()
-            ->where(['product_id' => $this->id])
-            ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])
-            ->all();
+        return $this->hasMany(Feature::className(), ['product_id' => 'id'])
+            ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC]);
     }
 
     public function getParams() {
@@ -253,7 +252,7 @@ class Product extends BaseProduct implements CartPositionInterface
 
     public function getBreadcrumbs() {
         $items = [];
-        $parent0 = Category::findOne(['id' => $this->parent_id]);
+        $parent0 = $this->parent;
 
         if (!$parent0) {
             $items[0] = $this->name;
@@ -264,7 +263,7 @@ class Product extends BaseProduct implements CartPositionInterface
             $parent0Url = Url::to(['catalog/index', 'alias' => $parent0->alias]);
             $items[$parent0Url] = $parent0->name;
         } else {
-            $parent1 = Category::findOne(['id' => $parent0->parent_id]);
+            $parent1 = $parent0->parent1;
             $items = [];
 
             if ($parent1->parent_id == 0) {
@@ -273,7 +272,7 @@ class Product extends BaseProduct implements CartPositionInterface
                 $items[$parent1Url] = $parent1->name;
                 $items[$parent0Url] = $parent0->name;
             } else {
-                $parent2 = Category::findOne(['id' => $parent1->parent_id]);
+                $parent2 = $parent1->parent2;
                 $items = [];
 
                 if ($parent2->parent_id == 0) {
@@ -284,7 +283,7 @@ class Product extends BaseProduct implements CartPositionInterface
                     $items[$parent1Url] = $parent1->name;
                     $items[$parent0Url] = $parent0->name;
                 } else {
-                    $parent3 = Category::findOne(['id' => $parent2->parent_id]);
+                    $parent3 = $parent2->parent3;
                     $items = [];
 
                     if ($parent3->parent_id == 0) {
@@ -363,5 +362,21 @@ class Product extends BaseProduct implements CartPositionInterface
     public function getProductParams() {
         return $this->hasMany(ProductParam::className(), ['product_id' => 'id'])
             ->orderBy([ProductParam::tableName().'.id' => SORT_ASC]);
+    }
+
+    public function getParent() {
+        return $this->hasOne(Category::className(), ['id' => 'parent_id'])->with('parent1');
+    }
+
+    public function getParent1() {
+        return $this->hasOne(Category::className(), ['id' => 'parent_id'])->with('parent2');
+    }
+
+    public function getParent2() {
+        return $this->hasOne(Category::className(), ['id' => 'parent_id'])->with('parent3');
+    }
+
+    public function getParent3() {
+        return $this->hasOne(Category::className(), ['id' => 'parent_id']);
     }
 }

@@ -379,7 +379,16 @@ class CatalogController extends Controller
     {
         City::setCity();
 
-        $model = Product::findOne(['alias' => $alias]);
+        $model = Product::find()
+            ->with([
+                'productParams',
+                'brand',
+                'images',
+                'parent',
+                'features',
+                'features.featurevalues'])
+            ->where(['alias' => $alias])
+            ->one();
 
         if (!$model) {
             throw new NotFoundHttpException;
@@ -392,21 +401,18 @@ class CatalogController extends Controller
                 ->one();
 
         } else {
-            $currentVariant = ProductParam::find()->where(['product_id' => $model->id])->orderBy(['id' => SORT_ASC])->one();
+            $currentVariant = $model->productParams[0];
         }
 
         $brand = Brand::findOne($model->brand_id);
-        $variants = $model->params;
+        $variants = $model->productParams;
         $adviser = Adviser::findOne($model->adviser_id);
         $features = [];
 
         foreach($model->features as $index => $feature) {
             $features[$index]['feature'] = $feature;
 
-            foreach(FeatureValue::find()
-                ->where(['feature_id' => $feature->id])
-                ->orderBy(['sort_order' => SORT_ASC])
-                ->all() as $i => $fv) {
+            foreach($feature->featurevalues as $i => $fv) {
                 $features[$index]['values'][$i]['name'] = $fv->name;
                 $features[$index]['values'][$i]['value'] = $fv->value;
             }
@@ -472,7 +478,7 @@ class CatalogController extends Controller
         } else {
             $model->popular++;
             $model->save();
-            $parent = Category::find()->where(['id' => $model->parent_id])->one();
+            $parent = $model->parent;
             ////////////////////////////////////////////////////////////////////////////////////////////
             $accessories = [];
             $ids = [];
@@ -482,9 +488,13 @@ class CatalogController extends Controller
                     $ids[] = (int) $value;
                 }
 
-                $accessoriesCategory = Category::find()->where(['id' => $ids])->all();
                 $accessories = Product::find()
-                    ->where(['parent_id' => ArrayHelper::map($accessoriesCategory, 'id', 'id')])
+                    ->with([
+                        'productParams',
+                        'brand',
+                        'images',
+                        'parent'])
+                    ->where(['parent_id' => $ids])
                     ->orderBy(new Expression('rand()'))
                     ->limit(15)
                     ->all();
@@ -496,6 +506,11 @@ class CatalogController extends Controller
                 $priceFrom = (int) $model->price * ((100 - $i) / 100);
                 $priceTo = (int) $model->price * ((100 + $i) / 100);
                 $similarQuery = Product::find()
+                    ->with([
+                        'productParams',
+                        'brand',
+                        'images',
+                        'parent'])
                     ->where(['parent_id' => $parent->id])
                     ->andWhere("id <> {$model->id}")
                     ->andWhere("price > $priceFrom  AND price < $priceTo")

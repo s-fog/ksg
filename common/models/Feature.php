@@ -31,9 +31,7 @@ class Feature extends BaseFeature
     }
 
     public function getFeaturevalues() {
-        return FeatureValue::find()
-            ->where(['feature_id' => $this->id])
-            ->orderBy(['sort_order' => SORT_ASC])
-            ->all();
+        return $this->hasMany(FeatureValue::className(), ['feature_id' => 'id'])
+            ->orderBy(['sort_order' => SORT_ASC]);
     }
 }
