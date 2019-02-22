@@ -101,38 +101,49 @@ foreach($variants as $variant) {
                         <div class="product__requestSale" data-fancybox="oneClick" data-src="#oneClick">Купить в один клик</div>
                     <?php } ?>
                 </div>
-                <div class="product__images">
-                    <?php
-                    $image0 = $model->images[$currentVariant->image_number];
-                    $filename = explode('.', basename($image0->image)); ?>
-                    <div class="product__mainImage js-product-image"
-                         data-paramsv="<?=($currentVariant->params) ? implode('|', $currentVariant->params) : ''?>"
-                         data-header="<?=$model->name?>"
-                         data-text="<?=$image0->text?>"
-                         data-image="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
-                         data-fancybox="productImages"
-                         data-src="#productImages">
-                        <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?> Фото 1" itemprop="image">
+                <?php
+                $image0 = $model->images[$currentVariant->image_number];
+                $filename = explode('.', basename($image0->image)); ?>
+                <div class="product__sliderWrapper"<?=isset($pswHeight) ? 'style="height: '.$pswHeight.'px"' : ''?>>
+                    <div class="product__slider owl-carousel" rel="noreferrer">
+                        <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
+                             class="product__sliderImage"
+                             data-paramsv="<?=($currentVariant->params) ? implode('|', $currentVariant->params) : ''?>"
+                             data-header="<?=$model->name?>"
+                             data-text="<?=$image0->text?>"
+                             data-image="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
+                             data-fancybox="productImages"
+                             data-src="#productImages">
+                        <?php foreach($model->images as $index => $imageModel) {
+                            if ($index != $currentVariant->image_number) {
+                                $filename = explode('.', basename($imageModel->image));
+                                $var = '';
+
+                                foreach($model->productParams as $pp) {
+                                    if ($pp->image_number == $index) {
+                                        $var = $pp;
+                                    }
+                                }
+                                ?>
+                                <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
+                                     class="product__sliderImage"
+                                     data-paramsv="<?=($var) ? implode('|', $var->params) : ''?>"
+                                     data-header="<?=$model->name?>"
+                                     data-text="<?=$imageModel->text?>"
+                                     data-image="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
+                                     data-fancybox="productImages"
+                                     data-src="#productImages">
+                            <?php }
+                        } ?>
                     </div>
+                </div>
+                <div class="product__images">
+                    <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?> Фото 1" itemprop="image">
                     <?php foreach($model->images as $index => $imageModel) {
                         if ($index != $currentVariant->image_number) {
                             $filename = explode('.', basename($imageModel->image));
-                            $var = '';
-
-                            foreach($model->productParams as $pp) {
-                                if ($pp->image_number == $index) {
-                                    $var = $pp;
-                                }
-                            }
                             ?>
                             <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?> Фото <?=($index+1)?>" style="display: none;">
-                            <div class="product__otherImage js-product-image"
-                                 data-paramsv="<?=($var) ? implode('|', $var->params) : ''?>"
-                                 data-header="<?=$model->name?>"
-                                 data-text="<?=$imageModel->text?>"
-                                 data-image="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
-                                 data-fancybox="productImages"
-                                 data-src="#productImages"></div>
                         <?php }
                     } ?>
                     <div class="product__allPhoto">смотреть все фото</div>

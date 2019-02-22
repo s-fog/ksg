@@ -399,7 +399,6 @@ class CatalogController extends Controller
                 ->where(['product_id' => $model->id])
                 ->andWhere(['params' => $_POST['paramsv']])
                 ->one();
-
         } else {
             $currentVariant = $model->productParams[0];
         }
@@ -462,6 +461,7 @@ class CatalogController extends Controller
                 'selects' => $selects,
                 'adviser' => $adviser,
                 'features' => $features,
+                'pswHeight' => $_POST['pswHeight'],
             ]);
 
             $addToCartView = $this->renderPartial('_addToCart', [

@@ -773,7 +773,7 @@ class Cart {
 
         $('.select-product-jquery-ui').customselectmenu({
             change: (event, ui) => {
-                //this.reloadProduct();
+                this.reloadProduct();
             }
         });
 
@@ -781,8 +781,9 @@ class Cart {
             change: (event, ui) => {
                 let array = new Array();
                 let params = '';
+                let parent = $(event.target).parents('.addToCart');
 
-                $('.select-jquery-ui-popup').each((index, element) => {
+                parent.find('.select-jquery-ui-popup').each((index, element) => {
                     let value = $(element).val();
                     let name = $(element).siblings('.product__selectName').html();
 
@@ -796,7 +797,7 @@ class Cart {
 
                 params = params.substring(0, params.length - 1);
 
-                $('.js-product-image').each((index, element) => {
+                $('.product__sliderImage').each((index, element) => {
                     if ($(element).data('paramsv') == params) {
                         let image = $(element).data('image');
 
@@ -1055,6 +1056,7 @@ class Cart {
         this.popupLeft();
         this.address();
         this.addressMap();
+        this.initProductSlider();
 
         $('.productImages__arrowLeft').click(() => {
             $('.fancybox-button--arrow_left').click();
@@ -1066,6 +1068,23 @@ class Cart {
         $('.productImages__arrowLeft, .productImages__arrowRight').attr('unselectable', 'on')
             .css('user-select', 'none')
             .on('selectstart', false);
+    }
+
+    initProductSlider() {
+        $('.product__slider').owlCarousel({
+            items: 1,
+            dots: false,
+            nav: true,
+            navText: [
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.49 24.9"><g><path class="sliderButton__outer" d="M7.25,24.9h14.6A7.36,7.36,0,0,0,27,22.8l10.4-10.4A7.26,7.26,0,0,0,32.25,0H17.65a7.36,7.36,0,0,0-5.1,2.1L2.15,12.5a7.26,7.26,0,0,0,5.1,12.4Z"></path><path class="sliderButton__inner" d="M25.65,18.3V6.7a.82.82,0,0,0-1.1-.7l-13.9,5.8a.8.8,0,0,0,0,1.5l13.9,5.8A.89.89,0,0,0,25.65,18.3Z"></path></g></svg>',
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.51 24.9"><g><path class="sliderButton__outer" d="M32.25,0H17.65a7.36,7.36,0,0,0-5.1,2.1L2.15,12.5a7.26,7.26,0,0,0,5.1,12.4h14.6A7.36,7.36,0,0,0,27,22.8l10.4-10.4A7.24,7.24,0,0,0,32.25,0Z"></path><path class="sliderButton__inner" d="M13.85,6.6V18.2a.78.78,0,0,0,1.1.7l13.9-5.8a.8.8,0,0,0,0-1.5L15,5.8A.83.83,0,0,0,13.85,6.6Z"></path></g></svg>'
+            ],
+            navClass: [
+                'owl-prev sliderButton',
+                'owl-next sliderButton'
+            ],
+            loop: false,
+        });
     }
 
     cartReload() {
@@ -1109,11 +1128,11 @@ class Cart {
     }
 
     reloadProduct() {
-        let data = 'reload=1';
-        let params = '&paramsv='+this.getParamsv();
+        let product__sliderWrapper = $('.product__sliderWrapper');
+        let pswHeight = product__sliderWrapper.height();
+        let data = 'reload=1&paramsv='+this.getParamsv()+'&pswHeight='+pswHeight;
 
-        data += params;
-        $('.product__mainImage').append('<div class="product__loading">').addClass('loading');
+        product__sliderWrapper.addClass('loading');
         $('.product__allPhoto').hide();
 
         $.post(location.pathname, data, (response) => {
@@ -1125,6 +1144,7 @@ class Cart {
             setTimeout(() => {
                 this._cacheNodes();
                 this._bindEvents();
+                this.initProductSlider();
             }, 10);
         });
     }
