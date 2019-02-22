@@ -150,14 +150,7 @@ class Category extends BaseCategory
     }
 
     public function getInnerIds() {
-        $ids = [];
-        $innerCategories = $this->getInnerCategories();
-
-        foreach($innerCategories as $ccc) {
-            $ids[] = $ccc->id;
-        }
-
-        return $ids;
+        return ArrayHelper::getColumn($this->getInnerCategories(), 'id');
     }
 
     public function getInnerCategories() {
@@ -295,9 +288,25 @@ class Category extends BaseCategory
         }
     }
 
+    public function getParent0() {
+        return $this->hasOne(Category::className(), ['id' => 'parent_id'])->with('parent1');
+    }
+
+    public function getParent1() {
+        return $this->hasOne(Category::className(), ['id' => 'parent_id'])->with('parent2');
+    }
+
+    public function getParent2() {
+        return $this->hasOne(Category::className(), ['id' => 'parent_id'])->with('parent3');
+    }
+
+    public function getParent3() {
+        return $this->hasOne(Category::className(), ['id' => 'parent_id']);
+    }
+
     public function getUrl($fromBackend = false) {
         if ($this->type == 1) {
-            $parent0 = Category::findOne(['id' => $this->parent_id]);
+            $parent0 = $this->parent0;
 
             if ($parent0->parent_id == 0) {
                 if ($fromBackend) {
@@ -312,7 +321,7 @@ class Category extends BaseCategory
                 }
             }
             ////////////////////////////////////////////////////////////
-            $parent1 = Category::findOne(['id' => $parent0->parent_id]);
+            $parent1 = $parent0->parent1;
 
             if ($parent1->parent_id == 0) {
                 if ($fromBackend) {
@@ -328,7 +337,7 @@ class Category extends BaseCategory
                 }
             }
             ////////////////////////////////////////////////////////////
-            $parent2 = Category::findOne(['id' => $parent1->parent_id]);
+            $parent2 = $parent1->parent2;
 
             if ($parent2->parent_id == 0) {
                 if ($fromBackend) {
@@ -355,7 +364,7 @@ class Category extends BaseCategory
                     ]);
                 }
             } else {
-                $parent0 = Category::findOne(['id' => $this->parent_id]);
+                $parent0 = $this->parent0;
 
                 if ($parent0->parent_id == 0) {
                     if ($fromBackend) {
@@ -369,7 +378,7 @@ class Category extends BaseCategory
                     }
                 }
                 ////////////////////////////////////////////////////////////
-                $parent1 = Category::findOne(['id' => $parent0->parent_id]);
+                $parent1 = $parent0->parent1;
 
                 if ($parent1->parent_id == 0) {
                     if ($fromBackend) {
@@ -384,7 +393,7 @@ class Category extends BaseCategory
                     }
                 }
                 ////////////////////////////////////////////////////////////
-                $parent2 = Category::findOne(['id' => $parent1->parent_id]);
+                $parent2 = $parent1->parent2;
 
                 if ($parent2->parent_id == 0) {
                     if ($fromBackend) {
@@ -400,7 +409,7 @@ class Category extends BaseCategory
                     }
                 }
                 ////////////////////////////////////////////////////////////
-                $parent3 = Category::findOne(['id' => $parent2->parent_id]);
+                $parent3 = $parent2->parent3;
 
                 if ($parent3->parent_id == 0) {
                     if ($fromBackend) {
@@ -452,64 +461,68 @@ class Category extends BaseCategory
             }
 
             if (!empty($parent_id)) {
-                $model = Category::findOne(['alias' => $alias, 'parent_id' => $parent_id, 'active' => 1]);
+                $model = Category::find()
+                    ->where(['alias' => $alias, 'parent_id' => $parent_id, 'active' => 1])
+                    ->with('productHasCategories')
+                    ->one();
                 $parent_id = $model->id;
             } else {
-                $model = Category::findOne(['alias' => $alias, 'active' => 1]);
+                $model = Category::find()
+                    ->where(['alias' => $alias, 'active' => 1])
+                    ->with('productHasCategories')
+                    ->one();
                 $parent_id = $model->id;
             }
         }
 
         return $model;
     }
-
-    public function getProductCount() {
+    
+    public function getWheres() {
         $innerIdsWhere = [];
         $innerIds = $this->getInnerIds();
-
         if (!empty($innerIds)) {
             $innerIdsWhere = ['parent_id' => $innerIds];
         }
-        /////////////////////////////////////////////////////////
-        $otherIds = [];
+        
         $otherIdsWhere = [];
-
         if ($this->type != 2) {
-            foreach ($innerIds as $category_id) {
-                foreach (ProductHasCategory::findAll(['category_id' => $category_id]) as $productHasCategory) {
-                    $otherIds[] = $productHasCategory->product_id;
-                }
-            }
+            $otherIds = ArrayHelper::getColumn(ProductHasCategory::findAll(['category_id' => $innerIds]), 'product_id');
         } else {
-            foreach (Category::find()
+            $catsIds = ArrayHelper::getColumn(Category::find()
                 ->where(['parent_id' => $this->id, 'type' => 3])
                 ->orWhere(['id' => $this->id])
-                ->all() as $category) {
-                foreach (ProductHasCategory::findAll(['category_id' => $category->id]) as $productHasCategory) {
-                    $otherIds[] = $productHasCategory->product_id;
-                }
-            }
+                ->all(), 'id');
+            $otherIds = ArrayHelper::getColumn(ProductHasCategory::findAll(['category_id' => $catsIds]), 'product_id');
         }
-
         if (!empty($otherIds)) {
             $otherIdsWhere = ['id' => $otherIds];
         }
+
+        return [$innerIdsWhere, $otherIdsWhere];
+    }
+
+    public function getProductHasCategories() {
+        return $this->hasMany(ProductHasCategory::className(), ['category_id' => 'id']);
+    }
+    
+    public function getProductCount() {
+        $wheres = $this->getWheres();
+        $innerIdsWhere = $wheres[0];
+        $otherIdsWhere = $wheres[1];
 
         if ($this->type == 0) {//Если категория
             $products = Product::find()
                 ->orWhere($otherIdsWhere)
                 ->orWhere($innerIdsWhere);
         } else {
-            $idsTags = [];
+            $idsTags = ArrayHelper::getColumn($this->productHasCategories, 'product_id');
             $andWhereTags = ['id' => ''];
-
-            foreach (ProductHasCategory::findAll(['category_id' => $this->id]) as $productHasCategory) {
-                $idsTags[] = $productHasCategory->product_id;
-            }
 
             if (!empty($idsTags)) {
                 $andWhereTags = ['id' => $idsTags];
             }
+
             $products = Product::find()
                 ->where($andWhereTags)
                 ->orWhere($otherIdsWhere);
@@ -520,5 +533,9 @@ class Category extends BaseCategory
 
     public function getFilterFeatures () {
         return $this->hasMany(FilterFeature::className(), ['category_id' => 'id'])->orderBy(['sort_order' => SORT_ASC]);
+    }
+
+    public function getBrand() {
+        return $this->hasOne(Brand::className(), ['id' => 'brand_id']);
     }
 }

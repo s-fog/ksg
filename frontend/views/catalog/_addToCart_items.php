@@ -4,7 +4,7 @@ use common\models\Product;
 
 $currentParams = [];
 $selects = [];
-$variants = $model->params;
+$variants = $model->productParams;
 $currentVariant = $variants[0];
 $i = 0;
 

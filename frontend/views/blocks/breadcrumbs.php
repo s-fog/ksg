@@ -15,7 +15,8 @@
                               </li>';
                         } else {
                             echo '<li itemprop="itemListElement" itemscope
-      itemtype="http://schema.org/ListItem"><a href="'.$url.'" class="breadcrumbs__item" itemid="'.$url.'" itemscope itemtype="http://schema.org/Thing"
+       itemtype="http://schema.org/ListItem">
+       <a href="'.$url.'" class="breadcrumbs__item" itemid="'.$url.'" itemscope itemtype="http://schema.org/Thing"
        itemprop="item">
        <span itemprop="name">'.$name.'</span>
        </a>

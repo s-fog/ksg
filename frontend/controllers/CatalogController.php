@@ -30,7 +30,6 @@ class CatalogController extends Controller
             'value' => '1',
             'expire' => strtotime('+1 hour'),
         ]));
-        $cache = Yii::$app->cache;
 
         City::setCity();
 
@@ -43,77 +42,13 @@ class CatalogController extends Controller
         } else {
             $model = Category::getCurrentCategory([$alias, $alias2, $alias3, $alias4, $alias5]);
 
-            /*if (!$lpua = $cache->get('last_product_updated_at')) {
-                $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM product ORDER BY updated_at DESC']);
-                $cache->set('last_product_updated_at', 1, null, $dependency);
-            }
-
-            if (!isset($_GET['page']) && !isset($_GET['per_page']) && $model->type == 0 && $cache->get('products-cat'.$model->id) && $lpua) {
-                $products = $cache->get('products-cat'.$model->id);
-                $pages = $cache->get('pages-cat'.$model->id);
-                $tags = $cache->get('tags-cat'.$model->id);
-                $brands = $cache->get('brands-cat'.$model->id);
-                $years = $cache->get('years-cat'.$model->id);
-                $brandsSerial = $cache->get('brandsSerial-cat'.$model->id);
-                $bHeader = $cache->get('bHeader-cat'.$model->id);
-                $bHeader2 = $cache->get('bHeader2-cat'.$model->id);
-                $minPrice = $cache->get('minPrice-cat'.$model->id);
-                $maxPrice = $cache->get('maxPrice-cat'.$model->id);
-                $filterBrands = $cache->get('filterBrands-cat'.$model->id);
-
-                return $this->render('index', [
-                    'model' => $model,
-                    'products' => $products,
-                    'pages' => $pages,
-                    'tags' => $tags,
-                    'brands' => $brands,
-                    'years' => $years,
-                    'brandsSerial' => $brandsSerial,
-                    'bHeader' => $bHeader,
-                    'bHeader2' => $bHeader2,
-                    'minPrice' => $minPrice,
-                    'maxPrice' => $maxPrice,
-                    'filterBrands' => $filterBrands,
-                ]);
-            }*/
-
-            $innerIdsWhere = [];
-
             if (!$model) {
                 throw new NotFoundHttpException;
             }
 
-            /////////////////////////////////////////////////////////
-            $innerIds = $model->getInnerIds();
-
-            if (!empty($innerIds)) {
-                $innerIdsWhere = ['parent_id' => $innerIds];
-            }
-            /////////////////////////////////////////////////////////
-            $otherIds = [];
-            $otherIdsWhere = [];
-
-            if ($model->type != 2) {
-                foreach ($innerIds as $category_id) {
-                    foreach (ProductHasCategory::findAll(['category_id' => $category_id]) as $productHasCategory) {
-                        $otherIds[] = $productHasCategory->product_id;
-                    }
-                }
-            } else {
-                foreach (Category::find()
-                    ->where(['parent_id' => $model->id, 'type' => 3])
-                    ->orWhere(['id' => $model->id])
-                    ->all() as $category) {
-                    foreach (ProductHasCategory::findAll(['category_id' => $category->id]) as $productHasCategory) {
-                        $otherIds[] = $productHasCategory->product_id;
-                    }
-                }
-            }
-
-
-            if (!empty($otherIds)) {
-                $otherIdsWhere = ['id' => $otherIds];
-            }
+            $wheres = $model->getWheres();
+            $innerIdsWhere = $wheres[0];
+            $otherIdsWhere = $wheres[1];
             /////////////////////////////////////////////////////////
             $orderBy = [];
 
@@ -154,53 +89,57 @@ class CatalogController extends Controller
             }
             /////////////////////////////////////////////////////////
             $tags = [];
-            $brands = [];
+            $brandCategories = [];
             $years = [];
             $brandsSerial = [];
 
             if ($model->type == 0) {//Если категория
                 $tags = Category::find()
+                    ->with(['parent0', 'productHasCategories'])
                     ->where(['parent_id' => $model->id, 'type' => 1, 'active' => 1])
                     ->orderBy(['sort_order' => SORT_DESC])
                     ->all();
                 $years = Category::find()
+                    ->with(['parent0', 'productHasCategories'])
                     ->where(['parent_id' => $model->id, 'type' => 4, 'active' => 1])
                     ->orderBy(['sort_order' => SORT_DESC])
                     ->all();
-                $brands = Category::find()
+                $brandCategories = Category::find()
+                    ->with(['parent0', 'brand', 'productHasCategories'])
                     ->where(['parent_id' => $model->id, 'type' => 2, 'active' => 1])
                     ->orderBy(['name' => SORT_ASC])
                     ->all();
 
                 $allproducts = Product::find()
+                    ->with(['productParams', 'brand', 'images'])
                     ->orWhere($otherIdsWhere)
                     ->orWhere($innerIdsWhere)
-                    ->orderBy($orderBy)->all();
+                    ->orderBy($orderBy)
+                    ->all();
             } else {//Если всё остальное
                 if (in_array($model->type, [1, 2, 4])) {
                     $parent = Category::findOne(['id' => $model->parent_id]);
 
                     $tags = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
                         ->where(['parent_id' => $parent->id, 'type' => 1, 'active' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
                     $years = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
                         ->where(['parent_id' => $parent->id, 'type' => 4, 'active' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
-                    $brands = Category::find()
+                    $brandCategories = Category::find()
+                        ->with(['parent0', 'brand', 'productHasCategories'])
                         ->where(['parent_id' => $parent->id, 'type' => 2, 'active' => 1])
                         ->orderBy(['name' => SORT_ASC])
                         ->all();
-
-                    foreach ($brands as $brand) {
-                        foreach (Category::find()
-                            ->where(['parent_id' => $brand->id, 'type' => 3])
-                            ->orderBy(['name' => SORT_DESC])
-                            ->all() as $brandSerial) {
-                            $brandsSerial[] = $brandSerial;
-                        }
-                    }
+                    $brandsSerial = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
+                        ->where(['parent_id' => ArrayHelper::getColumn($brandCategories, 'id'), 'type' => 3, 'active' => 1])
+                        ->orderBy(['name' => SORT_ASC])
+                        ->all();
                 }
 
                 if ($model->type == 3) {// Если серия бренда
@@ -208,43 +147,40 @@ class CatalogController extends Controller
                     $parent = Category::findOne(['id' => $parentBrand->parent_id]);
 
                     $tags = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
                         ->where(['parent_id' => $parent->id, 'type' => 1, 'active' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
                     $years = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
                         ->where(['parent_id' => $parent->id, 'type' => 4, 'active' => 1])
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
-                    $brands = Category::find()
+                    $brandCategories = Category::find()
+                        ->with(['parent0', 'brand', 'productHasCategories'])
                         ->where(['parent_id' => $parent->id, 'type' => 2, 'active' => 1])
                         ->orderBy(['name' => SORT_ASC])
                         ->all();
-
-                    foreach ($brands as $brand) {
-                        foreach (Category::find()
-                            ->where(['parent_id' => $brand->id, 'type' => 3, 'active' => 1])
-                            ->orderBy(['name' => SORT_ASC])
-                            ->all() as $brandSerial) {
-                            $brandsSerial[] = $brandSerial;
-                        }
-                    }
+                    $brandsSerial = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
+                        ->where(['parent_id' => ArrayHelper::getColumn($brandCategories, 'id'), 'type' => 3, 'active' => 1])
+                        ->orderBy(['name' => SORT_ASC])
+                        ->all();
                 }
                 ////////////////////////////////////////////////////////////
-                $idsTags = [];
                 $andWhereTags = ['id' => ''];
-
-                foreach (ProductHasCategory::findAll(['category_id' => $model->id]) as $productHasCategory) {
-                    $idsTags[] = $productHasCategory->product_id;
-                }
+                $idsTags = ArrayHelper::getColumn(ProductHasCategory::findAll(['category_id' => $model->id]), 'product_id');
 
                 if (!empty($idsTags)) {
                     $andWhereTags = ['id' => $idsTags];
                 }
                 ////////////////////////////////////////////////////////////
                 $allproducts = Product::find()
+                    ->with(['productParams', 'brand', 'images'])
                     ->where($andWhereTags)
                     ->orWhere($otherIdsWhere)
-                    ->orderBy($orderBy)->all();
+                    ->orderBy($orderBy)
+                    ->all();
             }
             /////////////////////////////////////////////////////////
             $bHeader = $model->seo_h1 . ' по брендам';
@@ -353,24 +289,22 @@ class CatalogController extends Controller
                     $maxPrice = $product->price;
                 }
 
-                $brand = Brand::findOne($product->brand_id);
-
                 if (empty($filterBrands)) {
-                    $filterBrands[$i]['id'] = $brand->id;
-                    $filterBrands[$i]['name'] = $brand->name;
+                    $filterBrands[$i]['id'] = $product->brand->id;
+                    $filterBrands[$i]['name'] = $product->brand->name;
                     $i++;
                 } else {
                     $flag = false;
 
                     foreach($filterBrands as $index => $arr) {
-                        if ($brand->id == $arr['id']) {
+                        if ($product->brand->id == $arr['id']) {
                             $flag = true;
                         }
                     }
 
                     if (!$flag) {
-                        $filterBrands[$i]['id'] = $brand->id;
-                        $filterBrands[$i]['name'] = $brand->name;
+                        $filterBrands[$i]['id'] = $product->brand->id;
+                        $filterBrands[$i]['name'] = $product->brand->name;
                         $i++;
                     }
                 }
@@ -421,27 +355,14 @@ class CatalogController extends Controller
                     $products[] = $allproducts[$i];
                 }
             }
-
-            /*if (!isset($_GET['page']) && !isset($_GET['per_page']) && $model->type == 0) {
-                $cache->set('products-cat'.$model->id, $products);
-                $cache->set('pages-cat'.$model->id, $pages);
-                $cache->set('tags-cat'.$model->id, $tags);
-                $cache->set('brands-cat'.$model->id, $brands);
-                $cache->set('years-cat'.$model->id, $years);
-                $cache->set('brandsSerial-cat'.$model->id, $brandsSerial);
-                $cache->set('bHeader-cat'.$model->id, $bHeader);
-                $cache->set('bHeader2-cat'.$model->id, $bHeader2);
-                $cache->set('minPrice-cat'.$model->id, $minPrice);
-                $cache->set('maxPrice-cat'.$model->id, $maxPrice);
-                $cache->set('filterBrands-cat'.$model->id, $filterBrands);
-            }*/
+            
 
             return $this->render('index', [
                 'model' => $model,
                 'products' => $products,
                 'pages' => $pages,
                 'tags' => $tags,
-                'brands' => $brands,
+                'brandCategories' => $brandCategories,
                 'years' => $years,
                 'brandsSerial' => $brandsSerial,
                 'bHeader' => $bHeader,

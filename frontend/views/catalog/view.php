@@ -205,8 +205,6 @@ $mainpage = Mainpage::findOne(1);
     } ?>
 <?php } ?>
 
-<?=$this->render('@frontend/views/blocks/news')?>
-
 <div class="popup productImages" id="productImages">
     <div class="productImages__inner">
         <div class="productImages__info">

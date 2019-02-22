@@ -14,6 +14,7 @@ $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
 
 $presents = \common\models\Present::find()->all();
+$catalogPage = Textpage::findOne(1);
 
 ?>
 
@@ -55,7 +56,7 @@ $presents = \common\models\Present::find()->all();
     <div class="container">
         <div class="wantMore">
             <div class="wantMore__text">Не нашли нужное? Попробуйте </div>
-            <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(1)->alias])?>" class="button button3 wantMore__toCatalog">
+            <a href="<?=Url::to(['site/index', 'alias' => $catalogPage->alias])?>" class="button button3 wantMore__toCatalog">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227.88 40.99"><g><polygon points="9.8 0 0 8.11 0 40.99 218.07 40.99 227.88 32.88 227.88 0 9.8 0"/></g></svg>
                 <span>Перейти в каталог</span>
             </a>
@@ -128,6 +129,15 @@ $presents = \common\models\Present::find()->all();
             <a href="/catalog/trenazhery/kardiotrenazhery/ellipticheskie" class="popular__item">
                 <span class="popular__itemText">Эллипсы</span>
                 <span class="popular__itemImage" style="background-image: url(/img/elips.jpg);"></span>
+            </a>
+        </div>
+    </div>
+    <div class="container" style="margin-top: 60px;">
+        <div class="wantMore">
+            <div class="wantMore__text">Не нашли нужное? Попробуйте </div>
+            <a href="<?=Url::to(['site/index', 'alias' => $catalogPage->alias])?>" class="button button3 wantMore__toCatalog">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227.88 40.99"><g><polygon points="9.8 0 0 8.11 0 40.99 218.07 40.99 227.88 32.88 227.88 0 9.8 0"></polygon></g></svg>
+                <span>Перейти в каталог</span>
             </a>
         </div>
     </div>

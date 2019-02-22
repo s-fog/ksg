@@ -27,7 +27,6 @@ $this->params['name'] = $model->name;
 
 
 $childrenCategories = $model->getChildrenCategories();
-
 $presents = \common\models\Present::find()->all();
 
 ?>
@@ -124,14 +123,15 @@ $presents = \common\models\Present::find()->all();
             <?php foreach($tags as $tag) {
                 $url = $tag->url;
                 $active = $_SERVER['REQUEST_URI'] == $url;
+                $productCount = $tag->productCount;
 
                 if ($active) {?>
                     <span class="category__tag active">
-                        <span><?=$tag->name?><?=($tag->productCount != 0) ? " ($tag->productCount)" : ""?></span>
+                        <span><?=$tag->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
                     </span>
                 <?php } else { ?>
                     <a href="<?=$tag->url?>" class="category__tag">
-                        <span><?=$tag->name?><?=($tag->productCount != 0) ? " ($tag->productCount)" : ""?></span>
+                        <span><?=$tag->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
                     </a>
                 <?php } ?>
             <?php }
@@ -150,14 +150,15 @@ $presents = \common\models\Present::find()->all();
             <?php foreach($years as $year) {
                 $url = $year->url;
                 $active = $_SERVER['REQUEST_URI'] == $url;
+                $productCount = $year->productCount;
 
                 if ($active) {?>
                     <span class="category__item link active">
-                        <span><?=$year->name?><?=($year->productCount != 0) ? " ($year->productCount)" : ""?></span>
+                        <span><?=$year->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
                     </span>
                 <?php } else { ?>
                     <a href="<?=$year->url?>" class="category__item link">
-                        <span><?=$year->name?><?=($year->productCount != 0) ? " ($year->productCount)" : ""?></span>
+                        <span><?=$year->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
                     </a>
                 <?php } ?>
             <?php }
@@ -165,42 +166,43 @@ $presents = \common\models\Present::find()->all();
         </div>
     </div>
 <?php } ?>
-<?php if (!empty($brands)) { ?>
+<?php if (!empty($brandCategories)) { ?>
     <div class="brands">
         <div class="container">
             <h2 class="brands__header"><?=$bHeader?></h2>
             <div class="brands__inner owl-carousel">
-                <?php foreach($brands as $brand) {
-                    $currentBrand = Brand::findOne($brand->brand_id);
+                <?php foreach($brandCategories as $brandCategory) {
+                    $currentBrand = $brandCategory->brand;
 
                     if ($currentBrand) {
                         $filename = explode('.', basename($currentBrand->image));
                         ?>
                         <div class="brands__item">
-                            <a href="<?=$brand->url?>" class="brands__itemImage"><img src="/images/thumbs/<?=$filename[0]?>-280-140.<?=$filename[1]?>" alt=""></a>
+                            <a href="<?=$brandCategory->url?>" class="brands__itemImage"><img src="/images/thumbs/<?=$filename[0]?>-280-140.<?=$filename[1]?>" alt=""></a>
                             <div class="brands__itemText"><?=$currentBrand->description?></div>
-                            <a href="<?=$brand->url?>" class="brands__itemLink">
+                            <a href="<?=$brandCategory->url?>" class="brands__itemLink">
                                 <span>смотреть <?=$bHeader2?> <?=$currentBrand->name?> ––></span>
                             </a>
                         </div>
-                <?php } ?>
+                    <?php } ?>
                 <?php } ?>
             </div>
         </div>
         <div class="brands__list">
             <div class="textBlock">
                 <div class="brands__listInner">
-                    <?php foreach($brands as $brand) {
-                        $url = $brand->url;
+                    <?php foreach($brandCategories as $brandCategory) {
+                        $url = $brandCategory->url;
                         $active = $_SERVER['REQUEST_URI'] == $url;
+                        $productCount = $brandCategory->productCount;
 
                         if ($active) {?>
                             <span class="brands__listItem active">
-                                <span><?=$brand->name?><?=($brand->productCount != 0) ? " ($brand->productCount)" : ""?></span>
+                                <span><?=$brandCategory->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
                             </span>
                         <?php } else { ?>
                             <a href="<?=$url?>" class="brands__listItem">
-                                <span><?=$brand->name?><?=($brand->productCount != 0) ? " ($brand->productCount)" : ""?></span>
+                                <span><?=$brandCategory->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
                             </a>
                         <?php } ?>
 
@@ -217,3 +219,5 @@ $presents = \common\models\Present::find()->all();
         'presents' => $presents,
     ]);
 } ?>
+
+<?=$this->render('@frontend/views/blocks/news')?>

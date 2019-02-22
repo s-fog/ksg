@@ -73,10 +73,8 @@ class Product extends BaseProduct implements CartPositionInterface
     }
 
     public function getImages() {
-        return Image::find()
-            ->where(['product_id' => $this->id])
-            ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])
-            ->all();
+        return $this->hasMany(Image::className(), ['product_id' => 'id'])
+            ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC]);
     }
 
     public function getReviews() {
@@ -173,11 +171,9 @@ class Product extends BaseProduct implements CartPositionInterface
         $unAvailableItems = [];
 
         foreach($products as $product) {
-            $productsParam = ProductParam::findAll(['product_id' => $product->id]);
             $availableBoolean = false;
 
-            foreach($productsParam as $productParam) {
-
+            foreach($product->productParams as $productParam) {
                 if ($productParam->available > 0) {
                     $availableBoolean = true;
                 }
@@ -244,9 +240,8 @@ class Product extends BaseProduct implements CartPositionInterface
 
     public function getAvailable() {
         $available = false;
-        $variants = ProductParam::find()->where(['product_id' => $this->id])->orderBy(['id' => SORT_ASC])->all();
 
-        foreach($variants as $variant) {
+        foreach($this->productParams as $variant) {
             if (!empty($variant->available)) {
                 $available = true;
                 break;
@@ -363,5 +358,10 @@ class Product extends BaseProduct implements CartPositionInterface
         }
 
         return $dates;
+    }
+
+    public function getProductParams() {
+        return $this->hasMany(ProductParam::className(), ['product_id' => 'id'])
+            ->orderBy([ProductParam::tableName().'.id' => SORT_ASC]);
     }
 }
