@@ -1109,7 +1109,7 @@ body {
   }
 
   &__item {
-    margin: 10px 20px;
+    margin: 5px 20px;
     flex: 0 0 350px;
     width: 350px;
     @include respond-to(500) {
