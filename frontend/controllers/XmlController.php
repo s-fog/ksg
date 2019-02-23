@@ -5,6 +5,7 @@ use backend\models\Sitemap;
 use backend\models\UML;
 use Exception;
 use frontend\models\Xml;
+use SimpleXMLElement;
 use Yii;
 use yii\web\Controller;
 
@@ -23,18 +24,46 @@ class XmlController extends Controller
     {
         $xml = new Xml();
 
-        /*$ch = curl_init();
-        curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
-        curl_setopt($ch, CURLOPT_URL, 'https://hasttings.ru/diler/fast.yml');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "name=ksg&pass=qwertydas123");
-        $result = curl_exec($ch);
+        ////////////////////////////////////////////////////////////////////////////////
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
+            curl_setopt($ch, CURLOPT_VERBOSE, 1);
+            curl_setopt($ch, CURLOPT_URL, 'https://hasttings.ru/diler/login/');
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "site_user_login=ksg&site_user_password=qwertydas123&remember_me=1&apply=Войти");
+            curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+            curl_setopt($ch, CURLOPT_COOKIEJAR, Yii::getAlias('@www').'/cookie.txt');
+            curl_exec($ch);
 
-        curl_close($ch);
-        var_dump($result);
-        die();*/
+            curl_setopt($ch, CURLOPT_COOKIEFILE, Yii::getAlias('@www').'/cookie.txt');
+            curl_setopt($ch, CURLOPT_URL, 'https://hasttings.ru/diler/fast.yml');
+            $result = curl_exec($ch);
 
+            $hasttings = simplexml_load_string($result);
+            $hasttingsArray = [];
+
+            foreach($hasttings->shop->offers->offer as $offer) {
+                if ($offer->available == 'true') {
+                    $available = 10;
+                } else {
+                    $available = 0;
+                }
+
+                $artikul = (string) $offer->marking;
+                $price = (int) $offer->price;
+
+                $hasttingsArray[$artikul]['price'] = $price;
+                $hasttingsArray[$artikul]['available'] = $available;
+            }
+
+            $xml->loadXml('hasttings', $hasttingsArray, 3, false);
+        } catch(Exception $e) {
+            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+        }
+        ////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////
         try {
             $unixfit = simplexml_load_file('http://unixfit.ru/bitrix/catalog_export/catalog.php');
