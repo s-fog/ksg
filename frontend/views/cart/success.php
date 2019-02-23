@@ -31,7 +31,7 @@ $others = $array['Others'];
 <div class="successOrder">
     <div class="container">
         <div class="successOrder__item successOrder__item_number" style="background-image: url(/img/success_cart.svg);">
-            <div class="successOrder__header"><span>Состав заказа:</span> <?=$order->id?></div>
+            <div class="successOrder__header"><span>Состав заказа:</span> №<?=$order->id?></div>
             <ul class="successOrder__list">
                 <?php
                 $products = unserialize(base64_decode($order->products));
@@ -202,7 +202,7 @@ $others = $array['Others'];
         </div>
         <?php $iii = 1; ?>
         <div class="successOrder__item successOrder__item_summa" style="background-image: url(/img/succsess_money.svg);">
-            <div class="successOrder__header"><span>Сумма к оплате: </span> <?=number_format($order->costWithDiscount(), 0, '', ' ')?> <em class="rubl">₽</em></div>
+            <div class="successOrder__header"><span>Стоимость заказа: </span></div>
             <ul class="successOrder__list">
                 <?php if (!empty($order->discount)) { ?>
                     <li>
@@ -229,6 +229,14 @@ $others = $array['Others'];
                         </div>
                     </li>
                 <?php $iii++;} ?>
+                <li>
+                    <div class="successOrder__line">
+                        <div class="successOrder__lineLeft"><?=$iii?>. Сумма к оплате</div>
+                        <div class="successOrder__lineMiddle"></div>
+                        <div class="successOrder__lineRight"><?=number_format($order->costWithDiscount(), 0, '', ' ')?> <em class="rubl">₽</em></div>
+                    </div>
+                </li>
+                <?php $iii++; ?>
                 <li>
                     <div class="successOrder__line">
                         <div class="successOrder__lineLeft"><?=$iii?>. Статус оплаты</div>

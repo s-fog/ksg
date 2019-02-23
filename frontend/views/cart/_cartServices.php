@@ -29,11 +29,11 @@ foreach($positions as $position) {
 
             echo '<div class="cart__block">
                         <div class="cart__inner">
-                            <div class="cart__header"><span>Сборка '.$quantity.'x '.$position->name.'</span></div>
+                            <div class="cart__header"><span>Сборка специалистами KSG</span></div>
                             <div class="cart__blockItem">
                                 <div class="cart__blockItemLeft" style="background-image: url(/img/construct.png);"></div>
                                 <div class="cart__blockItemRight">
-                                    <div class="cart__blockItemHeader">Сборка специалистами KSG</div>
+                                    <div class="cart__blockItemHeader">'.$position->name.' '.$quantity.'шт.</div>
                                     <div class="cart__blockItemText">'.$build->text.'</div>
                                     <div class="checkbox">
                                         <div class="checkbox__inner">
