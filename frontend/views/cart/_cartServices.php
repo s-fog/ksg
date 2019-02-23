@@ -33,7 +33,7 @@ foreach($positions as $position) {
                             <div class="cart__blockItem">
                                 <div class="cart__blockItemLeft" style="background-image: url(/img/construct.png);"></div>
                                 <div class="cart__blockItemRight">
-                                    <div class="cart__blockItemHeader">'.$position->name.' '.$quantity.'шт.</div>
+                                    <div class="cart__blockItemHeader">'.$position->name.' &mdash; '.$quantity.'шт.</div>
                                     <div class="cart__blockItemText">'.$build->text.'</div>
                                     <div class="checkbox">
                                         <div class="checkbox__inner">
@@ -85,7 +85,7 @@ foreach($positions as $position) {
                             <div class="cart__blockItem">
                                 <div class="cart__blockItemLeft" style="background-image: url(/img/varanty.png);"></div>
                                 <div class="cart__blockItemRight">
-                                    <div class="cart__blockItemHeader">' . $position->name . ' ' . $quantity . 'шт.</div>
+                                    <div class="cart__blockItemHeader">' . $position->name . ' &mdash; ' . $quantity . 'шт.</div>
                                     <div class="cart__blockItemText">' . $waranty->text . '</div>
                                     <div class="checkbox">
                                         <div class="checkbox__inner">
