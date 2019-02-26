@@ -73,7 +73,7 @@ class ProductSearch extends Product
                     'updated_at' => $this->updated_at,
                 ]);
 
-                $query->andFilterWhere(['like', 'name', $this->name])
+                $query->andFilterWhere(['like', Product::tableName().'.name', $this->name])
                     ->andFilterWhere(['like', 'alias', $this->alias])
                     ->andFilterWhere(['like', 'code', $this->code])
                     ->andFilterWhere(['like', 'description', $this->description])
