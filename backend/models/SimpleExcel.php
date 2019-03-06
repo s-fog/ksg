@@ -93,7 +93,7 @@ class SimpleExcel extends Model
                     $product->price = $price;
                     $product->save();
 
-                    //$pp->available = $available;
+                    $pp->available = $available;
                     $pp->save();
 
                     $changedCount++;
