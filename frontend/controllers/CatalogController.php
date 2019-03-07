@@ -311,7 +311,7 @@ class CatalogController extends Controller
             }
 
             usort($filterBrands, function($a,$b){
-                return ($a['name']-$b['name']);
+                return ((int) $a['name'] - (int) $b['name']);
             });
 
             if ($minPrice == 100000000) {

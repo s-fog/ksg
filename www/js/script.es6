@@ -746,9 +746,11 @@ class Cart {
                     paramsV = pp1.find('.catalog__itemToCart').data('paramsv');
                 } else {
                     name = pp2.find('h1').text();
-                    image = pp2.find('.product__mainImage img').prop('src');
                     product_id = pp2.data('id');
                     paramsV = this.getParamsv();
+                    console.log(1);
+                    image = pp2.find('.product__sliderImage[data-paramsv="'+paramsV+'"]').prop('src');
+                    console.log(image);
                 }
 
                 oneCLick.find('.addToCart__header').text(name);
