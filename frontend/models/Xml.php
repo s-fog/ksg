@@ -27,7 +27,7 @@ class Xml extends Model
                         $currentArray[] = $ppArtikul;
 
                         if ($notAvailableIfExists) {
-                            $pp->available = 0;
+                            //$pp->available = 0;
                         }
 
                         $pp->save();
