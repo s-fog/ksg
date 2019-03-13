@@ -20,7 +20,10 @@
             </div>
         <?php } ?>
 
-        <?php if (isset($inCategories) && !empty($inCategories) && count($inCategories) > 1) { ?>
+        <?php if (isset($inCategories) &&
+            !empty($inCategories) &&
+            count($inCategories) > 1 &&
+            (isset($childrenCategories) && empty($childrenCategories))) { ?>
             <div class="category__slider owl-carousel">
                 <?php foreach($inCategories as $inCategory) {
                     $filename = explode('.', basename($inCategory->image_menu));
