@@ -90,7 +90,7 @@ return [
                 'cart/remove' => 'cart/remove',
                 'cart/minicart' => 'cart/minicart',
                 'cart/reload-cart' => 'cart/reload-cart',
-                'brand/<alias>' => 'brand/view',
+                'brands/<alias>' => 'brand/view',
                 'catalog/<alias>/<alias2>/<alias3>/<alias4>/<alias5>' => 'catalog/index',
                 'catalog/<alias>/<alias2>/<alias3>/<alias4>' => 'catalog/index',
                 'catalog/<alias>/<alias2>/<alias3>' => 'catalog/index',
