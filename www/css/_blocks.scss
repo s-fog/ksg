@@ -733,7 +733,7 @@ body {
     margin-right: 40px;
     margin-bottom: 20px;
     @extend .sportsWorld;
-    font-size: 24px;
+    font-size: 22px;
     color: #7e7f84;
     @extend .transition;
     cursor: pointer;
@@ -753,7 +753,7 @@ body {
       flex: 0 0 100%;
     }
     @include respond-to(340) {
-      font-size: 20px;
+      font-size: 18px;
     }
 
     &:last-child {
@@ -813,7 +813,7 @@ body {
     margin-bottom: 40px;
     @extend .linkSpanReverse;
     @extend .heavyCaps;
-    font-size: 18px;
+    font-size: 16px;
     color: #f0f2f7;
     
     &:before {
@@ -3772,7 +3772,7 @@ body {
 .infs {
   box-shadow: inset 0 5px 20px 2px darken($darkBg, 10%);
   padding: 1px 0 30px;
-  background-color: $darkBg;
+  background-color: #1f232f;
 
   .container {
     max-width: 960px;
@@ -3795,6 +3795,7 @@ body {
     h1 {
       display: inline;
       margin-right: 5px;
+      text-transform: uppercase;
     }
   }
 
@@ -5234,7 +5235,7 @@ body {
     padding: 5px;
     @extend .semibold;
     font-size: 14px;
-    color: $textColor;
+    color: inherit;
     text-decoration: none;
     @extend .transition;
   }
@@ -5245,8 +5246,15 @@ body {
     }
   }
 
-  .disabled {
-    color: #989ba0 !important;
+  .first, .last, .prev, .next {
+    &>* {
+      font-size: 16px;
+      color: $lightRedColor;
+    }
+  }
+
+  .disabled > * {
+    color: #989ba0;
     cursor: default;
   }
 }
@@ -5298,11 +5306,22 @@ body {
     width: 140px;
     text-decoration: none;
     text-align: center;
+    cursor: pointer;
+    opacity: 1;
+    @extend .transition;
 
     &:hover {
       .category__sliderItemName {
         color: $textColor;
       }
+    }
+
+    &.active {
+      opacity: 1;
+    }
+
+    &.unactive {
+      opacity: 0.3;
     }
   }
 
@@ -5575,12 +5594,7 @@ body {
 }
 
 .filter {
-  position: absolute;
-  left: 0;
-  top: 31px;
-  z-index: 2;
-  width: 100%;
-  background-color: $darkBg;
+  background-color: #1f232f;
   color: #fff;
   overflow: auto;
 
@@ -5675,7 +5689,24 @@ body {
     }
   }
 
+  &__features {
+    .filter__itemTop {
+      justify-content: center;
+    }
+  }
+
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    @include respond-to(1090) {
+      justify-content: space-around;
+    }
+  }
+
   &__description {
+    display: none;
     font-size: 21px;
     font-style: italic;
     line-height: 1.2;
@@ -5772,6 +5803,9 @@ body {
 
   &__item {
     margin: 30px 0;
+    @include respond-to(1090) {
+      margin: 10px 10px;
+    }
 
     &.active {
       .filter__itemHeader {
@@ -5780,6 +5814,12 @@ body {
             height: 0;
           }
         }
+      }
+    }
+
+    &:first-child {
+      @include respond-to(400) {
+        margin-top: 0;
       }
     }
   }
@@ -5809,7 +5849,7 @@ r
     font-size: 24px;
     @include respond-to(950) {
       margin-bottom: 10px;
-      flex: 0 0 100%;
+      //flex: 0 0 100%;
       margin-right: 0;
       box-sizing: border-box;
     }
@@ -5849,6 +5889,21 @@ r
     &:-moz-placeholder {
       color: #a6a8b6;
       opacity: 1;
+    }
+  }
+
+  &__brands {
+    display: flex;
+    justify-content: flex-start;
+    @include respond-to(400) {
+      display: block;
+      text-align: center;
+    }
+
+    .ui-selectmenu-button.ui-button {
+      @include respond-to(400) {
+        margin-top: 10px;
+      }
     }
   }
 
@@ -6059,8 +6114,6 @@ r
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
-    padding-left: 30px;
     @include respond-to(700) {
       justify-content: flex-start;
     }
@@ -6073,7 +6126,6 @@ r
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex: 0 0 170px;
     @include respond-to(450) {
       margin: 10px 0;
     }
@@ -6082,8 +6134,19 @@ r
       @include respond-to(700) {
         margin-right: 20px;
       }
-      @include respond-to(350) {
-        margin-right: 0;
+      @include respond-to(450) {
+        display: none;
+      }
+    }
+
+    &:nth-child(2) {
+      margin: 0 5px;
+    }
+
+    &:nth-child(3) {
+      margin-left: 15px;
+      @include respond-to(330) {
+        margin-left: 5px;
       }
     }
   }
@@ -6108,6 +6171,9 @@ r
   &__priceText {
     @extend .heavyCaps;
     font-size: 18px;
+    @include respond-to(400) {
+      font-size: 14px;
+    }
   }
 
   &__priceInput {
@@ -6121,6 +6187,10 @@ r
     font-size: 18px;
     color: $lightRedColor;
     text-align: center;
+    @include respond-to(450) {
+      flex: 0 0 90px;
+      width: 90px;
+    }
   }
 
   &__bottom {
@@ -6128,10 +6198,13 @@ r
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    margin-top: 50px;
+    margin-top: 30px;
     @include respond-to(650) {
       display: block;
       text-align: center;
+    }
+    @include respond-to(400) {
+      margin-top: 15px;
     }
 
     .filter__filterOff {
@@ -6148,6 +6221,53 @@ r
     letter-spacing: 1px;
     @include respond-to(650) {
       margin: 20px auto;
+    }
+    @include respond-to(400) {
+      margin: 10px auto;
+    }
+  }
+
+  .ui-selectmenu-button.ui-button {
+    display: block;
+    margin-left: 5px;
+    border-bottom: 1px solid $lightRedColor;
+    width: auto;
+    padding: 0 0 2px;
+    text-transform: uppercase;
+    @include respond-to(400) {
+      text-align: center;
+    }
+
+    .ui-selectmenu-icon {
+      display: none;
+    }
+
+    .ui-selectmenu-text {
+      margin-right: 0;
+      padding: 0 10px;
+      @extend .semibold-italic;
+      font-size: 18px;
+      color: $lightRedColor;
+      text-decoration: none;
+      @include respond-to(400) {
+        padding: 0 5px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  &__sort {
+    display: flex;
+    @include respond-to(400) {
+      display: block;
+      text-align: center;
+    }
+
+    .ui-selectmenu-button {
+      display: block;
+      @include respond-to(400) {
+        margin-top: 10px;
+      }
     }
   }
 }

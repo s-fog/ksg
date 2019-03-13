@@ -17,10 +17,6 @@ $presents = \common\models\Present::find()->all();
 <h1 class="header"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
 
 <?php if (!empty($products)) { ?>
-    <?=$this->render('@frontend/views/blocks/sort', [
-        'model' => $model
-    ])?>
-
     <div class="catalog">
         <div class="container">
             <div class="catalog__inner">

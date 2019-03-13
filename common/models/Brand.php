@@ -4,7 +4,9 @@ namespace common\models;
 
 use Yii;
 use \common\models\base\Brand as BaseBrand;
+use yii\behaviors\SluggableBehavior;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "brand".
@@ -17,7 +19,11 @@ class Brand extends BaseBrand
         return ArrayHelper::merge(
             parent::behaviors(),
             [
-                # custom behaviors
+                [
+                    'class' => SluggableBehavior::className(),
+                    'attribute' => 'name',
+                    'slugAttribute' => 'alias'
+                ],
             ]
         );
     }
@@ -29,8 +35,34 @@ class Brand extends BaseBrand
             [['image'], 'required', 'on' => 'create'],
             [['description', 'link'], 'string'],
             [['sort_order'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            [['name', 'alias', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255],
             [['image'], 'image', 'maxSize' => 1000000,  'minWidth' => 280, 'minHeight' => 140, 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
+    }
+
+    public function getProductCount() {
+        $productsCount = Product::find()->where(['brand_id' => $this->id])->select('id')->count();
+
+        return $productsCount;
+    }
+
+    public function getBreadcrumbs() {
+        $parent = Textpage::findOne(2);
+        $items[Url::to(['site/index', 'alias' => $parent->alias])] = $parent->name;
+        $items[0] = $this->name;
+        return $items;
+    }
+
+    public function getUrl() {
+        return Url::to(['brand/view', 'alias' => $this->alias]);
+    }
+
+    public function getProducts () {
+        return $this->hasMany(Product::className(), ['brand_id' => 'id']);
+    }
+
+    public function getFilterFeatures () {
+        return $this->hasMany(FilterFeature::className(), ['category_id' => 'parent_id'])
+            ->via('products');
     }
 }

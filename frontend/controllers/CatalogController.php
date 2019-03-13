@@ -11,7 +11,9 @@ use common\models\ProductHasFilterFeatureValue;
 use common\models\ProductParam;
 use common\models\Textpage;
 use frontend\models\City;
+use frontend\models\Filter;
 use frontend\models\Pagination;
+use frontend\models\Sort;
 use Yii;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
@@ -49,49 +51,16 @@ class CatalogController extends Controller
             $wheres = $model->getWheres();
             $innerIdsWhere = $wheres[0];
             $otherIdsWhere = $wheres[1];
-            /////////////////////////////////////////////////////////
-            $orderBy = [];
-
-            if ($model->level === 3 || in_array($model->type, [1, 2, 3, 4])) {
-                if (isset($_GET['sort'])) {
-                    $sort = explode('_', $_GET['sort']);
-
-                    if ($sort[0] == 'price') {
-                        if ($sort[1] == 'desc') {
-                            $orderBy = [$sort[0] => SORT_DESC];
-                        } else if ($sort[1] == 'asc') {
-                            $orderBy = [$sort[0] => SORT_ASC];
-                        }
-                    } else if ($sort[0] == 'popular') {
-                        if ($sort[1] == 'desc') {
-                            $orderBy = [$sort[0] => SORT_DESC];
-                        } else if ($sort[1] == 'asc') {
-                            $orderBy = [$sort[0] => SORT_ASC];
-                        }
-                    }
-                } else {
-                    $orderBy = ['price' => SORT_ASC];
-                }
-            } else {
-                if (isset($_GET['sort'])) {
-                    $sort = explode('_', $_GET['sort']);
-
-                    if ($sort[0] == 'price') {
-                        if ($sort[1] == 'desc') {
-                            $orderBy = [$sort[0] => SORT_DESC];
-                        } else if ($sort[1] == 'asc') {
-                            $orderBy = [$sort[0] => SORT_ASC];
-                        }
-                    }
-                } else {
-                    $orderBy = ['popular' => SORT_DESC];
-                }
-            }
-            /////////////////////////////////////////////////////////
             $tags = [];
             $brandCategories = [];
             $years = [];
             $brandsSerial = [];
+
+            $orderBy = array_merge([ProductParam::tableName().'.available' => SORT_DESC], Sort::getOrderBy($model, $_GET));
+            $productQuery = Product::find()
+                ->joinWith(['productParams'])
+                ->with(['brand', 'images'])
+                ->orderBy($orderBy);
 
             if ($model->type == 0) {//Если категория
                 $tags = Category::find()
@@ -110,12 +79,8 @@ class CatalogController extends Controller
                     ->orderBy(['name' => SORT_ASC])
                     ->all();
 
-                $allproducts = Product::find()
-                    ->with(['productParams', 'brand', 'images'])
-                    ->orWhere($otherIdsWhere)
-                    ->orWhere($innerIdsWhere)
-                    ->orderBy($orderBy)
-                    ->all();
+                $productQuery->orWhere($otherIdsWhere)
+                    ->orWhere($innerIdsWhere);
             } else {//Если всё остальное
                 if (in_array($model->type, [1, 2, 4])) {
                     $parent = Category::findOne(['id' => $model->parent_id]);
@@ -168,19 +133,15 @@ class CatalogController extends Controller
                         ->all();
                 }
                 ////////////////////////////////////////////////////////////
-                $andWhereTags = ['id' => ''];
+                $andWhereTags = [Product::tableName().'.id' => ''];
                 $idsTags = ArrayHelper::getColumn(ProductHasCategory::findAll(['category_id' => $model->id]), 'product_id');
 
                 if (!empty($idsTags)) {
-                    $andWhereTags = ['id' => $idsTags];
+                    $andWhereTags = [Product::tableName().'.id' => $idsTags];
                 }
                 ////////////////////////////////////////////////////////////
-                $allproducts = Product::find()
-                    ->with(['productParams', 'brand', 'images'])
-                    ->where($andWhereTags)
-                    ->orWhere($otherIdsWhere)
-                    ->orderBy($orderBy)
-                    ->all();
+                $productQuery->where($andWhereTags)
+                    ->orWhere($otherIdsWhere);
             }
             /////////////////////////////////////////////////////////
             $bHeader = $model->seo_h1 . ' по брендам';
@@ -200,162 +161,71 @@ class CatalogController extends Controller
             }
             /////////////////////////////////////////////////////////
             $defaultPageSize = 40;
-            $countAllProducts = count($allproducts);
-            $page = (isset($_GET['page'])) ? (int) $_GET['page'] : 1;
-            $per_page = (isset($_GET['per_page'])) ? (int) $_GET['per_page'] : $defaultPageSize;
-
-            if ($page <= 0) {
-                throw new NotFoundHttpException;
-            }
-
-            if ($page >= 2 && $countAllProducts <= $defaultPageSize) {
-                throw new NotFoundHttpException;
-            }
-
-            if ($countAllProducts != 0) {
-                if (($per_page * $page) - $countAllProducts > $per_page) {
-                    throw new NotFoundHttpException;
-                }
-            }
-
-            $allproducts = Product::sortAvailable($allproducts);
-            $products = [];
+            $countAllProducts = $productQuery->count();
+            Product::check404($countAllProducts, $defaultPageSize);
             $minPrice = 100000000;
             $maxPrice = 0;
             $minPriceAvailable = 100000000;
             $maxPriceAvailable = 0;
-            $filterBrands = [];
-            $i = 0;
+
+            $allProductsQuery = clone $productQuery;
+            $allProducts = $allProductsQuery->asArray()->all();
+            $filterBrands = ArrayHelper::map($allProducts, 'brand_id', 'brand');
+            ArrayHelper::multisort($filterBrands, ['name'], [SORT_ASC]);
+
+            $inCategories = [];
+            foreach($allProducts as $product) {
+                if (!isset($inCategories[$product['parent_id']])) {
+                    $inCategories[$product['parent_id']] = Category::find()
+                        ->where(['id' => $product['parent_id']])
+                        ->one();
+                }
+            }
+            ArrayHelper::multisort($inCategories, ['name'], [SORT_ASC]);
+
+            $productQuery = Filter::filter($productQuery, $_GET);
 
             /////////////////////////////////////////////////////////////////////////
-            $filterFeaturesIds = [];
-            $filterBrandsIds = [];
-            $priceFrom = 0;
-            $priceTo = 0;
+            $allProductsQuery = clone $productQuery;
+            $allProducts = $allProductsQuery->asArray()->all();
 
-            if (isset($_GET['priceTo']) && isset($_GET['priceFrom'])) {
-                $filterFeatures = [];
-                $priceFrom = (int) str_replace(' ', '', $_GET['priceFrom']);
-                $priceTo = (int) str_replace(' ', '', $_GET['priceTo']);
+            foreach($allProducts as $product) {
+                $available = false;
 
-                foreach($_GET as $index => $value) {
-                    ////////////////////////////////////////////////////////////////////
-                    preg_match('#^feature(.+)_(.+)$#siU', $index, $match);
-
-                    if (!empty($match)) {
-                        $a1 = (int) $match[1];//$filterFeature->id
-                        $a2 = (int) $match[2];//$filterFeatureValue->id
-                        $filterFeatures[$a1][] = $a2;
-                    }
-                    ////////////////////////////////////////////////////////////////////
-                    preg_match('#^brand_(.+)$#siU', $index, $match);
-
-                    if (!empty($match)) {
-                        $a1 = (int) $match[1];//$brand->id
-                        $filterBrandsIds[] = $a1;
-                    }
-                    ////////////////////////////////////////////////////////////////////
-                }
-
-                foreach($filterFeatures as $filterFeatureId => $filterFeatureValueIds) {
-                    $phffv = ProductHasFilterFeatureValue::findAll(['filter_feature_value_id' => $filterFeatureValueIds]);
-
-                    foreach($phffv as $hgg) {
-                        $filterFeaturesIds[] = $hgg->product_id;
+                foreach($product['productParams'] as $pp) {
+                    if ($pp['available'] > 0) {
+                        $available = true;
                     }
                 }
 
-                $filterFeaturesIds = array_unique($filterFeaturesIds);
-            }
-
-            /////////////////////////////////////////////////////////////////////////
-
-            foreach($allproducts as $product) {
-                if ($product->available) {
-                    if ($product->price < $minPriceAvailable) {
-                        $minPriceAvailable = $product->price;
+                if ($available) {
+                    if ($product['price'] < $minPriceAvailable) {
+                        $minPriceAvailable = $product['price'];
                     }
 
-                    if ($product->price > $maxPriceAvailable) {
-                        $maxPriceAvailable = $product->price;
+                    if ($product['price'] > $maxPriceAvailable) {
+                        $maxPriceAvailable = $product['price'];
                     }
                 }
 
-                if ($product->price < $minPrice) {
-                    $minPrice = $product->price;
+                if ($product['price'] < $minPrice) {
+                    $minPrice = $product['price'];
                 }
 
-                if ($product->price > $maxPrice) {
-                    $maxPrice = $product->price;
-                }
-
-                if (empty($filterBrands)) {
-                    $filterBrands[$i]['id'] = $product->brand->id;
-                    $filterBrands[$i]['name'] = $product->brand->name;
-                    $i++;
-                } else {
-                    $flag = false;
-
-                    foreach($filterBrands as $index => $arr) {
-                        if ($product->brand->id == $arr['id']) {
-                            $flag = true;
-                        }
-                    }
-
-                    if (!$flag) {
-                        $filterBrands[$i]['id'] = $product->brand->id;
-                        $filterBrands[$i]['name'] = $product->brand->name;
-                        $i++;
-                    }
-                }
-            }
-
-            usort($filterBrands, function($a,$b){
-                return ((int) $a['name'] - (int) $b['name']);
-            });
-
-            if ($minPrice == 100000000) {
-                $minPrice = 0;
-            }
-
-            if ($minPriceAvailable == 100000000) {
-                $minPriceAvailable = 0;
-            }
-
-            if ($priceFrom == 0) $priceFrom = $minPrice;
-            if ($priceTo == 0) $priceTo = $maxPrice;
-
-            $unfilteredProducts = $allproducts;
-            $allproducts = [];
-
-            foreach($unfilteredProducts as $product) {
-                if (empty($filterBrandsIds) || in_array($product->brand_id, $filterBrandsIds)) {
-                    if (empty($filterFeaturesIds) || in_array($product->id, $filterFeaturesIds)) {
-                        if ($product->price >= $priceFrom && $product->price <= $priceTo) {
-                            $allproducts[] = $product;
-                        }
-                    }
+                if ($product['price'] > $maxPrice) {
+                    $maxPrice = $product['price'];
                 }
             }
 
             $pages = new \yii\data\Pagination([
-                'totalCount' => count($allproducts),
+                'totalCount' => $allProductsQuery->count(),
                 'defaultPageSize' => $defaultPageSize,
                 'pageSizeParam' => 'per_page',
                 'forcePageParam' => false,
                 'pageSizeLimit' => 200
             ]);
 
-            for ($i = 0; $i < count($allproducts); $i++) {
-                if (count($products) >= $pages->limit) {
-                    break;
-                }
-
-                if ($i >= $pages->offset) {
-                    $products[] = $allproducts[$i];
-                }
-            }
-            
+            $products = $productQuery->limit($pages->limit)->offset($pages->offset)->all();
 
             return $this->render('index', [
                 'model' => $model,
@@ -370,6 +240,7 @@ class CatalogController extends Controller
                 'minPrice' => $minPriceAvailable,
                 'maxPrice' => $maxPriceAvailable,
                 'filterBrands' => $filterBrands,
+                'inCategories' => $inCategories,
             ]);
         }
 

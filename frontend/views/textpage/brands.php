@@ -29,7 +29,7 @@ $this->params['name'] = $model->name;
                     <div class="alphabet__contentHeader"><?=$letter?></div>
                     <div class="brands__listInner">
                         <?php foreach($result[$letter] as $brand) { ?>
-                            <a href="<?=$brand->link?>" class="brands__listItem"><span><?=$brand->name?></span></a>
+                            <a href="<?=$brand->url?>" class="brands__listItem"><span><?=$brand->name?></span></a>
                         <?php } ?>
                     </div>
                 </div>

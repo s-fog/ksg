@@ -109,7 +109,7 @@ class Header {
                 }
             }
 
-            if ($('.filter').get(0)) {
+            /*if ($('.filter').get(0)) {
                 if ($('.filter').css('display') != 'none') {
                     if (!$(event.target).parents('.filter').get(0)) {
                         $('.filter').slideUp(500);
@@ -118,7 +118,7 @@ class Header {
                         return false;
                     }
                 }
-            }
+            }*/
         });
 
         var ua = navigator.userAgent.toLowerCase();
@@ -1340,15 +1340,63 @@ class Filter {
             filter__priceTo: $('.filter__priceTo'),
             filter__priceInput: $('.filter__priceInput'),
             filterTrigger__top_li: $('.filterTrigger__top li'),
+            categoryFilter: $('.js-category-filter'),
         }
+    }
+
+    filterSubmit() {
+        let serialize = $(".filter :input[value!='']").serialize();
+        let url = location.pathname + '?' + serialize+'&'+$('.sorting').serialize();
+        let ids = new Array();
+        let i = 0;
+
+        this.nodes.categoryFilter.each(function(index, element) {
+            if ($(element).hasClass('active')) {
+                ids[i] = $(element).data('id');
+                i++;
+            }
+        });
+
+        if (ids.length > 0) {
+            url += '&cats='+ids.join();
+        }
+
+        location = url;
+
+        return false;
     }
 
     _bindEvents() {
         this.nodes.filter.on('submit', () => {
-            let serialize = $(".filter :input[value!='']").serialize();
+            this.filterSubmit();
+        });
 
-            location = location.pathname + '?' + serialize+'&'+$('.sorting').serialize();
-            return false;
+        this.nodes.categoryFilter.on('click', (event) => {
+            let thisElement = $(event.currentTarget);
+            let hasActive = false;
+
+            thisElement.toggleClass('active');
+            /*thisElement.removeClass('unactive');
+
+            this.nodes.categoryFilter.each(function(index, element) {
+                if ($(element).hasClass('active')) {
+                    hasActive = true;
+                }
+            });
+
+            if (hasActive) {
+                this.nodes.categoryFilter.each(function(index, element) {
+                    if (!$(element).hasClass('active')) {
+                        $(element).addClass('unactive')
+                    }
+                });
+            } else {
+                this.nodes.categoryFilter.each(function(index, element) {
+                    $(element).removeClass('unactive')
+                });
+            }*/
+
+            this.filterSubmit();
         });
 
         this.nodes.filter__priceInput.focus((event) => {
@@ -1366,6 +1414,10 @@ class Filter {
 
         this.nodes.filter__priceInput.keyup((event) => {
             let thisElement = $(event.currentTarget);
+
+            if (thisElement.val().match(/[^0-9]/g)) {
+                thisElement.val( thisElement.val().replace(/[^0-9]/g, ''));
+            }
 
             thisElement.data('number', thisElement.val());
         });
@@ -1554,6 +1606,12 @@ class Filter {
 
             return false;
         });
+
+        setTimeout(() => {
+            $('.select-filter-brand').on( "selectmenuchange", (event, ui) => {
+                this.brandDescription();
+            });
+        }, 100);
     }
 
     _ready() {
@@ -1561,13 +1619,13 @@ class Filter {
             this.fillCheckWhenReady();
             this.priceDescription();
 
-            setTimeout(() => {
+            /*setTimeout(() => {
                 $('.filterTrigger').addClass('active');
             }, 1500);
 
             setTimeout(() => {
                 this.filterClose();
-            }, 1000);
+            }, 1000);*/
 
             let minprice = parseInt(this.nodes.filter__priceFrom.data('minprice'));
             let maxprice = parseInt(this.nodes.filter__priceTo.data('maxprice'));
@@ -1600,24 +1658,6 @@ class Filter {
 
         this.fillChecked($('filter__item').eq(0));
 
-        /*if(value01 < 100000) {
-            this.nodes.filter__priceFrom.val(this.number_format(value01, 0, '.', ' '));
-        } else {
-            let R1 = value01 - 100000;
-            let vR1 = 99*R1+100000;
-            vR1 = Math.round(vR1/100) * 100;
-            this.nodes.filter__priceFrom.val(this.number_format(vR1, 0, '.', ' '));
-        }
-
-        if(value02 < 100000) {
-            this.nodes.filter__priceTo.val(this.number_format(value02, 0, '.', ' '));
-        } else {
-            let R1 = value02 - 100000;
-            let vR1 = 99*R1+100000;
-            vR1 = Math.round(vR1/100) * 100;
-            this.nodes.filter__priceTo.val(this.number_format(vR1, 0, '.', ' '));
-        }*/
-
         this.priceDescription();
     }
 
@@ -1627,7 +1667,14 @@ class Filter {
     }
 
     filterOpen() {
-        let mainHeaderHeight = $('.mainHeader').height();
+        $("html, body").animate({ scrollTop: 0 }, "fast");
+
+        setTimeout(() => {
+            if (!$('.filter__features').hasClass('active')) {
+                $('.filter__features .filter__itemHeader').click();
+            }
+        }, 300);
+        /*let mainHeaderHeight = $('.mainHeader').height();
         let breadcrumbsHeight = $('.breadcrumbs').height();
         let windowHeight = window.innerHeight;
         let height = windowHeight - mainHeaderHeight - breadcrumbsHeight;
@@ -1636,7 +1683,7 @@ class Filter {
             this.nodes.filter.height(height);
         });
 
-        $('html').addClass('html-hidden');
+        $('html').addClass('html-hidden');*/
     }
 
     fillChecked(parent) { //$('.filter__item)
@@ -1728,6 +1775,20 @@ class Filter {
                 ggIn.find('span').html(text);
             }
         });
+    }
+
+    brandDescription() {
+        let brandVal = $('.select-filter-brand').val();
+        let brandLabel = $(`.select-filter-brand option[value="${brandVal}"]`).text();
+        let descr = $('.filter__brandsDescription');
+
+        if (brandVal != 0) {
+            descr.html(`{Бренд: ${brandLabel}}`);
+        } else {
+            descr.html('{Ничего не выбрано}');
+        }
+
+        this.fillTriggerDescr();
     }
 
     priceDescription() {

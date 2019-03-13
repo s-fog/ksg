@@ -33,7 +33,7 @@ $presents = \common\models\Present::find()->all();
 
 <?=$this->render('@frontend/views/blocks/breadcrumbs', ['items' => $model->getBreadcrumbs()])?>
 
-<?=$this->render('_filter', [
+<?=$this->render('_filterTop', [
     'model' => $model,
     'minPrice' => $minPrice,
     'maxPrice' => $maxPrice,
@@ -47,11 +47,18 @@ $presents = \common\models\Present::find()->all();
             <p class="infs__text"><?=$h1?> по цене от <?=number_format($minPrice, 0, '', ' ')?> руб.! Купите в интернет-магазине KSG.ru и  вы получите фирменную гарантию от производителя, поскольку мы являемся официальным дилером всех брендов представленных на сайте. Доставка по Москве и в регионы России.</p>
         <?php }  ?>
     </div>
+    <?=$this->render('_filter', [
+        'model' => $model,
+        'minPrice' => $minPrice,
+        'maxPrice' => $maxPrice,
+        'filterBrands' => $filterBrands,
+        'childrenCategories' => $childrenCategories,
+    ])?>
 </div>
 
-<?=$this->render('@frontend/views/blocks/sort', [
+<?=$this->render('@frontend/views/blocks/cats', [
     'childrenCategories' => $childrenCategories,
-    'model' => $model
+    'inCategories' => $inCategories,
 ])?>
 
 <div class="catalog">
@@ -113,8 +120,10 @@ $presents = \common\models\Present::find()->all();
     'disableCurrentPageButton' => true,
     'hideOnSinglePage' => true,
     'maxButtonCount' => 6,
-    'firstPageLabel' => '««',
-    'lastPageLabel'  => '»»'
+    'nextPageLabel' => '&gt;',
+    'prevPageLabel' => '&lt;',
+    'firstPageLabel' => '&lt;&lt;',
+    'lastPageLabel'  => '&gt;&gt;'
 ]);?>
 
 <?php if ($tags) { ?>

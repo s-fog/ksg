@@ -7,6 +7,7 @@ use Yii;
 use \common\models\base\Product as BaseProduct;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use yii\web\NotFoundHttpException;
 use yz\shoppingcart\CartPositionInterface;
 use yz\shoppingcart\CartPositionTrait;
 
@@ -156,6 +157,10 @@ class Product extends BaseProduct implements CartPositionInterface
     public function getFeatures() {
         return $this->hasMany(Feature::className(), ['product_id' => 'id'])
             ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC]);
+    }
+
+    public function getProductHasFilterFeatureValue() {
+        return $this->hasMany(ProductHasFilterFeatureValue::className(), ['product_id' => 'id']);
     }
 
     public function getParams() {
@@ -382,5 +387,24 @@ class Product extends BaseProduct implements CartPositionInterface
 
     public function getParent3() {
         return $this->hasOne(Category::className(), ['id' => 'parent_id']);
+    }
+
+    public static function check404($countAllProducts, $defaultPageSize) {
+        $page = (isset($_GET['page'])) ? (int) $_GET['page'] : 1;
+        $per_page = (isset($_GET['per_page'])) ? (int) $_GET['per_page'] : $defaultPageSize;
+
+        if ($page <= 0) {
+            throw new NotFoundHttpException;
+        }
+
+        if ($page >= 2 && $countAllProducts <= $defaultPageSize) {
+            throw new NotFoundHttpException;
+        }
+
+        if ($countAllProducts != 0) {
+            if (($per_page * $page) - $countAllProducts > $per_page) {
+                throw new NotFoundHttpException;
+            }
+        }
     }
 }

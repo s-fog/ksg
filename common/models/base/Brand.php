@@ -17,6 +17,7 @@ use himiklab\sortablegrid\SortableGridBehavior;
  * @property string $description
  * @property string $link
  * @property integer $sort_order
+ * @property string $alias
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $aliasModel
@@ -59,7 +60,7 @@ abstract class Brand extends \yii\db\ActiveRecord
             [['name', 'link'], 'required'],
             [['description', 'link'], 'string'],
             [['sort_order'], 'integer'],
-            [['name', 'image'], 'string', 'max' => 255]
+            [['name', 'image', 'alias'], 'string', 'max' => 255]
         ];
     }
 
@@ -77,6 +78,7 @@ abstract class Brand extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'sort_order' => 'Sort Order',
+            'alias' => 'Урл',
         ];
     }
 

@@ -30,6 +30,8 @@ use yii\helpers\StringHelper;
 <!-- attribute name -->
 			<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+			<?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
+
 <!-- attribute link -->
 			<?= $form->field($model, 'link')->textInput() ?>
 
@@ -42,6 +44,11 @@ use yii\helpers\StringHelper;
                 'image' => $model->image,
                 'name' => 'image'
             ])?>
+
+            <?= $form->field($model, 'seo_h1')->textInput() ?>
+            <?= $form->field($model, 'seo_title')->textInput() ?>
+            <?= $form->field($model, 'seo_keywords')->textInput() ?>
+            <?= $form->field($model, 'seo_description')->textarea(['rows' => 6]) ?>
         </p>
         <?php $this->endBlock(); ?>
         

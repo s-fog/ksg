@@ -61,6 +61,7 @@ class Xml extends Model
                         $available = 0;
                     } else if (is_numeric($item['available'])) {
                         $available = (int) $item['available'];
+                        $available = 10;
                     } else if (
                         $item['available'] == 'более 10'
                         ||

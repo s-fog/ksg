@@ -329,8 +329,8 @@ class SiteController extends Controller
                 }
                 case 15: {
                     if (isset($_GET['query']) && !empty($_GET['query'])) {
-                        if ($textpage = Textpage::findOne(['name' => $_GET['query']])) {
-                            return $this->redirect($textpage->url);
+                        if ($page = Textpage::findOne(['name' => $_GET['query']])) {
+                            return $this->redirect($page->url);
                         }
 
                         if ($product = Product::findOne(['name' => $_GET['query']])) {

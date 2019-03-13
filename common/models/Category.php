@@ -482,9 +482,9 @@ class Category extends BaseCategory
         $innerIdsWhere = [];
         $innerIds = $this->getInnerIds();
         if (!empty($innerIds)) {
-            $innerIdsWhere = ['parent_id' => $innerIds];
+            $innerIdsWhere = [Product::tableName().'.parent_id' => $innerIds];
         }
-        
+
         $otherIdsWhere = [];
         if ($this->type != 2) {
             $otherIds = ArrayHelper::getColumn(ProductHasCategory::findAll(['category_id' => $innerIds]), 'product_id');
@@ -496,7 +496,7 @@ class Category extends BaseCategory
             $otherIds = ArrayHelper::getColumn(ProductHasCategory::findAll(['category_id' => $catsIds]), 'product_id');
         }
         if (!empty($otherIds)) {
-            $otherIdsWhere = ['id' => $otherIds];
+            $otherIdsWhere = [Product::tableName().'.id' => $otherIds];
         }
 
         return [$innerIdsWhere, $otherIdsWhere];
@@ -517,10 +517,10 @@ class Category extends BaseCategory
                 ->orWhere($innerIdsWhere);
         } else {
             $idsTags = ArrayHelper::getColumn($this->productHasCategories, 'product_id');
-            $andWhereTags = ['id' => ''];
+            $andWhereTags = [Product::tableName().'.id' => ''];
 
             if (!empty($idsTags)) {
-                $andWhereTags = ['id' => $idsTags];
+                $andWhereTags = [Product::tableName().'.id' => $idsTags];
             }
 
             $products = Product::find()
