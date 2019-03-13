@@ -32,9 +32,14 @@ class XmlController extends Controller
                 "verify_peer_name"=>false,
             ),
         );
+        echo 1;
         $sw=file_get_contents('http://www.wellfitness.ru/system/storage/download/export.xml', false, stream_context_create($arrContextOptions));
+        echo 2;
         $wellFitness = simplexml_load_string($sw);
+        echo 3;
         $wellFitnessArray = [];
+        echo 4;
+        die();
 
         foreach($wellFitness->diler_info->catalog->items->item as $offer) {
             $available = (int) $offer->QUANTITY;
