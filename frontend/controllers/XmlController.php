@@ -26,7 +26,6 @@ class XmlController extends Controller
         $xml = new Xml();
 
         ////////////////////////////////////////////////////////////////////////////////
-        echo 1;die();
         try {
             $arrContextOptions=array(
                 "ssl"=>array(
