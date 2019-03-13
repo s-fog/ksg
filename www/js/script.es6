@@ -2091,6 +2091,13 @@ class Application {
                 }
             }, 1000);
         }
+
+        if (location.search.indexOf('priceFrom') > 0) {
+            setTimeout(function() {
+                var body = $("html, body");
+                body.stop().animate({scrollTop: $('.catalog').offset().top - 100}, 300, 'swing');
+            }, 1000);
+        }
     }
 
     _initClasses() {
