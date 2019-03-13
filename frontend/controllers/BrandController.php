@@ -105,6 +105,13 @@ class BrandController extends Controller
 
         $products = $productQuery->limit($pages->limit)->offset($pages->offset)->all();
 
+        $filterFeatures = [];
+        if (isset($_GET['cats'])) {
+            if (count(explode(',', $_GET['cats'])) == 1) {
+                $filterFeatures = $model->getFilterFeatures($_GET['cats']);
+            }
+        }
+
         return $this->render('view', [
             'model' => $model,
             'products' => $products,
@@ -113,6 +120,7 @@ class BrandController extends Controller
             'maxPrice' => $maxPriceAvailable,
             'filterBrands' => $filterBrands,
             'inCategories' => $inCategories,
+            'filterFeatures' => $filterFeatures,
         ]);
 
 

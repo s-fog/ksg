@@ -53,6 +53,7 @@ $presents = \common\models\Present::find()->all();
         'maxPrice' => $maxPrice,
         'filterBrands' => $filterBrands,
         'childrenCategories' => $childrenCategories,
+        'filterFeatures' => $filterFeatures,
     ])?>
 </div>
 

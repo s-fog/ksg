@@ -3091,7 +3091,9 @@ body {
 
 .ui-selectmenu-menu {
   border: 1px solid lighten(#bbb, 10%);
+  height: 200px;
   background-color: #fff;
+  overflow: auto;
 
   .ui-menu {
     overflow: hidden;

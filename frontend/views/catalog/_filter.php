@@ -80,7 +80,7 @@ $cookies = Yii::$app->request->cookies;
                 </div>
             </div>
         </div>
-        <?php if (!empty($model->filterFeatures)) {
+        <?php if (!empty($filterFeatures)) {
             $featuresActive = strstr($_SERVER['REQUEST_URI'], '&feature');
             ?>
             <div class="filter__item filter__features<?=$featuresActive ? ' active' : ''?>">
@@ -91,7 +91,7 @@ $cookies = Yii::$app->request->cookies;
                 <div class="filter__itemInner"<?=$featuresActive ? ' style="display: block;"' : ''?>>
                     <div class="filter__itemCategoriesContents">
                         <div class="filter__itemCategoriesContent active">
-                            <?php foreach($model->filterFeatures as $index => $filterFeature) {
+                            <?php foreach($filterFeatures as $index => $filterFeature) {
                                 $active = '';
                                 if ($index == 0) $active = ' active';
                                 ?>

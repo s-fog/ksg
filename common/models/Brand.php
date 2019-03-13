@@ -61,8 +61,7 @@ class Brand extends BaseBrand
         return $this->hasMany(Product::className(), ['brand_id' => 'id']);
     }
 
-    public function getFilterFeatures () {
-        return $this->hasMany(FilterFeature::className(), ['category_id' => 'parent_id'])
-            ->via('products');
+    public function getFilterFeatures ($category_id) {
+        return FilterFeature::find()->where(['category_id' => $category_id])->orderBy(['name' => SORT_ASC])->all();
     }
 }

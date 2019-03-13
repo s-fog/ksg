@@ -226,6 +226,7 @@ class CatalogController extends Controller
             ]);
 
             $products = $productQuery->limit($pages->limit)->offset($pages->offset)->all();
+            $filterFeatures = $model->filterFeatures;
 
             return $this->render('index', [
                 'model' => $model,
@@ -241,6 +242,7 @@ class CatalogController extends Controller
                 'maxPrice' => $maxPriceAvailable,
                 'filterBrands' => $filterBrands,
                 'inCategories' => $inCategories,
+                'filterFeatures' => $filterFeatures,
             ]);
         }
 
