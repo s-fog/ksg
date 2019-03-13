@@ -26,6 +26,27 @@ class XmlController extends Controller
         $xml = new Xml();
 
         ////////////////////////////////////////////////////////////////////////////////
+        $arrContextOptions=array(
+            "ssl"=>array(
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ),
+        );
+        $sw=file_get_contents('http://www.wellfitness.ru/system/storage/download/export.xml', false, stream_context_create($arrContextOptions));
+        $wellFitness = simplexml_load_string($sw);
+        $wellFitnessArray = [];
+
+        foreach($wellFitness->diler_info->catalog->items->item as $offer) {
+            $available = (int) $offer->QUANTITY;
+            $artikul = (string) $offer->article;
+            $price = (int) $offer->price;
+
+            $wellFitnessArray[$artikul]['price'] = $price;
+            $wellFitnessArray[$artikul]['available'] = $available;
+        }
+        var_dump($wellFitnessArray);die();
+
+        $xml->loadXml('wellFitness', $wellFitnessArray, 9, false);
         try {
             $arrContextOptions=array(
                 "ssl"=>array(
