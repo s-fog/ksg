@@ -39,6 +39,7 @@ class XmlController extends Controller
         echo 3;
         $wellFitnessArray = [];
         echo 4;
+        var_dump($wellFitness->diler_info->catalog->items);
         die();
 
         foreach($wellFitness->diler_info->catalog->items->item as $offer) {
