@@ -20,8 +20,8 @@ if (empty($model->seo_h1)) {
     $h1 = $model->seo_h1.$pagePart;
 }
 
-$this->params['seo_title'] = ($page == 1) ? $h1.' - купите по выгодной цене в интернет-магазине KSG.ru': $h1;
-$this->params['seo_description'] = ($page == 1) ? 'Спортивный интернет магазин KSG.ru предлагает купить '.strtolower($h1).' с доставкой по Москве и регионам России. В наличии '.$model->productCount.' моделей по цене от '.$minPrice.' рублей!' : $h1;
+$this->params['seo_title'] = $model->name.' - Официальный сайт дилера';
+$this->params['seo_description'] = 'Заказывайте товары из каталога '.$model->name.' по цене от '.number_format($minPrice, 0, '', ' ').' рублей в интернет-магазине KSG.ru. Доставка по Москве и регионам России.';
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
 
@@ -43,7 +43,9 @@ $presents = \common\models\Present::find()->all();
     <div class="container">
         <div class="infs__header"><h1><?=$model->name?></h1><?=($page == 1) ? "<span>({$model->productCount})</span>" : ''?></div>
         <?php if ($page == 1) {  ?>
-            <p class="infs__text"><?=$h1?> по цене от <?=number_format($minPrice, 0, '', ' ')?> руб.! Купите в интернет-магазине KSG.ru и  вы получите фирменную гарантию от производителя, поскольку мы являемся официальным дилером всех брендов представленных на сайте. Доставка по Москве и в регионы России.</p>
+            <p class="infs__text">
+                В каталоге представлены товары бренда <?=$model->name?> по цене от <?=number_format($minPrice, 0, '', ' ')?> рублей! Интернет-магазин KSG - официальный дилер <?=$model->name?> в России, покупая у нас вы получаете фирменную гарантию от производителя. Доставка по Москве и регионам РФ.
+            </p>
         <?php }  ?>
     </div>
     <?=$this->render('@frontend/views/catalog/_filter', [
