@@ -58,6 +58,7 @@ $presents = \common\models\Present::find()->all();
 
 <?=$this->render('@frontend/views/blocks/cats', [
     'inCategories' => $inCategories,
+    'childrenCategories' => [],
 ])?>
 
 <div class="catalog">
