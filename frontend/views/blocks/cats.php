@@ -32,7 +32,7 @@
                         $filename[1] = '';
                     }
 
-                    $active = (isset($_GET['cats']) && in_array($inCategory->id, explode(',', $_GET['cats']))) ? ' active' : '';
+                    $active = (isset($_GET['cats']) && $inCategory->id == $_GET['cats']) ? ' active' : '';
                     $unactive = '';
 
                     if (isset($_GET['cats'])) {

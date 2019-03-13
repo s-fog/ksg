@@ -25,7 +25,6 @@ $this->params['seo_description'] = ($page == 1) ? 'Спортивный инте
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
 
-
 $childrenCategories = $model->getChildrenCategories();
 $presents = \common\models\Present::find()->all();
 

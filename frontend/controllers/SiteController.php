@@ -337,6 +337,10 @@ class SiteController extends Controller
                             return $this->redirect(Url::to(['catalog/view', 'alias' => $product->alias]));
                         }
 
+                        if ($pp = ProductParam::findOne(['artikul' => $_GET['query']])) {
+                            return $this->redirect(Url::to(['catalog/view', 'alias' => $pp->product->alias]));
+                        }
+
                         $productsQuery = Product::find()
                             ->where(['like', 'name', $_GET['query']])
                             ->orderBy(['name' => SORT_ASC]);

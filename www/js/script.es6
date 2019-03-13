@@ -1376,6 +1376,11 @@ class Filter {
             let thisElement = $(event.currentTarget);
             let hasActive = false;
 
+            this.nodes.categoryFilter.each((index, element) => {
+                if ($(element).data('id') != thisElement.data('id')) {
+                    $(element).removeClass('active');
+                }
+            });
             thisElement.toggleClass('active');
             /*thisElement.removeClass('unactive');
 
