@@ -154,7 +154,7 @@ foreach($variants as $variant) {
                         <?php $filename = explode('.', basename($brand->image)); ?>
                         <img src="/images/thumbs/<?=$filename[0]?>-60-30.<?=$filename[1]?>" alt="<?=$model->name?>" class="product__brandImage">
                         <div class="product__brandText">
-                            Бренд: <a href="<?=$brand->link?>" class="link"><?=$brand->name?></a>
+                            Бренд: <a href="<?=$brand->url?>" class="link"><?=$brand->name?></a>
                         </div>
                     </div>
                     <?php foreach($selects as $name => $values) {
