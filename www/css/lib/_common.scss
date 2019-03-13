@@ -533,6 +533,7 @@ input, textarea {
   color: $darkColor;
   text-align: center;
   line-height: 1.2;
+  text-transform: uppercase;
   @include respond-to(500) {
     font-size: 36px;
   }
