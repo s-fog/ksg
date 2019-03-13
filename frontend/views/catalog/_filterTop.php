@@ -3,7 +3,7 @@
 $cookies = Yii::$app->request->cookies;
 
 ?>
-<div class="filterTrigger<?=(!empty($cookies->getValue('filter_showed'))) ? ' active' : ''?>">
+<div class="filterTrigger active">
     <div class="container">
         <ul class="filterTrigger__top breadcrumbs__inner">
             <li>

@@ -1369,6 +1369,7 @@ class Filter {
     _bindEvents() {
         this.nodes.filter.on('submit', () => {
             this.filterSubmit();
+            return false;
         });
 
         this.nodes.categoryFilter.on('click', (event) => {
