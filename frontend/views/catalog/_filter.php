@@ -45,12 +45,16 @@ $cookies = Yii::$app->request->cookies;
             <div class="filter__item filter__brands">
                 <div class="filter__priceText">Бренды:</div>
                 <select class="select-jquery-ui select-filter-brand" name="brand">
-                    <option value="0">Все</option>
-                    <?php foreach($filterBrands as $brand) { ?>
-                        <?php if (isset($_GET['brand']) && $_GET['brand'] == $brand['id']) { ?>
-                            <option value="<?=$brand['id']?>" selected><?=$brand['name']?></option>
-                        <?php } else { ?>
-                            <option value="<?=$brand['id']?>"><?=$brand['name']?></option>
+                    <?php if ($model::className() == 'common\models\Brand') { ?>
+                        <option value="<?=$model->id?>"><?=$model->name?></option>
+                    <?php } else { ?>
+                        <option value="0">Все</option>
+                        <?php foreach($filterBrands as $brand) { ?>
+                            <?php if (isset($_GET['brand']) && $_GET['brand'] == $brand['id']) { ?>
+                                <option value="<?=$brand['id']?>" selected><?=$brand['name']?></option>
+                            <?php } else { ?>
+                                <option value="<?=$brand['id']?>"><?=$brand['name']?></option>
+                            <?php } ?>
                         <?php } ?>
                     <?php } ?>
                 </select>
