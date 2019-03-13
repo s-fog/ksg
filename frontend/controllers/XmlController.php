@@ -28,10 +28,8 @@ class XmlController extends Controller
         ////////////////////////////////////////////////////////////////////////////////
         $wellFitness = simplexml_load_file('http://www.wellfitness.ru/system/storage/download/export.xml');
         $wellFitnessArray = [];
-        var_dump($wellFitness);
-        die();
 
-        foreach($wellFitness->diler_info->catalog->items->item as $offer) {
+        foreach($wellFitness->catalog->items->item as $offer) {
             $available = (int) $offer->QUANTITY;
             $artikul = (string) $offer->article;
             $price = (int) $offer->price;
