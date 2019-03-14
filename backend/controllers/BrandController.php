@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Sitemap;
 use backend\models\UploadFile;
 use common\models\Brand;
 use sfog\image\Image;
@@ -13,12 +14,6 @@ use yii\web\UploadedFile;
 */
 class BrandController extends \backend\controllers\base\BrandController
 {
-    public function actionFill() {
-        foreach(Brand::find()->all() as $brand) {
-            $brand->save();
-        }
-    }
-
     public function actionCreate()
     {
         $model = new Brand;
@@ -38,6 +33,7 @@ class BrandController extends \backend\controllers\base\BrandController
                     );
 
                     if ($model->save(false)) {
+                        Sitemap::doIt();
                         return $this->redirect(['index']);
                     }
                 }
@@ -77,6 +73,7 @@ class BrandController extends \backend\controllers\base\BrandController
                 }
 
                 if ($model->save(false)) {
+                    Sitemap::doIt();
                     return $this->redirect(['index']);
                 }
             }

@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use common\models\Brand;
 use common\models\Category;
 use common\models\News;
 use common\models\Product;
@@ -37,6 +38,19 @@ class Sitemap extends Model
         foreach(News::find()->orderBy(['created_at' => SORT_DESC])->all() as $model) {
             $url = $dom->createElement('url');
             $loc = $dom->createElement('loc', 'https://'.$_SERVER['HTTP_HOST'].$newsPageUrl.'/'.$model->alias);
+            $url->appendChild($loc);
+            $changefreq = $dom->createElement('changefreq', 'daily');
+            $url->appendChild($changefreq);
+            $priority = $dom->createElement('priority', 0.8);
+            $url->appendChild($priority);
+            $urlset->appendChild($url);
+        }
+
+        $brandsPageUrl = Textpage::findOne(2)->alias;
+
+        foreach(Brand::find()->orderBy(['name' => SORT_ASC])->all() as $model) {
+            $url = $dom->createElement('url');
+            $loc = $dom->createElement('loc', 'https://'.$_SERVER['HTTP_HOST'].'/'.$brandsPageUrl.'/'.$model->alias);
             $url->appendChild($loc);
             $changefreq = $dom->createElement('changefreq', 'daily');
             $url->appendChild($changefreq);
