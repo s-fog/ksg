@@ -27,7 +27,7 @@ class Xml extends Model
                         $currentArray[] = $ppArtikul;
 
                         if ($notAvailableIfExists) {
-                            //$pp->available = 0;
+                            $pp->available = 0;
                         }
 
                         $pp->save();
@@ -87,7 +87,7 @@ class Xml extends Model
                             $product->price = $item['price'];
                         }
 
-                        //$productParam->available = $available;
+                        $productParam->available = $available;
                     } else {
                         if ($product->price > $item['price']) {
                             $str .= "attention;$artikul; Есть цена ниже у {$supplier->name}\r\n";
