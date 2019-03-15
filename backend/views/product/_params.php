@@ -52,7 +52,10 @@ use yii\helpers\Html;
                             ?>
 
                             <?= $form->field($modelParams, "[{$i}]artikul")->textInput(['maxlength' => true]) ?>
-                            <?= $form->field($modelParams, "[{$i}]available")->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($modelParams, "[{$i}]available")->dropDownList([
+                                0 => 0,
+                                10 => 10,
+                            ]) ?>
                             <?= $form->field($modelParams, "[{$i}]image_number")->textInput(['maxlength' => true]) ?>
                             <?= $form->field($modelParams, "[{$i}]params")->widget(Select2::classname(), [
                                 'data' => Param::getList(),
