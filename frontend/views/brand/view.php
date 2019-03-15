@@ -20,8 +20,8 @@ if (empty($model->seo_h1)) {
     $h1 = $model->seo_h1.$pagePart;
 }
 
-$this->params['seo_title'] = $model->name.' - Официальный сайт дилера';
-$this->params['seo_description'] = 'Заказывайте товары из каталога '.$model->name.' по цене от '.number_format($minPrice, 0, '', ' ').' рублей в интернет-магазине KSG.ru. Доставка по Москве и регионам России.';
+$this->params['seo_title'] = ($page == 1) ? $h1.' - Официальный сайт дилера': $h1;
+$this->params['seo_description'] = ($page == 1) ? 'Заказывайте товары из каталога '.$model->name.' по цене от '.number_format($minPrice, 0, '', ' ').' рублей в интернет-магазине KSG.ru. Доставка по Москве и регионам России.' : $h1;
 $this->params['seo_keywords'] = $model->seo_keywords;
 $this->params['name'] = $model->name;
 
@@ -41,7 +41,7 @@ $presents = \common\models\Present::find()->all();
 
 <div class="infs">
     <div class="container">
-        <div class="infs__header"><h1><?=$model->name?></h1><?=($page == 1) ? "<span>({$model->productCount})</span>" : ''?></div>
+        <div class="infs__header"><h1><?=$h1?></h1><?=($page == 1) ? "<span>({$model->productCount})</span>" : ''?></div>
         <?php if ($page == 1) {  ?>
             <p class="infs__text">
                 В каталоге представлены товары бренда <?=$model->name?> по цене от <?=number_format($minPrice, 0, '', ' ')?> рублей! Интернет-магазин KSG - официальный дилер <?=$model->name?> в России, покупая у нас вы получаете фирменную гарантию от производителя. Доставка по Москве и регионам РФ.

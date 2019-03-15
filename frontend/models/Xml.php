@@ -43,6 +43,7 @@ class Xml extends Model
                 if ($productParam = ProductParam::findOne(['artikul' => $artikul])) {
                     $message = [];
                     $product = Product::findOne($productParam->product_id);
+                    
                     if (
                         $item['available'] === 'Отсутствует'
                         ||
