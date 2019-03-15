@@ -48,6 +48,10 @@ use yii\helpers\Html;
                             <?php
                                 if (! $modelParams->isNewRecord) {
                                     echo Html::activeHiddenInput($modelParams, "[{$i}]id");
+
+                                    if ($modelParams->available > 0) {
+                                        $modelParams->available = 10;
+                                    }
                                 }
                             ?>
 
