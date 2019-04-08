@@ -29,7 +29,7 @@ class UML extends Model
         $company = $dom->createElement('company', 'KSG Shop');
         $shop->appendChild($company);
 
-        $url = $dom->createElement('url', 'https://dev2.ksg.ru');
+        $url = $dom->createElement('url', 'https://ksg.ru');
         $shop->appendChild($url);
 
         $currencies = $dom->createElement('currencies');
