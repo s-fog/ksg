@@ -273,12 +273,22 @@ class CatalogController extends Controller
                 ->andWhere(['params' => $_POST['paramsv']])
                 ->one();
             $variants = [];
-            $cf = explode(' -> ', $currentVariant->params);
+            $currentVariantParamNames = [];
+
+            foreach(explode('|', $currentVariant->params) as $gt) {
+                $currentVariantParamNames[] = explode(' -> ', $gt)[0];
+            }
+
 
             foreach($model->productParams as $pp) {
                 $cfInner = explode(' -> ', $pp->params);
+                $paramNames = [];
 
-                if ($cf[0] == $cfInner[0]) {
+                foreach(explode('|', $pp->params) as $gt) {
+                    $paramNames[] = explode(' -> ', $gt)[0];
+                }
+
+                if (in_array($cfInner[0], $currentVariantParamNames)) {
                     $variants[] = $pp;
                 }
             }
