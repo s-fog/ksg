@@ -67,7 +67,8 @@ use yii\helpers\Html;
                                 'pluginOptions' => [
                                     'tags' => true,
                                     'tokenSeparators' => [',', ''],
-                                    'maximumInputLength' => 100
+                                    'maximumInputLength' => 100,
+                                    'maintainOrder' => false,
                                 ],
                             ]) ?>
                         </div>

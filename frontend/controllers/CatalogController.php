@@ -272,12 +272,22 @@ class CatalogController extends Controller
                 ->where(['product_id' => $model->id])
                 ->andWhere(['params' => $_POST['paramsv']])
                 ->one();
+            $variants = [];
+            $cf = explode(' -> ', $currentVariant->params);
+
+            foreach($model->productParams as $pp) {
+                $cfInner = explode(' -> ', $pp->params);
+
+                if ($cf[0] == $cfInner[0]) {
+                    $variants[] = $pp;
+                }
+            }
         } else {
             $currentVariant = $model->productParams[0];
+            $variants = $model->productParams;
         }
 
         $brand = Brand::findOne($model->brand_id);
-        $variants = $model->productParams;
         $adviser = Adviser::findOne($model->adviser_id);
         $features = [];
 
