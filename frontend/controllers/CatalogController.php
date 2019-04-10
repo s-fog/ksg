@@ -272,30 +272,34 @@ class CatalogController extends Controller
                 ->where(['product_id' => $model->id])
                 ->andWhere(['params' => $_POST['paramsv']])
                 ->one();
-            $variants = [];
+            $variants = $model->productParams;
+            /*$variants = [];
             $currentVariantParamNames = [];
 
-            foreach(explode('|', $currentVariant->params) as $gt) {
+            foreach($currentVariant->params as $gt) {
                 $currentVariantParamNames[] = explode(' -> ', $gt)[0];
             }
 
 
             foreach($model->productParams as $pp) {
-                $cfInner = explode(' -> ', $pp->params);
                 $paramNames = [];
 
-                foreach(explode('|', $pp->params) as $gt) {
+                foreach($pp->params as $gt) {
                     $paramNames[] = explode(' -> ', $gt)[0];
                 }
 
-                if (in_array($cfInner[0], $currentVariantParamNames)) {
-                    $variants[] = $pp;
+                foreach($paramNames as $pn) {
+                    if (in_array($pn, $currentVariantParamNames)) {
+                        $variants[] = $pp;
+                        break;
+                    }
                 }
-            }
+            }*/
         } else {
             $currentVariant = $model->productParams[0];
             $variants = $model->productParams;
         }
+
 
         $brand = Brand::findOne($model->brand_id);
         $adviser = Adviser::findOne($model->adviser_id);
@@ -331,7 +335,7 @@ class CatalogController extends Controller
                     if (!isset($selects[$name]) || !Product::in_array_in($value, $selects, $name)) {
                         $selects[$name][$i]['value'] = $value;
 
-                        if ($currentParams[$name] == $value) {
+                        if (isset($currentParams[$name]) && $currentParams[$name] == $value) {
                             $selects[$name][$i]['active'] = true;
                         } else {
                             $selects[$name][$i]['active'] = false;
