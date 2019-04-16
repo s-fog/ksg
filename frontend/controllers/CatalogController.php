@@ -5,6 +5,7 @@ use common\models\Adviser;
 use common\models\Brand;
 use common\models\Category;
 use common\models\FeatureValue;
+use common\models\Param;
 use common\models\Product;
 use common\models\ProductHasCategory;
 use common\models\ProductHasFilterFeatureValue;
@@ -248,6 +249,72 @@ class CatalogController extends Controller
 
     }
 
+    public function actionPopup() {
+        if (!empty($_POST)) {
+            $model = Product::findOne($_POST['id']);
+
+            if (!$model) {
+                throw new NotFoundHttpException();
+            }
+
+            $currentParamName = ($curP = Param::findOne($model->main_param))? $curP->name : '';
+
+            $currentVariant = ProductParam::find()
+                ->where(['product_id' => $model->id])
+                ->andWhere(['params' => $_POST['paramsv']])
+                ->one();
+
+            if (!$currentVariant) {
+                $val = '';
+
+                foreach(explode('|', $_POST['paramsv']) as $r) {
+                    $p = explode(' -> ', $r);
+
+                    if ($p[0] == $currentParamName) {
+                        $val = $r;
+                    }
+                }
+
+                $currentVariant = ProductParam::find()
+                    ->where(['product_id' => $model->id])
+                    ->andWhere(['LIKE', 'params', $val])
+                    ->orderBy('id')
+                    ->one();
+            }
+
+            $selectsAndDisabled = $model->getSelectsAndDisabled($currentVariant);
+            $selects = $selectsAndDisabled[0];
+            $disabled = $selectsAndDisabled[1];
+            $features = [];
+
+            foreach($model->features as $index => $feature) {
+                $features[$index]['feature'] = $feature;
+
+                foreach($feature->featurevalues as $i => $fv) {
+                    $features[$index]['values'][$i]['name'] = $fv->name;
+                    $features[$index]['values'][$i]['value'] = $fv->value;
+                }
+            }
+
+            $presents = \common\models\Present::find()->all();
+
+            $presentArtikul = '';
+            foreach($presents as $present) {
+                if ($model->price >= $present->min_price && $model->price <= $present->max_price) {
+                    $presentArtikul = explode(',', $present->product_artikul)[0];
+                }
+            }
+
+            return $this->renderPartial('_addToCartInner', [
+                'model' => $model,
+                'currentVariant' => $currentVariant,
+                'selects' => $selects,
+                'disabled' => $disabled,
+                'presentArtikul' => $presentArtikul
+            ]);
+        }
+    }
+
     public function actionView($alias)
     {
         City::setCity();
@@ -267,40 +334,37 @@ class CatalogController extends Controller
             throw new NotFoundHttpException;
         }
 
+
         if (isset($_POST['reload']) && $_POST['reload'] == 1) {
+            $currentParamName = ($curP = Param::findOne($model->main_param))? $curP->name : '';
+
             $currentVariant = ProductParam::find()
                 ->where(['product_id' => $model->id])
                 ->andWhere(['params' => $_POST['paramsv']])
                 ->one();
-            $variants = $model->productParams;
-            /*$variants = [];
-            $currentVariantParamNames = [];
 
-            foreach($currentVariant->params as $gt) {
-                $currentVariantParamNames[] = explode(' -> ', $gt)[0];
-            }
+            if (!$currentVariant) {
+                $val = '';
 
+                foreach(explode('|', $_POST['paramsv']) as $r) {
+                    $p = explode(' -> ', $r);
 
-            foreach($model->productParams as $pp) {
-                $paramNames = [];
-
-                foreach($pp->params as $gt) {
-                    $paramNames[] = explode(' -> ', $gt)[0];
-                }
-
-                foreach($paramNames as $pn) {
-                    if (in_array($pn, $currentVariantParamNames)) {
-                        $variants[] = $pp;
-                        break;
+                    if ($p[0] == $currentParamName) {
+                        $val = $r;
                     }
                 }
-            }*/
+
+                $currentVariant = ProductParam::find()
+                    ->where(['product_id' => $model->id])
+                    ->andWhere(['LIKE', 'params', $val])
+                    ->orderBy('id')
+                    ->one();
+            }
         } else {
             $currentVariant = $model->productParams[0];
-            $variants = $model->productParams;
         }
 
-
+        $variants = $model->productParams;
         $brand = Brand::findOne($model->brand_id);
         $adviser = Adviser::findOne($model->adviser_id);
         $features = [];
@@ -314,38 +378,10 @@ class CatalogController extends Controller
             }
         }
         ///////////////////////////////////////////////////////////////////////
-        $selects = [];
-        $i = 0;
-        $currentParams = [];
 
-        if ($currentVariant->params) {
-            foreach($currentVariant->params as $p) {
-                $name = explode(' -> ', $p)[0];
-                $value = explode(' -> ', $p)[1];
-                $currentParams[$name] = $value;
-            }
-        }
-
-        foreach($variants as $v) {
-            if ($v->params) {
-                foreach($v->params as $param) {
-                    $name = explode(' -> ', $param)[0];
-                    $value = explode(' -> ', $param)[1];
-
-                    if (!isset($selects[$name]) || !Product::in_array_in($value, $selects, $name)) {
-                        $selects[$name][$i]['value'] = $value;
-
-                        if (isset($currentParams[$name]) && $currentParams[$name] == $value) {
-                            $selects[$name][$i]['active'] = true;
-                        } else {
-                            $selects[$name][$i]['active'] = false;
-                        }
-
-                        $i++;
-                    }
-                }
-            }
-        }
+        $selectsAndDisabled = $model->getSelectsAndDisabled($currentVariant);
+        $selects = $selectsAndDisabled[0];
+        $disabled = $selectsAndDisabled[1];
 
         ///////////////////////////////////////////////////////////////////////
 
@@ -358,17 +394,25 @@ class CatalogController extends Controller
                 'selects' => $selects,
                 'adviser' => $adviser,
                 'features' => $features,
+                'disabled' => $disabled,
                 'pswHeight' => $_POST['pswHeight'],
             ]);
 
-            $addToCartView = $this->renderPartial('_addToCart', [
+            $presents = \common\models\Present::find()->all();
+
+            $presentArtikul = '';
+            foreach($presents as $present) {
+                if ($model->price >= $present->min_price && $model->price <= $present->max_price) {
+                    $presentArtikul = explode(',', $present->product_artikul)[0];
+                }
+            }
+
+            $addToCartView = $this->renderPartial('_addToCartInner', [
                 'model' => $model,
-                'brand' => $brand,
                 'currentVariant' => $currentVariant,
-                'variants' => $variants,
                 'selects' => $selects,
-                'adviser' => $adviser,
-                'features' => $features,
+                'disabled' => $disabled,
+                'presentArtikul' => $presentArtikul
             ]);
 
             return json_encode([$productView, $addToCartView]);
@@ -427,6 +471,7 @@ class CatalogController extends Controller
                 'currentVariant' => $currentVariant,
                 'variants' => $variants,
                 'selects' => $selects,
+                'disabled' => $disabled,
                 'adviser' => $adviser,
                 'features' => $features,
                 'accessories' => $accessories,

@@ -2,6 +2,7 @@
 use common\models\Build;
 use common\models\Mainpage;
 use common\models\Param;
+use common\models\Product;
 use frontend\models\Compare;
 use frontend\models\Favourite;
 
@@ -157,17 +158,24 @@ foreach($variants as $variant) {
                             Бренд: <a href="<?=$brand->url?>" class="link"><?=$brand->name?></a>
                         </div>
                     </div>
-                    <?php foreach($selects as $name => $values) {
+                    <?php
+                    foreach($selects as $name => $values) {
                         $param = Param::findOne(['name' => $name]);
                         ?>
                         <div class="product__select">
                             <span class="product__selectName"><?=$name?>:</span>
                             <div></div>
                             <select name="<?=$param->name_en?>" class="select-product-jquery-ui select-<?=$param->name_en?>-jquery-ui">
-                                <?php foreach($values as $value) {?>
-                                    <option
-                                        <?=($value['active']) ? 'selected' : ''?>
-                                        value="<?=$value['value']?>"><?=$value['value']?></option>
+                                <?php foreach($values as $value) { ?>
+                                    <?php if ($na = Product::checkDisabled($disabled, $name, $value)) { ?>
+                                        <option
+                                            disabled
+                                            value="<?=$value['value']?>"><?=$na?></option>
+                                    <?php } else { ?>
+                                        <option
+                                            <?=($value['active']) ? 'selected' : ''?>
+                                            value="<?=$value['value']?>"><?=$value['value']?></option>
+                                    <?php } ?>
                                 <?php } ?>
                             </select>
                         </div>

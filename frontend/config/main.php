@@ -91,6 +91,7 @@ return [
                 'cart/minicart' => 'cart/minicart',
                 'cart/reload-cart' => 'cart/reload-cart',
                 'brands/<alias>' => 'brand/view',
+                'catalog/popup' => 'catalog/popup',
                 'catalog/<alias>/<alias2>/<alias3>/<alias4>/<alias5>' => 'catalog/index',
                 'catalog/<alias>/<alias2>/<alias3>/<alias4>' => 'catalog/index',
                 'catalog/<alias>/<alias2>/<alias3>' => 'catalog/index',

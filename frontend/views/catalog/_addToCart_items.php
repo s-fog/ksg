@@ -2,40 +2,10 @@
 
 use common\models\Product;
 
-$currentParams = [];
-$selects = [];
-$variants = $model->productParams;
-$currentVariant = $variants[0];
-$i = 0;
-
-if ($currentVariant->params) {
-    foreach($currentVariant->params as $p) {
-        $name = explode(' -> ', $p)[0];
-        $value = explode(' -> ', $p)[1];
-        $currentParams[$name] = $value;
-    }
-}
-
-foreach($variants as $v) {
-    if ($v->params) {
-        foreach($v->params as $param) {
-            $name = explode(' -> ', $param)[0];
-            $value = explode(' -> ', $param)[1];
-
-            if (!isset($selects[$name]) || !Product::in_array_in($value, $selects, $name)) {
-                $selects[$name][$i]['value'] = $value;
-
-                if ($currentParams[$name] == $value) {
-                    $selects[$name][$i]['active'] = true;
-                } else {
-                    $selects[$name][$i]['active'] = false;
-                }
-
-                $i++;
-            }
-        }
-    }
-}
+$currentVariant = $model->productParams[0];
+$selectsAndDisabled = $model->getSelectsAndDisabled($currentVariant);
+$selects = $selectsAndDisabled[0];
+$disabled = $selectsAndDisabled[1];
 
 $presentArtikul = '';
 foreach($presents as $present) {
@@ -48,6 +18,7 @@ echo $this->render('_addToCart', [
     'model' => $model,
     'currentVariant' => $currentVariant,
     'selects' => $selects,
+    'disabled' => $disabled,
     'popupId' => 'addToCart'.$model->id,
     'presentArtikul' => $presentArtikul
 ]);

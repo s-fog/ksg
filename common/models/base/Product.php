@@ -112,6 +112,7 @@ abstract class Product extends \yii\db\ActiveRecord
             'sort_order' => 'Sort Order',
             'popular' => 'Popular',
             'present_image' => 'Изображение, если этот товар подарок(39x50)',
+            'main_param' => 'Главный параметр',
         ];
     }
 

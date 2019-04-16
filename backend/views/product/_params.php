@@ -9,6 +9,20 @@ use unclead\multipleinput\MultipleInput;
 use yii\helpers\Html;
 
 ?>
+<br>
+<?php
+$params = ['' => 'Не указано'];
+$par = Param::find()->orderBy(['name' => SORT_ASC])->asArray()->all();
+
+foreach($par as $tye) {
+    $params[$tye['id']] = $tye['name'];
+}
+
+echo $form->field($model, 'main_param')->widget(Select2::classname(), [
+    'data' => $params
+]);
+
+?>
 <?php DynamicFormWidget::begin([
     'widgetContainer' => 'dynamicform_wrapper_params', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
     'widgetBody' => '.container-params', // required: css class selector

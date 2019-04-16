@@ -61,6 +61,7 @@ class Product extends BaseProduct implements CartPositionInterface
             [['name', 'hit', 'parent_id', 'brand_id', 'supplier', 'price', 'currency_id', 'description', 'disallow_xml'], 'required'],
             [['hit', 'parent_id', 'brand_id', 'supplier', 'price', 'price_old', 'currency_id', 'adviser_id', 'sort_order', 'popular'], 'integer'],
             [['description', 'adviser_text', 'seo_description'], 'string'],
+            [['main_param'], 'integer'],
             [['name', 'alias', 'code', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255],
             [['code', 'alias'], 'unique'],
             [['parent_id'], 'compare', 'compareValue' => 0, 'operator' => '!=', 'type' => 'number'],
@@ -370,7 +371,7 @@ class Product extends BaseProduct implements CartPositionInterface
 
     public function getProductParams() {
         return $this->hasMany(ProductParam::className(), ['product_id' => 'id'])
-            ->orderBy([ProductParam::tableName().'.id' => SORT_ASC]);
+            ->orderBy([ProductParam::tableName().'.available' => SORT_DESC, ProductParam::tableName().'.id' => SORT_ASC]);
     }
 
     public function getParent() {
@@ -406,5 +407,101 @@ class Product extends BaseProduct implements CartPositionInterface
                 throw new NotFoundHttpException;
             }
         }
+    }
+
+
+
+
+    public static function checkDisabled($disabled, $name, $value) {
+        $return = false;
+
+        foreach($disabled as $n => $values) {
+            if ($n == $name) {
+                foreach($values as $v) {
+                    if (strstr($v, $value['value'])) {
+                        $return = $v;
+                    }
+                }
+            }
+        }
+
+        return $return;
+    }
+
+    public function getSelectsAndDisabled($currentVariant) {
+        $selects = [];
+        $i = 0;
+        $currentParams = [];
+        $currentParamName = ($curP = Param::findOne($this->main_param))? $curP->name : '';
+        $currentParamValue = '';
+        $currentParamParams = [];
+        $disabled = [];
+
+        if ($currentVariant->params) {
+            foreach($currentVariant->params as $p) {
+                $name = explode(' -> ', $p)[0];
+                $value = explode(' -> ', $p)[1];
+                $currentParams[$name] = $value;
+
+                if ($name == $currentParamName) {
+                    $currentParamValue = $value;
+                }
+            }
+        }
+
+        foreach($this->productParams as $index => $v) {
+            if ($v->params) {
+
+                foreach($v->params as $param) {
+                    $name = explode(' -> ', $param)[0];
+                    $value = explode(' -> ', $param)[1];
+
+                    if ($name == $currentParamName && $value == $currentParamValue) {
+                        foreach ($v->params as $paramInner) {
+                            $nameInner = explode(' -> ', $paramInner)[0];
+                            $valueInner = explode(' -> ', $paramInner)[1];
+                            $currentParamParams[$nameInner][] = $valueInner;
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach($this->productParams as $index => $v) {
+            if ($v->params) {
+
+                foreach($v->params as $param) {
+                    $name = explode(' -> ', $param)[0];
+                    $value = explode(' -> ', $param)[1];
+
+                    if (!isset($selects[$name]) || !Product::in_array_in($value, $selects, $name)) {
+                        $selects[$name][$i]['value'] = $value;
+
+                        if (isset($currentParams[$name]) && $currentParams[$name] == $value) {
+                            $selects[$name][$i]['active'] = true;
+                        } else {
+                            $selects[$name][$i]['active'] = false;
+                        }
+
+                        $i++;
+                    }
+
+                    if ($name == $currentParamName && $value != $currentParamValue) {
+                        foreach ($v->params as $paramInner) {
+                            $nameInner = explode(' -> ', $paramInner)[0];
+                            $valueInner = explode(' -> ', $paramInner)[1];
+
+                            if (array_key_exists($nameInner, $currentParamParams) && $nameInner != $currentParamName) {
+                                if (!in_array($valueInner, $currentParamParams[$nameInner])) {
+                                    $disabled[$nameInner][] = $valueInner.' ('.$name.' - '.$value.')';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return [$selects, $disabled];
     }
 }
