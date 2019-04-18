@@ -10,11 +10,10 @@ $inCompare = Compare::inCompare($model->id);
 $inFavourite = Favourite::inFavourite($model->id);
 $presents = $model->getPresents();
 $mainpage = Mainpage::findOne(1);
-$empty = true;
-foreach($variants as $variant) {
-    if ($variant->available > 0) {
-        $empty = false;
-    }
+$empty = false;
+
+if ($currentVariant->available == 0) {
+    $empty = true;
 }
 ?>
 

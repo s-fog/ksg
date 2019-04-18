@@ -3,6 +3,12 @@ use common\models\Param;
 use common\models\Product;
 use yii\helpers\Url;
 
+$empty = false;
+
+if ($currentVariant->available == 0) {
+    $empty = true;
+}
+
 ?>
 <div class="addToCart">
     <div class="addToCart__beforeHeader">Добавить в корзину</div>
@@ -50,7 +56,7 @@ use yii\helpers\Url;
         <div class="addToCart__bottomTop">
             <button class="button button222 addToCart__tocart">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 34"><g><polygon points="7.07 0 0 7.07 0 34 211.93 34 219 26.93 219 0 7.07 0"></polygon></g></svg>
-                <span>Добавить в корзину</span>
+                <span><?=$empty ? 'Предзаказ' : 'Добавить в корзину'?></span>
             </button>
         </div>
         <div class="addToCart__bottomBottom">

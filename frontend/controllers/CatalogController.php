@@ -334,7 +334,6 @@ class CatalogController extends Controller
             throw new NotFoundHttpException;
         }
 
-
         if (isset($_POST['reload']) && $_POST['reload'] == 1) {
             $currentParamName = ($curP = Param::findOne($model->main_param))? $curP->name : '';
 
