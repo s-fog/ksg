@@ -25,7 +25,7 @@ class Filter
                 if (!empty($match)) {
                     $a1 = (int) $match[1];//$filterFeature->id
                     $a2 = (int) $match[2];//$filterFeatureValue->id
-                    $filterFeaturesValue[] = $a2;
+                    $filterFeaturesValue[] = ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id = '.$a2;
                 }
                 ////////////////////////////////////////////////////////////////////
                 if ($index == 'cats') {
@@ -39,7 +39,7 @@ class Filter
 
         if (!empty($filterFeaturesValue)) {
             $query->joinWith(['productHasFilterFeatureValue'])
-                ->andWhere(['IN', ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id', $filterFeaturesValue]);
+                ->andWhere(explode(' AND ', $filterFeaturesValue));
         }
 
         if (isset($get['brand'])) {
