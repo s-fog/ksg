@@ -18,7 +18,7 @@ class Filter
             $priceFrom = (int) str_replace(' ', '', $_GET['priceFrom']);
             $priceTo = (int) str_replace(' ', '', $_GET['priceTo']);
             
-            foreach($_GET as $index => $value) {
+            foreach($get as $index => $value) {
                 ////////////////////////////////////////////////////////////////////
                 preg_match('#^feature(.+)_(.+)$#siU', $index, $match);
 
@@ -39,7 +39,7 @@ class Filter
 
         if (!empty($filterFeaturesValue)) {
             $query->joinWith(['productHasFilterFeatureValue'])
-                ->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $filterFeaturesValue]);
+                ->andWhere(['IN', ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id', $filterFeaturesValue]);
         }
 
         if (isset($get['brand'])) {
