@@ -7,6 +7,7 @@ use common\models\FilterFeatureValue;
 use common\models\Product;
 use common\models\ProductHasFilterFeatureValue;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class Filter
 {
@@ -15,31 +16,39 @@ class Filter
         $filterBrandsIds = [];
 
         if (isset($get['priceFrom']) && isset($get['priceTo'])) {
-            $priceFrom = (int) str_replace(' ', '', $_GET['priceFrom']);
-            $priceTo = (int) str_replace(' ', '', $_GET['priceTo']);
-            
+            $priceFrom = (int) str_replace(' ', '', $get['priceFrom']);
+            $priceTo = (int) str_replace(' ', '', $get['priceTo']);
+            unset($get['priceFrom']);
+            unset($get['priceTo']);
+            $featuresOn = false;
+
             foreach($get as $index => $value) {
-                ////////////////////////////////////////////////////////////////////
                 preg_match('#^feature(.+)_(.+)$#siU', $index, $match);
 
                 if (!empty($match)) {
+                    $featuresOn = true;
                     $a1 = (int) $match[1];//$filterFeature->id
                     $a2 = (int) $match[2];//$filterFeatureValue->id
-                    $query->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $a2]);
                     $filterFeaturesValue[] = $a2;
                 }
-                ////////////////////////////////////////////////////////////////////
+
                 if ($index == 'cats') {
                     $query->andWhere([Product::tableName().'.parent_id' => explode(',', $value)]);
                 }
             }
+
+            if ($featuresOn) {
+                $fQuery = ProductHasFilterFeatureValue::find()
+                    ->select('product_id, COUNT( * ) AS c')
+                    ->where(['IN', 'filter_feature_value_id', $filterFeaturesValue])
+                    ->having(['c' => count($filterFeaturesValue)]);
+                $query->andWhere([Product::tableName().'.id' => ArrayHelper::getColumn($fQuery->asArray->all(), 'product_id')]);
+            }
+
+
         } else {
             $priceFrom = 0;
             $priceTo = 100000000;
-        }
-
-        if (!empty($filterFeaturesValue)) {
-            $query->joinWith(['productHasFilterFeatureValue']);
         }
 
         if (isset($get['brand'])) {
