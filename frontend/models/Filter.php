@@ -25,6 +25,7 @@ class Filter
                 if (!empty($match)) {
                     $a1 = (int) $match[1];//$filterFeature->id
                     $a2 = (int) $match[2];//$filterFeatureValue->id
+                    $query->joinWith(['productHasFilterFeatureValue']);
                     $query->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $a2]);
                     //$filterFeaturesValue[] = ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id = '.$a2;
                 }
