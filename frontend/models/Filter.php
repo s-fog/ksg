@@ -39,7 +39,7 @@ class Filter
 
         if (!empty($filterFeaturesValue)) {
             $query->joinWith(['productHasFilterFeatureValue'])
-                ->andWhere(explode(' AND ', $filterFeaturesValue));
+                ->andWhere(implode(' AND ', $filterFeaturesValue));
         }
 
         if (isset($get['brand'])) {
