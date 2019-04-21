@@ -42,7 +42,7 @@ class Filter
                     ->select('product_id, COUNT( * ) AS c')
                     ->where(['IN', 'filter_feature_value_id', $filterFeaturesValue])
                     ->having(['c' => count($filterFeaturesValue)]);
-                $query->andWhere([Product::tableName().'.id' => ArrayHelper::getColumn($fQuery->asArray->all(), 'product_id')]);
+                $query->andWhere([Product::tableName().'.id' => ArrayHelper::getColumn($fQuery->asArray()->all(), 'product_id')]);
             }
 
 
