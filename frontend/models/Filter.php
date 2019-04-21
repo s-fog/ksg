@@ -25,9 +25,8 @@ class Filter
                 if (!empty($match)) {
                     $a1 = (int) $match[1];//$filterFeature->id
                     $a2 = (int) $match[2];//$filterFeatureValue->id
-                    $query->joinWith(['productHasFilterFeatureValue']);
                     $query->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $a2]);
-                    //$filterFeaturesValue[] = ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id = '.$a2;
+                    $filterFeaturesValue[] = $a2;
                 }
                 ////////////////////////////////////////////////////////////////////
                 if ($index == 'cats') {
@@ -39,10 +38,9 @@ class Filter
             $priceTo = 100000000;
         }
 
-        /*if (!empty($filterFeaturesValue)) {
-            $query->joinWith(['productHasFilterFeatureValue'])
-                ->andWhere(implode(' AND ', $filterFeaturesValue));
-        }*/
+        if (!empty($filterFeaturesValue)) {
+            $query->joinWith(['productHasFilterFeatureValue']);
+        }
 
         if (isset($get['brand'])) {
             if ($get['brand'] != 0) {
