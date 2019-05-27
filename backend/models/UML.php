@@ -176,15 +176,14 @@ class UML extends Model
                     $promo = $dom->createElement('promo');
 
                     $id = $dom->createAttribute('id');
-                    $id->value = $present->id;
-                    $id->value = 'PromoGift';
+                    $id->value = 'PromoGift'.$present->id;
                     $promo->appendChild($id);
 
                     $type = $dom->createAttribute('type');
                     $type->value = 'gift with purchase';
                     $promo->appendChild($type);
 
-                    $promoDescription = $dom->createElement('description', 'Получи мяч в подарок!');
+                    $promoDescription = $dom->createElement('description', 'Подарок!');
                     $promo->appendChild($promoDescription);
 
                     $purchase = $dom->createElement('purchase');
