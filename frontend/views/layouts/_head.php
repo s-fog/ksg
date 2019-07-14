@@ -24,3 +24,4 @@ use yii\helpers\Html;
     <!-- End Google Tag Manager -->
 
 <?php $this->head() ?>
+</head>

@@ -31,6 +31,7 @@ if (!isset($favourite)) {
 $inCompare = Compare::inCompare($model->id);
 $inFavourite = Favourite::inFavourite($model->id);
 
+
 ?>
 <div class="catalog__item" data-id="<?=$model->id?>">
     <div class="catalog__itemTop">
