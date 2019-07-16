@@ -42,7 +42,7 @@ class ChangerForm extends \yii\db\ActiveRecord
     public function changePrices() {
         $products = Product::find()
             ->joinWith(['supplier', 'brand'])
-            ->andWhere(['>=', 'updated_at', time() - 172800])
+            ->andWhere(['>=', Changer::tableName().'.updated_at', time() - 172800])
             ->andWhere(['>=', 'price', $this->price_from])
             ->andWhere(['<=', 'price', $this->price_to]);
 
