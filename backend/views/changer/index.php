@@ -2,9 +2,11 @@
 
 use common\models\base\ChangerForm;
 use common\models\Brand;
+use common\models\Product;
 use common\models\Supplier;
 use kartik\widgets\Select2;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 
 /**
  * @var yii\web\View $this
@@ -85,7 +87,19 @@ if ($changerForm->count > 0) {
                         } else {
                             return '<span style="color: red;">Этот товар был удален</span>';
                         }
-                    }
+                    },
+                    'filter' => Select2::widget([
+                        'model' => $searchModel,
+                        'attribute' => 'product_id',
+                        'data' => ArrayHelper::map(Product::find()->orderBy('name')->all(), 'id', 'name'),
+                        'options' => [
+                            'placeholder' => 'Начните набирать ...',
+                            'multiple' => false,
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]),
                 ],
                 [
                     'attribute' => 'supplier_id',
@@ -95,7 +109,19 @@ if ($changerForm->count > 0) {
                         } else {
                             return '<span style="color: red;">Этот поставщик был удален</span>';
                         }
-                    }
+                    },
+                    'filter' => Select2::widget([
+                        'model' => $searchModel,
+                        'attribute' => 'supplier_id',
+                        'data' => ArrayHelper::map(Supplier::find()->orderBy('name')->all(), 'id', 'name'),
+                        'options' => [
+                            'placeholder' => 'Начните набирать ...',
+                            'multiple' => false,
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]),
                 ],
                 [
                     'attribute' => 'brand_id',
@@ -105,7 +131,19 @@ if ($changerForm->count > 0) {
                         } else {
                             return '<span style="color: red;">Этот бренд был удален</span>';
                         }
-                    }
+                    },
+                    'filter' => Select2::widget([
+                        'model' => $searchModel,
+                        'attribute' => 'brand_id',
+                        'data' => ArrayHelper::map(Brand::find()->orderBy('name')->all(), 'id', 'name'),
+                        'options' => [
+                            'placeholder' => 'Начните набирать ...',
+                            'multiple' => false,
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]),
                 ],
                 'old_price',
                 'new_price',

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use backend\models\ChangerForm;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -64,7 +65,7 @@ class ChangerSearch extends Changer
                     'new_price' => $this->new_price,
                     'percent' => $this->percent,
                     'supplier_id' => $this->supplier_id,
-                    'brand_id' => $this->brand_id,
+                    Changer::tableName().'.brand_id' => $this->brand_id,
                 ]);
 
                 return $dataProvider;
