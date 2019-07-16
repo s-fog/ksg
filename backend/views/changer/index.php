@@ -7,6 +7,7 @@ use common\models\Supplier;
 use kartik\widgets\Select2;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
@@ -25,9 +26,13 @@ foreach(Supplier::find()->orderBy('name')->all() as $item) {
 foreach(Brand::find()->orderBy('name')->all() as $item) {
     $brands[$item->id] = $item->name;
 }
-$form = new \yii\widgets\ActiveForm();
-$form->begin();
-?>
+
+$form = ActiveForm::begin([
+    'options' => [
+        'class' => 'popup callback sendForm',
+        'id' => 'callback'
+    ],
+]);?>
 <div class="row">
     <div class="col-sm-3">
         <?=$form->field($changerForm, 'supplier_id')->widget(Select2::classname(), [
@@ -59,9 +64,12 @@ $form->begin();
 </div>
 <button type="submit" class="btn btn-primary">Понеслась</button>
 <?php
-$form->end();
+ActiveForm::end();
+
 if ($changerForm->count > 0) {
     echo '<p style="font-weight: bold;font-size: 1.2em;">Было изменение следующее кол-во товаров - '.$changerForm->count.' шт.</p>';
+} else {
+    echo '<p style="font-weight: bold;font-size: 1.2em;">Товаров не было найдено по заданным параметрам</p>';
 }
 ?>
 <div class="giiant-crud changer-index">

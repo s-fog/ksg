@@ -9,8 +9,9 @@ use common\models\Changer;
 use common\models\Product;
 use common\models\Supplier;
 use Yii;
+use yii\base\Model;
 
-class ChangerForm extends \yii\db\ActiveRecord
+class ChangerForm extends Model
 {
     public $supplier_id;
     public $brand_id;
@@ -33,7 +34,7 @@ class ChangerForm extends \yii\db\ActiveRecord
         return [
             'price_from' => 'Цена от',
             'price_to' => 'Цена до',
-            'percent' => 'Процент(например, 1 или 101)',
+            'percent' => 'Процент(например, -10 или 10)',
             'supplier_id' => 'Поставщик',
             'brand_id' => 'Бренд',
         ];
