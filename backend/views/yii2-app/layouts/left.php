@@ -74,6 +74,10 @@ $ordersTemplate = '<a href="{url}">
                             ['label' => 'Текстовые страницы', 'url' => ['/textpage/index']],
                         ]
                     ],
+                    [
+                        'label' => 'Логи изменений',
+                        'url' => ['/changer/index']
+                    ],
                 ],
             ]
         ) ?>
