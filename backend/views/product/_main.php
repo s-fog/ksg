@@ -82,6 +82,8 @@ foreach(ArrayHelper::map(Brand::find()->orderBy(['name' => SORT_ASC])->all(), 'i
     $brands[$id] = $name;
 }
 ?>
+<?= $form->field($model, 'mmodel')->dropDownList($brands) ?>
+
 <?= $form->field($model, 'brand_id')->dropDownList($brands) ?>
 
 <!-- attribute supplier -->
