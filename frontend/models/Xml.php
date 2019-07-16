@@ -43,6 +43,7 @@ class Xml extends Model
                 if ($productParam = ProductParam::findOne(['artikul' => $artikul])) {
                     $message = [];
                     $product = Product::findOne($productParam->product_id);
+                    $old_price = $product->price;
                     
                     if (
                         $item['available'] === 'Отсутствует'
@@ -99,6 +100,10 @@ class Xml extends Model
                             $str .= "attention;$artikul; У {$supplier->name} товар есть в наличии\r\n";
                             $this->sendMessage("Для $artikul у {$supplier->name} товар есть в наличии", '');
                         }
+                    }
+
+                    if ($product->price > $old_price) {
+                        $product->price_old = $old_price;
                     }
 
                     if ($product->save() && $productParam->save()) {

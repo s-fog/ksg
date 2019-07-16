@@ -62,12 +62,45 @@ class Product extends BaseProduct implements CartPositionInterface
             [['hit', 'parent_id', 'brand_id', 'supplier', 'price', 'price_old', 'currency_id', 'adviser_id', 'sort_order', 'popular'], 'integer'],
             [['description', 'adviser_text', 'seo_description'], 'string'],
             [['main_param'], 'integer'],
-            [['name', 'alias', 'code', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords'], 'string', 'max' => 255],
+            [['name', 'alias', 'code', 'video', 'disallow_xml', 'seo_h1', 'seo_title', 'seo_keywords', 'mmodel'], 'string', 'max' => 255],
             [['code', 'alias'], 'unique'],
             [['parent_id'], 'compare', 'compareValue' => 0, 'operator' => '!=', 'type' => 'number'],
             [['instruction'], 'file'],
             [['present_image'], 'image', 'maxSize' => 1000000,  'minWidth' => 39, 'minHeight' => 50, 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\Category::className(), 'targetAttribute' => ['parent_id' => 'id'], 'message' => 'Нельзя удалить категорию, в ней есть товары']
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'name' => 'Название',
+            'alias' => 'Урл',
+            'code' => 'Сгенерированный код товара',
+            'hit' => 'Хит продаж?',
+            'parent_id' => 'Выберите родительскую категорию',
+            'brand_id' => 'Бренд',
+            'supplier' => 'Поставщик',
+            'price' => 'Цена',
+            'price_old' => 'Старая цена',
+            'currency_id' => 'Валюта',
+            'description' => 'Описание товара',
+            'adviser_id' => 'Советчик',
+            'adviser_text' => 'Текст советчика',
+            'instruction' => 'Инструкция к товару',
+            'video' => 'id видео на youtube',
+            'disallow_xml' => 'Запретить выгрузку в xml?',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'seo_h1' => 'Seo H1',
+            'seo_title' => 'Seo Title',
+            'seo_keywords' => 'Seo Keywords',
+            'seo_description' => 'Seo Description',
+            'sort_order' => 'Sort Order',
+            'popular' => 'Popular',
+            'present_image' => 'Изображение, если этот товар подарок(39x50)',
+            'mmodel' => 'Модель (поле для Яндекс)',
         ];
     }
 
