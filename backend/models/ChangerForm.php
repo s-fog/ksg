@@ -8,6 +8,7 @@ namespace backend\models;
 use common\models\Changer;
 use common\models\Product;
 use common\models\Supplier;
+use frontend\models\Xml;
 use Yii;
 use yii\base\Model;
 
@@ -84,5 +85,7 @@ class ChangerForm extends Model
                 }
             }
         }
+
+        Xml::parseAll();
     }
 }

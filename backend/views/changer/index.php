@@ -68,6 +68,10 @@ ActiveForm::end();
 
 if ($changerForm->count > 0) {
     echo '<p style="font-weight: bold;font-size: 1.2em;">Было изменение следующее кол-во товаров - '.$changerForm->count.' шт.</p>';
+    /*$script = <<< JS
+    $.post('/xml/import', '');
+JS;
+    $this->registerJs($script);*/
 } else {
     echo '<p style="font-weight: bold;font-size: 1.2em;">Товаров не было найдено по заданным параметрам</p>';
 }
