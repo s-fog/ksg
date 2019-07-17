@@ -47,11 +47,11 @@ class ChangerForm extends Model
             ->andWhere(['>=', 'price', $this->price_from])
             ->andWhere(['<=', 'price', $this->price_to]);
 
-        if ($this->supplier_id !== 0) {
+        if ($this->supplier_id > 0) {
             $products->andWhere(['supplier' => $this->supplier_id]);
         }
 
-        if ($this->brand_id !== 0) {
+        if ($this->brand_id > 0) {
             $products->andWhere(['brand_id' => $this->brand_id]);
         }
 
@@ -60,6 +60,12 @@ class ChangerForm extends Model
         foreach($products->all() as $product) {
             $oldPrice = $product->price;
             $product->price = ceil($product->price * $k);
+
+            if ($product->price > $oldPrice) {
+                $product->price_old = $oldPrice;
+            } else {
+                $product->price_old = NULL;
+            }
             
             if ($product->save()) {
                 $changer = new Changer();
@@ -69,6 +75,7 @@ class ChangerForm extends Model
                 $changer->percent = (float) $this->percent;
                 $changer->supplier_id = $this->supplier_id;
                 $changer->brand_id = $this->brand_id;
+
                 
                 if ($changer->save()) {
                     $this->count++;

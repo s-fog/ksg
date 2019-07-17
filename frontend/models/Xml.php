@@ -104,6 +104,8 @@ class Xml extends Model
 
                     if ($product->price > $old_price) {
                         $product->price_old = $old_price;
+                    } else {
+                        $product->price_old = NULL;
                     }
 
                     if ($product->save() && $productParam->save()) {
