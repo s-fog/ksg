@@ -86,6 +86,6 @@ class ChangerForm extends Model
             }
         }
 
-        Xml::parseAll();
+        UML::doIt();
     }
 }
