@@ -108,6 +108,8 @@ class Xml extends Model
                         $product->price_old = NULL;
                     }
 
+                    $product->updated_at = time();
+
                     if ($product->save() && $productParam->save()) {
                         $message[] = 'Всё сохранено успешно';
                     } else {
