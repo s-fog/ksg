@@ -63,6 +63,7 @@ abstract class Product extends \yii\db\ActiveRecord
             ],
             [
                 'class' => TimestampBehavior::className(),
+                'preserveNonEmptyValues' => true,
             ],
         ];
     }
