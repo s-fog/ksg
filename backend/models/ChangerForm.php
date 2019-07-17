@@ -66,6 +66,8 @@ class ChangerForm extends Model
             } else {
                 $product->price_old = NULL;
             }
+
+            $product->updated_at = time();
             
             if ($product->save()) {
                 $changer = new Changer();

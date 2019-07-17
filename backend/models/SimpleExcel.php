@@ -91,6 +91,7 @@ class SimpleExcel extends Model
                 if ($pp = ProductParam::findOne(['artikul' => $artikul])) {
                     $product = Product::findOne($pp->product_id);
                     $product->price = $price;
+                    $product->updated_at = time();
                     $product->save();
 
                     $pp->available = $available;
