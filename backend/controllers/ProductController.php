@@ -457,6 +457,7 @@ class ProductController extends \backend\controllers\base\ProductController
                 }
 
                 $transaction = \Yii::$app->db->beginTransaction();
+                $model->updated_at = time();
 
                 try {
                     if ($flag = $model->save(false)) {
