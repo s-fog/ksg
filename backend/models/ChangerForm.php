@@ -62,7 +62,7 @@ class ChangerForm extends Model
             $oldPrice = $product->price;
             $product->price = ceil($product->price * $k);
 
-            if ($product->price > $oldPrice) {
+            if ($product->price < $oldPrice) {
                 $product->price_old = $oldPrice;
             } else {
                 $product->price_old = NULL;
