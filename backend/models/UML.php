@@ -116,7 +116,7 @@ class UML extends Model
             $offer->appendChild($price);
 
             if (!empty($product->price_old)) {
-                $oldprice = $dom->createElement('oldprice', $product->price_old);
+                $oldprice = $dom->createElement('oldprice', htmlspecialchars($product->price_old));
                 $offer->appendChild($oldprice);
             }
 
@@ -207,8 +207,7 @@ class UML extends Model
 
                     $promo_gifts = $dom->createElement('promo-gifts');
                     foreach($artikuls as $artikul) {
-                        if ($presentP = ProductParam::findOne(['artikul' => $artikul])
-                            ->product) {
+                        if ($presentP = ProductParam::findOne(['artikul' => $artikul])->product) {
                             $promo_gift = $dom->createElement('promo-gift');
                             $offer_id = $dom->createAttribute('offer-id');
                             $offer_id->value = $presentP->id;
@@ -227,6 +226,6 @@ class UML extends Model
 
         $yml_catalog->appendChild($shop);
         $dom->appendChild($yml_catalog);
-        $dom->save(Yii::getAlias('@www').'/yml.xml');
+        return $dom->save(Yii::getAlias('@www').'/yml.xml');
     }
 }
