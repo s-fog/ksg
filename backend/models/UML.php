@@ -121,7 +121,7 @@ class UML extends Model
             }
 
             if (!empty($product->mmodel)) {
-                $mmodel = $dom->createElement('model', $product->mmodel);
+                $mmodel = $dom->createElement('model', htmlspecialchars($product->mmodel));
                 $offer->appendChild($mmodel);
             }
 
