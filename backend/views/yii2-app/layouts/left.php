@@ -78,6 +78,10 @@ $ordersTemplate = '<a href="{url}">
                         'label' => 'Логи изменений',
                         'url' => ['/changer/index']
                     ],
+                    [
+                        'label' => 'Опросы',
+                        'url' => ['/survey/index']
+                    ],
                 ],
             ]
         ) ?>

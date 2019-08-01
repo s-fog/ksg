@@ -15,7 +15,7 @@ return [
         'assetsAutoCompress' =>
             [
                 'class'                         => '\skeeks\yii2\assetsAuto\AssetsAutoCompressComponent',
-                'enabled'                       => true,
+                'enabled'                       => false,
 
                 'readFileTimeout'               => 3,           //Time in seconds for reading each asset file
 
@@ -57,11 +57,14 @@ return [
             'name' => 'advanced-frontend',
         ],
         'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'traceLevel' => 0,
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error'],
+                    'except' => [
+                        'yii\web\HttpException:404',
+                    ],
                 ],
             ],
         ],
@@ -99,6 +102,7 @@ return [
                 'catalog/<alias>' => 'catalog/index',
                 'catalog' => 'catalog/index',
                 'product/<alias>' => 'catalog/view',
+                '<alias>/<alias2>/<step:\d+>' => 'site/index',
                 '<alias>/<alias2>' => 'site/index',
                 '<alias>' => 'site/index',
             ],

@@ -7336,3 +7336,352 @@ body.fancybox-active {
     }
   }
 }
+
+.survey {
+
+  &__header {
+    margin: 40px 0;
+    @extend .heavyCaps;
+    font-size: 21px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  &__video {
+    position: relative;
+  }
+
+  &__videoBg {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 20px;
+    z-index: -1;
+    width: 100%;
+    height: 80%;
+    background-color: #f0f2f7;
+  }
+
+  &__iframe {
+    margin: 0 auto 20px;
+    width: 640px;
+    height: 360px;
+    @include respond-to(660) {
+      width: 100%;
+    }
+    @include respond-to(500) {
+      height: 300px;
+    }
+    @include respond-to(450) {
+      height: 270px;
+    }
+    @include respond-to(400) {
+      height: 240px;
+    }
+    @include respond-to(350) {
+      height: 210px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__videoText {
+    margin: 0 auto 20px;
+    max-width: 660px;
+    width: 100%;
+    padding: 0 10px;
+    font-size: 14px;
+    line-height: 1.4;
+    box-sizing: border-box;
+
+    &:first-letter {
+      @extend .heavyCaps;
+      font-size: 18px;
+    }
+  }
+
+  &__videoButton {
+    margin: auto;
+    font-size: 18px;
+  }
+
+  &__items {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 50px auto 100px;
+    max-width: 960px;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    @include respond-to(767) {
+      flex-wrap: wrap;
+    }
+  }
+
+  &__itemsColumn {
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 440px;
+    @include respond-to(767) {
+      flex: 0 0 100%;
+    }
+
+    &:nth-child(2) {
+      margin-left: 40px;
+      padding-top: 40px;
+      @include respond-to(1000) {
+        margin-left: 20px;
+        padding-top: 20px;
+      }
+      @include respond-to(767) {
+        margin-left: 0;
+      }
+    }
+  }
+  
+  &__item {
+    position: relative;
+    margin-top: 40px;
+    background-color: #f0f2f7;
+    @include respond-to(1000) {
+      margin-top: 20px;
+    }
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    svg {
+      position: absolute;
+      right: 30px;
+      top: 20px;
+      width: 54px;
+      height: 49px;
+    }
+  }
+  
+  &__itemInner {
+    padding: 20px 55px 30px 40px;
+    @include respond-to(800) {
+      padding: 10px 30px 15px 20px;
+    }
+  }
+  
+  &__itemHeader {
+    margin-bottom: 20px;
+    padding-top: 10px;
+    @extend .heavyCaps;
+    font-size: 18px;
+    text-transform: uppercase;
+    @include respond-to(800) {
+      margin-bottom: 10px;
+      padding-top: 5px;
+    }
+  }
+  
+  &__itemText {
+    font-size: 14px;
+    line-height: 1.4;
+
+    &:first-letter {
+      @extend .heavyCaps;
+      font-size: 18px;
+    }
+  }
+
+  &__cupon {
+    position: relative;
+    z-index: 5;
+    margin-bottom: -3px;
+    padding: 30px 0 0;
+    box-shadow: inset 0 5px 5px 0 #fff, 0 4px 2px 3px rgba(255, 255, 255, 0.2);
+    background-color: #f0f2f7;
+  }
+
+  &__cuponContainer {
+    position: relative;
+    margin: 0 auto;
+    max-width: 1000px;
+    width: 100%;
+    padding: 0 10px 30px 10px;
+    box-sizing: border-box;
+  }
+
+  &__cuponHeader {
+    margin: 0 0 10px;
+    @extend .sportsWorld;
+    font-size: 36px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    @include respond-to(600) {
+      font-size: 28px;
+    }
+    @include respond-to(500) {
+      font-size: 24px;
+    }
+    @include respond-to(400) {
+      font-size: 20px;
+    }
+    @include respond-to(340) {
+      font-size: 18px;
+    }
+  }
+
+  &__cuponText {
+    margin-bottom: 25px;
+    @extend .heavyCaps;
+    font-size: 18px;
+    text-transform: uppercase;
+    line-height: 1.4;
+    @include respond-to(400) {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+  }
+
+  &__cuponButton {
+    padding-top: 11px;
+    font-size: 18px;
+
+    &:hover {
+      span {
+        color: #fff;
+      }
+    }
+
+    span {
+      @extend .semibold;
+      color: $textColor;
+    }
+  }
+
+  &__cuponImage {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    @include respond-to(900) {
+      display: none;
+    }
+  }
+}
+
+.surveyStep {
+  padding: 30px 0;
+  background-color: #f0f2f7;
+
+  &__container {
+    margin: 0 auto;
+    max-width: 660px;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  &__header {
+    margin-bottom: 20px;
+    @extend .heavyCaps;
+    font-size: 16px;
+    text-transform: uppercase;
+  }
+
+  &__steps {
+    position: relative;
+  }
+
+  &__stepsInner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__step {
+    position: relative;
+    height: 3px;
+    flex: 1 1 auto;
+    background-color: #8e8f93;
+    font-size: 14px;
+    color: #fff;
+
+    &:first-child {
+      .surveyStep__stepDot2 {
+        display: block;
+      }
+    }
+
+    &.before {
+      background-color: $lightRedColor;
+
+      path {
+        fill: $lightRedColor;
+      }
+    }
+
+    &.active {
+      span {
+        display: flex;
+      }
+    }
+
+    span {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      left: -20px;
+      top: -8px;
+      z-index: 6;
+      width: 32px;
+      height: 20px;
+      background-image: url(/img/dot-g.svg) !important;
+      background-size: 100% 100%;
+    }
+  }
+
+  &__stepDot, &__stepDot2 {
+    position: absolute;
+    right: -2px;
+    top: -3px;
+    z-index: 5;
+    width: 14px;
+    height: 9px;
+
+    svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      
+      path {
+        fill: #8e8f93;
+      }
+    }
+  }
+
+  &__stepDot2 {
+    display: none;
+    left: -3px;
+    right: auto;
+  }
+
+  .product__presents {
+    position: absolute;
+    top: -48px;
+    right: -20px;
+
+    .animated {
+      display: none;
+    }
+
+    &:hover {
+      .animated {
+        display: block;
+      }
+    }
+  }
+}

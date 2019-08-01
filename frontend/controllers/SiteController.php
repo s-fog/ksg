@@ -10,6 +10,7 @@ use common\models\News;
 use common\models\Product;
 use common\models\ProductParam;
 use common\models\Subscribe;
+use common\models\Survey;
 use common\models\Textpage;
 use frontend\models\City;
 use frontend\models\Compare;
@@ -87,24 +88,52 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionIndex($alias = '', $alias2 = '')
+    public function actionIndex($alias = '', $alias2 = '', $step = 0)
     {
         City::setCity();
         $cache = Yii::$app->cache;
 
+        if (!empty($step)) {
+            $parent = Textpage::findOne(['alias' => $alias]);
+            $survey = Survey::findOne(['alias' => $alias2]);
+
+            if ($parent && $survey) {
+                $this->layout = 'cart';
+
+                return $this->render('@frontend/views/survey/step', [
+                    'model' => $survey,
+                    'step' => $step,
+                ]);
+            }
+        }
+
         if (!empty($alias2)) {
             $textpage = Textpage::findOne(['alias' => $alias2]);
             $newsItem = News::findOne(['alias' => $alias2]);
+            $survey = Survey::findOne(['alias' => $alias2]);
 
-            if ($textpage || $newsItem) {
-                if ($textpage) {
-                    if ($textpage->type == 1) {
-                        $parent = Textpage::findOne(8);
-                    } else if ($textpage->type == 2) {
-                        $parent = Textpage::findOne(9);
-                    } else {
+            if ($textpage || $newsItem || $survey) {
+                if ($survey) {
+                    $this->layout = 'cart';
+                    $parent = Textpage::findOne(['alias' => $alias]);
+
+                    if (!$parent || $parent->id != 21) {
                         throw new NotFoundHttpException;
                     }
+
+                    return $this->render('@frontend/views/survey/view', [
+                        'parent' => $parent,
+                        'model' => $survey,
+                    ]);
+                }
+                if ($textpage) {
+                        if ($textpage->type == 1) {
+                            $parent = Textpage::findOne(8);
+                        } else if ($textpage->type == 2) {
+                            $parent = Textpage::findOne(9);
+                        } else {
+                            throw new NotFoundHttpException;
+                        }
 
                     $textpages = Textpage::find()
                         ->where(['type' => $textpage->type])
@@ -386,6 +415,13 @@ class SiteController extends Controller
                         'model' => $textpage,
                         'query' => $_GET['query'],
                         'empty' => true
+                    ]);
+                }
+                case 21: {
+                    $this->layout = 'textpage';
+
+                    return $this->render('@frontend/views/survey/index', [
+                        'model' => $textpage
                     ]);
                 }
                 default: {

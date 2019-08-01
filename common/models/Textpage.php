@@ -66,4 +66,10 @@ class Textpage extends BaseTextpage
 
         return '/'.$parent->alias.'/'.$this->alias;
     }
+    
+    public static function getSurveyPage() {
+        return Yii::$app->cache->getOrSet('surveyPage', function() {
+            return Textpage::findOne(21);
+        }, 5);
+    }
 }
