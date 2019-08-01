@@ -116,7 +116,7 @@ class Category extends BaseCategory
 
         return $name;
     }
-    
+
     public static function getList() {
         $result = [];
 
@@ -158,24 +158,41 @@ class Category extends BaseCategory
         $level = $this->getLevel();
 
         if ($level) {
+            $categoriesFull = Yii::$app->cache->getOrSet('categories', function() {
+                return Category::find()->all();
+            }, 10);
             if ($level == 3) {
                 $categories[] = $this;
             } else if ($level == 2) {
                 $categories[] = $this;
-                $cats = Category::findAll(['parent_id' => $this->id]);
+                $cats = [];
+
+                foreach($categoriesFull as $cc) {
+                    if ($cc->parent_id == $this->id) {
+                        $cats[] = $cc;
+                    }
+                }
 
                 foreach($cats as $cat) {
                     $categories[] = $cat;
                 }
             } else if ($level == 1) {
                 $categories[] = $this;
-                $cats = Category::findAll(['parent_id' => $this->id]);
+                $cats = [];
+
+                foreach($categoriesFull as $cc) {
+                    if ($cc->parent_id == $this->id) {
+                        $cats[] = $cc;
+                    }
+                }
 
                 foreach($cats as $cat) {
                     $categories[] = $cat;
 
-                    foreach(Category::findAll(['parent_id' => $cat->id]) as $item) {
-                        $categories[] = $item;
+                    foreach($categoriesFull as $cc) {
+                        if ($cc->parent_id == $cat->id) {
+                            $categories[] = $cc;
+                        }
                     }
                 }
             } else {
@@ -187,7 +204,7 @@ class Category extends BaseCategory
 
         return $categories;
     }
-    
+
     public function getLevel() {
         if ($this->type != 0) {
             return false;//Не Категория
@@ -446,6 +463,9 @@ class Category extends BaseCategory
         $model = '';
         $parent_id = '';
         $aliasesWithoutEmpty = [];
+        $categories = Category::find()->where(['active' => 1])
+            ->with('productHasCategories')
+            ->all();
 
         foreach($aliases as $alias) {
             if (empty($alias)) {
@@ -461,23 +481,27 @@ class Category extends BaseCategory
             }
 
             if (!empty($parent_id)) {
-                $model = Category::find()
-                    ->where(['alias' => $alias, 'parent_id' => $parent_id, 'active' => 1])
-                    ->with('productHasCategories')
-                    ->one();
-                $parent_id = $model->id;
+                foreach($categories as $category) {
+                    if ($category->alias == $alias && $category->parent_id == $parent_id) {
+                        $model = $category;
+                        $parent_id = $model->id;
+                        break;
+                    }
+                }
             } else {
-                $model = Category::find()
-                    ->where(['alias' => $alias, 'active' => 1])
-                    ->with('productHasCategories')
-                    ->one();
-                $parent_id = $model->id;
+                foreach($categories as $category) {
+                    if ($category->alias == $alias) {
+                        $model = $category;
+                        $parent_id = $model->id;
+                        break;
+                    }
+                }
             }
         }
 
         return $model;
     }
-    
+
     public function getWheres() {
         $innerIdsWhere = [];
         $innerIds = $this->getInnerIds();
@@ -505,7 +529,7 @@ class Category extends BaseCategory
     public function getProductHasCategories() {
         return $this->hasMany(ProductHasCategory::className(), ['category_id' => 'id']);
     }
-    
+
     public function getProductCount() {
         $wheres = $this->getWheres();
         $innerIdsWhere = $wheres[0];

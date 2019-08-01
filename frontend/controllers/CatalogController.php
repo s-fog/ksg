@@ -173,13 +173,19 @@ class CatalogController extends Controller
             $allProducts = $allProductsQuery->asArray()->all();
             $filterBrands = ArrayHelper::map($allProducts, 'brand_id', 'brand');
             ArrayHelper::multisort($filterBrands, ['name'], [SORT_ASC]);
+            $categoriesFull = Yii::$app->cache->getOrSet('categoriesFull', function() {
+                return Category::find()->all();
+            }, 10);
 
             $inCategories = [];
             foreach($allProducts as $product) {
                 if (!isset($inCategories[$product['parent_id']])) {
-                    $inCategories[$product['parent_id']] = Category::find()
-                        ->where(['id' => $product['parent_id']])
-                        ->one();
+                    foreach($categoriesFull as $cc) {
+                        if ($cc->id == $product['parent_id']) {
+                            $inCategories[$product['parent_id']] = $cc;
+                            break;
+                        }
+                    }
                 }
             }
             ArrayHelper::multisort($inCategories, ['name'], [SORT_ASC]);
