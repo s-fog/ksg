@@ -89,7 +89,7 @@ $others = $array['Others'];
                 Спортивный интернет-магазин.<br>
                 <?=date('Y')?> – Все права защищены.</div>
             <div class="footer__item footer__item_bottom">
-                <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(21)->alias])?>" class="footer__itemLink linkSpanReverse"><span>Опросы</span></a>
+                <?php /* ?><a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(21)->alias])?>" class="footer__itemLink linkSpanReverse"><span>Опросы</span></a><?php */ ?>
                 <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(13)->alias])?>" class="footer__itemLink linkSpanReverse"><span>Наш блог</span></a>
                 <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(1)->alias])?>" class="footer__itemLink linkSpanReverse"><span>Полный каталог</span></a>
                 <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(2)->alias])?>" class="footer__itemLink linkSpanReverse"><span>Бренды-партнёры KSG</span></a>
