@@ -41,7 +41,7 @@ return Model::scenarios();
 */
 public function search($params)
 {
-$query = SurveyForm::find();
+$query = SurveyForm::find()->orderBy(['created_at' => SORT_DESC]);
 
 $dataProvider = new ActiveDataProvider([
 'query' => $query,

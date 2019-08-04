@@ -30,6 +30,7 @@ $this->params['name'] = $model->name;
             <a href="<?=$model->success_link?>" class="button button_split">
                 <span class="button_splitText"><?=$model->success_button?></span>
                 <span class="button_splitLeft"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136.84 45.96"><g><polygon points="117.25 0 19.5 0 10.99 0 0 9.1 0 45.96 19.59 45.96 117.34 45.96 125.85 45.96 136.84 36.87 136.84 0 117.25 0"></polygon></g></svg></span>
+                <span class="button_splitMiddle"></span>
                 <span class="button_splitRight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136.84 45.96"><g><polygon points="117.25 0 19.5 0 10.99 0 0 9.1 0 45.96 19.59 45.96 117.34 45.96 125.85 45.96 136.84 36.87 136.84 0 117.25 0"></polygon></g></svg></span>
             </a>
         </div>

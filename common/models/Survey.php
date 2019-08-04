@@ -120,12 +120,12 @@ class Survey extends BaseSurvey
         if (!$json) {
             $data = [
                 $this->id => [
-                    1 => $stepOptionsChoose->options
+                    $this->steps[$step - 1]->id => $stepOptionsChoose->options
                 ]
             ];
         } else {
             $data = json_decode($json, true);
-            $data[$this->id][$step] = $stepOptionsChoose->options;
+            $data[$this->id][$this->steps[$step - 1]->id] = $stepOptionsChoose->options;
         }
 
         setcookie($surveyCookieName, json_encode($data), time()+3600*24*30);

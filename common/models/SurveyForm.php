@@ -31,4 +31,21 @@ class SurveyForm extends BaseSurveyForm
             ]
         );
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'created_at' => 'Создано в ',
+            'updated_at' => 'Измененно в',
+            'survey_id' => 'Опрос',
+            'options' => 'Опции',
+            'email' => 'Email',
+            'phone' => 'Телефон',
+        ];
+    }
+
+    public function getSurvey() {
+        return $this->hasOne(Survey::className(), ['id' => 'survey_id']);
+    }
 }

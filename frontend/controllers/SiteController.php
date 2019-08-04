@@ -165,6 +165,15 @@ class SiteController extends Controller
                                 $surveyForm->phone = $stepOptionsChoose->phone;
 
                                 if ($surveyForm->save()) {
+                                    Yii::$app
+                                        ->mailer
+                                        ->compose()
+                                        ->setFrom(Yii::$app->params['adminEmail'])
+                                        ->setTo(Yii::$app->params['adminEmail'])
+                                        ->setSubject('Опрос дополнен телефоном KSG')
+                                        ->setHtmlBody('<a href="https://www.ksg.ru/officeback/survey-form/update?id="'.$survey->id.'>Ссылка в админке</a>')
+                                        ->send();
+
                                     return $this->redirect(Url::to([
                                         'site/index',
                                         'alias' => $parent->alias,
@@ -190,6 +199,15 @@ class SiteController extends Controller
 
                             if ($surveyForm->save()) {
                                 setcookie($surveyFormCookieName, $surveyForm->id, time()+3600*24*30);
+
+                                Yii::$app
+                                    ->mailer
+                                    ->compose()
+                                    ->setFrom(Yii::$app->params['adminEmail'])
+                                    ->setTo(Yii::$app->params['adminEmail'])
+                                    ->setSubject('Новый опрос на KSG')
+                                    ->setHtmlBody('<a href="https://www.ksg.ru/officeback/survey-form/update?id="'.$survey->id.'>Ссылка в админке</a>')
+                                    ->send();
 
                                 return $this->redirect(Url::to([
                                     'site/index',

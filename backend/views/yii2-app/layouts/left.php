@@ -74,13 +74,15 @@ $ordersTemplate = '<a href="{url}">
                             ['label' => 'Текстовые страницы', 'url' => ['/textpage/index']],
                         ]
                     ],
+                    ['label' => 'Опросы',
+                        'items' => [
+                            ['label' => 'Опросы', 'url' => ['/survey/index']],
+                            ['label' => 'Заполненные опросы', 'url' => ['/survey-form/index']],
+                        ]
+                    ],
                     [
                         'label' => 'Логи изменений',
                         'url' => ['/changer/index']
-                    ],
-                    [
-                        'label' => 'Опросы',
-                        'url' => ['/survey/index']
                     ],
                 ],
             ]
