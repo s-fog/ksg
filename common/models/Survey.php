@@ -34,9 +34,14 @@ class Survey extends BaseSurvey
         return [
             [['name'], 'required'],
             [['preview_image', 'cupon_image', 'success_image'], 'required', 'on' => 'create'],
-            [['seo_description', 'under_header', 'youtube_text', 'cupon_text', 'introtext', 'success_text', 'success_link'], 'string'],
+            [['seo_description', 'under_header', 'youtube_text',
+                'cupon_text', 'introtext', 'success_text', 'success_link',
+                'email_step_header', 'email_step_text', 'phone_step_text', 'phone_step_header'], 'string'],
             [['sort_order'], 'integer'],
-            [['name', 'alias', 'seo_h1', 'seo_title', 'youtube', 'button_text', 'button2_text', 'cupon_header', 'cupon_image', 'cupon_button', 'preview_image', 'success_header', 'success_image', 'success_button', 'success_link_text', 'step_header'], 'string', 'max' => 255],
+            [['name', 'alias', 'seo_h1', 'seo_title', 'youtube', 'button_text',
+                'button2_text', 'cupon_header', 'cupon_button',
+                'success_header', 'success_button',
+                'success_link_text', 'step_header'], 'string', 'max' => 255],
             [['preview_image'], 'image', 'minWidth' => 260, 'minHeight' => 150, 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
             [['cupon_image'], 'image', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
             [['success_image'], 'image', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
@@ -72,6 +77,10 @@ class Survey extends BaseSurvey
             'success_link' => 'Ссылка успеха',
             'step_header' => 'Заголовок шагов',
             'sort_order' => 'Sort Order',
+            'email_step_header' => 'Шаг Email заголовок',
+            'email_step_text' => 'Шаг Email текст',
+            'phone_step_header' => 'Шаг Телефон заголовок',
+            'phone_step_text' => 'Шаг Телефон текст',
         ];
     }
 
@@ -81,5 +90,53 @@ class Survey extends BaseSurvey
 
     public function getUrl() {
         return Url::to(['site/index', 'alias' => Textpage::getSurveyPage()->alias, 'alias2' => $this->alias]);
+    }
+
+    public function getLastStep($step, $isEmailStep, $isPhoneStep, $stepCount, $surveyCookieName, $surveyFormCookieName) {
+        if (isset($_COOKIE['survey'.$this->id])) {
+            $maxStep = 0;
+
+            foreach(json_decode($_COOKIE[$surveyCookieName], true)[$this->id] as $step_id => $options) {
+                if ($step_id > $maxStep && !empty($options)) {
+                    $maxStep = $step_id;
+                }
+            }
+
+            if ($isEmailStep || $isPhoneStep) {
+                if ($maxStep == $stepCount) {
+                    return $step;
+                }
+            }
+
+            return $maxStep + 1;
+        } else {
+            return 1;
+        }
+    }
+
+    public function setCookie($stepOptionsChoose, $step, $surveyCookieName, $surveyFormCookieName) {
+        $json = isset($_COOKIE[$surveyCookieName]) ? $_COOKIE[$surveyCookieName] : false;
+
+        if (!$json) {
+            $data = [
+                $this->id => [
+                    1 => $stepOptionsChoose->options
+                ]
+            ];
+        } else {
+            $data = json_decode($json, true);
+            $data[$this->id][$step] = $stepOptionsChoose->options;
+        }
+
+        setcookie($surveyCookieName, json_encode($data), time()+3600*24*30);
+        
+        if (isset($_COOKIE[$surveyFormCookieName])) {
+            $surveyForm = SurveyForm::findOne($_COOKIE[$surveyFormCookieName]);
+
+            if ($surveyForm) {
+                $surveyForm->options = json_encode($data);
+                $surveyForm->save();
+            }
+        }
     }
 }

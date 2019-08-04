@@ -11,6 +11,7 @@
     'image' => $model->preview_image,
     'name' => 'preview_image'
 ])?>
+
 <!-- attribute introtext -->
 <?= $form->field($model, 'introtext')->textarea(['rows' => 6]) ?>
 
@@ -47,6 +48,12 @@
 <!-- attribute success_header -->
 <?= $form->field($model, 'success_header')->textInput(['maxlength' => true]) ?>
 
+<!-- attribute success_text -->
+<?= $form->field($model, 'success_text')->textarea(['rows' => 6]) ?>
+<!-- attribute success_link_text -->
+<?= $form->field($model, 'success_link_text')->textInput(['maxlength' => true]) ?>
+<!-- attribute success_link -->
+<?= $form->field($model, 'success_link')->textInput() ?>
 
 <?=$this->render('@backend/views/blocks/image', [
     'form' => $form,
@@ -55,17 +62,12 @@
     'name' => 'success_image'
 ])?>
 
-
-<!-- attribute success_text -->
-<?= $form->field($model, 'success_text')->textarea(['rows' => 6]) ?>
-
-<!-- attribute success_link -->
-<?= $form->field($model, 'success_link')->textarea(['rows' => 6]) ?>
 <!-- attribute success_button -->
 <?= $form->field($model, 'success_button')->textInput(['maxlength' => true]) ?>
 
-<!-- attribute success_link_text -->
-<?= $form->field($model, 'success_link_text')->textInput(['maxlength' => true]) ?>
-
 <!-- attribute step_header -->
 <?= $form->field($model, 'step_header')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'email_step_header')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'email_step_text')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'phone_step_header')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'phone_step_text')->textInput(['maxlength' => true]) ?>

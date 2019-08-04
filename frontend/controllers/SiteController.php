@@ -11,10 +11,12 @@ use common\models\Product;
 use common\models\ProductParam;
 use common\models\Subscribe;
 use common\models\Survey;
+use common\models\SurveyForm;
 use common\models\Textpage;
 use frontend\models\City;
 use frontend\models\Compare;
 use frontend\models\Favourite;
+use frontend\models\StepOptionChoose;
 use frontend\models\SubscribeForm;
 use Yii;
 use yii\base\InvalidParamException;
@@ -98,11 +100,130 @@ class SiteController extends Controller
             $survey = Survey::findOne(['alias' => $alias2]);
 
             if ($parent && $survey) {
+                $stepCount = count($survey->steps);
+
+                if ($stepCount + 2 < $step) {
+                    throw new NotFoundHttpException;
+                }
+                /*var_dump($_COOKIE['survey'.$survey->id]);
+                die();*/
+
+                $isEmailStep = false;
+                $isPhoneStep = false;
+                $surveyCookieName = 'survey'.$survey->id;
+                $surveyFormCookieName = 'survey'.$survey->id.'_form_id';
+
+                if ($stepCount + 2 == $step) {
+                    $isPhoneStep = true;
+                }
+
+                if ($stepCount + 1 == $step) {
+                    $isEmailStep = true;
+                }
+
+                if ($step == 'success') {
+                    if (isset($_COOKIE[$surveyCookieName]) && isset($_COOKIE[$surveyFormCookieName])) {
+                        setcookie($surveyCookieName,"",time()-3600);
+                        setcookie($surveyFormCookieName,"",time()-3600);
+
+                        return $this->render('@frontend/views/survey/success', [
+                            'model' => $survey,
+                        ]);
+                    } else {
+                        return $this->redirect(Url::to([
+                            'site/index',
+                            'alias' => $parent->alias,
+                            'alias2' => $survey->alias,
+                            'step' => $stepCount + 2,
+                        ]));
+                    }
+                }
+
+                if ($lastStep = $survey->getLastStep($step, $isEmailStep, $isPhoneStep, $stepCount, $surveyCookieName, $surveyFormCookieName)) {
+                    if ($lastStep != $step && $step > $lastStep) {
+                        return $this->redirect(Url::to([
+                            'site/index',
+                            'alias' => $parent->alias,
+                            'alias2' => $survey->alias,
+                            'step' => $lastStep,
+                        ]));
+                    }
+                }
+
+                $surveyForm = false;
+
+                if (isset($_COOKIE[$surveyFormCookieName])) {
+                    $surveyForm = SurveyForm::findOne($_COOKIE[$surveyFormCookieName]);
+                }
+
+                $stepOptionsChoose = new StepOptionChoose;
+
+                if ($stepOptionsChoose->load($_POST) && $stepOptionsChoose->validate()) {
+                    if ($isPhoneStep) {
+                        if (isset($_COOKIE[$surveyCookieName]) && isset($_COOKIE[$surveyFormCookieName])) {
+                            if ($surveyForm) {
+                                $surveyForm->phone = $stepOptionsChoose->phone;
+
+                                if ($surveyForm->save()) {
+                                    return $this->redirect(Url::to([
+                                        'site/index',
+                                        'alias' => $parent->alias,
+                                        'alias2' => $survey->alias,
+                                        'step' => 'success',
+                                    ]));
+                                }
+                            }
+                        } else {
+                            return $this->redirect(Url::to([
+                                'site/index',
+                                'alias' => $parent->alias,
+                                'alias2' => $survey->alias,
+                                'step' => $step - 1,
+                            ]));
+                        }
+                    } else if ($isEmailStep) {
+                        if (isset($_COOKIE[$surveyCookieName])) {
+                            $surveyForm = new SurveyForm;
+                            $surveyForm->email = $stepOptionsChoose->email;
+                            $surveyForm->survey_id = $survey->id;
+                            $surveyForm->options = $_COOKIE[$surveyCookieName];
+
+                            if ($surveyForm->save()) {
+                                setcookie($surveyFormCookieName, $surveyForm->id, time()+3600*24*30);
+
+                                return $this->redirect(Url::to([
+                                    'site/index',
+                                    'alias' => $parent->alias,
+                                    'alias2' => $survey->alias,
+                                    'step' => $step + 1,
+                                ]));
+                            }
+                        }
+                    } else {
+                        $survey->setCookie($stepOptionsChoose, $step, $surveyCookieName, $surveyFormCookieName);
+
+                        return $this->redirect(Url::to([
+                            'site/index',
+                            'alias' => $parent->alias,
+                            'alias2' => $survey->alias,
+                            'step' => $step + 1,
+                        ]));
+                    }
+                }
+
+                
                 $this->layout = 'cart';
 
                 return $this->render('@frontend/views/survey/step', [
                     'model' => $survey,
+                    'stepOptionsChoose' => $stepOptionsChoose,
                     'step' => $step,
+                    'stepCount' => $stepCount,
+                    'isEmailStep' => $isEmailStep,
+                    'isPhoneStep' => $isPhoneStep,
+                    'surveyCookieName' => $surveyCookieName,
+                    'surveyFormCookieName' => $surveyFormCookieName,
+                    'surveyForm' => $surveyForm
                 ]);
             }
         }

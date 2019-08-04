@@ -43,7 +43,10 @@ $mainpage = Mainpage::findOne(1);
             <div class="properties__tab active"><span>характеристики</span></div>
             <div class="properties__tab"><span>Описание</span></div>
             <?php if (!empty($model->video)) { ?>
-                <div class="properties__tab"><span>видео обзор</span></div>
+                <div class="properties__tab">
+                    <span>видео обзор</span>
+                    <div class="properties__tabDigit">1</div>
+                </div>
             <?php } ?>
             <div class="properties__tab"><span>отзывы</span></div>
             <div class="properties__tab"><span>доставка</span></div>

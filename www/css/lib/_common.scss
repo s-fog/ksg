@@ -94,7 +94,7 @@ table {
   outline: none;
 }
 
-:focus::-webkit-input-placeholder {
+/*:focus::-webkit-input-placeholder {
   color: transparent
 }
 
@@ -108,7 +108,7 @@ table {
 
 :focus:-ms-input-placeholder {
   color: transparent
-}
+}*/
 
 /* Micro ClearFix Mixin */
 .clearfix {
@@ -310,6 +310,113 @@ input, textarea {
     color: #fff;
     z-index: 2;
     line-height: 1;
+  }
+
+
+  &_split {
+    position: relative;
+    display: inline-block;
+
+    svg {
+      filter: drop-shadow(2px 2px 3px #bbb);
+    }
+
+    &:hover {
+      svg {
+        filter: drop-shadow(2px 2px 3px transparent);
+      }
+
+      .button_splitMiddle {
+        &:before {
+          box-shadow: 0 2px 4px 0 transparent;
+        }
+      }
+    }
+
+    polygon {
+      fill: $lightRedColor;
+    }
+  }
+
+  &_splitText {
+    display: block;
+    position: relative;
+    z-index: 5;
+    height: 47px;
+    padding: 10px 25px 0 25px !important;
+    @extend .semibold;
+    font-size: 18px;
+    color: #fff;
+    box-sizing: border-box;
+  }
+
+  &_splitLeft {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    z-index: 1 !important;
+    width: 25%;
+    height: 45px;
+    padding-left: 5px;
+    overflow: hidden;
+    text-align: left;
+    box-sizing: border-box;
+
+    svg {
+      position: static;
+      width: auto;
+      height: 40px;
+    }
+  }
+
+  &_splitRight {
+    position: absolute !important;
+    right: 0;
+    top: 0;
+    z-index: 1 !important;
+    width: 25%;
+    height: 45px;
+    padding-right: 5px;
+    overflow: hidden;
+    text-align: right;
+    box-sizing: border-box;
+
+    svg {
+      position: absolute;
+      right: 5px;
+      left: auto;
+      width: auto;
+      height: 40px;
+    }
+  }
+
+  &_splitWrapper {
+    text-align: center;
+  }
+
+  &_splitMiddle {
+    position: absolute !important;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1 !important;
+    margin: auto;
+    width: 50%;
+    height: 45px;
+    overflow: hidden;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: -10%;
+      top: 0;
+      box-shadow: 0 2px 4px 0 #bbb;
+      width: 120%;
+      height: 40px;
+      background-color: $lightRedColor;
+      @extend .transition;
+    }
   }
 }
 

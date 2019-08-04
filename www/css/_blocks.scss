@@ -7339,6 +7339,10 @@ body.fancybox-active {
 
 .survey {
 
+  &__moreButton {
+    margin: 0 0 100px 0;
+  }
+
   &__header {
     margin: 40px 0;
     @extend .heavyCaps;
@@ -7585,12 +7589,14 @@ body.fancybox-active {
   &__header {
     margin-bottom: 20px;
     @extend .heavyCaps;
+    font-style: italic;
     font-size: 16px;
     text-transform: uppercase;
   }
 
   &__steps {
     position: relative;
+    margin-bottom: 40px;
   }
 
   &__stepsInner {
@@ -7682,6 +7688,128 @@ body.fancybox-active {
       .animated {
         display: block;
       }
+    }
+  }
+
+  .field-stepoptionchoose-options {
+    display: block;
+  }
+
+  &__optionsHeader {
+    @extend .semibold;
+    font-size: 16px;
+    color: #8e8f93;
+    line-height: 1.4;
+  }
+
+  .form-group {
+    display: block;
+    width: 100%;
+
+    .help-block {
+      margin-top: -5px;
+    }
+  }
+
+  &__optionsCheckboxLabel {
+    display: block;
+    margin: 15px 0;
+    border: 1px solid #dcdcdc;
+    height: 50px;
+    background-color: #fff;
+  }
+
+  &__optionsCheckbox {
+
+  }
+
+  &__optionsCheckboxIcon {
+
+  }
+
+  &__optionsCheckboxText {
+
+  }
+
+  &__nextStep {
+    margin: 30px auto 0;
+    padding: 0;
+    font-size: 18px;
+  }
+
+  &__input {
+    margin: 15px 0;
+    border: 1px solid #dcdcdc;
+    width: 100%;
+    padding: 16px 10px 17px 60px;
+    background-color: #fff;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  &__email {
+    position: relative;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 10px;
+      top: 28px;
+      width: 30px;
+      height: 23px;
+      background-image: url(../img/email_green.svg);
+      background-size: 100% 100%;
+    }
+  }
+
+  &__phone {
+    position: relative;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 15px;
+      top: 28px;
+      width: 25px;
+      height: 25px;
+      background-image: url(../img/phone2_green.svg);
+      background-size: 100% 100%;
+    }
+  }
+
+  &__formText {
+    position: relative;
+    margin: 25px auto 30px;
+    width: 250px;
+    padding-left: 25px;
+    color: #8e8f93;
+    @extend .light;
+    font-size: 9px;
+    line-height: 1.6;
+    box-sizing: border-box;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 3px;
+      left: 0;
+      width: 15px;
+      height: 20px;
+      background-image: url(../img/zamok.svg);
+      background-size: 100% 100%;
+      opacity: 0.3;
+    }
+  }
+
+  &__successImage {
+    margin: 30px 0;
+    text-align: center;
+
+    img {
+      max-width: 100%;
     }
   }
 }
