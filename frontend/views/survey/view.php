@@ -38,23 +38,23 @@ $firstUrl = Url::to([
     </div>
     <div class="survey__items">
         <div class="survey__itemsColumn">
-            <?php
-            $limit = floor(count($model->steps) / 2);
-
-            for($i = 0; $i < $limit; $i++) {
-                echo $this->render('@frontend/views/survey/_stepItem', [
-                    'model' => $model->steps[$i],
-                    'index' => $i,
-                ]);
+            <?php foreach($model->steps as $index => $step) {
+                if ($index % 2 === 0) {
+                    echo $this->render('@frontend/views/survey/_stepItem', [
+                        'model' => $step,
+                        'index' => $index,
+                    ]);
+                }
             } ?>
         </div>
         <div class="survey__itemsColumn">
-            <?php
-            for($i = $limit; $i < count($model->steps); $i++) {
-                echo $this->render('@frontend/views/survey/_stepItem', [
-                    'model' => $model->steps[$i],
-                    'index' => $i,
-                ]);
+            <?php foreach($model->steps as $index => $step) {
+                if ($index % 2 !== 0) {
+                    echo $this->render('@frontend/views/survey/_stepItem', [
+                        'model' => $step,
+                        'index' => $index,
+                    ]);
+                }
             } ?>
         </div>
     </div>

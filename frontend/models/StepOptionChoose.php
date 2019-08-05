@@ -17,7 +17,7 @@ class StepOptionChoose extends Model
     public function rules()
     {
         return [
-            [['options'], 'required'],
+            [['options'], 'required', 'message' => 'Необходимо выбрать какой-нибудь вариант.'],
             ['bc', 'string', 'min' => 0, 'max' => 0],
             ['phone', 'string'],
             ['phone_required', 'required',
@@ -37,6 +37,14 @@ class StepOptionChoose extends Model
                     return $('#stepoptionchoose-email_required').val() == 1;
                 }"
             ],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'options' => 'Опции',
+            'phone' => 'Телефон',
         ];
     }
 }
