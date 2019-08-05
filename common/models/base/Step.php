@@ -5,7 +5,6 @@
 namespace common\models\base;
 
 use Yii;
-use himiklab\sortablegrid\SortableGridBehavior;
 
 /**
  * This is the base-model class for table "step".
@@ -17,6 +16,8 @@ use himiklab\sortablegrid\SortableGridBehavior;
  * @property string $icon
  * @property string $options
  * @property integer $sort_order
+ * @property string $inner_header
+ * @property string $inner_text
  * @property string $aliasModel
  */
 abstract class Step extends \yii\db\ActiveRecord
@@ -39,7 +40,7 @@ abstract class Step extends \yii\db\ActiveRecord
     {
         return [
             [['survey_id', 'sort_order'], 'integer'],
-            [['text', 'icon', 'options'], 'string'],
+            [['text', 'icon', 'options', 'inner_header', 'inner_text'], 'string'],
             [['name'], 'string', 'max' => 255]
         ];
     }
@@ -57,6 +58,8 @@ abstract class Step extends \yii\db\ActiveRecord
             'icon' => 'Icon',
             'options' => 'Options',
             'sort_order' => 'Sort Order',
+            'inner_header' => 'Inner Header',
+            'inner_text' => 'Inner Text',
         ];
     }
 

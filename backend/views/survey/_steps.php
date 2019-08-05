@@ -62,6 +62,14 @@ DynamicFormWidget::begin([
                                     <?= $form->field($modelParams, "[{$i}]icon")->textarea(['maxlength' => true]) ?>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <?= $form->field($modelParams, "[{$i}]inner_header")->textInput(['maxlength' => true]) ?>
+                                </div>
+                                <div class="col-xs-6">
+                                    <?= $form->field($modelParams, "[{$i}]inner_text")->textarea(['maxlength' => true]) ?>
+                                </div>
+                            </div>
                             <h3>Опции</h3>
                             <?php if (!empty($modelsStep[$i])) { ?>
                                 <?= $this->render('@backend/views/survey/_stepOptions', [

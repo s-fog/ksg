@@ -47,6 +47,8 @@ class Step extends BaseStep
             'icon' => 'Изображение SVG',
             'options' => 'Options',
             'sort_order' => 'Сортировка',
+            'inner_header' => 'Заголовок внутри шага',
+            'inner_text' => 'Текст внутри шага',
         ];
     }
 }

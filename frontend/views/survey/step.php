@@ -33,7 +33,7 @@ $form = ActiveForm::begin([
             <?php } else if ($isEmailStep) { ?>
                 <?=$model->email_step_header?>
             <?php } else { ?>
-                <?=$model->steps[$step - 1]->name?>
+                <?=$model->steps[$step - 1]->inner_header?>
             <?php } ?>
         </div>
         <div class="surveyStep__steps">
@@ -167,7 +167,7 @@ $form = ActiveForm::begin([
                 }
             }
             ?>
-            <div class="surveyStep__optionsHeader">Можно выбрать несколько вариантов</div>
+            <div class="surveyStep__optionsHeader"><?=$model->steps[$step - 1]->inner_text?></div>
             <?=$form->field($stepOptionsChoose, 'options')->checkboxList(
                 ArrayHelper::map($model->steps[$step - 1]->stepOptions, 'id', 'name'),
                 [

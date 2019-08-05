@@ -7466,6 +7466,10 @@ body.fancybox-active {
       top: 20px;
       width: 54px;
       height: 49px;
+      @include respond-to(800) {
+        width: 27px;
+        height: 25px;
+      }
     }
   }
   
@@ -7645,6 +7649,9 @@ body.fancybox-active {
       height: 20px;
       background-image: url(/img/dot-g.svg) !important;
       background-size: 100% 100%;
+      @include respond-to(670) {
+        left: -5px;
+      }
     }
   }
 
@@ -7679,6 +7686,9 @@ body.fancybox-active {
     position: absolute;
     top: -48px;
     right: -20px;
+    @include respond-to(670) {
+      right: -10px;
+    }
 
     .animated {
       display: none;
