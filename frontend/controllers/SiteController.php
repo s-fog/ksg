@@ -18,6 +18,7 @@ use frontend\models\Compare;
 use frontend\models\Favourite;
 use frontend\models\StepOptionChoose;
 use frontend\models\SubscribeForm;
+use frontend\models\Webp;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\helpers\Url;
@@ -586,12 +587,11 @@ class SiteController extends Controller
             $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM product ORDER BY updated_at DESC']);
             $cache->set('hitProducts', $hitProducts, null, $dependency);
         }
-
-        return $this->render('index', [
+        return Webp::replaceToWebp($this->render('index', [
             'model' => $model,
             'mainSliders' => $mainSliders,
             'hitProducts' => $hitProducts,
-        ]);
+        ]));
     }
 
 
