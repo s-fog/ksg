@@ -64,7 +64,7 @@ $others = $array['Others'];
             <div class="footer__cartLeft">
                 ООО "КейЭсДжи"<br>
                 Спортивный интернет-магазин.<br>
-                2018 – Все права защищены.
+                <?=date('Y')?> – Все права защищены.
             </div>
             <div class="footer__cartMiddle">
                 <div class="footer__cartMiddleItem">В Москве: <a href="tel:<?=$moscow['phoneLink']?>" class="linkReverse"><?=$moscow['phone']?></a></div>
