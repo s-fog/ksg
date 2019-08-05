@@ -182,7 +182,7 @@ $form = ActiveForm::begin([
                             <label class="surveyStep__optionsCheckboxLabel'.$che.'">
                                 <input type="checkbox" name="'.$name.'" value="'.$value.'"'.$che.'>
                                 <span class="surveyStep__optionsCheckbox">
-                                    <span class="surveyStep__optionsCheckboxIcon"></span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.56 27.1"><defs><linearGradient id="Безымянный_градиент_9" x1="17.52" y1="3.37" x2="20.69" y2="8.86" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#161412" stop-opacity=".95"/><stop offset=".07" stop-color="#161412" stop-opacity=".86"/><stop offset=".43" stop-color="#161412" stop-opacity=".65"/><stop offset=".64" stop-color="#161412" stop-opacity=".23"/><stop offset=".88" stop-color="#161412" stop-opacity="0"/></linearGradient></defs><path class="ned" d="M12.28 2.54a12.28 12.28 0 1 0 12.28 12.28A12.3 12.3 0 0 0 12.28 2.54zm0 22.72a10.44 10.44 0 1 1 10.43-10.44 10.45 10.45 0 0 1-10.43 10.44z"/><path d="M16.79 5.41a10.54 10.54 0 0 1 2.28 1.49 10.41 10.41 0 0 1 1.05 1c.9 1 2.72.31 1.43-1.18a12.58 12.58 0 0 0-1.76-1.66 13.62 13.62 0 0 0-1.88-1.2c-1.48-.72-2.24 1.01-1.12 1.55z" fill="url(#Безымянный_градиент_9)"/><path class="ned" d="M17.85.17l-6.8 16.9-4-5.07a2.56 2.56 0 0 0-2.87 2.24l5.76 7.39a2 2 0 0 0 1.57.77 2 2 0 0 0 1.84-1.25l7.84-19.5A2.59 2.59 0 0 0 17.85.17z"/></svg>
                                     <span class="surveyStep__optionsCheckboxText">'.$label.'</span>
                                 </span>
                             </label>';

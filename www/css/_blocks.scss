@@ -7713,22 +7713,50 @@ body.fancybox-active {
 
   &__optionsCheckboxLabel {
     display: block;
+    position: relative;
     margin: 15px 0;
     border: 1px solid #dcdcdc;
     height: 50px;
+    padding: 16px 0 0 60px;
     background-color: #fff;
+    box-sizing: border-box;
+
+    [type="checkbox"] {
+      display: none;
+
+      &:checked {
+        &+.surveyStep__optionsCheckbox {
+          svg {
+            .ned {
+              fill: #adc64c;
+            }
+          }
+
+          .surveyStep__optionsCheckboxText {
+            font-weight: bold;
+          }
+        }
+      }
+    }
   }
 
   &__optionsCheckbox {
 
-  }
+    svg {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      width: 27px;
 
-  &__optionsCheckboxIcon {
-
+      .ned {
+        fill: #d2d4da;
+        @extend .transition;
+      }
+    }
   }
 
   &__optionsCheckboxText {
-
+    font-size: 14px;
   }
 
   &__nextStep {

@@ -115,6 +115,7 @@ $others = $array['Others'];
 </div>
 
 
+<?=$this->render('@frontend/views/blocks/callback')?>
 <?php $this->endBody() ?>
 </body>
 </html>
