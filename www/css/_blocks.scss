@@ -7621,6 +7621,12 @@ body.fancybox-active {
       .surveyStep__stepDot2 {
         display: block;
       }
+
+      span {
+        @include respond-to(670) {
+          left: -5px;
+        }
+      }
     }
 
     &.before {
@@ -7649,9 +7655,6 @@ body.fancybox-active {
       height: 20px;
       background-image: url(/img/dot-g.svg) !important;
       background-size: 100% 100%;
-      @include respond-to(670) {
-        left: -5px;
-      }
     }
   }
 
