@@ -20,7 +20,7 @@ class StepOptionChoose extends Model
             [['options'], 'required', 'message' => 'Необходимо выбрать какой-нибудь вариант.'],
             ['bc', 'string', 'min' => 0, 'max' => 0],
             ['phone', 'string'],
-            ['phone_required', 'required',
+            ['phone', 'required',
                 'when' => function($model) {
                     return $model->phone_required == 1;
                 },
