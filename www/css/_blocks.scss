@@ -7423,7 +7423,20 @@ body.fancybox-active {
     padding: 0 20px;
     box-sizing: border-box;
     @include respond-to(767) {
+      display: none;
       flex-wrap: wrap;
+    }
+
+    &_mobile {
+      display: none;
+      flex-wrap: wrap;
+      @include respond-to(767) {
+        display: flex;
+      }
+
+      .survey__item {
+        flex: 0 0 100%;
+      }
     }
   }
 

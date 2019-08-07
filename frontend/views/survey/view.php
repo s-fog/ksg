@@ -58,6 +58,14 @@ $firstUrl = Url::to([
             } ?>
         </div>
     </div>
+    <div class="survey__items survey__items_mobile">
+        <?php foreach($model->steps as $index => $step) {
+            echo $this->render('@frontend/views/survey/_stepItem', [
+                'model' => $step,
+                'index' => $index,
+            ]);
+        } ?>
+    </div>
     <div class="button_splitWrapper" style="margin-top: -45px;">
         <a href="<?=$firstUrl?>" class="button button_split survey__moreButton">
             <span class="button_splitText"><?=$model->button2_text?></span>
