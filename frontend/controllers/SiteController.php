@@ -165,7 +165,7 @@ class SiteController extends Controller
                             if ($surveyForm) {
                                 $surveyForm->phone = $stepOptionsChoose->phone;
 
-                                if ($surveyForm->save()) {
+                                if ($surveyForm->save() && !empty($surveyForm->phone)) {
                                     Yii::$app
                                         ->mailer
                                         ->compose()
