@@ -21,7 +21,6 @@ class SurveyController extends \backend\controllers\base\SurveyController
     public function actionCreate()
     {
         $modelSurvey = new Survey;
-        $modelSurvey->scenario = 'create';
         $modelsStep = [new Step];
         $modelsStepOption = [[new StepOption]];
         $sfogImage = new SfogImage;
