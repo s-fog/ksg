@@ -33,7 +33,6 @@ class Survey extends BaseSurvey
     {
         return [
             [['name'], 'required'],
-            [['preview_image', 'cupon_image', 'success_image'], 'required', 'on' => 'create'],
             [['seo_description', 'under_header', 'youtube_text',
                 'cupon_text', 'introtext', 'success_text', 'success_link',
                 'email_step_header', 'email_step_text', 'phone_step_text', 'phone_step_header'], 'string'],
