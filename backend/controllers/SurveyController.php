@@ -11,6 +11,7 @@ use sfog\image\Image as SfogImage;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
+use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 
 /**
@@ -21,6 +22,7 @@ class SurveyController extends \backend\controllers\base\SurveyController
     public function actionCreate()
     {
         $modelSurvey = new Survey;
+        $modelSurvey->scenario = 'create';
         $modelsStep = [new Step];
         $modelsStepOption = [[new StepOption]];
         $sfogImage = new SfogImage;
@@ -28,6 +30,10 @@ class SurveyController extends \backend\controllers\base\SurveyController
         if ($modelSurvey->load(Yii::$app->request->post())) {
             $modelsStep = Model::createMultiple(Step::classname());
             Model::loadMultiple($modelsStep, Yii::$app->request->post());
+
+            $modelSurvey->preview_image = UploadedFile::getInstance($modelSurvey, "preview_image");
+            $modelSurvey->cupon_image = UploadedFile::getInstance($modelSurvey, "cupon_image");
+            $modelSurvey->success_image = UploadedFile::getInstance($modelSurvey, "success_image");
 
             // ajax validation
             if (Yii::$app->request->isAjax) {
