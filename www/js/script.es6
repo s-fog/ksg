@@ -2147,6 +2147,41 @@ class Application {
                 body.stop().animate({scrollTop: $('.catalog').offset().top - 100}, 300, 'swing');
             }, 1000);
         }
+
+        $(document).on('click', '.js-product-compare', (event) => {
+            let thisElement = $(event.currentTarget);
+            let id = thisElement.data('id');
+            let data = `id=${id}`;
+            
+            function textC(thisElement) {
+                let newText = thisElement.data('text');
+
+                thisElement.data('text', thisElement.text());
+                thisElement.text(newText);
+            }
+
+            if (thisElement.hasClass('in')) {
+                $.post('/compare/delete', data, (response) => {
+                    if (response == 'success') {
+                        textC(thisElement);
+                        thisElement.removeClass('in');
+                    }
+                });
+            } else {
+                $.post('/compare/add', data, (response) => {
+                    if (response == 'success') {
+                        textC(thisElement);
+                        thisElement.addClass('in');
+                    }
+                });
+            }
+
+            return false;
+        });
+
+        $(document).on('click', '.js-product-preorder', (event) => {
+            $('#product-to-cart-add').click();
+        });
     }
 
     _initClasses() {

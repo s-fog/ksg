@@ -15,7 +15,7 @@ return [
         'assetsAutoCompress' =>
             [
                 'class'                         => '\skeeks\yii2\assetsAuto\AssetsAutoCompressComponent',
-                'enabled'                       => true,
+                'enabled'                       => false,
 
                 'readFileTimeout'               => 3,           //Time in seconds for reading each asset file
 
@@ -70,6 +70,9 @@ return [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+        'assetManager' => [
+            'appendTimestamp' => true,
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

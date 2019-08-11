@@ -44,6 +44,7 @@ if ($currentVariant->available == 0) {
                 <h1 itemprop="name" class="product__name"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
                 <div class="product__art">
                     <div class="product__artText">Артикул: <?=$currentVariant->artikul?>&nbsp;&nbsp;//&nbsp;&nbsp;Код товара: <?=$model->code?></div>
+                    <?php /* ?>
                     <div class="catalog__itemTop">
                         <a href="#"
                            class="catalog__itemCart hint hint_tocart js-add-to-cart"
@@ -61,6 +62,25 @@ if ($currentVariant->available == 0) {
                            data-id="<?=$model->id?>"
                            data-title="<?=($inCompare) ? 'Товар в сравнении' : 'Добавить в сравнение'?>">
                             <svg<?=($inCompare) ? ' class="active"' : ''?> xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.37 18.97"><defs><style>.cls-1{fill:#fff;}</style></defs><g><g><path class="cls-1" d="M11.41,19a1,1,0,0,1-1-1V1a1,1,0,0,1,1.92,0V18A1,1,0,0,1,11.41,19Z"/><path class="cls-1" d="M6.18,19a1,1,0,0,1-1-1V6.24a1,1,0,0,1,1.92,0V18A1,1,0,0,1,6.18,19Z"/><path class="cls-1" d="M1,19a1,1,0,0,1-1-1v-7.5a1,1,0,0,1,1.92,0V18A1,1,0,0,1,1,19Z"/></g></g></svg></a>
+                    </div>
+                    <?php */ ?>
+                </div>
+                <div class="product__underArt">
+                    <div class="product__brand">
+                        <?php $filename = explode('.', basename($brand->image)); ?>
+                        <img src="/images/thumbs/<?=$filename[0]?>-60-30.<?=$filename[1]?>" alt="<?=$model->name?>" class="product__brandImage">
+                        <div class="product__brandText">
+                            Бренд: <a href="<?=$brand->url?>" class="link"><?=$brand->name?></a>
+                        </div>
+                    </div>
+                    <?php
+                    $textAdd = 'Добавить к сравнению';
+                    $textDelete = 'Удалить из сравнения';
+                    ?>
+                    <div class="product__compare js-product-compare<?=($inCompare) ? ' in' : ''?>"
+                         data-id="<?=$model->id?>"
+                         data-text="<?=($inCompare) ? $textAdd : $textDelete?>">
+                        <?=($inCompare) ? $textDelete : $textAdd?>
                     </div>
                 </div>
                 <div class="product__toCart product__toCart_mobile" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
@@ -105,9 +125,9 @@ if ($currentVariant->available == 0) {
                 $image0 = $model->images[$currentVariant->image_number];
                 $filename = explode('.', basename($image0->image)); ?>
                 <div class="product__sliderWrapper"<?=isset($pswHeight) ? 'style="height: '.$pswHeight.'px"' : ''?>>
-                    <div class="product__slider owl-carousel" rel="noreferrer">
+                    <div class="product__slider owl-carousel<?=$empty ? ' product__slider_preorder' : ''?>" rel="noreferrer">
                         <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
-                             class="product__sliderImage"
+                             class="product__sliderImage product__mainImage"
                              data-paramsv="<?=($currentVariant->params) ? implode('|', $currentVariant->params) : ''?>"
                              data-header="<?=$model->name?>"
                              data-text="<?=$image0->text?>"
@@ -136,6 +156,12 @@ if ($currentVariant->available == 0) {
                             <?php }
                         } ?>
                     </div>
+                    <?php if ($empty) { ?>
+                        <div class="button button222 product__preorder js-product-preorder">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 34"><g><polygon points="7.07 0 0 7.07 0 34 211.93 34 219 26.93 219 0 7.07 0"></polygon></g></svg>
+                            <span>оформить предзаказ</span>
+                        </div>
+                    <?php } ?>
                 </div>
                 <div class="product__images">
                     <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?> Фото 1" itemprop="image">
@@ -150,13 +176,6 @@ if ($currentVariant->available == 0) {
                     <div class="product__itemImageShadow"></div>
                 </div>
                 <div class="product__middleBottom">
-                    <div class="product__brand">
-                        <?php $filename = explode('.', basename($brand->image)); ?>
-                        <img src="/images/thumbs/<?=$filename[0]?>-60-30.<?=$filename[1]?>" alt="<?=$model->name?>" class="product__brandImage">
-                        <div class="product__brandText">
-                            Бренд: <a href="<?=$brand->url?>" class="link"><?=$brand->name?></a>
-                        </div>
-                    </div>
                     <?php
                     foreach($selects as $name => $values) {
                         $param = Param::findOne(['name' => $name]);
@@ -191,14 +210,14 @@ if ($currentVariant->available == 0) {
                     </div>
                     <?php if (!$empty) { ?>
                         <div class="product__toCartRight">
-                            <button class="button button4 js-product-in-js" data-fancybox data-src="#addToCart">
+                            <button class="button button4 js-product-in-js" id="product-to-cart-add" data-fancybox data-src="#addToCart">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 36"><polygon points="132 0 7.58 0 0 7.58 0 36 124.21 36 132 28.35 132 0"/></svg>
                                 <span>Купить</span>
                             </button>
                         </div>
                     <?php } else { ?>
                         <div class="product__toCartRight">
-                            <button class="button button4 js-product-in-js" data-fancybox data-src="#addToCart">
+                            <button class="button button4 js-product-in-js" id="product-to-cart-add" data-fancybox data-src="#addToCart">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 36"><polygon points="132 0 7.58 0 0 7.58 0 36 124.21 36 132 28.35 132 0"/></svg>
                                 <span>Предзаказ</span>
                             </button>

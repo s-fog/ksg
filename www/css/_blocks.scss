@@ -2559,7 +2559,6 @@ body {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin: 0 20px;
   }
 
   &__brandImage {
@@ -2588,12 +2587,36 @@ body {
         background-color: rgba(255, 255, 255, 0.5);
       }
     }
+
+    &:hover {
+      .product__preorder {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__preorder {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    opacity: 0;
   }
 
   &__slider {
     position: relative;
     max-width: 620px;
     width: 100%;
+
+    &_preorder {
+      .owl-item {
+        img {
+          opacity: 0.5
+        }
+      }
+    }
 
     .sliderButton {
       position: absolute;
@@ -2978,6 +3001,9 @@ body {
   }
 
   &__feature {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     margin: 35px 0;
 
     &:hover {
@@ -2995,6 +3021,12 @@ body {
     @extend .product__header;
     display: flex;
     justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0;
+
+    &:before {
+      display: none;
+    }
 
     .link {
       color: $greenColor;
@@ -3006,39 +3038,56 @@ body {
       flex: 0 0 auto;
 
       .ui-selectmenu-text {
+        margin-right: 0;
+        font-size: 12px;
         color: $greenColor;
       }
       .ui-selectmenu-icon {
+        display: none;
         background-image: url(../img/toBottomGreen.png);
       }
     }
   }
 
+  &__underArt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+  }
+
+  &__compare {
+    @extend .link;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
   &__featureHeaderText {
-    font-size: 15px;
+    font-size: 12px;
   }
 
   &__featureIcon {
+    flex: 0 0 75px;
 
     &_1 {
       height: 22px;
-      transform: translate(-15px, -5px);
+      transform: translate(-15px, 0);
     }
 
     &_2 {
       height: 27px;
-      transform: translate(3px, -5px);
+      transform: translate(3px, 0);
     }
 
     &_3 {
       margin-top: -25px;
       height: 57px;
-      transform: translate(-3px, 5px);
+      transform: translate(-3px, 0);
     }
 
     &_4 {
       height: 32px;
-      transform: translate(0, -3px);
+      transform: translate(0, 0);
     }
 
     svg {
@@ -3355,10 +3404,11 @@ body {
   }
 
   &__tab {
+    position: relative;
     display: inline-block;
     padding: 0 25px;
     @extend .heavyCaps;
-    opacity: 0.6;
+    color: rgba(0, 0, 0, 0.5);
     cursor: pointer;
     @extend .transition;
     @include respond-to(650) {
@@ -3373,7 +3423,7 @@ body {
     }
 
     &:hover, &.active {
-      opacity: 1;
+      color: $textColor;
     }
 
     &.active {
@@ -3675,6 +3725,21 @@ body {
   &__reviewsText {
     font-size: 14px;
     line-height: 1.4;
+  }
+
+  &__tabDigit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 13px;
+    top: -5px;
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    background: $lightRedColor;
+    font-size: 12px;
+    color: #fff;
   }
 }
 
