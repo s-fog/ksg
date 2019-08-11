@@ -25,20 +25,23 @@ if ($currentVariant->available == 0) {
                     <div class="product__header">Ответим на любой вопрос!</div>
                     <div class="product__callbackText">Акции и скидки магазина, условия покупки и сборки, особенности эксплуатации, аналоги и акесссуары: узнайте подробнее по телефону +7 (495) 015 70 17  (бесплатно для Москвы)<br>
                         8 (800) 350 06 08 (бесплатно по России) или заказав у нас <span style="cursor: pointer;" data-fancybox data-src="#callback" class="link lightRedColor">бесплатный обратный звонок</span></div>
-                    <div class="product__seeAllImage">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.8 37.8"><g><path d="M18.9,0A18.9,18.9,0,1,0,37.8,18.9,18.95,18.95,0,0,0,18.9,0Zm0,35A16.1,16.1,0,1,1,35,18.9,16.09,16.09,0,0,1,18.9,35Z"/><path d="M29.8,10H19.3V8a1.37,1.37,0,0,0-1.4-1.4H11A1.37,1.37,0,0,0,9.6,8v2H8.1a1.37,1.37,0,0,0-1.4,1.4V27a1.37,1.37,0,0,0,1.4,1.4H29.9A1.37,1.37,0,0,0,31.3,27V11.4A1.52,1.52,0,0,0,29.8,10ZM12.4,9.5h4.1V10H12.4Zm16,16.1H9.5V12.8H28.4Z"/><path d="M14.1,19.2A4.8,4.8,0,0,0,18.9,24a4.87,4.87,0,0,0,4.8-4.8,4.8,4.8,0,0,0-4.8-4.8A4.87,4.87,0,0,0,14.1,19.2Zm4.8-2a2,2,0,1,1-2,2A2,2,0,0,1,18.9,17.2Z"/><path d="M24.2,16.1h2.4a1.4,1.4,0,0,0,0-2.8H24.2a1.4,1.4,0,1,0,0,2.8Z"/></g></svg>
-                        <span>смотреть все фото</span>
-                    </div>
-                    <?php if (!empty($model->instruction)) { ?>
-                        <a href="<?=$model->instruction?>" target="_blank" class="product__seeInstruction">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.8 37.8"><g><path d="M18.9,0A18.9,18.9,0,1,0,37.8,18.9,18.95,18.95,0,0,0,18.9,0Zm0,35A16.1,16.1,0,1,1,35,18.9,16.09,16.09,0,0,1,18.9,35Z"/><path d="M14.8,14H29.2a1.4,1.4,0,1,0,0-2.8H14.8a1.4,1.4,0,0,0,0,2.8Z"/><path d="M29.2,17.5H14.8a1.4,1.4,0,1,0,0,2.8H29.2a1.37,1.37,0,0,0,1.4-1.4A1.43,1.43,0,0,0,29.2,17.5Z"/><path d="M29.2,23.9H14.8a1.4,1.4,0,0,0,0,2.8H29.2a1.37,1.37,0,0,0,1.4-1.4A1.43,1.43,0,0,0,29.2,23.9Z"/><path d="M10.7,11.1H9.3a1.4,1.4,0,0,0,0,2.8h1.4a1.4,1.4,0,0,0,0-2.8Z"/><path d="M10.7,17.5H9.3a1.4,1.4,0,1,0,0,2.8h1.4a1.4,1.4,0,1,0,0-2.8Z"/><path d="M10.7,23.9H9.3a1.4,1.4,0,1,0,0,2.8h1.4a1.4,1.4,0,0,0,0-2.8Z"/></g></svg>
-                            <span>смотреть инструкцию</span>
-                        </a>
-                    <?php } ?>
-                    <?php if (!empty($mainpage->banner_image) && $mainpage->is_banner == 1) { ?>
-                        <img class="product__banner" src="<?=$mainpage->banner_image?>">
-                    <?php } ?>
                 </div>
+                <?php if (!empty($model->category->video_header)) { ?>
+                    <br>
+                    <div class="product__header"><?=$model->category->video_header?></div>
+                    <div class="product__categoryVideo">
+                        <iframe src="https://www.youtube.com/embed/<?=$model->category->video?>?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                <?php } ?>
+                <?php if (!empty($model->instruction)) { ?>
+                    <a href="<?=$model->instruction?>" target="_blank" class="product__seeInstruction">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.8 37.8"><g><path d="M18.9,0A18.9,18.9,0,1,0,37.8,18.9,18.95,18.95,0,0,0,18.9,0Zm0,35A16.1,16.1,0,1,1,35,18.9,16.09,16.09,0,0,1,18.9,35Z"/><path d="M14.8,14H29.2a1.4,1.4,0,1,0,0-2.8H14.8a1.4,1.4,0,0,0,0,2.8Z"/><path d="M29.2,17.5H14.8a1.4,1.4,0,1,0,0,2.8H29.2a1.37,1.37,0,0,0,1.4-1.4A1.43,1.43,0,0,0,29.2,17.5Z"/><path d="M29.2,23.9H14.8a1.4,1.4,0,0,0,0,2.8H29.2a1.37,1.37,0,0,0,1.4-1.4A1.43,1.43,0,0,0,29.2,23.9Z"/><path d="M10.7,11.1H9.3a1.4,1.4,0,0,0,0,2.8h1.4a1.4,1.4,0,0,0,0-2.8Z"/><path d="M10.7,17.5H9.3a1.4,1.4,0,1,0,0,2.8h1.4a1.4,1.4,0,1,0,0-2.8Z"/><path d="M10.7,23.9H9.3a1.4,1.4,0,1,0,0,2.8h1.4a1.4,1.4,0,0,0,0-2.8Z"/></g></svg>
+                        <span>смотреть инструкцию</span>
+                    </a>
+                <?php } ?>
+                <?php if (!empty($mainpage->banner_image) && $mainpage->is_banner == 1) { ?>
+                    <img class="product__banner" src="<?=$mainpage->banner_image?>">
+                <?php } ?>
             </div>
             <div class="product__middle">
                 <h1 itemprop="name" class="product__name"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
@@ -198,6 +201,10 @@ if ($currentVariant->available == 0) {
                             </select>
                         </div>
                     <?php } ?>
+                </div>
+                <div class="product__seeAllImage">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.8 37.8"><g><path d="M18.9,0A18.9,18.9,0,1,0,37.8,18.9,18.95,18.95,0,0,0,18.9,0Zm0,35A16.1,16.1,0,1,1,35,18.9,16.09,16.09,0,0,1,18.9,35Z"/><path d="M29.8,10H19.3V8a1.37,1.37,0,0,0-1.4-1.4H11A1.37,1.37,0,0,0,9.6,8v2H8.1a1.37,1.37,0,0,0-1.4,1.4V27a1.37,1.37,0,0,0,1.4,1.4H29.9A1.37,1.37,0,0,0,31.3,27V11.4A1.52,1.52,0,0,0,29.8,10ZM12.4,9.5h4.1V10H12.4Zm16,16.1H9.5V12.8H28.4Z"/><path d="M14.1,19.2A4.8,4.8,0,0,0,18.9,24a4.87,4.87,0,0,0,4.8-4.8,4.8,4.8,0,0,0-4.8-4.8A4.87,4.87,0,0,0,14.1,19.2Zm4.8-2a2,2,0,1,1-2,2A2,2,0,0,1,18.9,17.2Z"/><path d="M24.2,16.1h2.4a1.4,1.4,0,0,0,0-2.8H24.2a1.4,1.4,0,1,0,0,2.8Z"/></g></svg>
+                    <span>смотреть все фото</span>
                 </div>
             </div>
             <div class="product__right">
