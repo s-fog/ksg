@@ -178,71 +178,73 @@ if ($currentVariant->available == 0) {
                     <div class="product__allPhoto">смотреть все фото</div>
                     <div class="product__itemImageShadow"></div>
                 </div>
-                <div class="product__middleBottom">
-                    <?php
-                    foreach($selects as $name => $values) {
-                        $param = Param::findOne(['name' => $name]);
-                        ?>
-                        <div class="product__select">
-                            <span class="product__selectName"><?=$name?>:</span>
-                            <div></div>
-                            <select name="<?=$param->name_en?>" class="select-product-jquery-ui select-<?=$param->name_en?>-jquery-ui">
-                                <?php foreach($values as $value) { ?>
-                                    <?php if ($na = Product::checkDisabled($disabled, $name, $value)) { ?>
-                                        <option
-                                            disabled
-                                            value="<?=$value['value']?>"><?=$na?></option>
-                                    <?php } else { ?>
-                                        <option
-                                            <?=($value['active']) ? 'selected' : ''?>
-                                            value="<?=$value['value']?>"><?=$value['value']?></option>
-                                    <?php } ?>
-                                <?php } ?>
-                            </select>
-                        </div>
-                    <?php } ?>
-                </div>
                 <div class="product__seeAllImage">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.8 37.8"><g><path d="M18.9,0A18.9,18.9,0,1,0,37.8,18.9,18.95,18.95,0,0,0,18.9,0Zm0,35A16.1,16.1,0,1,1,35,18.9,16.09,16.09,0,0,1,18.9,35Z"/><path d="M29.8,10H19.3V8a1.37,1.37,0,0,0-1.4-1.4H11A1.37,1.37,0,0,0,9.6,8v2H8.1a1.37,1.37,0,0,0-1.4,1.4V27a1.37,1.37,0,0,0,1.4,1.4H29.9A1.37,1.37,0,0,0,31.3,27V11.4A1.52,1.52,0,0,0,29.8,10ZM12.4,9.5h4.1V10H12.4Zm16,16.1H9.5V12.8H28.4Z"/><path d="M14.1,19.2A4.8,4.8,0,0,0,18.9,24a4.87,4.87,0,0,0,4.8-4.8,4.8,4.8,0,0,0-4.8-4.8A4.87,4.87,0,0,0,14.1,19.2Zm4.8-2a2,2,0,1,1-2,2A2,2,0,0,1,18.9,17.2Z"/><path d="M24.2,16.1h2.4a1.4,1.4,0,0,0,0-2.8H24.2a1.4,1.4,0,1,0,0,2.8Z"/></g></svg>
                     <span>смотреть все фото</span>
                 </div>
             </div>
             <div class="product__right">
-                <div class="product__toCart product__toCart_desktop">
-                    <div class="product__toCartLeft">
-                        <?php if (!empty($model->price_old)) { ?>
-                            <div class="product__oldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></div>
-                        <?php } ?>
-                        <div class="product__price"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
+                <div class="product__rightBorder">
+                    <div class="product__rightBorderInner">
+                        <div class="product__toCart product__toCart_desktop">
+                            <div class="product__toCartLeft">
+                                <?php if (!empty($model->price_old)) { ?>
+                                    <div class="product__oldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></div>
+                                <?php } ?>
+                                <div class="product__price"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
+                            </div>
+                            <?php if (!$empty) { ?>
+                                <div class="product__toCartRight">
+                                    <button class="button button4 js-product-in-js" id="product-to-cart-add" data-fancybox data-src="#addToCart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 36"><polygon points="132 0 7.58 0 0 7.58 0 36 124.21 36 132 28.35 132 0"/></svg>
+                                        <span>Купить</span>
+                                    </button>
+                                </div>
+                            <?php } else { ?>
+                                <div class="product__toCartRight">
+                                    <button class="button button4 js-product-in-js" id="product-to-cart-add" data-fancybox data-src="#addToCart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 36"><polygon points="132 0 7.58 0 0 7.58 0 36 124.21 36 132 28.35 132 0"/></svg>
+                                        <span>Предзаказ</span>
+                                    </button>
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <div class="product__req product__req_desktop">
+                            <?php if ($empty) { ?>
+                            <?php } else { ?>
+                                <div class="product__available active">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 23.1"><g><polygon points="16.1 0 13.6 1 6.8 17.9 2.8 12.7 0.3 12.4 0 15 6.3 23.1 8.6 23.1 17 2.4 16.1 0"/></g></svg>
+                                    <span>Есть в наличии</span>
+                                </div>
+                                &nbsp;/&nbsp;
+                            <?php } ?>
+                            <?php if (!$empty) { ?>
+                                <div class="product__requestSale" data-fancybox="oneClick" data-src="#oneClick">Купить в один клик</div>
+                            <?php } ?>
+                        </div>
+                        <div class="product__selects">
+                            <?php foreach($selects as $name => $values) {
+                                $param = Param::findOne(['name' => $name]);
+                                ?>
+                                <div class="product__select">
+                                    <span class="product__selectName"><?=$name?>:</span>
+                                    <select name="<?=$param->name_en?>" class="select-product-jquery-ui select-<?=$param->name_en?>-jquery-ui">
+                                        <?php foreach($values as $value) { ?>
+                                            <?php if ($na = Product::checkDisabled($disabled, $name, $value)) { ?>
+                                                <option
+                                                    disabled
+                                                    value="<?=$value['value']?>"><?=$na?></option>
+                                            <?php } else { ?>
+                                                <option
+                                                    <?=($value['active']) ? 'selected' : ''?>
+                                                    value="<?=$value['value']?>"><?=$value['value']?></option>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            <?php } ?>
+                        </div>
                     </div>
-                    <?php if (!$empty) { ?>
-                        <div class="product__toCartRight">
-                            <button class="button button4 js-product-in-js" id="product-to-cart-add" data-fancybox data-src="#addToCart">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 36"><polygon points="132 0 7.58 0 0 7.58 0 36 124.21 36 132 28.35 132 0"/></svg>
-                                <span>Купить</span>
-                            </button>
-                        </div>
-                    <?php } else { ?>
-                        <div class="product__toCartRight">
-                            <button class="button button4 js-product-in-js" id="product-to-cart-add" data-fancybox data-src="#addToCart">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 36"><polygon points="132 0 7.58 0 0 7.58 0 36 124.21 36 132 28.35 132 0"/></svg>
-                                <span>Предзаказ</span>
-                            </button>
-                        </div>
-                    <?php } ?>
-                </div>
-                <div class="product__req product__req_desktop">
-                    <?php if ($empty) { ?>
-                    <?php } else { ?>
-                        <div class="product__available active">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 23.1"><g><polygon points="16.1 0 13.6 1 6.8 17.9 2.8 12.7 0.3 12.4 0 15 6.3 23.1 8.6 23.1 17 2.4 16.1 0"/></g></svg>
-                            <span>Есть в наличии</span>
-                        </div>
-                        &nbsp;/&nbsp;
-                    <?php } ?>
-                    <?php if (!$empty) { ?>
-                        <div class="product__requestSale" data-fancybox="oneClick" data-src="#oneClick">Купить в один клик</div>
-                    <?php } ?>
                 </div>
                 <?php
                 $productPresents = $model->getPresents();
