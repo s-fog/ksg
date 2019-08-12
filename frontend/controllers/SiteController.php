@@ -313,7 +313,7 @@ class SiteController extends Controller
                     $this->layout = 'textpage';
                     $result = [];
                     $brands = Brand::find()->orderBy(['name' => SORT_ASC])->all();
-                    $alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','V','W','X','Y','Z','А-Я'];
+                    $alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','А-Я'];
                     $russianAlphabet = ['А','Б','В','Г','Д','Е','Ж','З','И','К','Д','М','Н','О','П','Р','С','Т','У','Ф','Ч','Ц','Ч','Ш','Щ','Э','Ю','Я'];
 
                     foreach($brands as $brand) {
