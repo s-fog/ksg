@@ -30,8 +30,6 @@ $presents = \common\models\Present::find()->all();
 
 ?>
 
-<?=$this->render('@frontend/views/blocks/breadcrumbs', ['items' => $model->getBreadcrumbs()])?>
-
 <?=$this->render('_filterTop', [
     'model' => $model,
     'minPrice' => $minPrice,
@@ -56,6 +54,7 @@ $presents = \common\models\Present::find()->all();
     ])?>
 </div>
 
+<?=$this->render('@frontend/views/blocks/breadcrumbs', ['items' => $model->getBreadcrumbs()])?>
 <?=$this->render('@frontend/views/blocks/cats', [
     'childrenCategories' => $childrenCategories,
     'inCategories' => $inCategories,
