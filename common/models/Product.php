@@ -108,6 +108,14 @@ class Product extends BaseProduct implements CartPositionInterface
         return $this->hasOne(Category::className(), ['id' => 'parent_id']);
     }
 
+    public function getCategoryProducts() {
+        return $this->hasMany(ProductHasCategory::className(), ['product_id' => 'id']);
+    }
+
+    public function getCategories() {
+        return $this->hasMany(Category::className(), ['id' => 'category_id'])->via('categoryProducts');
+    }
+
     public function getSupplierModel() {
         return $this->hasOne(Supplier::className(), ['id' => 'supplier']);
     }

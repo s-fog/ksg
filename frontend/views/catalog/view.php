@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Category;
 use common\models\Mainpage;
 use common\models\Param;
 use common\models\Product;
@@ -161,6 +162,7 @@ $mainpage = Mainpage::findOne(1);
     </div>
 </div>
 
+
 <?php if (!empty($accessories)) { ?>
     <div class="productSlider">
         <div class="container">
@@ -185,6 +187,22 @@ $mainpage = Mainpage::findOne(1);
         ]);
     } ?>
 <?php } ?>
+
+
+    <div class="brands productCategories">
+        <div class="container">
+            <div class="brands__header"><?=$model->name?> находится в подборках:</div>
+            <div class="category__tags">
+                <div class="container">
+                    <?php foreach($model->getCategories()->andWhere(['!=', Category::tableName().'.type', 0])->all() as $category) { ?>
+                        <a href="<?=$category->url?>" class="category__tag">
+                            <span><?=$category->name?> (<?=$category->productCount?>)</span>
+                        </a>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <?php if (!empty($similar)) { ?>
     <div class="productSlider">
