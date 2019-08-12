@@ -3072,10 +3072,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
     margin-top: 25px;
   }
 
   &__compare {
+    margin: 8px 0 px 10px;
     @extend .link;
     font-size: 12px;
     cursor: pointer;
@@ -7949,5 +7951,11 @@ body.fancybox-active {
     img {
       max-width: 100%;
     }
+  }
+}
+
+.productCategories {
+  .category__tags {
+    margin: 50px 0 10px;
   }
 }

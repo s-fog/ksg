@@ -68,24 +68,6 @@ if ($currentVariant->available == 0) {
                     </div>
                     <?php */ ?>
                 </div>
-                <div class="product__underArt">
-                    <div class="product__brand">
-                        <?php $filename = explode('.', basename($brand->image)); ?>
-                        <img src="/images/thumbs/<?=$filename[0]?>-60-30.<?=$filename[1]?>" alt="<?=$model->name?>" class="product__brandImage">
-                        <div class="product__brandText">
-                            Бренд: <a href="<?=$brand->url?>" class="link"><?=$brand->name?></a>
-                        </div>
-                    </div>
-                    <?php
-                    $textAdd = 'Добавить к сравнению';
-                    $textDelete = 'Удалить из сравнения';
-                    ?>
-                    <div class="product__compare js-product-compare<?=($inCompare) ? ' in' : ''?>"
-                         data-id="<?=$model->id?>"
-                         data-text="<?=($inCompare) ? $textAdd : $textDelete?>">
-                        <?=($inCompare) ? $textDelete : $textAdd?>
-                    </div>
-                </div>
                 <div class="product__toCart product__toCart_mobile" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                     <div class="product__toCartLeft">
                         <?php if (!empty($model->price_old)) { ?>
@@ -123,6 +105,24 @@ if ($currentVariant->available == 0) {
                     <?php if (!$empty) { ?>
                         <div class="product__requestSale" data-fancybox="oneClick" data-src="#oneClick">Купить в один клик</div>
                     <?php } ?>
+                </div>
+                <div class="product__underArt">
+                    <div class="product__brand">
+                        <?php $filename = explode('.', basename($brand->image)); ?>
+                        <img src="/images/thumbs/<?=$filename[0]?>-60-30.<?=$filename[1]?>" alt="<?=$model->name?>" class="product__brandImage">
+                        <div class="product__brandText">
+                            Бренд: <a href="<?=$brand->url?>" class="link"><?=$brand->name?></a>
+                        </div>
+                    </div>
+                    <?php
+                    $textAdd = 'Добавить к сравнению';
+                    $textDelete = 'Удалить из сравнения';
+                    ?>
+                    <div class="product__compare js-product-compare<?=($inCompare) ? ' in' : ''?>"
+                         data-id="<?=$model->id?>"
+                         data-text="<?=($inCompare) ? $textAdd : $textDelete?>">
+                        <?=($inCompare) ? $textDelete : $textAdd?>
+                    </div>
                 </div>
                 <?php
                 $image0 = $model->images[$currentVariant->image_number];
