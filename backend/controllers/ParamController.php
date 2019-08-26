@@ -3,12 +3,22 @@
 namespace backend\controllers;
 
 use common\models\Param;
+use yii\filters\AccessControl;
 
 /**
 * This is the class for controller "ParamController".
 */
 class ParamController extends \backend\controllers\base\ParamController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $model = new Param;

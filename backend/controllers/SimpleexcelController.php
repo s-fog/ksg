@@ -8,6 +8,7 @@ use common\models\Subscribe;
 use common\models\SubscribeSearch;
 use dmstr\bootstrap\Tabs;
 use Yii;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 
@@ -16,6 +17,15 @@ use yii\web\UploadedFile;
 */
 class SimpleexcelController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionIndex() {
         $model = new SimpleExcel();
 

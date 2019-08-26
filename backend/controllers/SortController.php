@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Feature;
 use common\models\FeatureValue;
 use common\models\Image;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 
 /**
@@ -12,6 +13,15 @@ use yii\web\Controller;
 */
 class SortController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionFvUpdate() {
         if ($items = $_POST['items']) {
             $items = str_replace(['[', ']'], ['', ''], $items);

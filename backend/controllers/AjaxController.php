@@ -5,10 +5,20 @@ namespace backend\controllers;
 
 use common\models\Category;
 use common\models\ProductHasCategory;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
 class AjaxController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionProductHasCategoryChange() {
         $arrayValues = ($_POST['values'] != 'null') ? explode(',', $_POST['values']) : [];
         $productsHasCategories = ProductHasCategory::findAll(['product_id' => $_POST['product_id']]);

@@ -6,6 +6,7 @@ use backend\models\Sitemap;
 use backend\models\UploadFile;
 use common\models\News;
 use sfog\image\Image;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 
 /**
@@ -13,6 +14,15 @@ use yii\web\UploadedFile;
 */
 class NewsController extends \backend\controllers\base\NewsController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $model = new News;

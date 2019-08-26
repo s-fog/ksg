@@ -7,6 +7,7 @@ use common\models\Changer;
 use common\models\ChangerSearch;
 use dmstr\bootstrap\Tabs;
 use HttpException;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
 
@@ -15,6 +16,15 @@ use yii\web\Controller;
 */
 class ChangerController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public $enableCsrfValidation = false;
     
     public function actionIndex()

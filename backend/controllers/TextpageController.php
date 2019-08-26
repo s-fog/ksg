@@ -4,12 +4,22 @@ namespace backend\controllers;
 
 use backend\models\Sitemap;
 use common\models\Textpage;
+use yii\filters\AccessControl;
 
 /**
 * This is the class for controller "TextpageController".
 */
 class TextpageController extends \backend\controllers\base\TextpageController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $model = new Textpage;

@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\UploadFile;
 use common\models\Mainslider;
 use sfog\image\Image;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 
 /**
@@ -12,6 +13,15 @@ use yii\web\UploadedFile;
 */
 class MainsliderController extends \backend\controllers\base\MainsliderController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $model = new Mainslider;

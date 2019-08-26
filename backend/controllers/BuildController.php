@@ -3,12 +3,22 @@
 namespace backend\controllers;
 
 use common\models\Build;
+use yii\filters\AccessControl;
 
 /**
 * This is the class for controller "BuildController".
 */
 class BuildController extends \backend\controllers\base\BuildController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $model = new Build;

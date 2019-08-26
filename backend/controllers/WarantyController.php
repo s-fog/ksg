@@ -3,12 +3,22 @@
 namespace backend\controllers;
 
 use common\models\Waranty;
+use yii\filters\AccessControl;
 
 /**
 * This is the class for controller "WarantyController".
 */
 class WarantyController extends \backend\controllers\base\WarantyController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $model = new Waranty;

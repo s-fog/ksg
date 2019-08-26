@@ -20,6 +20,7 @@ use common\models\ProductParam;
 use common\models\ProductReview;
 use Exception;
 use Yii;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use yii\web\UploadedFile;
@@ -30,6 +31,15 @@ use yii\widgets\ActiveForm;
 */
 class ProductController extends \backend\controllers\base\ProductController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $model = new Product;

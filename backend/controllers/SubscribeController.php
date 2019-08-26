@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Subscribe;
 use common\models\SubscribeSearch;
 use dmstr\bootstrap\Tabs;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 
 /**
@@ -12,6 +13,15 @@ use yii\helpers\Url;
 */
 class SubscribeController extends \backend\controllers\base\SubscribeController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         $searchModel  = new SubscribeSearch;

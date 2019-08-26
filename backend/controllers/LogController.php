@@ -7,6 +7,7 @@ use common\models\FeatureValue;
 use common\models\Image;
 use common\models\Product;
 use common\models\ProductParam;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
 
@@ -15,6 +16,15 @@ use yii\web\Controller;
 */
 class LogController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionIndex() {
         return $this->render('index');
     }

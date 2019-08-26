@@ -2,11 +2,22 @@
 
 namespace backend\controllers;
 
+use yii\filters\AccessControl;
+
 /**
 * This is the class for controller "CallbackController".
 */
 class CallbackController extends \backend\controllers\base\CallbackController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);

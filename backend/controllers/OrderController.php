@@ -7,6 +7,7 @@ use common\models\Product;
 use common\models\ProductParam;
 use common\models\ProductParamOrder;
 use Yii;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 
 /**
@@ -14,6 +15,15 @@ use yii\helpers\Url;
 */
 class OrderController extends \backend\controllers\base\OrderController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionProductAdd($id)
     {
         $order = Order::findOne($id);

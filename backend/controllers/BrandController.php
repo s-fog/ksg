@@ -7,6 +7,7 @@ use backend\models\UploadFile;
 use common\models\Brand;
 use sfog\image\Image;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 
 /**
@@ -14,6 +15,15 @@ use yii\web\UploadedFile;
 */
 class BrandController extends \backend\controllers\base\BrandController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $model = new Brand;

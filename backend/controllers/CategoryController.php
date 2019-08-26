@@ -12,6 +12,7 @@ use common\models\FilterFeature;
 use Exception;
 use sfog\image\Image;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
@@ -22,6 +23,15 @@ use yii\widgets\ActiveForm;
 */
 class CategoryController extends \backend\controllers\base\CategoryController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $model = new Category;

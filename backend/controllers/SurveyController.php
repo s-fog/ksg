@@ -9,6 +9,7 @@ use common\models\Survey;
 use Exception;
 use sfog\image\Image as SfogImage;
 use Yii;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use yii\web\UploadedFile;
@@ -19,6 +20,15 @@ use yii\widgets\ActiveForm;
 */
 class SurveyController extends \backend\controllers\base\SurveyController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $modelSurvey = new Survey;
