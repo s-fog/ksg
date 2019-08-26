@@ -15,6 +15,12 @@ class WarantyController extends \backend\controllers\base\WarantyController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }
