@@ -5,6 +5,8 @@ namespace backend\controllers;
 use backend\models\UploadFile;
 use common\models\Adviser;
 use sfog\image\Image;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
@@ -12,6 +14,15 @@ use yii\web\UploadedFile;
 */
 class AdviserController extends \backend\controllers\base\AdviserController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $model = new Adviser;
