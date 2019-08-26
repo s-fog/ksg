@@ -20,6 +20,12 @@ class OrderController extends \backend\controllers\base\OrderController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

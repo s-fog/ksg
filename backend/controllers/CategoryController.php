@@ -28,6 +28,12 @@ class CategoryController extends \backend\controllers\base\CategoryController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

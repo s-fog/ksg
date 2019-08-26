@@ -15,6 +15,12 @@ class ParamController extends \backend\controllers\base\ParamController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

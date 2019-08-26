@@ -20,6 +20,12 @@ class BrandController extends \backend\controllers\base\BrandController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

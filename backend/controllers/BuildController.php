@@ -15,6 +15,12 @@ class BuildController extends \backend\controllers\base\BuildController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

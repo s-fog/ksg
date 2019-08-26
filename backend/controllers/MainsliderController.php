@@ -18,6 +18,12 @@ class MainsliderController extends \backend\controllers\base\MainsliderControlle
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

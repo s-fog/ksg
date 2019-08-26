@@ -19,6 +19,12 @@ class AdviserController extends \backend\controllers\base\AdviserController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

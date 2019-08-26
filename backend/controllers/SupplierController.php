@@ -15,6 +15,12 @@ class SupplierController extends \backend\controllers\base\SupplierController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

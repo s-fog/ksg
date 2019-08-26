@@ -15,6 +15,12 @@ class CurrencyController extends \backend\controllers\base\CurrencyController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

@@ -15,6 +15,12 @@ class SurveyFormController extends \backend\controllers\base\SurveyFormControlle
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

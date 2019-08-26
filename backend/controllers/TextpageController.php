@@ -16,6 +16,12 @@ class TextpageController extends \backend\controllers\base\TextpageController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

@@ -18,6 +18,12 @@ class SubscribeController extends \backend\controllers\base\SubscribeController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

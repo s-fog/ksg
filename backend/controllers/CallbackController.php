@@ -14,6 +14,12 @@ class CallbackController extends \backend\controllers\base\CallbackController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }
