@@ -14,7 +14,7 @@ class ConsoleController extends Controller {
 
         foreach(Product::find()->select('id')
                     ->with(['images' => function ($q) {
-            $q->select('image');
+            $q->select(['image', 'product_id']);
         }])->asArray()->all() as $product) {
             foreach($product['images'] as $image) {
                 $simage->addMoreThumbs($image['image'], ['270x230']);
