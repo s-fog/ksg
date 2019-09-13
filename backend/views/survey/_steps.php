@@ -4,6 +4,9 @@ use kartik\widgets\Select2;
 use kidzen\dynamicform\DynamicFormWidget;
 use unclead\multipleinput\MultipleInput;
 use yii\helpers\Html;
+if (!isset($formId)) {
+    $formId = 'Survey';
+}
 
 DynamicFormWidget::begin([
     'widgetContainer' => 'dynamicform_wrapper_steps', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
@@ -13,7 +16,7 @@ DynamicFormWidget::begin([
     'insertButton' => '.add-steps', // css class
     'deleteButton' => '.remove-steps', // css class
     'model' => $modelsStep[0],
-    'formId' => 'Survey',
+    'formId' => $formId,
     'formFields' => [
         'name',
         'text',
@@ -62,22 +65,24 @@ DynamicFormWidget::begin([
                                     <?= $form->field($modelParams, "[{$i}]icon")->textarea(['maxlength' => true]) ?>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <?= $form->field($modelParams, "[{$i}]inner_header")->textInput(['maxlength' => true]) ?>
+                            <?php if ($formId === 'Survey') { ?>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <?= $form->field($modelParams, "[{$i}]inner_header")->textInput(['maxlength' => true]) ?>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <?= $form->field($modelParams, "[{$i}]inner_text")->textarea(['maxlength' => true]) ?>
+                                    </div>
                                 </div>
-                                <div class="col-xs-6">
-                                    <?= $form->field($modelParams, "[{$i}]inner_text")->textarea(['maxlength' => true]) ?>
-                                </div>
-                            </div>
-                            <h3>Опции</h3>
-                            <?php if (!empty($modelsStep[$i])) { ?>
-                                <?= $this->render('@backend/views/survey/_stepOptions', [
-                                    'form' => $form,
-                                    'indexStep' => $i,
-                                    'modelsStepOption' => $modelsStepOption[$i],
-                                ]) ?>
-                            <?php } ?>
+                                <h3>Опции</h3>
+                                <?php if (!empty($modelsStep[$i])) { ?>
+                                    <?= $this->render('@backend/views/survey/_stepOptions', [
+                                        'form' => $form,
+                                        'indexStep' => $i,
+                                        'modelsStepOption' => $modelsStepOption[$i],
+                                    ]) ?>
+                                <?php }
+                            }?>
 
                         </div>
                     </div>

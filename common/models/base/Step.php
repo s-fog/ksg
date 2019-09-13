@@ -18,6 +18,7 @@ use Yii;
  * @property integer $sort_order
  * @property string $inner_header
  * @property string $inner_text
+ * @property integer $category_id
  * @property string $aliasModel
  */
 abstract class Step extends \yii\db\ActiveRecord
@@ -39,7 +40,7 @@ abstract class Step extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['survey_id', 'sort_order'], 'integer'],
+            [['survey_id', 'sort_order', 'category_id'], 'integer'],
             [['text', 'icon', 'options', 'inner_header', 'inner_text'], 'string'],
             [['name'], 'string', 'max' => 255]
         ];
@@ -60,6 +61,7 @@ abstract class Step extends \yii\db\ActiveRecord
             'sort_order' => 'Sort Order',
             'inner_header' => 'Inner Header',
             'inner_text' => 'Inner Text',
+            'category_id' => 'Category ID',
         ];
     }
 

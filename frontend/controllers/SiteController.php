@@ -106,8 +106,6 @@ class SiteController extends Controller
                 if ($stepCount + 2 < $step) {
                     throw new NotFoundHttpException;
                 }
-                /*var_dump($_COOKIE['survey'.$survey->id]);
-                die();*/
 
                 $isEmailStep = false;
                 $isPhoneStep = false;

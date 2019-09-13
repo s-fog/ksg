@@ -9,6 +9,7 @@ use common\models\Category;
 use common\models\Feature;
 use common\models\FeatureValue;
 use common\models\FilterFeature;
+use common\models\Step;
 use Exception;
 use sfog\image\Image;
 use Yii;
@@ -47,10 +48,14 @@ class CategoryController extends \backend\controllers\base\CategoryController
         $modelsFeature = [new Feature];
         $modelsFeatureValue = [[new FeatureValue]];
         $modelsFilterFeature = [new FilterFeature];
+        $modelsStep = [new Step];
 
         if ($model->load(Yii::$app->request->post())) {
             $modelsFeature = Model::createMultiple(Feature::classname());
             Model::loadMultiple($modelsFeature, Yii::$app->request->post());
+
+            $modelsStep = Model::createMultiple(Step::classname());
+            Model::loadMultiple($modelsStep, Yii::$app->request->post());
 
             $modelsFilterFeature = Model::createMultiple(FilterFeature::classname());
             Model::loadMultiple($modelsFilterFeature, Yii::$app->request->post());
@@ -63,6 +68,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ArrayHelper::merge(
                     ActiveForm::validateMultiple($modelsFeature),
+                    ActiveForm::validateMultiple($modelsStep),
                     ActiveForm::validateMultiple($modelsFilterFeature),
                     ActiveForm::validate($model)
                 );
@@ -71,6 +77,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
             // validate all models
             $valid = $model->validate();
             $valid = Model::validateMultiple($modelsFeature) && $valid;
+            $valid = Model::validateMultiple($modelsStep) && $valid;
             $valid = Model::validateMultiple($modelsFilterFeature) && $valid;
 
             if (isset($_POST['FeatureValue'][0][0])) {
@@ -131,6 +138,15 @@ class CategoryController extends \backend\controllers\base\CategoryController
                                 break;
                             }
                         }
+
+                        foreach ($modelsStep as $indexStep => $modelStep) {
+                            $modelStep->category_id = $model->id;
+
+                            if (! ($flag = $modelStep->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
                     }
                     if ($flag) {
                         $transaction->commit();
@@ -151,6 +167,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
         return $this->render('create', [
             'model' => $model,
             'modelsFeature' => (empty($modelsFeature)) ? [new Feature] : $modelsFeature,
+            'modelsStep' => (empty($modelsStep)) ? [new Step] : $modelsStep,
             'modelsFilterFeature' => (empty($modelsFilterFeature)) ? [new FilterFeature] : $modelsFilterFeature,
             'modelsFeatureValue' => (empty($modelsFeatureValue[0])) ? [[new FeatureValue]] : $modelsFeatureValue
         ]);
@@ -168,6 +185,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
         $image_catalog = $model->image_catalog;
         $image_menu = $model->image_menu;
         $modelsFeature = $model->features;
+        $modelsStep = $model->steps;
         $modelsFilterFeature = $model->filterFeatures;
         $modelsFeatureValue = [];
         $oldFeatureValue = [];
@@ -188,6 +206,11 @@ class CategoryController extends \backend\controllers\base\CategoryController
             Model::loadMultiple($modelsFeature, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsFeature, 'id', 'id')));
 
+            $oldStepsIDs = ArrayHelper::map($modelsStep, 'id', 'id');
+            $modelsStep = Model::createMultiple(Step::classname(), $modelsStep);
+            Model::loadMultiple($modelsStep, Yii::$app->request->post());
+            $deletedStepsIDs = array_diff($oldStepsIDs, array_filter(ArrayHelper::map($modelsStep, 'id', 'id')));
+
             $oldIDsFF = ArrayHelper::map($modelsFilterFeature, 'id', 'id');
             $modelsFilterFeature = Model::createMultiple(FilterFeature::classname(), $modelsFilterFeature);
             Model::loadMultiple($modelsFilterFeature, Yii::$app->request->post());
@@ -198,6 +221,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ArrayHelper::merge(
                     ActiveForm::validateMultiple($modelsFeature),
+                    ActiveForm::validateMultiple($modelsStep),
                     ActiveForm::validateMultiple($modelsFilterFeature),
                     ActiveForm::validate($model)
                 );
@@ -206,6 +230,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
             // validate all models
             $valid = $model->validate();
             $valid = Model::validateMultiple($modelsFeature) && $valid;
+            $valid = Model::validateMultiple($modelsStep) && $valid;
             $valid = Model::validateMultiple($modelsFilterFeature) && $valid;
 
 
@@ -266,6 +291,9 @@ class CategoryController extends \backend\controllers\base\CategoryController
                         if (! empty($deletedIDsFF)) {
                             FilterFeature::deleteAll(['id' => $deletedIDsFF]);
                         }
+                        if (! empty($deletedStepsIDs)) {
+                            Step::deleteAll(['id' => $deletedStepsIDs]);
+                        }
 
                         foreach ($modelsFeature as $indexFeature => $modelFeature) {
                             $modelFeature->category_id = $model->id;
@@ -294,6 +322,15 @@ class CategoryController extends \backend\controllers\base\CategoryController
                                 break;
                             }
                         }
+
+                        foreach ($modelsStep as $modelStep) {
+                            $modelStep->category_id = $model->id;
+
+                            if (! ($flag = $modelStep->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
                     }
                     if ($flag) {
                         $transaction->commit();
@@ -314,6 +351,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
         return $this->render('update', [
             'model' => $model,
             'modelsFeature' => (empty($modelsFeature)) ? [new Feature] : $modelsFeature,
+            'modelsStep' => (empty($modelsStep)) ? [new Step] : $modelsStep,
             'modelsFilterFeature' => (empty($modelsFilterFeature)) ? [new FilterFeature] : $modelsFilterFeature,
             'modelsFeatureValue' => (empty($modelsFeatureValue[0])) ? [[new FeatureValue]] : $modelsFeatureValue
         ]);

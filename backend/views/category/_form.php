@@ -17,8 +17,8 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
 <div class="category-form">
 
     <?php $form = ActiveForm::begin([
-    'id' => 'Category',
-    ]
+            'id' => 'Category',
+        ]
     );
     ?>
 
@@ -26,8 +26,8 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
         <?php $this->beginBlock('main'); ?>
 
         <p>
-<!-- attribute name -->
-			<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+            <!-- attribute name -->
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
             <!-- attribute alias -->
             <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
@@ -173,21 +173,36 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
             ?>
         </p>
         <?php $this->endBlock(); ?>
+        <?php
+        $this->beginBlock('steps');
+
+        echo $this->render('@backend/views/survey/_steps.php', [
+            'form' => $form,
+            'modelsStep' => $modelsStep,
+            'formId' => 'Category',
+        ]);
+        $this->endBlock();
+        ?>
 
         <?=
-    Tabs::widget(
-                 [
-                    'encodeLabels' => false,
-                    'items' => [
-                        [
-    'label'   => Yii::t('models', 'Category'),
-    'content' => $this->blocks['main'],
-    'active'  => true,
-],
-                    ]
-                 ]
-    );
-    ?>
+        Tabs::widget(
+            [
+                'encodeLabels' => false,
+                'items' => [
+                    [
+                        'label'   => Yii::t('models', 'Category'),
+                        'content' => $this->blocks['main'],
+                        'active'  => true,
+                    ],
+                    [
+                        'label'   => 'Шаги',
+                        'content' => $this->blocks['steps'],
+                        'active'  => false,
+                    ],
+                ]
+            ]
+        );
+        ?>
         <hr/>
 
         <?php echo $form->errorSummary($model); ?>

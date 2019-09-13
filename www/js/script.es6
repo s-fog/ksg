@@ -706,6 +706,12 @@ class Cart {
     _bindEvents() {
         $('.select-jquery-ui').selectmenu();
 
+        $('.sort-select').selectmenu({
+            open: function() {
+                $('div.ui-selectmenu-menu').addClass('selectmenu-sort');
+            }
+        });
+
         $('.product__seeAllImage, .product__allPhoto').click(function() {
             $('.product__mainImage').click();
         });
@@ -1355,10 +1361,7 @@ class Filter {
     constructor(root) {
         this.root = root;
 
-        this.filter__itemCategoriesContentListItem_class = 'filter__itemCategoriesContentListItem';
-        this.filter__itemCategoriesContentItem_class = 'filter__itemCategoriesContentItem';
-        this.filter__itemCategoriesContentHeader_class = 'filter__itemCategoriesContentHeader';
-        this.filter__item_class = 'filter__item';
+        this.closing = false;
 
         this._cacheNodes();
         this._bindEvents();
@@ -1367,530 +1370,113 @@ class Filter {
 
     _cacheNodes() {
         this.nodes = {
-            filter__item: $('.'+this.filter__item_class),
             filter: $('.filter'),
-            filter__submit: $('.filter__submit'),
-            filter__itemCategoriesContentListItem: $('.'+this.filter__itemCategoriesContentListItem_class),
-            filter__itemCategoriesContentHeader: $('.'+this.filter__itemCategoriesContentHeader_class),
-            filter__itemCategoriesContentItem: $('.'+this.filter__itemCategoriesContentItem_class),
-            filter__itemCategory: $('.filter__itemCategory'),
-            filter__itemCategoriesContent: $('.filter__itemCategoriesContent'),
-            filter__itemSearchInput: $('.filter__itemSearchInput'),
-            filter__itemSearchSubmit: $('.filter__itemSearchSubmit'),
             filter__itemHeader: $('.filter__itemHeader'),
-            filter__priceSlider: $('.filter__priceSlider'),
-            filter__priceFrom: $('.filter__priceFrom'),
-            filter__priceTo: $('.filter__priceTo'),
             filter__priceInput: $('.filter__priceInput'),
-            filterTrigger__top_li: $('.filterTrigger__top li'),
-            categoryFilter: $('.js-category-filter'),
+            filterSubmit: $('.js-filter-submit'),
+            filter__showMore: $('.filter__showMore'),
+            filter__fixedSubmit: $('.filter__fixedSubmit'),
+            catalogTop__sort: $('.catalogTop__sort'),
         }
-    }
-
-    filterSubmit() {
-        let serialize = $(".filter :input[value!='']").serialize();
-        let url = location.pathname + '?' + serialize+'&'+$('.sorting').serialize();
-        let ids = new Array();
-        let i = 0;
-
-        this.nodes.categoryFilter.each(function(index, element) {
-            if ($(element).hasClass('active')) {
-                ids[i] = $(element).data('id');
-                i++;
-            }
-        });
-
-        if (ids.length > 0) {
-            url += '&cats='+ids.join();
-        }
-
-        location = url;
-
-        return false;
     }
 
     _bindEvents() {
-        this.nodes.filter.on('submit', () => {
-            this.filterSubmit();
-            return false;
-        });
+        this.nodes.filter__itemHeader.on('click', (event) => {
+            if (!this.closing) {
+                let thisElement = $(event.currentTarget);
 
-        this.nodes.categoryFilter.on('click', (event) => {
-            let thisElement = $(event.currentTarget);
-            let hasActive = false;
+                this.closing = true;
 
-            this.nodes.categoryFilter.each((index, element) => {
-                if ($(element).data('id') != thisElement.data('id')) {
-                    $(element).removeClass('active');
-                }
-            });
-            thisElement.toggleClass('active');
-            /*thisElement.removeClass('unactive');
-
-            this.nodes.categoryFilter.each(function(index, element) {
-                if ($(element).hasClass('active')) {
-                    hasActive = true;
-                }
-            });
-
-            if (hasActive) {
-                this.nodes.categoryFilter.each(function(index, element) {
-                    if (!$(element).hasClass('active')) {
-                        $(element).addClass('unactive')
-                    }
-                });
-            } else {
-                this.nodes.categoryFilter.each(function(index, element) {
-                    $(element).removeClass('unactive')
-                });
-            }*/
-
-            this.filterSubmit();
-        });
-
-        this.nodes.filter__priceInput.focus((event) => {
-            let thisElement = $(event.currentTarget);
-
-            thisElement.data('number', thisElement.val());
-            thisElement.val('');
-        });
-
-        this.nodes.filter__priceInput.blur((event) => {
-            let thisElement = $(event.currentTarget);
-
-            thisElement.val(thisElement.data('number'));
-        });
-
-        this.nodes.filter__priceInput.keyup((event) => {
-            let thisElement = $(event.currentTarget);
-
-            if (thisElement.val().match(/[^0-9]/g)) {
-                thisElement.val( thisElement.val().replace(/[^0-9]/g, ''));
-            }
-
-            thisElement.data('number', thisElement.val());
-        });
-
-        this.nodes.filter__itemHeader.click((event) => {
-            let thisElement = $(event.currentTarget);
-            let parent = thisElement.parents('.'+this.filter__item_class);
-            let inner = parent.find('.filter__itemInner');
-
-            if (parent.hasClass('active')) {
-                inner.slideUp(500);
-                parent.removeClass('active');
-            } else {
-                inner.slideDown(500);
-                parent.addClass('active');
-            }
-        });
-
-        this.nodes.filter__itemSearchSubmit.click((event) => {
-            let thisElement = $(event.currentTarget);
-            this.nodes.filter__itemSearchInput.val('');
-
-            setTimeout(() => {
-                this.nodes.filter__itemSearchInput.keyup();
-            }, 10);
-        });
-
-        this.nodes.filter__itemSearchInput.keyup((event) => {
-            let thisElement = $(event.currentTarget);
-            let val = thisElement.val().toLowerCase();
-            let parent = thisElement.parents('.'+this.filter__item_class);
-
-            if (val.length > 0) {
-                parent.find('.filter__itemCategoriesContentItem').each((index, element) => {
-                    $(element).find('.'+this.filter__itemCategoriesContentListItem_class).each((index, element2) => {
-                        let text = $(element2).find('span').text().toLowerCase();
-
-                        if (text.indexOf(val) >= 0) {
-                            $(element2).show();
-                        } else {
-                            $(element2).hide();
-                        }
+                if (thisElement.hasClass('closed')) {
+                    thisElement.removeClass('closed');
+                    thisElement.next().slideDown('fast', () => {
+                        this.closing = false;
                     });
-                });
-                this.nodes.filter__itemSearchSubmit.addClass('active');
-            } else {
-                this.nodes.filter__itemCategoriesContentListItem.show();
-                this.nodes.filter__itemSearchSubmit.removeClass('active');
-            }
-        });
-
-        this.nodes.filter__itemCategoriesContentHeader.click((event) => {
-            let thisElement = $(event.currentTarget);
-            let parent = thisElement.parents('.'+this.filter__itemCategoriesContentItem_class);
-
-            if (thisElement.hasClass('active')) {
-                parent.find('.'+this.filter__itemCategoriesContentListItem_class).each((index, element) => {
-                    $(element).find('input').prop('checked', false);
-                });
-                thisElement.removeClass('active');
-            } else {
-                parent.find('.'+this.filter__itemCategoriesContentListItem_class).each((index, element) => {
-                    $(element).find('input').prop('checked', true);
-                });
-                thisElement.addClass('active');
-            }
-
-            this.fillChecked(thisElement.parents('.'+this.filter__item_class));
-        });
-
-        this.nodes.filter__itemCategoriesContentListItem.click((event) => {
-            let thisElement = $(event.currentTarget);
-            let parent = thisElement.parents('.'+this.filter__itemCategoriesContentItem_class);
-            let header = parent.find('.'+this.filter__itemCategoriesContentHeader_class);
-            let allChecked = true;
-
-            parent.find('.'+this.filter__itemCategoriesContentListItem_class).each((index, element) => {
-                if ($(element).find('input').prop('checked') == false) {
-                    allChecked = false;
+                } else {
+                    thisElement.addClass('closed');
+                    thisElement.next().slideUp('fast', () => {
+                        this.closing = false;
+                    });
                 }
+            }
+        });
+
+        this.nodes.filter__priceInput.on('keyup', (event) => {
+            let thisElement = $(event.currentTarget);
+
+            this.price(thisElement, false);
+
+            let header = $('.filter__itemContent_prices').prev();
+            let top = header.position().top - 12;
+            this.nodes.filter__fixedSubmit.css({
+                'top': `${top}px`,
+                'opacity': 1
             });
-
-            if (allChecked) {
-                header.addClass('active');
-            } else {
-                header.removeClass('active');
-            }
-
-            this.fillChecked(thisElement.parents('.'+this.filter__item_class));
         });
 
-        this.nodes.filter__itemCategory.click((event) => {
+        this.nodes.filter__priceInput.on('change', (event) => {
             let thisElement = $(event.currentTarget);
-            let index = thisElement.index();
-            let content = thisElement.parents('.'+this.filter__item_class).find('.filter__itemCategoriesContent');
 
-            this.nodes.filter__itemCategory.removeClass('active');
-            thisElement.addClass('active');
-
-            content.removeClass('active');
-            content.eq(index).addClass('active');
+            this.price(thisElement, true);
         });
 
-        this.nodes.filter__priceFrom.change((event) => {
-            var value1 = this.nodes.filter__priceFrom.val();
-            if (value1) value1 = parseInt(value1.replace(/\s/g, ''));
-            var value2 = this.nodes.filter__priceTo.val();
-            if (value2) value2 = parseInt(value2.replace(/\s/g, ''));
-
-            if(parseInt(value1) > parseInt(value2)){
-                value1 = value2;
-                this.nodes.filter__priceFrom.val(value1);
-            }
-
-            if (value1 < 100000){
-                let vL1 = value1;
-                this.nodes.filter__priceSlider.slider("values", 0, vL1);
-            } else {
-                let R1 = value1 - 100000;
-                let vR1 = Math.round(R1/99+100000);
-                this.nodes.filter__priceSlider.slider("values", 0, vR1);
-            }
-
-            $(event.currentTarget).val(this.number_format($(event.currentTarget).val(), 0, '.', ' '));
-            this.priceDescription();
-            this.fillChecked($('filter__item').eq(0));
-        });
-
-        this.nodes.filter__priceTo.change((event) => {
-            var value1 = this.nodes.filter__priceFrom.val();
-            if (value1) value1 = parseInt(value1.replace(/\s/g, ''));
-            var value2 = this.nodes.filter__priceTo.val();
-            if (value2) value2 = parseInt(value2.replace(/\s/g, ''));
-
-            if(parseInt(value1) > parseInt(value2)){
-                value2 = value1;
-                this.nodes.filter__priceFrom.val(value2);
-            }
-
-            if (value2 < 100000){
-                let vL1 = value2;
-                this.nodes.filter__priceSlider.slider("values", 1, vL1);
-            } else {
-                let R1 = value2 - 100000;
-                let vR1 = Math.round(R1/99+100000);
-                this.nodes.filter__priceSlider.slider("values", 1, vR1);
-            }
-
-            $(event.currentTarget).val(this.number_format($(event.currentTarget).val(), 0, '.', ' '));
-            this.priceDescription();
-            this.fillChecked($('filter__item').eq(0));
-        });
-
-        $('.js-filter-close').click(() => {
-            this.filterClose();
-        });
-
-        $('.js-filter-open').click(() => {
-            this.filterOpen();
-        });
-
-        $('.js-filter-clear').click(() => {
-            let minprice = this.nodes.filter__priceFrom.data('minprice');
-            let maxprice = this.nodes.filter__priceTo.data('maxprice');
-
-            this.nodes.filter.find('.'+this.filter__itemCategoriesContentListItem_class+' input').prop('checked', false);
-            this.nodes.filter__priceFrom.val(this.number_format(minprice, 0, '.', ' '));
-            this.nodes.filter__priceTo.val(this.number_format(maxprice, 0, '.', ' '));
-            this.nodes.filter__priceSlider.slider("values", 0, minprice);
-            this.nodes.filter__priceSlider.slider("values", 1, maxprice);
-            this.fillCheckWhenReady();
-        });
-
-        this.nodes.filterTrigger__top_li.click(() => {
+        this.nodes.filter__showMore.on('click', (event) => {
             let thisElement = $(event.currentTarget);
-            let index = thisElement.index() - 1;
-            let filterItem = $('.'+this.filter__item_class).eq(index);
 
-            this.filterOpen();
+            thisElement.siblings('.filter__itemLabel_hidden').removeClass('filter__itemLabel_hidden');
+            thisElement.hide();
+        });
 
-            setTimeout(() => {
-                if (!filterItem.hasClass('active') && index != -1) {
-                    filterItem.find('.filter__itemHeader').click();
-                }
-            }, 550);
-
+        this.nodes.filterSubmit.on('click', () => {
+            Filter.submit();
             return false;
         });
 
-        setTimeout(() => {
-            $('.select-filter-brand').on( "selectmenuchange", (event, ui) => {
-                this.brandDescription();
+        this.nodes.catalogTop__sort.on( "selectmenuchange", () => {
+            Filter.submit();
+        });
+
+        $('.filter__itemContent [type="checkbox"]').on('change', (event) => {
+            let thisElement = $(event.currentTarget);
+            let parentTop = thisElement.parent().position().top - 7;
+
+            this.nodes.filter__fixedSubmit.css({
+                'top': `${parentTop}px`,
+                'opacity': 1
             });
-        }, 100);
+        });
     }
 
     _ready() {
-        if (this.nodes.filter.get(0)) {
-            this.fillCheckWhenReady();
-            this.priceDescription();
 
-            /*setTimeout(() => {
-                $('.filterTrigger').addClass('active');
-            }, 1500);
-
-            setTimeout(() => {
-                this.filterClose();
-            }, 1000);*/
-
-            let minprice = parseInt(this.nodes.filter__priceFrom.data('minprice'));
-            let maxprice = parseInt(this.nodes.filter__priceTo.data('maxprice'));
-            var currentFrom = this.nodes.filter__priceFrom.val();
-            if (currentFrom) currentFrom = parseInt(currentFrom.replace(/\s/g, ''));
-            var currentTo = this.nodes.filter__priceTo.val();
-            if (currentTo) currentTo = parseInt(currentTo.replace(/\s/g, ''));
-
-            this.nodes.filter__priceSlider.slider({
-                min: minprice,
-                max: maxprice,
-                values: [currentFrom, currentTo],
-                range: true,
-                slide: (event, ui) => {
-                    this.priceSlide();
-                },
-                stop: (event, ui) => {
-                    this.priceSlide();
-                }
-            });
-        }
     }
 
-    priceSlide() {
-        let value01 = this.nodes.filter__priceSlider.slider("values", 0);
-        let value02 = this.nodes.filter__priceSlider.slider("values", 1);
+    price(thisElement, checkMaxMin) {
+        let val = parseInt(thisElement.val().replace(/\s+/g, '').trim());
 
-        this.nodes.filter__priceFrom.val(this.number_format(value01, 0, '.', ' '));
-        this.nodes.filter__priceTo.val(this.number_format(value02, 0, '.', ' '));
+        if (checkMaxMin) {
+            let minPrice = thisElement.data('minprice');
+            let maxPrice = thisElement.data('maxprice');
 
-        this.fillChecked($('filter__item').eq(0));
-
-        this.priceDescription();
-    }
-
-    filterClose() {
-        this.nodes.filter.slideUp(500);
-        $('html').removeClass('html-hidden');
-    }
-
-    filterOpen() {
-        $("html, body").animate({ scrollTop: 0 }, "fast");
-
-        setTimeout(() => {
-            if (!$('.filter__features').hasClass('active')) {
-                $('.filter__features .filter__itemHeader').click();
-            }
-        }, 300);
-        /*let mainHeaderHeight = $('.mainHeader').height();
-        let breadcrumbsHeight = $('.breadcrumbs').height();
-        let windowHeight = window.innerHeight;
-        let height = windowHeight - mainHeaderHeight - breadcrumbsHeight;
-
-        this.nodes.filter.slideDown(500, () => {
-            this.nodes.filter.height(height);
-        });
-
-        $('html').addClass('html-hidden');*/
-    }
-
-    fillChecked(parent) { //$('.filter__item)
-        let $items = '';
-        let $count = -1;
-        let $maxLength = 30;
-        let $str = '';
-        let $str2 = '';
-        let empty = true;
-
-        parent.find('.'+this.filter__itemCategoriesContentListItem_class).each((index, element) => {
-            if ($(element).find('input').prop('checked') == true) {
-                let header = $(element).parent().siblings('.filter__itemCategoriesContentHeader').find('span').html();
-
-                if (!header) {
-                    header = '';
-                } else {
-                    header += ': ';
-                }
-
-                if ($count < 0) {
-                    $items += ', ' + header + $(element).find('span').text();
-                }
-
-                if ($items.length >= $maxLength) {
-                    $count++;
-                }
-
-                empty = false;
-            }
-        });
-
-        let $simv = 'параметров';
-        let c = 0;
-
-        this.nodes.filter.find('[type="checkbox"]').each((i, e) => {
-            if ($(e).prop('checked') == true) {
-                c++;
-            }
-        });
-
-        if (this.nodes.filter__priceSlider.slider("instance")) {
-            let value01 = this.nodes.filter__priceSlider.slider("values", 0);
-            let value02 = this.nodes.filter__priceSlider.slider("values", 1);
-            let minprice = parseInt(this.nodes.filter__priceFrom.data('minprice'));
-            let maxprice = parseInt(this.nodes.filter__priceTo.data('maxprice'));
-
-            if (value01 != minprice || value02 != maxprice) {
-                c++;
+            if (val < parseInt(minPrice)) {
+                val = parseInt(minPrice);
+            } else if (val > parseInt(maxPrice)) {
+                val = parseInt(maxPrice);
             }
         }
 
-        if (c%10==1) $simv='параметр';
-            else if (c%10==2 || c%10==3 || c%10==4) $simv='параметра';
-
-        $str2 = `Выбрано: ${c} ${$simv}`;
-
-        if ($count > 0) {
-            $str = `{${$items.slice(2)}, и еще ${$count}}`;
-        } else {
-            if (empty) {
-                $str = `{Ничего не выбрано}`;
-            } else {
-                $str = `{${$items.slice(2)}}`;
-            }
-        }
-
-        parent.find('.filter__description').html($str);
-        $('.filterTrigger__topItemCount').html($str2);
-        this.fillTriggerDescr();
+        thisElement.val(number_format(val, 0, '', ' '));
     }
 
-    fillCheckWhenReady() {
-        this.nodes.filter__item.each((index, element) => {
-            this.fillChecked($(element));
-        });
+    static submit() {
+        let sort = $('.catalogTop__sort').val();
+        let data = $('.filter :input')
+            .filter(function(index, element) {
+                return $(element).val() != '';
+            }).serialize() + '&sort='+sort;
+
+        location = location.pathname+'?'+data;
     }
-
-    fillTriggerDescr() {
-        $('.filter__item .filter__description').each((index, element) => {
-            let text = $(element).html();
-            let gg = this.nodes.filterTrigger__top_li.eq(index + 1);
-            let ggIn = gg.find('.filterTrigger__topItem');
-
-            if (text == '{Ничего не выбрано}') {
-                gg.removeClass('active');
-            } else {
-                gg.addClass('active');
-                ggIn.find('span').html(text);
-            }
-        });
-    }
-
-    brandDescription() {
-        let brandVal = $('.select-filter-brand').val();
-        let brandLabel = $(`.select-filter-brand option[value="${brandVal}"]`).text();
-        let descr = $('.filter__brandsDescription');
-
-        if (brandVal != 0) {
-            descr.html(`{Бренд: ${brandLabel}}`);
-        } else {
-            descr.html('{Ничего не выбрано}');
-        }
-
-        this.fillTriggerDescr();
-    }
-
-    priceDescription() {
-        let priceFrom = parseInt(this.nodes.filter__priceFrom.val().replace(/\s/g, ''));
-        let priceTo = parseInt(this.nodes.filter__priceTo.val().replace(/\s/g, ''));
-        let descr = $('.filter__description_price');
-
-        if (priceFrom > 0 || priceTo < 10000000) {
-            descr.html('{от '+this.number_format(priceFrom, 0, '.', ' ')+' до '+this.number_format(priceTo, 0, '.', ' ')+' <span class="rubl">₽</span>}');
-        } else {
-            descr.html('{Ничего не выбрано}');
-        }
-
-        this.fillTriggerDescr();
-    }
-
-    number_format( number, decimals, dec_point, thousands_sep ) {	// Format a number with grouped thousands
-        //
-        // +   original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
-        // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-        // +	 bugfix by: Michael White (http://crestidg.com)
-
-        var i, j, kw, kd, km;
-
-        // input sanitation & defaults
-        if( isNaN(decimals = Math.abs(decimals)) ){
-            decimals = 2;
-        }
-        if( dec_point == undefined ){
-            dec_point = ",";
-        }
-        if( thousands_sep == undefined ){
-            thousands_sep = ".";
-        }
-
-        i = parseInt(number = (+number || 0).toFixed(decimals)) + "";
-
-        if( (j = i.length) > 3 ){
-            j = j % 3;
-        } else{
-            j = 0;
-        }
-
-        km = (j ? i.substr(0, j) + thousands_sep : "");
-        kw = i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands_sep);
-        //kd = (decimals ? dec_point + Math.abs(number - i).toFixed(decimals).slice(2) : "");
-        kd = (decimals ? dec_point + Math.abs(number - i).toFixed(decimals).replace(/-/, 0).slice(2) : "");
-
-
-        return km + kw + kd;
-    }
-
-
 }
 
 class Application {
@@ -1983,7 +1569,7 @@ class Application {
             }
         });
 
-        flexGridAddElements('catalog__inner', 'catalog__item', 'catalog__item_hide');
+        flexGridAddElements('catalog__innerRightItems', 'catalog__item', 'catalog__item_hide');
         flexGridAddElements('newsBlock__inner', 'newsBlock__item', 'newsBlock__item_hide');
         flexGridAddElements('brands__listInner', 'brands__listItem', 'brands__listItem_hide');
         flexGridAddElements('mostCatalog__inner', 'mostCatalog__item', 'mostCatalog__item_hide');
@@ -2200,3 +1786,39 @@ class Application {
 (function () {
     new Application();
 })();
+
+function number_format( number, decimals, dec_point, thousands_sep ) {	// Format a number with grouped thousands
+    //
+    // +   original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+    // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +	 bugfix by: Michael White (http://crestidg.com)
+
+    var i, j, kw, kd, km;
+
+    // input sanitation & defaults
+    if( isNaN(decimals = Math.abs(decimals)) ){
+        decimals = 2;
+    }
+    if( dec_point == undefined ){
+        dec_point = ",";
+    }
+    if( thousands_sep == undefined ){
+        thousands_sep = ".";
+    }
+
+    i = parseInt(number = (+number || 0).toFixed(decimals)) + "";
+
+    if( (j = i.length) > 3 ){
+        j = j % 3;
+    } else{
+        j = 0;
+    }
+
+    km = (j ? i.substr(0, j) + thousands_sep : "");
+    kw = i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands_sep);
+    //kd = (decimals ? dec_point + Math.abs(number - i).toFixed(decimals).slice(2) : "");
+    kd = (decimals ? dec_point + Math.abs(number - i).toFixed(decimals).replace(/-/, 0).slice(2) : "");
+
+
+    return km + kw + kd;
+}

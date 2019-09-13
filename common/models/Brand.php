@@ -64,4 +64,28 @@ class Brand extends BaseBrand
     public function getFilterFeatures ($category_id) {
         return FilterFeature::find()->where(['category_id' => $category_id])->orderBy(['name' => SORT_ASC])->all();
     }
+
+    public static function sortBrands($filterBrands) {
+        ArrayHelper::multisort($filterBrands, ['name'], [SORT_ASC]);
+        $filterBrandsIndexedById = [];
+        $return = [];
+
+        foreach($filterBrands as $filterBrand) {
+            $filterBrandsIndexedById[$filterBrand['id']] = $filterBrand;
+        }
+
+        if (isset($_GET['brands'])) {
+            foreach($_GET['brands'] as $brand_id) {
+                $return[intval($brand_id)] = $filterBrandsIndexedById[intval($brand_id)];
+            }
+        }
+
+        foreach($filterBrandsIndexedById as $brand_id => $brandArray) {
+            if (!array_key_exists($brand_id, $return)) {
+                $return[$brand_id] = $brandArray;
+            }
+        }
+
+        return $return;
+    }
 }

@@ -559,6 +559,10 @@ class Category extends BaseCategory
         return $this->hasMany(FilterFeature::className(), ['category_id' => 'id'])->orderBy(['sort_order' => SORT_ASC]);
     }
 
+    public function getSteps () {
+        return $this->hasMany(Step::className(), ['category_id' => 'id'])->orderBy(['sort_order' => SORT_ASC]);
+    }
+
     public function getBrand() {
         return $this->hasOne(Brand::className(), ['id' => 'brand_id']);
     }

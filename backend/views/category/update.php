@@ -14,6 +14,7 @@ $this->title = Yii::t('models', 'Category') . ' Редактирование';
     <?php echo $this->render('_form', [
         'model' => $model,
         'modelsFeature' => $modelsFeature,
+        'modelsStep' => $modelsStep,
         'modelsFilterFeature' => $modelsFilterFeature,
         'modelsFeatureValue' => $modelsFeatureValue,
     ]); ?>

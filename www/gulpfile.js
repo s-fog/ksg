@@ -7,14 +7,14 @@ var sourcemaps = require('gulp-sourcemaps');
 var watch = require('gulp-watch');
 var browserSync = require('browser-sync');
 var autoprefixer = require('gulp-autoprefixer');
-const imagemin = require('gulp-imagemin');
+var imagemin = require('gulp-imagemin');
 var plumber = require('gulp-plumber');
 var imageminJpegRecompress = require('imagemin-jpeg-recompress');
 var imageminPngquant = require('imagemin-pngquant');
 var cacheFiles = require('gulp-cache-files');
-const webp = require('gulp-webp');
-const clone = require('gulp-clone');
-const clonesink = clone.sink();
+var webp = require('gulp-webp');
+var clone = require('gulp-clone');
+var clonesink = clone.sink();
 var autoprefixerOptions = {
     browsers: ['> 1%'],
     cascade: false
@@ -90,6 +90,15 @@ gulp.task('thumbs-jpg', function () {
         .pipe(webp({quality: '85', method: 6})) // convert images to webp and save a copy of the original format
         .pipe(clonesink.tap()) // close stream and send both formats to dist
         .pipe(gulp.dest('images/thumbs'));
+});
+
+gulp.task('images-svg', function () {
+    return gulp.src('img-full/**/*.svg', {read: false})
+        .pipe(cacheFiles.filter('manifest-svg.json'))
+        .pipe(plumber())
+        .pipe(imagemin())
+        .pipe(cacheFiles.manifest())
+        .pipe(gulp.dest('img'));
 });
 
 gulp.task('scripts', function () {

@@ -172,7 +172,7 @@ class CatalogController extends Controller
             $allProductsQuery = clone $productQuery;
             $allProducts = $allProductsQuery->asArray()->all();
             $filterBrands = ArrayHelper::map($allProducts, 'brand_id', 'brand');
-            ArrayHelper::multisort($filterBrands, ['name'], [SORT_ASC]);
+            $filterBrands = Brand::sortBrands($filterBrands);
             $categoriesFull = Yii::$app->cache->getOrSet('categoriesFull', function() {
                 return Category::find()->all();
             }, 10);
