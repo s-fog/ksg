@@ -47,6 +47,9 @@ class Filter
                 ->where(['IN', 'filter_feature_value_id', $filterFeaturesValue])
                 ->groupBy('product_id')
                 ->having(['c' => count($filterFeaturesValue)]);
+            if (isset($_GET['gg'])) {
+                var_dump($fQuery->asArray()->all());
+            }
             $query->andWhere([Product::tableName().'.id' => ArrayHelper::getColumn($fQuery->asArray()->all(), 'product_id')]);
         }
 
