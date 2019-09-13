@@ -50,11 +50,6 @@ class Filter
             $fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id')
                 ->where(['filter_feature_value_id' => $filterFeaturesValue]);
-            if (isset($_GET['gg'])) {
-                var_dump($filterFeaturesValue);
-                var_dump($fQuery->asArray()->all());
-                var_dump(ArrayHelper::getColumn($fQuery->asArray()->all(), 'product_id'));die();
-            }
             $query->andWhere([Product::tableName().'.id' => ArrayHelper::getColumn($fQuery->asArray()->all(), 'product_id')]);
         }
 

@@ -12,9 +12,12 @@ class ConsoleController extends Controller {
     public function actionGenerateMoreThumbs() {
         $simage = new SImage;
 
-        foreach(Product::find()->all() as $product) {
-            foreach($product->images as $image) {
-                $simage->addMoreThumbs($image->image, ['270x230']);
+        foreach(Product::find()->select('id')
+                    ->with(['images' => function ($q) {
+            $q->select('image');
+        }])->asArray()->all() as $product) {
+            foreach($product['images'] as $image) {
+                $simage->addMoreThumbs($image['image'], ['270x230']);
             }
         }
     }
