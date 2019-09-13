@@ -44,7 +44,7 @@ class Filter
         if ($featuresOn) {
             $fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id, COUNT( * ) AS c')
-                ->where(['IN', 'filter_feature_value_id', $filterFeaturesValue])
+                ->where(['filter_feature_value_id' => $filterFeaturesValue])
                 ->groupBy('product_id')
                 ->having(['c' => count($filterFeaturesValue)]);
             if (isset($_GET['gg'])) {
