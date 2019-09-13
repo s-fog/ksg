@@ -42,10 +42,14 @@ class Filter
         }
 
         if ($featuresOn) {
-            $fQuery = ProductHasFilterFeatureValue::find()
+            /*$fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id, COUNT( * ) AS c')
                 ->where(['filter_feature_value_id' => $filterFeaturesValue])
-                ->having(['c' => count($filterFeaturesValue)]);
+                ->groupBy('product_id')
+                ->having(['c' => count($filterFeaturesValue)]);*/
+            $fQuery = ProductHasFilterFeatureValue::find()
+                ->select('product_id')
+                ->where(['filter_feature_value_id' => $filterFeaturesValue]);
             if (isset($_GET['gg'])) {
                 var_dump($filterFeaturesValue);
                 var_dump($fQuery->asArray()->all());
