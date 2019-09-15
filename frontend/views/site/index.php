@@ -44,7 +44,7 @@ $catalogPage = Textpage::findOne(1);
         <div class="header">Хиты продаж</div>
         <div class="hits__text">Эти товары пользуются особой популярностью, присмотритесь,<br> возможно подберете для себя что-нибудь интересное.</div>
         <div class="catalog">
-            <div class="catalog__inner">
+            <div class="catalog__inner catalog__inner_search">
                 <?php foreach($hitProducts as $item) {
                     echo $this->render('@frontend/views/catalog/_item', [
                         'model' => $item
