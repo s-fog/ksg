@@ -1105,6 +1105,10 @@ body {
     @include respond-to(650) {
       flex-wrap: wrap;
     }
+
+    &_search {
+      flex-wrap: wrap;
+    }
   }
 
   &__innerLeft {

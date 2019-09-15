@@ -69,7 +69,7 @@ $presents = \common\models\Present::find()->all();
             <div class="properties__content<?=$active1?>">
                 <div class="catalog">
                     <div class="container">
-                        <div class="catalog__inner">
+                        <div class="catalog__inner catalog__inner_search">
                             <?php foreach($products as $product) {
                                 echo $this->render('@frontend/views/catalog/_item', [
                                     'model' => $product

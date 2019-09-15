@@ -1573,6 +1573,7 @@ class Application {
         flexGridAddElements('newsBlock__inner', 'newsBlock__item', 'newsBlock__item_hide');
         flexGridAddElements('brands__listInner', 'brands__listItem', 'brands__listItem_hide');
         flexGridAddElements('mostCatalog__inner', 'mostCatalog__item', 'mostCatalog__item_hide');
+        flexGridAddElements('catalog__inner_search', 'catalog__item', 'catalog__item_hide');
 
         $('[data-fancybox]').fancybox({
             'loop': true,
