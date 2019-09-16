@@ -51,6 +51,13 @@ class Filter
                 ->select('product_id')
                 ->where(['filter_feature_value_id' => $filterFeaturesValue]);
             $query->andWhere([Product::tableName().'.id' => ArrayHelper::getColumn($fQuery->asArray()->all(), 'product_id')]);
+
+            $query->leftJoin(ProductHasFilterFeatureValue::tableName(),
+                ProductHasFilterFeatureValue::tableName().'.product_id = product.id')
+                ->select('product.*, COUNT( * ) AS c')
+                ->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $filterFeaturesValue])
+                ->groupBy('product_id')
+                ->having(['c' => count($filterFeaturesValue)]);
         }
 
         if (isset($get['brands'])) {
