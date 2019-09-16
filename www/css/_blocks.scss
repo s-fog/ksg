@@ -7270,6 +7270,9 @@ body.fancybox-active {
 
     &_categoriesEmpty {
       flex: 0 0 auto;
+      @include respond-to(800) {
+        flex: 0 0 100%;
+      }
     }
 
     h1 {
