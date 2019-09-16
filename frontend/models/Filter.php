@@ -58,7 +58,7 @@ class Filter
             $query->leftJoin(ProductHasFilterFeatureValue::tableName(), ProductHasFilterFeatureValue::tableName().'.product_id = product.id');
 
             foreach($filterFeaturesValue as $ff) {
-                $query->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $filterFeaturesValue]);
+                $query->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $ff]);
             }
         }
 
