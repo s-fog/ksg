@@ -33,7 +33,7 @@ class Filter
                 $featuresOn = true;
                 $a1 = (int) $match[1];//$filterFeature->id
                 $a2 = (int) $match[2];//$filterFeatureValue->id
-                $filterFeaturesValue[$a1][] = $a2;
+                $filterFeaturesValue[] = $a2;
             }
 
             if ($index == 'cats') {
@@ -42,18 +42,15 @@ class Filter
         }
 
         if ($featuresOn) {
-            $array_products_ids = [];
-            foreach ($filterFeaturesValue as $filterFeature => $filterValues) {
-                    array_merge($array_products_ids, ArrayHelper::getColumn(ProductHasFilterFeatureValue::find()
-                        ->select('product_id, COUNT( * ) AS c')
-                        ->where(['filter_feature_value_id' => $filterValues])
-                        ->groupBy('product_id')
-                        ->having(['c' => count($filterValues)])->asArray()->all(), 'product_id'));
-            }
             /*$fQuery = ProductHasFilterFeatureValue::find()
+                ->select('product_id, COUNT( * ) AS c')
+                ->where(['filter_feature_value_id' => $filterFeaturesValue])
+                ->groupBy('product_id')
+                ->having(['c' => count($filterFeaturesValue)]);*/
+            $fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id')
-                ->where(['filter_feature_value_id' => $filterFeaturesValue]);*/
-            $query->andWhere([Product::tableName().'.id' => $array_products_ids]);
+                ->where(['filter_feature_value_id' => $filterFeaturesValue]);
+            $query->andWhere([Product::tableName().'.id' => ArrayHelper::getColumn($fQuery->asArray()->all(), 'product_id')]);
         }
 
         if (isset($get['brands'])) {
