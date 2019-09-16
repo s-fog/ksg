@@ -1371,12 +1371,14 @@ class Filter {
     _cacheNodes() {
         this.nodes = {
             filter: $('.filter'),
+            filter__inner: $('.filter__inner'),
             filter__itemHeader: $('.filter__itemHeader'),
             filter__priceInput: $('.filter__priceInput'),
             filterSubmit: $('.js-filter-submit'),
             filter__showMore: $('.filter__showMore'),
             filter__fixedSubmit: $('.filter__fixedSubmit'),
             catalogTop__sort: $('.catalogTop__sort'),
+            filter__mobileOpen: $('.filter__mobileOpen'),
         }
     }
 
@@ -1398,6 +1400,10 @@ class Filter {
                         this.closing = false;
                     });
                 }
+
+                this.nodes.filter__fixedSubmit.css({
+                    'opacity': 0
+                });
             }
         });
 
@@ -1425,6 +1431,23 @@ class Filter {
 
             thisElement.siblings('.filter__itemLabel_hidden').removeClass('filter__itemLabel_hidden');
             thisElement.hide();
+        });
+
+        this.nodes.filter__mobileOpen.on('click', (event) => {
+            let thisElement = $(event.currentTarget);
+            let set_filter_opened;
+
+            if (thisElement.hasClass('active')) {
+                thisElement.removeClass('active');
+                this.nodes.filter__inner.slideUp();
+                set_filter_opened = 0;
+            } else {
+                thisElement.addClass('active');
+                this.nodes.filter__inner.slideDown();
+                set_filter_opened = 1;
+            }
+
+            $.post(location.pathname, 'set_filter_opened='+set_filter_opened);
         });
 
         this.nodes.filterSubmit.on('click', () => {

@@ -36,6 +36,11 @@ class CatalogController extends Controller
 
         City::setCity();
 
+        if (isset($_POST['set_filter_opened'])) {
+            setcookie("set_filter_opened", $_POST['set_filter_opened'], time()+(3600*24*30));
+            return false;
+        }
+
         if (Category::isAliasesEmpty([$alias, $alias2, $alias3, $alias4, $alias5])) {
             $model = Textpage::findOne(1);
 

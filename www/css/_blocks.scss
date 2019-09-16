@@ -1244,13 +1244,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 270px;
+    flex: 0 0 540px;
+    @include respond-to(1000) {
+      margin: 20px 0;
+      flex: 0 0 95%;
+    }
     @include respond-to(650) {
       margin-left: 0;
       margin-right: 0;
-    }
-    @include respond-to(450) {
-      flex: 0 0 100%;
     }
 
     .newsBlock__itemInner {
@@ -5611,20 +5612,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 270px;
-  @include respond-to(450) {
-    flex: 0 0 100%;
+  flex: 0 0 540px;
+  @include respond-to(1000) {
+    margin: 20px 0;
+    flex: 0 0 95%;
   }
 
   &__inner {
     border: 1px solid grey;
     background-size: 100% 100%;
-    padding: 10px 10px;
-    @include respond-to(450) {
-      border: 2px solid #bbb;
-      background: none;
-      padding: 20px 15px;
-      box-sizing: border-box;
+    padding: 30px;
+    @include respond-to(800) {
+      padding: 10px;
     }
   }
 
@@ -7284,6 +7283,10 @@ body.fancybox-active {
       position: absolute;
       margin-left: 5px;
       @extend .sportsWorld;
+      @include respond-to(360) {
+        position: static;
+        margin-left: 0;
+      }
     }
   }
 
@@ -7369,8 +7372,61 @@ body.fancybox-active {
 .filter {
   position: relative;
 
+  &.active {
+    .filter__inner {
+      display: block;
+    }
+  }
+
+  &__mobileOpen {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 15px;
+    background-color: #ededed;
+    @include respond-to(550) {
+      display: flex;
+    }
+
+    &.active {
+      .filter__mobileOpenIcon {
+        &:after {
+          height: 0;
+        }
+      }
+    }
+  }
+
+  &__mobileOpenText {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  &__mobileOpenIcon {
+    @extend .properties__featurePlus;
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+
+  &__inner {
+    display: block;
+    @include respond-to(550) {
+      display: none;
+    }
+  }
+
   &__item {
-    margin: 20px 0;
+    border-top: 1px solid #ececec;
+    padding: 10px 0;
+    @include respond-to(550) {
+      background-color: #f4f4f4;
+      padding: 10px 15px;
+    }
+
+    &:first-child {
+      border-top: none;
+    }
   }
 
   &__itemHeader {
@@ -7380,6 +7436,10 @@ body.fancybox-active {
     font-weight: bold;
     font-size: 21px;
     cursor: pointer;
+    @include respond-to(550) {
+      font-size: 18px;
+      padding-left: 0;
+    }
 
     &:before {
       content: '';
@@ -7393,6 +7453,10 @@ body.fancybox-active {
       height: 6px;
       background-image: url(../img/arb.png);
       @extend .transition;
+      @include respond-to(550) {
+        right: 0;
+        left: auto;
+      }
     }
 
     &.closed {
