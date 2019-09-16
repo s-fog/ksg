@@ -1,17 +1,4 @@
-body {
-  padding-top: 50px;
-}
-
 .mainHeader {
-  position: fixed;
-  top: 0;
-  z-index: 55555;
-  width: 100%;
-  transition: top 0.5s ease-in-out;
-
-  &.hide {
-    top: -50px;
-  }
 
   &__outer {
     position: relative;
@@ -25,15 +12,105 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
+    height: 60px;
     background-color: $darkBg;
   }
 
   &__logo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 
     &_desktop {
       height: 40px;
       fill: #ffffff;
+    }
+
+    span {
+      margin-left: 35px;
+      color: #fff;
+      @include respond-to(1050) {
+        display: none;
+      }
+    }
+  }
+
+  &__search2Mobile {
+    display: none;
+    padding-bottom: 10px;
+    @include respond-to(500) {
+      display: block;
+    }
+
+    .mainHeader__search2 {
+      display: block;
+      margin: auto;
+      width: 80%;
+    }
+  }
+
+  &__search2 {
+    position: relative;
+    flex: 0 0 320px;
+    @include respond-to(820) {
+      flex: 0 0 170px;
+    }
+    @include respond-to(500) {
+      display: none;
+    }
+
+    &:before, &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+
+    &:before {
+      left: 0;
+      top: 0;
+      border-left: 5px solid $darkBg;
+      border-top: 5px solid $darkBg;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+    }
+
+    &:after {
+      right: 0;
+      bottom: 0;
+      border-left: 5px solid transparent;
+      border-top: 5px solid transparent;
+      border-right: 5px solid $darkBg;
+      border-bottom: 5px solid $darkBg;
+    }
+  }
+
+  &__search2Input {
+    border: none;
+    width: 100%;
+    padding: 10px 10px 10px 45px;
+    background-color: #fff;
+    font-size: 15px;
+    box-sizing: border-box;
+  }
+
+  &__search2Submit {
+    position: absolute;
+    left: 17px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 17px;
+    height: 17px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+
+      path {
+        fill: #2b2f3a;
+      }
     }
   }
 
@@ -70,38 +147,36 @@ body {
 
   &__menuLink {
     display: block;
-    padding: 10px 0;
+    position: relative;
+    border-radius: 8px;
+    padding: 10px 15px 10px 45px;
+    background: #1f222e url(../img/menuTrigger.svg) no-repeat 13px 10px;
+    background-size: 19px 14px;
     font-size: 16px;
     color: #fff;
     text-decoration: none;
     letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 
-    &_catalog {
-      position: relative;
-      padding-left: 25px;
-      background: url(../img/menuTrigger.svg) no-repeat left 10px;
-      background-size: 19px 14px;
-      transition: all 0.3s ease-in-out;
+    &.active {
+      background-position: -100px center;
+      color: $lightRedColor;
+      transition: all 0.5s ease-in-out;
 
-      &.active {
-        background-position: -100px center;
-        color: $lightRedColor;
-        transition: all 0.5s ease-in-out;
-
-        svg {
-          opacity: 1;
-        }
-      }
-      
       svg {
-        position: absolute;
-        left: 1px;
-        top: 9px;
-        width: 17px;
-        height: 17px;
-        opacity: 0;
-        transition: opacity 0.4s ease-in-out;
+        opacity: 1;
       }
+    }
+
+    svg {
+      position: absolute;
+      left: 15px;
+      top: 9px;
+      width: 17px;
+      height: 17px;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
     }
   }
 
@@ -177,11 +252,21 @@ body {
     }
 
     &_phone {
+      margin-right: 10px;
       padding: 11px 10px 15px 28px;
       cursor: default;
+      @include respond-to(690) {
+        padding: 5px;
+      }
+      @include respond-to(570) {
+        display: block;
+      }
 
       .mainHeader__contactsItemBottom {
         text-decoration: none;
+        @include respond-to(690) {
+          display: none;
+        }
       }
 
       svg {
@@ -190,9 +275,8 @@ body {
         top: 9px;
         width: 23px;
         height: 23px;
-        @include respond-to(440) {
-          right: 0;
-          margin: auto;
+        @include respond-to(690) {
+          position: static;
         }
 
         path {
@@ -211,18 +295,12 @@ body {
       @include respond-to(570) {
         display: block;
       }
-      @include respond-to(440) {
-        display: none;
-      }
-
-      .mainHeader__contactsItemTop {
-        @include respond-to(440) {
-          display: none;
-        }
+      @include respond-to(550) {
+        padding: 5px;
       }
 
       .mainHeader__contactsItemBottom {
-        @include respond-to(440) {
+        @include respond-to(550) {
           display: none;
         }
       }
@@ -245,9 +323,8 @@ body {
         top: 8px;
         width: 23px;
         height: 23px;
-        @include respond-to(440) {
-          right: 0;
-          margin: auto;
+        @include respond-to(550) {
+          position: static;
         }
 
         path {
@@ -276,20 +353,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex: 0 0 100px;
     transition: all 0.5s ease-in-out;
-    @include respond-to(620) {
-      flex: 0 0 70px;
-    }
-    @include respond-to(570) {
-      flex: 0 0 100px;
-    }
-    @include respond-to(440) {
-      flex: 0 0 150px;
-    }
-    @include respond-to(430) {
-      flex: 0 0 135px;
-    }
 
     &.active {
       margin-left: 120px;
@@ -392,6 +456,9 @@ body {
     background-color: $headerPopupBg;
     transform: translate(0, -500px);
     transition: transform 0.5s ease-in-out, opacity 0.3s 0.1s ease-in-out;
+    @include respond-to(500) {
+      top: 108px;
+    }
 
     &.active {
       opacity: 1;
@@ -474,7 +541,7 @@ body {
     visibility: hidden;
     opacity: 0;
     position: absolute;
-    top: 39px;
+    top: 50px;
     z-index: 5555;
     margin: auto;
     width: 0;
@@ -483,6 +550,9 @@ body {
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     @extend .transition;
+    @include respond-to(500) {
+      display: none;
+    }
 
     &.active {
       visibility: visible;
@@ -7390,8 +7460,9 @@ body.fancybox-active {
       }
 
       &:before {
-        background-color: #000;
+        border: 1px solid #1f232f;
         opacity: 1;
+        box-sizing: border-box;
       }
 
       &:after {

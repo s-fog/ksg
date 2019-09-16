@@ -41,6 +41,10 @@ class Filter
             }
         }
 
+        if (isset($_GET['gg'])) {
+            var_dump($filterFeaturesValue);
+        }
+
         if ($featuresOn) {
             /*$fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id, COUNT( * ) AS c')
