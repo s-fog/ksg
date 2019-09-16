@@ -54,7 +54,7 @@ class Filter
             }
         }
 
-        if ($featuresOn) {
+        if ($featuresOn && !empty($finalFilterFeaturesValue)) {
             /*$fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id')
                 ->where(['filter_feature_value_id' => $filterFeaturesValue]);
