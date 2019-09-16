@@ -20,6 +20,8 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex: 0 0 290px;
+    text-decoration: none;
 
     &_desktop {
       height: 40px;
