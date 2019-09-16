@@ -55,7 +55,7 @@ class Filter
                 ProductHasFilterFeatureValue::tableName().'.product_id = product.id');
 
             foreach($filterFeaturesValue as $ff => $hg) {
-                $query->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $hg]);
+                $query->orWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $hg]);
             }
         }
 
