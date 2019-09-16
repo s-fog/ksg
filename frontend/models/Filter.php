@@ -54,7 +54,10 @@ class Filter
             $fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id')
                 ->where(['filter_feature_value_id' => $filterFeaturesValue]);
-            $query->andWhere([Product::tableName().'.id' => ArrayHelper::getColumn($fQuery->asArray()->all(), 'product_id')]);
+
+            foreach(ArrayHelper::getColumn($fQuery->asArray()->all(), 'product_id') as $product_id) {
+                $query->andWhere([Product::tableName().'.id' => $product_id]);
+            }
         }
 
         if (isset($get['brands'])) {
