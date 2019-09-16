@@ -46,7 +46,7 @@ class Filter
 
         foreach($filterFeaturesValue as $filterFeatureId => $filterFeatureValueIds) {
             $filterFeature = FilterFeature::findOne($filterFeatureId);
-
+            var_dump($filterFeature->getFilterFeatureValues()->count());
             if ($filterFeature->getFilterFeatureValues()->count() !== count($filterFeatureValueIds)) {
                 foreach($filterFeatureValueIds as $id) {
                     $finalFilterFeaturesValue[] = $id;
