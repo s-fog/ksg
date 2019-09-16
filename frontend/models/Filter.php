@@ -55,8 +55,11 @@ class Filter
                 ->select('product_id')
                 ->where(['filter_feature_value_id' => $filterFeaturesValue]);
 
-            $query->leftJoin(ProductHasFilterFeatureValue::tableName(), ProductHasFilterFeatureValue::tableName().'.product_id = product.id')
-             ->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $filterFeaturesValue]);
+            $query->leftJoin(ProductHasFilterFeatureValue::tableName(), ProductHasFilterFeatureValue::tableName().'.product_id = product.id');
+
+            foreach($filterFeaturesValue as $ff) {
+                $query->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $filterFeaturesValue]);
+            }
         }
 
         if (isset($get['brands'])) {
