@@ -7552,6 +7552,9 @@ body.fancybox-active {
 
   &__submit {
     padding-top: 0;
+    @include respond-to(550) {
+      margin-top: 15px;
+    }
 
     &:hover {
       span {
