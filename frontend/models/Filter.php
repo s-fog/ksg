@@ -41,32 +41,23 @@ class Filter
             }
         }
 
-        if (isset($_GET['gg'])) {
-            var_dump($filterFeaturesValue);die();
-        }
-
         if ($featuresOn) {
-            /*$fQuery = ProductHasFilterFeatureValue::find()
+            $fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id, COUNT( * ) AS c')
                 ->where(['filter_feature_value_id' => $filterFeaturesValue])
                 ->groupBy('product_id')
-                ->having(['c' => count($filterFeaturesValue)]);*/
-            $fQuery = ProductHasFilterFeatureValue::find()
+                ->having(['c' => count($filterFeaturesValue)]);
+            /*$fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id')
-                ->where(['filter_feature_value_id' => $filterFeaturesValue]);
-
-            $query->leftJoin(ProductHasFilterFeatureValue::tableName(), ProductHasFilterFeatureValue::tableName().'.product_id = product.id');
-
-            foreach($filterFeaturesValue as $ff) {
-                $query->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $ff]);
-            }
+                ->where(['filter_feature_value_id' => $filterFeaturesValue]);*/
+            $query->andWhere([Product::tableName().'.id' => ArrayHelper::getColumn($fQuery->asArray()->all(), 'product_id')]);
         }
 
         if (isset($get['brands'])) {
             $query->joinWith(['brand'])
                 ->andWhere([Brand::tableName().'.id' => $get['brands']]);
         }
-        
+
         return $query;
     }
 }
