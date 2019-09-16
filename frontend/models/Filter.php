@@ -50,6 +50,7 @@ class Filter
                         ->groupBy('product_id')
                         ->having(['c' => count($filterValues)])->asArray()->all(), 'product_id'));
             }
+            var_dump($array_products_ids);die();
             /*$fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id')
                 ->where(['filter_feature_value_id' => $filterFeaturesValue]);*/
