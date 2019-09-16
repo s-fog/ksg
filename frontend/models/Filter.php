@@ -14,12 +14,12 @@ class Filter
     public static function filter($query, $get) {
         $filterFeaturesValue = [];
 
-        if (isset($get['priceFrom'])) {
+        if (isset($get['priceFrom']) && !empty($get['priceFrom'])) {
             $priceFrom = intval(str_replace(' ', '', $get['priceFrom']));
             $query->andWhere(['>=', 'price', $priceFrom]);
         }
 
-        if (isset($get['priceTo'])) {
+        if (isset($get['priceTo']) && !empty($get['priceTo'])) {
             $priceTo = intval(str_replace(' ', '', $get['priceTo']));
             $query->andWhere(['<=', 'price', $priceTo]);
         }
