@@ -22,6 +22,9 @@
     align-items: center;
     flex: 0 0 290px;
     text-decoration: none;
+    @include respond-to(1050) {
+      flex: 0 0 auto;
+    }
 
     &_desktop {
       height: 40px;
