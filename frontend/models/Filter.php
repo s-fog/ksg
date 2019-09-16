@@ -56,7 +56,7 @@ class Filter
                 ProductHasFilterFeatureValue::tableName().'.product_id = product.id')
                 ->select('product.*, COUNT( * ) AS c')
                 ->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $filterFeaturesValue])
-                ->groupBy('product_id')
+                ->groupBy('product.id')
                 ->having(['c' => count($filterFeaturesValue)]);
         }
 
