@@ -33,7 +33,7 @@ class Filter
                 $featuresOn = true;
                 $a1 = (int) $match[1];//$filterFeature->id
                 $a2 = (int) $match[2];//$filterFeatureValue->id
-                $filterFeaturesValue[$a1] = $a2;
+                $filterFeaturesValue[$a1][] = $a2;
             }
 
             if ($index == 'cats') {
@@ -50,7 +50,6 @@ class Filter
                         ->groupBy('product_id')
                         ->having(['c' => count($filterValues)])->asArray()->all(), 'product_id'));
             }
-            var_dump($array_products_ids);die();
             /*$fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id')
                 ->where(['filter_feature_value_id' => $filterFeaturesValue]);*/
