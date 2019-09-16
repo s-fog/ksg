@@ -34,7 +34,7 @@ class Filter
                 $featuresOn = true;
                 $a1 = (int) $match[1];//$filterFeature->id
                 $a2 = (int) $match[2];//$filterFeatureValue->id
-                $filterFeaturesValue[$a1] = $a2;
+                $filterFeaturesValue[$a1][] = $a2;
             }
 
             if ($index == 'cats') {
