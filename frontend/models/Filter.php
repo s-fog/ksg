@@ -33,7 +33,7 @@ class Filter
                 $featuresOn = true;
                 $a1 = (int) $match[1];//$filterFeature->id
                 $a2 = (int) $match[2];//$filterFeatureValue->id
-                $filterFeaturesValue[$a1][] = $a2;
+                $filterFeaturesValue[$a1] = $a2;
             }
 
             if ($index == 'cats') {
@@ -42,21 +42,18 @@ class Filter
         }
 
         if ($featuresOn) {
-            /*$fQuery = ProductHasFilterFeatureValue::find()
-                ->select('product_id, COUNT( * ) AS c')
-                ->where(['filter_feature_value_id' => $filterFeaturesValue])
-                ->groupBy('product_id')
-                ->having(['c' => count($filterFeaturesValue)]);*/
+            $array_products_ids = [];
+            foreach ($filterFeaturesValue as $filterFeature => $filterValues) {
+                    array_merge($array_products_ids, ArrayHelper::getColumn(ProductHasFilterFeatureValue::find()
+                        ->select('product_id, COUNT( * ) AS c')
+                        ->where(['filter_feature_value_id' => $filterValues])
+                        ->groupBy('product_id')
+                        ->having(['c' => count($filterValues)])->asArray()->all(), 'product_id'));
+            }
             /*$fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id')
                 ->where(['filter_feature_value_id' => $filterFeaturesValue]);*/
-            //$query->andWhere([Product::tableName().'.id' => ArrayHelper::getColumn($fQuery->asArray()->all(), 'product_id')]);
-            $query->leftJoin(ProductHasFilterFeatureValue::tableName(),
-                ProductHasFilterFeatureValue::tableName().'.product_id = product.id');
-
-            foreach($filterFeaturesValue as $ff => $hg) {
-                $query->orWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $hg]);
-            }
+            $query->andWhere([Product::tableName().'.id' => $array_products_ids]);
         }
 
         if (isset($get['brands'])) {
