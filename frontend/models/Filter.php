@@ -42,7 +42,7 @@ class Filter
         }
 
         if (isset($_GET['gg'])) {
-            var_dump($filterFeaturesValue);
+            var_dump($filterFeaturesValue);die();
         }
 
         if ($featuresOn) {
