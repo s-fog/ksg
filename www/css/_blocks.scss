@@ -1210,6 +1210,7 @@
   &__item {
     margin: 5px 20px;
     flex: 0 0 270px;
+    width: 340px;
     @include respond-to(500) {
       margin-left: 0;
       margin-right: 0;

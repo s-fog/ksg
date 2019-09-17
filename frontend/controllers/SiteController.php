@@ -579,7 +579,7 @@ class SiteController extends Controller
             $hitProducts = Product::find()
                 ->with(['productParams', 'brand', 'images'])
                 ->where(['hit' => 1])
-                ->limit(6)
+                ->limit(8)
                 ->orderBy(['updated_at' => SORT_DESC])
                 ->all();
             $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM product ORDER BY updated_at DESC']);
