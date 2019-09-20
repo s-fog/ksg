@@ -42,7 +42,7 @@ class Filter
             }
         }
 
-        /*$finalFilterFeaturesValue = [];
+        $finalFilterFeaturesValue = [];
 
         foreach($filterFeaturesValue as $filterFeatureId => $filterFeatureValueIds) {
             $filterFeature = FilterFeature::findOne($filterFeatureId);
@@ -52,9 +52,9 @@ class Filter
                     $finalFilterFeaturesValue[] = $id;
                 }
             }
-        }*/
+        }
 
-        if ($featuresOn/* && !empty($finalFilterFeaturesValue)*/) {
+        if ($featuresOn && !empty($finalFilterFeaturesValue)) {
             /*$fQuery = ProductHasFilterFeatureValue::find()
                 ->select('product_id')
                 ->where(['filter_feature_value_id' => $filterFeaturesValue]);
@@ -63,15 +63,9 @@ class Filter
             $query->leftJoin(ProductHasFilterFeatureValue::tableName(),
                 ProductHasFilterFeatureValue::tableName().'.product_id = product.id')
                 ->select('product.*, COUNT( * ) AS c')
-                //->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $finalFilterFeaturesValue])
-                ->groupBy('product.id');
-                //->having(['c' => count($filterFeaturesValue)]);
-
-            foreach($filterFeaturesValue as $featureId => $featureValues) {
-                $query->andWhere(['or',
-                    [ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $featureValues]
-                ]);
-            }
+                ->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $finalFilterFeaturesValue])
+                ->groupBy('product.id')
+                ->having(['c' => count($finalFilterFeaturesValue)]);
         }
 
         if (isset($get['brands'])) {
