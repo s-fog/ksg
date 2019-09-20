@@ -34,8 +34,14 @@ $presents = \common\models\Present::find()->all();
 
     <div class="catalogTop">
         <div class="container">
-            <div class="catalogTop__inner<?=empty($childrenCategories) ? ' catalogTop__inner_categoriesEmpty' : ''?>">
-                <div class="catalogTop__h1<?=empty($childrenCategories) ? ' catalogTop__h1_categoriesEmpty' : ''?>">
+            <div class="catalogTop__inner<?=empty($childrenCategories) && (isset($inCategories) &&
+                !empty($inCategories) &&
+                count($inCategories) > 1 &&
+                (isset($childrenCategories) && empty($childrenCategories))) ? ' catalogTop__inner_categoriesEmpty' : ''?>">
+                <div class="catalogTop__h1<?=empty($childrenCategories) && (isset($inCategories) &&
+                    !empty($inCategories) &&
+                    count($inCategories) > 1 &&
+                    (isset($childrenCategories) && empty($childrenCategories))) ? ' catalogTop__h1_categoriesEmpty' : ''?>">
                     <h1><?=$h1?></h1>
                     <?=($page == 1) ? "<span>({$model->productCount})</span>" : ''?>
                 </div>
