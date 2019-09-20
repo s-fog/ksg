@@ -203,7 +203,7 @@ $presents = \common\models\Present::find()->all();
         </div>
     </div>
 <?php } ?>
-
+<?php if ($page == 1) { ?>
     <div class="catalogSeoText">
         <p class="container">
             <?=$h1?> по цене от <?=number_format($minPrice, 0, '', ' ')?> руб.! Купите в интернет-магазине KSG.ru и  вы получите фирменную гарантию от производителя, поскольку мы являемся официальным дилером всех брендов представленных на сайте. <br>
@@ -243,6 +243,7 @@ $presents = \common\models\Present::find()->all();
             } ?>
         </div>
     <?php } ?>
+<?php } ?>
 
 <?php if (!empty($brandCategories)) { ?>
     <div class="brands">
