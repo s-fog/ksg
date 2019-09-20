@@ -250,6 +250,10 @@
       display: none;
     }
 
+    path {
+      fill: #fff;
+    }
+
     &:hover {
       path {
         fill: $lightRedColor;
@@ -438,6 +442,7 @@
 
       path {
         @extend .transition;
+        fill: #fff;
       }
 
       &:hover {
