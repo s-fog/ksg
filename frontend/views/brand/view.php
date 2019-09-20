@@ -39,6 +39,10 @@ $presents = \common\models\Present::find()->all();
                     <h1><?=$h1?></h1>
                     <?=($page == 1) ? "<span>({$model->productCount})</span>" : ''?>
                 </div>
+                <?=$this->render('@frontend/views/blocks/cats', [
+                    'inCategories' => $inCategories,
+                    'childrenCategories' => [],
+                ])?>
                 <select class="catalogTop__sort sort-select" name="sort">
                     <?php if (($model::className() == 'common\models\Brand') ||
                         ($model::className() == 'common\models\Category' && ($model->level === 3 || in_array($model->type, [1, 2, 3, 4])))) { ?>
