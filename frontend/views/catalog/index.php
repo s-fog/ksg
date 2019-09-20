@@ -234,6 +234,14 @@ $presents = \common\models\Present::find()->all();
                 } ?>
             </div>
         </div>
+        <div class="survey__items survey__items_mobile">
+            <?php foreach($model->steps as $index => $step) {
+                echo $this->render('@frontend/views/survey/_stepItem', [
+                    'model' => $step,
+                    'index' => $index,
+                ]);
+            } ?>
+        </div>
     <?php } ?>
 
 <?php if (!empty($brandCategories)) { ?>
