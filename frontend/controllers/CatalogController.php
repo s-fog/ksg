@@ -229,6 +229,22 @@ class CatalogController extends Controller
                 }
             }
 
+            if ($minPrice == 100000000){
+                $minPrice = 0;
+            }
+
+            if ($minPriceAvailable == 100000000){
+                $minPriceAvailable = 0;
+            }
+
+            if ($maxPrice == 0){
+                $maxPrice = 100000000;
+            }
+
+            if ($maxPriceAvailable == 0){
+                $maxPriceAvailable = 100000000;
+            }
+
             $pages = new \yii\data\Pagination([
                 'totalCount' => $allProductsQuery->count(),
                 'defaultPageSize' => $defaultPageSize,

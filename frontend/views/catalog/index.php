@@ -79,65 +79,76 @@ $presents = \common\models\Present::find()->all();
                 ])?>
             </div>
             <div class="catalog__innerRight">
-                <div class="catalog__innerRightItems">
-                    <?php
-                    $productCount = count($products);
-                    $serials = '<div class="advice__brands">';
+                <?php if (!empty($products)) { ?>
+                    <div class="catalog__innerRightItems">
+                        <?php
+                        $productCount = count($products);
+                        $serials = '<div class="advice__brands">';
 
-                    if (!empty($brandsSerial) && $model->type == 2) {
-                        foreach($brandsSerial as $item) {
-                            $serials .= '<a href="'.$item->url.'" class="advice__brandsLink">'.$item->name.'</a>';
+                        if (!empty($brandsSerial) && $model->type == 2) {
+                            foreach($brandsSerial as $item) {
+                                $serials .= '<a href="'.$item->url.'" class="advice__brandsLink">'.$item->name.'</a>';
+                            }
                         }
-                    }
 
-                    $serials .= '</div>';
+                        $serials .= '</div>';
 
-                    foreach($products as $index => $item) {
-                        echo $this->render('@frontend/views/catalog/_item', [
-                            'model' => $item
-                        ]);
+                        foreach($products as $index => $item) {
+                            echo $this->render('@frontend/views/catalog/_item', [
+                                'model' => $item
+                            ]);
 
-                        if (($index == 2 || (($productCount - 1) == $index && $index < 3)) && !empty($model->text_advice) && !isset($_GET['page'])) {
-                            echo '<div class="catalog__item advice">
-                            <div class="advice__inner">
-                                <div class="advice__header">Совет от KSG</div>
-                                <div class="advice__html content">
-                                    '.$model->text_advice.'
-                                </div>
-                                '.$serials.'
-                            </div>
-                        </div>';
-                        }
-                        if (!empty($model->video)) {
-                            if (
-                                ($productCount > 13 && $index == 12)
-                                ||
-                                ($productCount <= 13 && $productCount == ($index + 1))
-                            ) {
-                                echo '<div class="catalog__item newsBlock__item">
-                                <div class="newsBlock__itemInner">
-                                    <div class="newsBlock__itemImage">
-                                        <iframe src="https://www.youtube.com/embed/'.$model->video.'?rel=0&showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                            if (($index == 2 || (($productCount - 1) == $index && $index < 3)) && !empty($model->text_advice) && !isset($_GET['page'])) {
+                                echo '<div class="catalog__item advice">
+                                <div class="advice__inner">
+                                    <div class="advice__header">Совет от KSG</div>
+                                    <div class="advice__html content">
+                                        '.$model->text_advice.'
                                     </div>
-                                    <div class="newsBlock__itemInfo">
-                                        <div class="newsBlock__itemHeader">'.$model->video_header.'</div>
-                                    </div>
+                                    '.$serials.'
                                 </div>
                             </div>';
                             }
-                        }
-                    } ?>
-                </div>
-                <?=LinkPager::widget([
-                    'pagination' => $pages,
-                    'disableCurrentPageButton' => true,
-                    'hideOnSinglePage' => true,
-                    'maxButtonCount' => 6,
-                    'nextPageLabel' => '&gt;',
-                    'prevPageLabel' => '&lt;',
-                    'firstPageLabel' => '&lt;&lt;',
-                    'lastPageLabel'  => '&gt;&gt;'
-                ]);?>
+                            if (!empty($model->video)) {
+                                if (
+                                    ($productCount > 13 && $index == 12)
+                                    ||
+                                    ($productCount <= 13 && $productCount == ($index + 1))
+                                ) {
+                                    echo '<div class="catalog__item newsBlock__item">
+                                    <div class="newsBlock__itemInner">
+                                        <div class="newsBlock__itemImage">
+                                            <iframe src="https://www.youtube.com/embed/'.$model->video.'?rel=0&showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                        </div>
+                                        <div class="newsBlock__itemInfo">
+                                            <div class="newsBlock__itemHeader">'.$model->video_header.'</div>
+                                        </div>
+                                    </div>
+                                </div>';
+                                }
+                            }
+                        } ?>
+                    </div>
+                    <?=LinkPager::widget([
+                        'pagination' => $pages,
+                        'disableCurrentPageButton' => true,
+                        'hideOnSinglePage' => true,
+                        'maxButtonCount' => 6,
+                        'nextPageLabel' => '&gt;',
+                        'prevPageLabel' => '&lt;',
+                        'firstPageLabel' => '&lt;&lt;',
+                        'lastPageLabel'  => '&gt;&gt;'
+                    ]);?>
+                <?php } else { ?>
+                    <div class="catalog__emptyProducts">
+                        <div class="catalog__emptyProductsHeader">Нет подходящих товаров</div>
+                        <div class="catalog__emptyProductsText">Попробуйте другие параметры филбтра</div>
+                        <div class="button button1 catalog__emptyProductsButton js-filter-clear">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.08 17.94"><g><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 95.07 17.44 98.58 14.53 98.58 0.5 4.01 0.5"></polygon></g></g></svg>
+                            <span>Сбросить фильтр</span>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </div>

@@ -1474,6 +1474,11 @@ class Filter {
             Filter.submit();
         });
 
+        $('.js-filter-clear').on("click", () => {
+            this.nodes.filter.find('[type="checkbox"]').prop('checked', false);
+            Filter.submit();
+        });
+
         $('.filter__itemContent [type="checkbox"]').on('change', (event) => {
             let thisElement = $(event.currentTarget);
             let parentTop = thisElement.parent().position().top - 7;

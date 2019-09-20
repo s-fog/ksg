@@ -1173,6 +1173,37 @@
 
 .catalog {
 
+  &__emptyProducts {
+    margin: 20px 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 100px 0;
+    text-align: center;
+  }
+
+  &__emptyProductsHeader {
+    font-size: 32px;
+  }
+
+  &__emptyProductsText {
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+
+  &__emptyProductsButton {
+    margin: auto;
+
+    &:hover {
+      span {
+        color: #fff;
+      }
+    }
+
+    span {
+      font-size: 16px;
+      color: $textColor;
+    }
+  }
+
   &__inner {
     display: flex;
     justify-content: space-between;
