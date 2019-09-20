@@ -68,9 +68,15 @@ class Filter
                 ->having(['c' => count($filterFeaturesValue)]);
 
             foreach($filterFeaturesValue as $featureId => $featureValues) {
-                $query->andWhere(['or',
-                    [ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $featureValues]
-                ]);
+                if (count($featureValues) == 1) {
+                    $query->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $featureValues]);
+                } else {
+                    foreach($featureValues as $index => $fv) {
+                        $featureValues[$index] = ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id = '.$fv;
+                    }
+
+                    $query->andWhere(implode(' OR ', $featureValues));
+                }
             }
         }
 
