@@ -83,18 +83,19 @@ $presents = \common\models\Present::find()->all();
                     } ?>
                 </div>
             </div>
-
-                <?=LinkPager::widget([
-                    'pagination' => $pages,
-                    'disableCurrentPageButton' => true,
-                    'hideOnSinglePage' => true,
-                    'maxButtonCount' => 6,
-                    'nextPageLabel' => '&gt;',
-                    'prevPageLabel' => '&lt;',
-                    'firstPageLabel' => '&lt;&lt;',
-                    'lastPageLabel'  => '&gt;&gt;'
-                ]);?>
         </div>
+
+
+            <?=LinkPager::widget([
+                'pagination' => $pages,
+                'disableCurrentPageButton' => true,
+                'hideOnSinglePage' => true,
+                'maxButtonCount' => 6,
+                'nextPageLabel' => '&gt;',
+                'prevPageLabel' => '&lt;',
+                'firstPageLabel' => '&lt;&lt;',
+                'lastPageLabel'  => '&gt;&gt;'
+            ]);?>
     </div>
 </div>
 
