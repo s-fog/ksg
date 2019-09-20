@@ -7596,4 +7596,8 @@ body.fancybox-active {
   .container {
     max-width: 1000px;
   }
+
+  &+.survey__items {
+    display: flex;
+  }
 }
