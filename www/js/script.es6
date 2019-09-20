@@ -1476,6 +1476,7 @@ class Filter {
 
         $('.js-filter-clear').on("click", () => {
             this.nodes.filter.find('[type="checkbox"]').prop('checked', false);
+            this.nodes.filter.find('[type="text"]').val('');
             Filter.submit();
         });
 

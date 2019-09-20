@@ -142,7 +142,7 @@ $presents = \common\models\Present::find()->all();
                 <?php } else { ?>
                     <div class="catalog__emptyProducts">
                         <div class="catalog__emptyProductsHeader">Нет подходящих товаров</div>
-                        <div class="catalog__emptyProductsText">Попробуйте другие параметры филбтра</div>
+                        <div class="catalog__emptyProductsText">Попробуйте другие параметры фильтра</div>
                         <div class="button button1 catalog__emptyProductsButton js-filter-clear">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.08 17.94"><g><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 95.07 17.44 98.58 14.53 98.58 0.5 4.01 0.5"></polygon></g></g></svg>
                             <span>Сбросить фильтр</span>
