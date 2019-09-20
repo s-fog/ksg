@@ -1379,10 +1379,25 @@ class Filter {
             filter__fixedSubmit: $('.filter__fixedSubmit'),
             catalogTop__sort: $('.catalogTop__sort'),
             filter__mobileOpen: $('.filter__mobileOpen'),
+            categoryFilter: $('.js-category-filter'),
         }
     }
 
     _bindEvents() {
+        this.nodes.categoryFilter.on('click', (event) => {
+            let thisElement = $(event.currentTarget);
+            let hasActive = false;
+
+            this.nodes.categoryFilter.each((index, element) => {
+                if ($(element).data('id') != thisElement.data('id')) {
+                    $(element).removeClass('active');
+                }
+            });
+
+            thisElement.toggleClass('active');
+            Filter.submit();
+        });
+
         this.nodes.filter__itemHeader.on('click', (event) => {
             if (!this.closing) {
                 let thisElement = $(event.currentTarget);
@@ -1492,11 +1507,24 @@ class Filter {
     }
 
     static submit() {
+        let ids = new Array();
+        let i = 0;
         let sort = $('.catalogTop__sort').val();
         let data = $('.filter :input')
             .filter(function(index, element) {
                 return $(element).val() != '';
             }).serialize() + '&sort='+sort;
+
+        $('.js-category-filter').each(function(index, element) {
+            if ($(element).hasClass('active')) {
+                ids[i] = $(element).data('id');
+                i++;
+            }
+        });
+
+        if (ids.length > 0) {
+            data += '&cats='+ids.join();
+        }
 
         location = location.pathname+'?'+data;
     }
