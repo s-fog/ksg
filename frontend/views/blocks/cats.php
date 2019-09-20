@@ -1,5 +1,8 @@
 <?php
-if (!empty($childrenCategories)) {
+if (!empty($childrenCategories) || (isset($inCategories) &&
+        !empty($inCategories) &&
+        count($inCategories) > 1 &&
+        (isset($childrenCategories) && empty($childrenCategories)))) {
 ?>
     <div class="category">
         <div class="container">
