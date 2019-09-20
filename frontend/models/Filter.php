@@ -64,7 +64,7 @@ class Filter
                 ProductHasFilterFeatureValue::tableName().'.product_id = product.id')
                 ->select('product.*, COUNT('.ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id) AS c')
                 ->groupBy('product.id')
-                ->having(['c' => count($finalFilterFeaturesValue)]);
+                ->having(['c' => count($filterFeaturesValue)]);
 
             foreach($filterFeaturesValue as $featureId => $featureValues) {
                 $query->andWhere(['or',
