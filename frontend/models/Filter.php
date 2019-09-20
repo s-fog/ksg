@@ -62,17 +62,17 @@ class Filter
 
             $query->leftJoin(ProductHasFilterFeatureValue::tableName(),
                 ProductHasFilterFeatureValue::tableName().'.product_id = product.id')
-                ->select('product.*, COUNT('.ProductHasFilterFeatureValue::tableName().'.product_id) AS c')
+                ->select('product.*, COUNT( * ) AS c')
                 //->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $finalFilterFeaturesValue])
                 ->groupBy('product.id')
                 ->having(['c' => count($filterFeaturesValue)]);
 
             foreach($filterFeaturesValue as $featureId => $featureValues) {
                 if (count($featureValues) == 1) {
-                    $query->andWhere([ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id' => $featureValues]);
+                    $query->andWhere(['`'.ProductHasFilterFeatureValue::tableName().'`.`filter_feature_value_id`' => $featureValues]);
                 } else {
                     foreach($featureValues as $index => $fv) {
-                        $featureValues[$index] = ProductHasFilterFeatureValue::tableName().'.filter_feature_value_id = '.$fv;
+                        $featureValues[$index] = '`'.ProductHasFilterFeatureValue::tableName().'`.`filter_feature_value_id` = '.$fv;
                     }
 
                     $query->andWhere(implode(' OR ', $featureValues));
