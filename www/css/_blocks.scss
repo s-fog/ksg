@@ -7545,10 +7545,25 @@ body.fancybox-active {
   }
 
   &__showMore {
+    position: relative;
+    display: inline;
     margin-top: 10px;
+    @extend .link;
     font-size: 15px;
     color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
+    
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      right: -15px;
+      top: 7px;
+      width: 11px;
+      height: 6px;
+      background-image: url(/img/arb.png);
+      transform: rotate(180deg);
+    }
   }
 
   &__submit {

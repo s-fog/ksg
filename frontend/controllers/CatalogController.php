@@ -238,7 +238,12 @@ class CatalogController extends Controller
             ]);
 
             $products = $productQuery->limit($pages->limit)->offset($pages->offset)->all();
-            $filterFeatures = $model->filterFeatures;
+
+            if ($model->type == 0) {
+                $filterFeatures = $model->filterFeatures;
+            } else {
+                $filterFeatures = $model->parent0->filterFeatures;
+            }
 
             return $this->render('index', [
                 'model' => $model,
