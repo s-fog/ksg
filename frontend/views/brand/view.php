@@ -128,4 +128,11 @@ $presents = \common\models\Present::find()->all();
     ]);
 } ?>
 
+    <div class="catalogSeoText">
+        <p class="container">
+            <?=$h1?> по цене от <?=number_format($minPrice, 0, '', ' ')?> руб.! Купите в интернет-магазине KSG.ru и  вы получите фирменную гарантию от производителя, поскольку мы являемся официальным дилером всех брендов представленных на сайте. <br>
+            Доставка по Москве и в регионы России.
+        </p>
+    </div>
+
 <?=$this->render('@frontend/views/blocks/news')?>
