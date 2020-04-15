@@ -264,6 +264,8 @@ class CatalogController extends Controller
                 $filterFeatures = $model->parent0->filterFeatures;
             }
 
+            Category::clearEmptyFeatures($filterFeatures, $allProductsQuery);
+
             return $this->render('index', [
                 'model' => $model,
                 'products' => $products,

@@ -71,17 +71,17 @@ if ($model::className() == 'common/models/Category') {
         </div>
         <?php foreach($filterFeatures as $index => $filterFeature) {?>
             <div class="filter__item">
-                <div class="filter__itemHeader"><?=$filterFeature->name?></div>
+                <div class="filter__itemHeader"><?=$filterFeature['name']?></div>
                 <div class="filter__itemContent">
                     <?php
                     $i = 0;
-                    foreach($filterFeature->filterFeatureValues as $filterFeatureValue) { ?>
+                    foreach($filterFeature['filterFeatureValues'] as $filterFeatureValue) { ?>
                         <label class="filter__itemLabel<?=$i > 4 ? ' filter__itemLabel_hidden' : ''?>">
                             <input type="checkbox"
-                                   name="feature<?=$filterFeature->id?>_<?=$filterFeatureValue->id?>"
-                                   <?=(isset($_GET["feature{$filterFeature->id}_{$filterFeatureValue->id}"])) ? ' checked': ''?>
+                                   name="feature<?=$filterFeature['id']?>_<?=$filterFeatureValue['id']?>"
+                                   <?=(isset($_GET["feature{$filterFeature['id']}_{$filterFeatureValue['id']}"])) ? ' checked': ''?>
                                    value="1">
-                            <span><?=$filterFeatureValue->name?></span>
+                            <span><?=$filterFeatureValue['name']?></span>
                         </label>
                         <?php
                         if ($i == 4) { ?>
