@@ -65,9 +65,10 @@ class CatalogController extends Controller
             $orderBy = array_merge([ProductParam::tableName().'.available' => SORT_DESC], Sort::getOrderBy($model, $_GET));
             $productQuery = Product::find()
                 ->distinct()
-                ->joinWith(['productParams'])
+                ->joinWith(['productParams' => function($q) {
+                    $q->andWhere([ProductParam::tableName().'.available' => 10]);
+                }])
                 ->with(['brand', 'images'])
-                ->andWhere([ProductParam::tableName().'.available' => 10])
                 ->orderBy($orderBy);
 
             if ($model->type == 0) {//Если категория
