@@ -67,6 +67,7 @@ class CatalogController extends Controller
                 ->distinct()
                 ->joinWith(['productParams'])
                 ->with(['brand', 'images'])
+                ->andWhere([ProductParam::tableName().'.available' => 10])
                 ->orderBy($orderBy);
 
             if ($model->type == 0) {//Если категория
