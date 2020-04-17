@@ -28,35 +28,6 @@ $presents = \common\models\Present::find()->all();
             </button>
         </form>
     </div>
-    <?php if (!$empty) { ?>
-        <div class="properties__tabs">
-            <?php
-            $active1 = '';
-            $active2 = '';
-
-            if (!empty($products) && !empty($stati)) {
-                $active1 = ' active';
-            }
-
-            if (empty($products) && !empty($stati)) {
-                $active2 = ' active';
-            }
-
-            if (!empty($products) && empty($stati)) {
-                $active1 = ' active';
-            }
-
-            if (!empty($products)) {
-                echo '<div class="properties__tab'.$active1.'"><span>Товары('.$productsCount.')</span></div>';
-            }
-
-            if (!empty($stati)) {
-                echo '<div class="properties__tab'.$active2.'"><span>Статьи('.count($stati).')</span></div>';
-            }
-            ?>
-            <svg class="properties__tabUnderline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 7.7"><defs></defs><g><polygon points="1.7 0 0 1.4 0 3 39.7 3 44.5 7.7 49.3 3 87.3 3 89 1.5 89 0 1.7 0"></polygon></g></svg>
-        </div>
-    <?php } ?>
 </div>
 
 <?php if ($empty) { ?>
@@ -65,32 +36,57 @@ $presents = \common\models\Present::find()->all();
     </div>
 <?php } else { ?>
     <div class="properties__contents properties__contents_search">
+        <br>
+        <?php if (!empty($categories)) { ?>
+            <div class="container">
+                <div class="catalogTop__h1">
+                    <h1>НАЙДЕНО В КАТЕГОРИЯХ:</h1>
+                </div>
+                <div class="category__slider owl-carousel">
+                    <?php foreach($categories as $category) {
+                        $filename = explode('.', basename($category->image_menu));
+
+                        if (empty($filename[1])) {
+                            $filename[1] = '';
+                        }
+                        ?>
+                        <a href="<?=$category->url?>" class="category__sliderItem">
+                            <span class="category__sliderItemImage" style="background-image: url(/images/thumbs/<?=$filename[0]?>-134-134.<?=$filename[1]?>);"></span>
+                            <span class="category__sliderItemName"><span><?=$category->name?></span></span>
+                        </a>
+                    <?php } ?>
+                </div>
+            </div>
+        <?php } ?>
         <?php if (!empty($products)) { ?>
-            <div class="properties__content<?=$active1?>">
-                <div class="catalog">
-                    <div class="container">
-                        <div class="catalog__inner catalog__inner_search">
-                            <?php foreach($products as $product) {
-                                echo $this->render('@frontend/views/catalog/_item', [
-                                    'model' => $product
-                                ]);
-                            } ?>
-                        </div>
-                        <?=LinkPager::widget([
-                            'pagination' => $pages,
-                            'disableCurrentPageButton' => true,
-                            'hideOnSinglePage' => true,
-                            'maxButtonCount' => 6,
-                            'firstPageLabel' => '««',
-                            'lastPageLabel'  => '»»'
-                        ]);?>
-                        <div class="wantMore">
-                            <div class="wantMore__text">Не нашли нужное? Попробуйте</div>
-                            <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(1)->alias])?>" class="button button3 wantMore__toCatalog">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227.88 40.99"><g><polygon points="9.8 0 0 8.11 0 40.99 218.07 40.99 227.88 32.88 227.88 0 9.8 0"/></g></svg>
-                                <span>Перейти в каталог</span>
-                            </a>
-                        </div>
+            <div class="catalogTop__h1">
+                <div class="container">
+                    <h1>НАЙДЕНО В ТОВАРАХ:</h1>
+                </div>
+            </div>
+            <div class="catalog">
+                <div class="container">
+                    <div class="catalog__inner catalog__inner_search">
+                        <?php foreach($products as $product) {
+                            echo $this->render('@frontend/views/catalog/_item', [
+                                'model' => $product
+                            ]);
+                        } ?>
+                    </div>
+                    <?=LinkPager::widget([
+                        'pagination' => $pages,
+                        'disableCurrentPageButton' => true,
+                        'hideOnSinglePage' => true,
+                        'maxButtonCount' => 6,
+                        'firstPageLabel' => '««',
+                        'lastPageLabel'  => '»»'
+                    ]);?>
+                    <div class="wantMore">
+                        <div class="wantMore__text">Не нашли нужное? Попробуйте</div>
+                        <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(1)->alias])?>" class="button button3 wantMore__toCatalog">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227.88 40.99"><g><polygon points="9.8 0 0 8.11 0 40.99 218.07 40.99 227.88 32.88 227.88 0 9.8 0"/></g></svg>
+                            <span>Перейти в каталог</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -101,31 +97,6 @@ $presents = \common\models\Present::find()->all();
                     'presents' => $presents,
                 ]);
             } ?>
-        <?php } ?>
-        <?php if (!empty($stati)) {
-            $newsPage = Textpage::findOne(13);
-            ?>
-            <div class="properties__content<?=$active2?>">
-                <div class="newsBlock">
-                    <div class="container">
-                        <div class="newsBlock__inner">
-                            <?php foreach($stati as $item) {
-                                echo $this->render('@frontend/views/news/_item', [
-                                    'model' => $item,
-                                    'parent' => $newsPage
-                                ]);
-                            } ?>
-                        </div>
-                        <div class="wantMore">
-                            <div class="wantMore__text">Не нашли нужное? Попробуйте</div>
-                            <a href="<?=Url::to(['site/index', 'alias' => $newsPage->alias])?>" class="button button3 wantMore__toCatalog">
-                                <span>Перейти в наш блог</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227.88 40.99"><g><polygon points="9.8 0 0 8.11 0 40.99 218.07 40.99 227.88 32.88 227.88 0 9.8 0"/></g></svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         <?php } ?>
     </div>
 <?php } ?>
