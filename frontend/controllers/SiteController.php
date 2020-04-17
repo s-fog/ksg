@@ -514,6 +514,7 @@ class SiteController extends Controller
                             ->orderBy(['name' => SORT_ASC]);
                         $categoriesQuery = Category::find()
                             ->where(['like', 'name', $_GET['query']])
+                            ->andWhere(['active' => 1])
                             ->orderBy(['name' => SORT_ASC]);
                         $productsCount = $productsQuery->count();
                         $categoriesCount = $categoriesQuery->count();
