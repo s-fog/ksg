@@ -45,8 +45,14 @@ class UML extends Model
 
         $categories = $dom->createElement('categories');
         $level0Categories = Category::find()->where(['type' => 0, 'parent_id' => 0])->orderBy('name')->all();
+        $categoriesDisallowIds = [];
 
         foreach($level0Categories as $level0Category) {
+            if ($level0Category->disallow_xml == 1) {
+                $categoriesDisallowIds[] = $level0Category->id;
+                break;
+            }
+
             $categoryItem = $dom->createElement('category', $level0Category->name);
             $id = $dom->createAttribute('id');
             $id->value = $level0Category->id;
@@ -57,6 +63,11 @@ class UML extends Model
                 ->where(['type' => 0, 'parent_id' => $level0Category->id])
                 ->orderBy('name')
                 ->all() as $level1Category) {
+                if ($level1Category->disallow_xml == 1) {
+                    $categoriesDisallowIds[] = $level1Category->id;
+                    break;
+                }
+
                 $categoryItem = $dom->createElement('category', $level1Category->name);
                 $id = $dom->createAttribute('id');
                 $id->value = $level1Category->id;
@@ -70,6 +81,11 @@ class UML extends Model
                     ->where(['type' => 0, 'parent_id' => $level1Category->id])
                     ->orderBy('name')
                     ->all() as $level2Category) {
+                    if ($level2Category->disallow_xml == 1) {
+                        $categoriesDisallowIds[] = $level2Category->id;
+                        break;
+                    }
+
                     $categoryItem = $dom->createElement('category', $level2Category->name);
                     $id = $dom->createAttribute('id');
                     $id->value = $level2Category->id;
@@ -90,6 +106,8 @@ class UML extends Model
         $offers = $dom->createElement('offers');
 
         $products = Product::find()
+            ->where(['NOT IN', 'category_id', $categoriesDisallowIds])
+            ->andWhere(['disallow_xml' => 0])
             ->orderBy(['name' => SORT_ASC])
             ->all();
 
