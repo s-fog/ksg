@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 
+use backend\models\UML;
 use common\models\Category;
 use common\models\Product;
 use common\models\ProductHasCategory;
@@ -63,9 +64,11 @@ class AjaxController extends \yii\web\Controller
 
     public function actionDisallowYandexProducts() {
         Product::updateAll(['disallow_xml' => 1]);
+        UML::doIt();
     }
 
     public function actionAllowYandexProducts() {
         Product::updateAll(['disallow_xml' => 0]);
+        UML::doIt();
     }
 }
