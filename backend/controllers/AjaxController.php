@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 
 use common\models\Category;
+use common\models\Product;
 use common\models\ProductHasCategory;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -58,5 +59,13 @@ class AjaxController extends \yii\web\Controller
                 }
             }
         }
+    }
+
+    public function actionDisallowYandexProducts() {
+        Product::updateAll(['disallow_xml' => 1]);
+    }
+
+    public function actionAllowYandexProducts() {
+        Product::updateAll(['disallow_xml' => 0]);
     }
 }

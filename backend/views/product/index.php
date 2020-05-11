@@ -29,7 +29,30 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php
 //             echo $this->render('_search', ['model' =>$searchModel]);
         ?>
+    
+    <div class="btn btn-primary" id="disallow_yandex">Запретить выгрузку в Yandex всех товаров</div>
+    <div class="btn btn-primary" id="allow_yandex">Разрешить выгрузку в Yandex всех товаров</div>
 
+    <?php
+    $script = <<< JS
+        $('#disallow_yandex').click(function() {
+            confirm('Вы уверены?');
+            
+            $.get('/officeback/ajax/disallow-yandex-products', function() {
+                alert('Готово');
+            })
+        });
+
+        $('#allow_yandex').click(function() {
+            confirm('Вы уверены?');
+            
+            $.get('/officeback/ajax/allow-yandex-products', function() {
+                alert('Готово');
+            })
+        });
+JS;
+    $this->registerJs($script);
+    ?>
     
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
