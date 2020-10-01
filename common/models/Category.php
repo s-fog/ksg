@@ -557,6 +557,12 @@ class Category extends BaseCategory
         return $products->count();
     }
 
+    public function getFilterFeaturesS () {
+        return $this->hasMany(FilterFeature::className(), ['category_id' => 'id'])
+            ->with('filterFeatureValues')
+            ->orderBy(['sort_order' => SORT_ASC]);
+    }
+
     public function getFilterFeatures () {
         return $this->hasMany(FilterFeature::className(), ['category_id' => 'id'])
             ->with('filterFeatureValues')

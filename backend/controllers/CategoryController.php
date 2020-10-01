@@ -186,7 +186,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
         $image_menu = $model->image_menu;
         $modelsFeature = $model->features;
         $modelsStep = $model->steps;
-        $modelsFilterFeature = $model->filterFeatures;
+        $modelsFilterFeature = $model->filterFeaturesS;
         $modelsFeatureValue = [];
         $oldFeatureValue = [];
 
