@@ -42,7 +42,7 @@ $this->title = 'Логи';
                 <tr>
                     <td nowrap="nowrap">
                         <div class="action-buttons">
-                            <a href="/officeback/log/view?name=<?=$name?>">
+                            <a href="/officeback/index.php?r=log/view&name=<?=$name?>">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
                         </div>
