@@ -54,22 +54,35 @@ class CatalogController extends Controller
                 throw new NotFoundHttpException;
             }
 
-            $wheres = $model->getWheres();
-            $innerIdsWhere = $wheres[0];
-            $otherIdsWhere = $wheres[1];
+            $filter_url = $model->filter_url;
+
+            if (!empty($filter_url)) {
+                $get = [];
+                $filter_url_query = parse_url($filter_url, PHP_URL_QUERY);
+                $filter_url_query = urldecode($filter_url_query);
+                parse_str($filter_url_query, $get);
+
+                foreach($get as $index => $value) {
+                    if (is_array($value)) {
+                        foreach($value as $i => $v) {
+                            if (is_numeric($v)) {
+                                $get[$index][$i] = (int) $v;
+                            }
+                        }
+                    } else {
+                        if (is_numeric($value)) {
+                            $get[$index] = (int) $value;
+                        }
+                    }
+                }
+            } else {
+                $get = $_GET;
+            }
+
             $tags = [];
             $brandCategories = [];
             $years = [];
             $brandsSerial = [];
-
-            $orderBy = array_merge([ProductParam::tableName().'.available' => SORT_DESC], Sort::getOrderBy($model, $_GET));
-            $productQuery = Product::find()
-                ->distinct()
-                ->joinWith(['productParams' => function($q) {
-                    $q->andWhere([ProductParam::tableName().'.available' => 10]);
-                }])
-                ->with(['brand', 'images'])
-                ->orderBy($orderBy);
 
             if ($model->type == 0) {//Если категория
                 $tags = Category::find()
@@ -87,9 +100,7 @@ class CatalogController extends Controller
                     ->where(['parent_id' => $model->id, 'type' => 2, 'active' => 1])
                     ->orderBy(['name' => SORT_ASC])
                     ->all();
-
-                $productQuery->orWhere($otherIdsWhere)
-                    ->orWhere($innerIdsWhere);
+                $productQuery = $model->getProducts();
             } else {//Если всё остальное
                 if (in_array($model->type, [1, 2, 4])) {
                     $parent = Category::findOne(['id' => $model->parent_id]);
@@ -141,16 +152,8 @@ class CatalogController extends Controller
                         ->orderBy(['name' => SORT_ASC])
                         ->all();
                 }
-                ////////////////////////////////////////////////////////////
-                $andWhereTags = [Product::tableName().'.id' => ''];
-                $idsTags = ArrayHelper::getColumn(ProductHasCategory::findAll(['category_id' => $model->id]), 'product_id');
 
-                if (!empty($idsTags)) {
-                    $andWhereTags = [Product::tableName().'.id' => $idsTags];
-                }
-                ////////////////////////////////////////////////////////////
-                $productQuery->where($andWhereTags)
-                    ->orWhere($otherIdsWhere);
+                $productQuery = $model->getProducts();
             }
             /////////////////////////////////////////////////////////
             $bHeader = $model->seo_h1 . ' по брендам';
@@ -180,13 +183,13 @@ class CatalogController extends Controller
             $allProductsQuery = clone $productQuery;
             $allProducts = $allProductsQuery->asArray()->all();
             $filterBrands = ArrayHelper::map($allProducts, 'brand_id', 'brand');
-            $filterBrands = Brand::sortBrands($filterBrands);
-            $categoriesFull = Yii::$app->cache->getOrSet('categoriesFull', function() {
+            $filterBrands = Brand::sortBrands($filterBrands, $get);
+            /*$categoriesFull = Yii::$app->cache->getOrSet('categoriesFull', function() {
                 return Category::find()->all();
-            }, 10);
+            }, 10);*/
 
-            $inCategories = [];
-            foreach($allProducts as $product) {
+            $inCategories = $model->getChildrenCategories();
+            /*foreach($allProducts as $product) {
                 if (!isset($inCategories[$product['parent_id']])) {
                     foreach($categoriesFull as $cc) {
                         if ($cc->id == $product['parent_id']) {
@@ -195,10 +198,10 @@ class CatalogController extends Controller
                         }
                     }
                 }
-            }
+            }*/
             ArrayHelper::multisort($inCategories, ['name'], [SORT_ASC]);
 
-            $productQuery = Filter::filter($productQuery, $_GET);
+            list($get, $productQuery) = Filter::filter($productQuery, $get);
 
             /////////////////////////////////////////////////////////////////////////
             $allProductsQuery = clone $productQuery;
@@ -281,6 +284,7 @@ class CatalogController extends Controller
                 'filterBrands' => $filterBrands,
                 'inCategories' => $inCategories,
                 'filterFeatures' => $filterFeatures,
+                'get' => $get,
             ]);
         }
 

@@ -10,9 +10,14 @@ if ($model::className() == 'common/models/Category') {
     }
 }
 
+$url = parse_url($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+$urlWithoutPath = $url['scheme'].'://'.$url['host'].$url['path'];
+
 ?>
 
-<form class="filter<?=isset($_COOKIE['set_filter_opened']) && $_COOKIE['set_filter_opened'] == 1 ? ' active' : ''?>">
+<form class="filter<?=isset($_COOKIE['set_filter_opened']) && $_COOKIE['set_filter_opened'] == 1 ? ' active' : ''?>"
+        <?=!empty($model->filter_url) ? 'data-filter-url="'.$urlWithoutPath.'"' : '' ?>"
+>
     <div class="filter__mobileOpen<?=isset($_COOKIE['set_filter_opened']) && $_COOKIE['set_filter_opened'] == 1 ? ' active' : ''?>">
         <span class="filter__mobileOpenText">Фильтр</span>
         <span class="filter__mobileOpenIcon"></span>
@@ -24,7 +29,7 @@ if ($model::className() == 'common/models/Category') {
                 <div class="form-group">
                     <input type="text"
                            name="priceFrom"
-                           <?=(isset($_GET['priceFrom']) ? 'value="'.$_GET['priceFrom'].'"' : '')?>
+                           <?=(isset($get['priceFrom']) ? 'value="'.$get['priceFrom'].'"' : '')?>
                            class="filter__priceInput filter__priceFrom"
                            placeholder="от <?=number_format($minPrice, 0, '', ' ')?> р"
                            data-maxprice="<?=$maxPrice?>"
@@ -33,7 +38,7 @@ if ($model::className() == 'common/models/Category') {
                 <div class="form-group">
                     <input type="text"
                            name="priceTo"
-                           <?=(isset($_GET['priceTo']) ? 'value="'.$_GET['priceTo'].'"' : '')?>
+                           <?=(isset($get['priceTo']) ? 'value="'.$get['priceTo'].'"' : '')?>
                            class="filter__priceInput filter__priceTo"
                            placeholder="до <?=number_format($maxPrice, 0, '', ' ')?> р"
                            data-minprice="<?=$minPrice?>"
@@ -49,7 +54,7 @@ if ($model::className() == 'common/models/Category') {
                 foreach($filterBrands as $brand) {
                     $checked = false;
 
-                    if (isset($_GET['brands']) && in_array($brand['id'], $_GET['brands'])) {
+                    if (isset($get['brands']) && in_array($brand['id'], $get['brands'])) {
                         $checked = true;
                     }
                     ?>
@@ -79,7 +84,7 @@ if ($model::className() == 'common/models/Category') {
                         <label class="filter__itemLabel<?=$i > 4 ? ' filter__itemLabel_hidden' : ''?>">
                             <input type="checkbox"
                                    name="feature<?=$filterFeature['id']?>_<?=$filterFeatureValue['id']?>"
-                                   <?=(isset($_GET["feature{$filterFeature['id']}_{$filterFeatureValue['id']}"])) ? ' checked': ''?>
+                                   <?=(isset($get["feature{$filterFeature['id']}_{$filterFeatureValue['id']}"])) ? ' checked': ''?>
                                    value="1">
                             <span><?=$filterFeatureValue['name']?></span>
                         </label>

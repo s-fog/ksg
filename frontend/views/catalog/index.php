@@ -76,6 +76,7 @@ $presents = \common\models\Present::find()->all();
                     'filterBrands' => $filterBrands,
                     'childrenCategories' => $childrenCategories,
                     'filterFeatures' => $filterFeatures,
+                    'get' => $get,
                 ])?>
             </div>
             <div class="catalog__innerRight">

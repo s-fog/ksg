@@ -7,7 +7,8 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "browser-sync": "*",
+        "@fp-pro/client": "^2.7.5",
+        "browser-sync": "^2.26.10",
         "gulp": "*",
         "gulp-autoprefixer": "*",
         "gulp-concat": "*",
@@ -26,6 +27,7 @@
         "@babel/core": "*",
         "@babel/preset-env": "*",
         "gulp-babel": "*",
+        "gulp-browsersync-inject": "^1.0.1",
         "gulp-cache-files": "*",
         "gulp-clone": "*",
         "gulp-sourcemaps": "*",

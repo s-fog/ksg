@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use common\models\Brand;
+use common\models\Category;
 use common\models\FilterFeature;
 use common\models\FilterFeatureValue;
 use common\models\Product;
@@ -72,6 +73,6 @@ class Filter
                 ->andWhere([Brand::tableName().'.id' => $get['brands']]);
         }
 
-        return $query;
+        return [$get, $query];
     }
 }

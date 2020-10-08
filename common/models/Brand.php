@@ -65,7 +65,7 @@ class Brand extends BaseBrand
         return FilterFeature::find()->where(['category_id' => $category_id])->orderBy(['name' => SORT_ASC])->all();
     }
 
-    public static function sortBrands($filterBrands) {
+    public static function sortBrands($filterBrands, $get) {
         ArrayHelper::multisort($filterBrands, ['name'], [SORT_ASC]);
         $filterBrandsIndexedById = [];
         $return = [];
@@ -74,8 +74,8 @@ class Brand extends BaseBrand
             $filterBrandsIndexedById[$filterBrand['id']] = $filterBrand;
         }
 
-        if (isset($_GET['brands'])) {
-            foreach($_GET['brands'] as $brand_id) {
+        if (isset($get['brands'])) {
+            foreach($get['brands'] as $brand_id) {
                 $return[intval($brand_id)] = $filterBrandsIndexedById[intval($brand_id)];
             }
         }

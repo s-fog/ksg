@@ -1,35 +1,20 @@
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
-var watch = require('gulp-watch');
-var browserSync = require('browser-sync');
-var autoprefixer = require('gulp-autoprefixer');
-var imagemin = require('gulp-imagemin');
-var plumber = require('gulp-plumber');
-var imageminJpegRecompress = require('imagemin-jpeg-recompress');
-var imageminPngquant = require('imagemin-pngquant');
-var cacheFiles = require('gulp-cache-files');
-var webp = require('gulp-webp');
-var clone = require('gulp-clone');
-var clonesink = clone.sink();
-var autoprefixerOptions = {
-    browsers: ['> 1%'],
-    cascade: false
-};
+const { src, dest, parallel, watch } = require('gulp');
+const gulp = require('gulp'),
+    sourcemaps = require('gulp-sourcemaps');
+    sass = require('gulp-sass'),
+    browserSync = require('browser-sync'),
+    imagemin = require('gulp-imagemin'),
+    clone = require('gulp-clone'),
+    clonesink = clone.sink(),
+    plumber = require('gulp-plumber'),
+    webp = require('gulp-webp'),
+    cacheFiles = require('gulp-cache-files'),
+    babel = require('gulp-babel'),
+    concat = require('gulp-concat'),
+    uglify = require('gulp-uglify');
 
-gulp.task('browser-sync', function () {
-    browserSync({
-        server: {
-            baseDir: '.'
-        }
-    });
-});
-
-gulp.task('images-png', function () {
-    return gulp.src('img-full/**/*.png', {read: false})
+function imagesPng () {
+    return src('img-full/**/*.png', {read: false})
         .pipe(cacheFiles.filter('manifest-png.json'))
         .pipe(plumber())
         .pipe(imagemin())
@@ -38,10 +23,10 @@ gulp.task('images-png', function () {
         .pipe(webp({quality: '75', lossless: true, method: 6})) // convert images to webp and save a copy of the original format
         .pipe(clonesink.tap()) // close stream and send both formats to dist
         .pipe(gulp.dest('img'));
-});
+}
 
-gulp.task('images-jpg', function () {
-    return gulp.src('img-full/**/*.jpg', {read: false})
+function imagesJpg() {
+    return src('img-full/**/*.jpg', {read: false})
         .pipe(cacheFiles.filter('manifest-jpg.json'))
         .pipe(plumber())
         .pipe(imagemin())
@@ -50,59 +35,59 @@ gulp.task('images-jpg', function () {
         .pipe(webp({quality: '85', method: 6})) // convert images to webp and save a copy of the original format
         .pipe(clonesink.tap()) // close stream and send both formats to dist
         .pipe(gulp.dest('img'));
-});
+}
 
-gulp.task('uploads-png', function () {
-    return gulp.src('uploads/*.png')
-        .pipe(plumber())
-        .pipe(imagemin())
-        .pipe(clonesink) // start stream
-        .pipe(webp({quality: '75', lossless: true, method: 6})) // convert images to webp and save a copy of the original format
-        .pipe(clonesink.tap()) // close stream and send both formats to dist
-        .pipe(gulp.dest('uploads'));
-});
-
-gulp.task('uploads-jpg', function () {
-    return gulp.src('uploads/*.jpg')
-        .pipe(plumber())
-        .pipe(imagemin())
-        .pipe(clonesink) // start stream
-        .pipe(webp({quality: '85', method: 6})) // convert images to webp and save a copy of the original format
-        .pipe(clonesink.tap()) // close stream and send both formats to dist
-        .pipe(gulp.dest('uploads'));
-});
-
-gulp.task('thumbs-png', function () {
-    return gulp.src('images/thumbs/*.png')
-        .pipe(plumber())
-        .pipe(imagemin())
-        .pipe(clonesink) // start stream
-        .pipe(webp({quality: '75', lossless: true, method: 6})) // convert images to webp and save a copy of the original format
-        .pipe(clonesink.tap()) // close stream and send both formats to dist
-        .pipe(gulp.dest('images/thumbs'));
-});
-
-gulp.task('thumbs-jpg', function () {
-    return gulp.src('images/thumbs/*.jpg')
-        .pipe(plumber())
-        .pipe(imagemin())
-        .pipe(clonesink) // start stream
-        .pipe(webp({quality: '85', method: 6})) // convert images to webp and save a copy of the original format
-        .pipe(clonesink.tap()) // close stream and send both formats to dist
-        .pipe(gulp.dest('images/thumbs'));
-});
-
-gulp.task('images-svg', function () {
-    return gulp.src('img-full/**/*.svg', {read: false})
+function imagesSvg() {
+    return src('img-full/**/*.svg', {read: false})
         .pipe(cacheFiles.filter('manifest-svg.json'))
         .pipe(plumber())
         .pipe(imagemin())
         .pipe(cacheFiles.manifest())
         .pipe(gulp.dest('img'));
-});
+}
 
-gulp.task('scripts', function () {
-    return gulp.src('js/script.es6')
+function uploadsPng () {
+    return src('uploads/*.png')
+        .pipe(plumber())
+        .pipe(imagemin())
+        .pipe(clonesink) // start stream
+        .pipe(webp({quality: '75', lossless: true, method: 6})) // convert images to webp and save a copy of the original format
+        .pipe(clonesink.tap()) // close stream and send both formats to dist
+        .pipe(gulp.dest('uploads'));
+}
+
+function uploadsJpg () {
+    return src('uploads/*.jpg')
+        .pipe(plumber())
+        .pipe(imagemin())
+        .pipe(clonesink) // start stream
+        .pipe(webp({quality: '85', method: 6})) // convert images to webp and save a copy of the original format
+        .pipe(clonesink.tap()) // close stream and send both formats to dist
+        .pipe(gulp.dest('uploads'));
+}
+
+function thumbsPng () {
+    return src('images/thumbs/*.png')
+        .pipe(plumber())
+        .pipe(imagemin())
+        .pipe(clonesink) // start stream
+        .pipe(webp({quality: '75', lossless: true, method: 6})) // convert images to webp and save a copy of the original format
+        .pipe(clonesink.tap()) // close stream and send both formats to dist
+        .pipe(gulp.dest('images/thumbs'));
+}
+
+function thumbsJpg() {
+    return src('images/thumbs/*.jpg')
+        .pipe(plumber())
+        .pipe(imagemin())
+        .pipe(clonesink) // start stream
+        .pipe(webp({quality: '85', method: 6})) // convert images to webp and save a copy of the original format
+        .pipe(clonesink.tap()) // close stream and send both formats to dist
+        .pipe(gulp.dest('images/thumbs'));
+}
+
+function scripts() {
+    return src('js/script.es6')
         .pipe(babel({
             presets: ['@babel/env']
         }))
@@ -111,35 +96,44 @@ gulp.task('scripts', function () {
         .pipe(uglify())
         .pipe(gulp.dest('js'))
         .pipe(browserSync.reload({stream: true}));
-});
+}
 
-gulp.task('scripts.vendor', function () {
-    return gulp.src([
-        'js/vendor/jquery/dist/jquery.min.js',
-        'js/vendor/jquery-ui/jquery-ui.min.js',
+function scriptsVendor () {
+    return src(['js/vendor/jquery-ui/jquery-ui.min.js',
         'js/vendor/fancybox/dist/jquery.fancybox.js',
-        'js/vendor/owl.carousel/dist/owl.carousel.min.js'
-        ])
+        'js/vendor/owl.carousel/dist/owl.carousel.min.js'])
         .pipe(concat('vendor.js'))
         .pipe(plumber())
         .pipe(uglify())
         .pipe(gulp.dest('js'));
-});
+}
 
-gulp.task('styles', function () {
-    return gulp.src('css/styles.scss')
+function styles() {
+    return src('css/styles.scss')
         .pipe(sourcemaps.init())
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(sourcemaps.write())
-        .pipe(autoprefixer(autoprefixerOptions))
         .pipe(gulp.dest('css'))
         .pipe(browserSync.reload({stream: true}));
-});
+}
 
+exports.default = function() {
+    browserSync.init({
+        proxy: "ksg.local"
+    });
+    scripts();
+    styles();
+    watch('js/script.es6', scripts);
+    watch('css/**/*.scss', styles);
+};
 
-gulp.task('watch', ['browser-sync', 'scripts', 'styles'], function () {
-    gulp.watch('js/script.es6', ['scripts']);
-    gulp.watch('css/**/*.scss', ['styles']);
-    gulp.watch('*.php', browserSync.reload);
-    gulp.watch('*.html', browserSync.reload);
-});
+exports.styles = styles;
+exports.imagesPng = imagesPng;
+exports.imagesJpg = imagesJpg;
+exports.uploadsPng = uploadsPng;
+exports.uploadsJpg = uploadsJpg;
+exports.thumbsPng = thumbsPng;
+exports.thumbsJpg = thumbsJpg;
+exports.imagesSvg = imagesSvg;
+exports.scripts = scripts;
+exports.scriptsVendor = scriptsVendor;

@@ -32,6 +32,8 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
             <!-- attribute alias -->
             <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
 
+            <?= $form->field($model, 'filter_url')->textInput(['maxlength' => true]) ?>
+
             <?= $form->field($model, 'type')->dropDownList(array_merge(
                 ['' => 'Ничего не выбрано'],
                 Yii::$app->params['categoryTypes']

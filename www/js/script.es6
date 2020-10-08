@@ -1513,14 +1513,24 @@ class Filter {
     }
 
     static submit() {
-        let ids = new Array();
-        let i = 0;
-        let sort = $('.catalogTop__sort').val();
-        let data = $('.filter :input')
-            .filter(function(index, element) {
-                return $(element).val() != '';
-            }).serialize() + '&sort='+sort;
+        const filter = $('.filter');
+        let $location = location.pathname;
 
+        if (filter.hasClass('pending')) {
+            return false;
+        }
+
+        if (filter.attr('data-filter-url') !== undefined) {
+            $location = filter.attr('data-filter-url')+'?sort='+$('.catalogTop__sort').val();
+        } else {
+            $location += '?'+$(':input', filter)
+                .filter(function(index, element) {
+                    return $(element).val() != '';
+                }).serialize()+'&sort='+$('.catalogTop__sort').val();
+        }
+
+        let ids = [];
+        let i = 0;
         $('.js-category-filter').each(function(index, element) {
             if ($(element).hasClass('active')) {
                 ids[i] = $(element).data('id');
@@ -1529,10 +1539,10 @@ class Filter {
         });
 
         if (ids.length > 0) {
-            data += '&cats='+ids.join();
+            $location += '&cats='+ids.join();
         }
 
-        location = location.pathname+'?'+data;
+        location = $location;
     }
 }
 
