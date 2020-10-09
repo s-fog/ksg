@@ -114,19 +114,19 @@ $catalogPage = Textpage::findOne(1);
     <div class="container">
         <div class="header">Популярные товары</div>
         <div class="popular__inner">
-            <a href="/catalog/trenazhery/kardiotrenazhery/begovye-dorozhki" class="popular__item">
+            <a href="/begovye-dorozhki" class="popular__item">
                 <span class="popular__itemText">Беговые дорожки</span>
                 <span class="popular__itemImage" style='background-image: url("/img/begovie.jpg");'></span>
             </a>
-            <a href="/catalog/trenazhery/kardiotrenazhery/velotrenazhery" class="popular__item">
+            <a href="/velotrenazhery" class="popular__item">
                 <span class="popular__itemText">Велотренажеры</span>
                 <span class="popular__itemImage" style='background-image: url("/img/velo.jpg");'></span>
             </a>
-            <a href="/catalog/trenazhery/silovye/multistancyy" class="popular__item">
+            <a href="/multistancyy" class="popular__item">
                 <span class="popular__itemText">Мультистанции</span>
                 <span class="popular__itemImage" style='background-image: url("/img/multistanciya.jpg");'></span>
             </a>
-            <a href="/catalog/trenazhery/kardiotrenazhery/ellipticheskie" class="popular__item">
+            <a href="/ellipticheskie" class="popular__item">
                 <span class="popular__itemText">Эллипсы</span>
                 <span class="popular__itemImage" style='background-image: url("/img/elips.jpg");'></span>
             </a>
@@ -197,17 +197,17 @@ $catalogPage = Textpage::findOne(1);
                     'id' => 'subscribe',
                 ],
             ]);?>
-                <div class="subscribeBlock__formFieldset">
-                    <?=$form->field($sibscribeForm, 'email')->textInput([
-                        'class' => 'subscribeBlock__formInput',
-                        'placeholder' => 'Ваш e-mail'
-                    ])->label(false)?>
-                    <button class="button button6 subscribeBlock__formSubmit" type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 79.08 17.94"><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 75.07 17.44 78.58 14.53 78.58 0.5 4.01 0.5"/></g></svg>
-                        <span>Подписаться</span>
-                    </button>
-                </div>
-                <div class="subscribeBlock__formText">Вы защищены <a href="/documents/politics.pdf" target="_blank" class="link">политикой обработки персональных данных</a></div>
+            <div class="subscribeBlock__formFieldset">
+                <?=$form->field($sibscribeForm, 'email')->textInput([
+                    'class' => 'subscribeBlock__formInput',
+                    'placeholder' => 'Ваш e-mail'
+                ])->label(false)?>
+                <button class="button button6 subscribeBlock__formSubmit" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 79.08 17.94"><g><polygon points="4.01 0.5 0.5 3.41 0.5 17.44 75.07 17.44 78.58 14.53 78.58 0.5 4.01 0.5"/></g></svg>
+                    <span>Подписаться</span>
+                </button>
+            </div>
+            <div class="subscribeBlock__formText">Вы защищены <a href="/documents/politics.pdf" target="_blank" class="link">политикой обработки персональных данных</a></div>
             <?php ActiveForm::end();?>
         </div>
         <div class="subscribeBlock__image"></div>
