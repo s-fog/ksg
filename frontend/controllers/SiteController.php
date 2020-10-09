@@ -114,6 +114,7 @@ class SiteController extends Controller
             return $product;
         }
 
+
         if (!empty($step)) {
             $parent = Textpage::findOne(['alias' => $alias]);
             $survey = Survey::findOne(['alias' => $alias2]);
