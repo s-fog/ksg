@@ -41,7 +41,7 @@ class SurveyController extends \backend\controllers\base\SurveyController
         $modelSurvey->scenario = 'create';
         $modelsStep = [new Step];
         $modelsStepOption = [[new StepOption]];
-        $sfogImage = new SfogImage;
+        $sfogImage = new \sfog\image\Image(false, 95);
 
         if ($modelSurvey->load(Yii::$app->request->post())) {
             $modelsStep = Model::createMultiple(Step::classname());
@@ -155,7 +155,7 @@ class SurveyController extends \backend\controllers\base\SurveyController
         $modelsStep = $modelSurvey->steps;
         $modelsStepOption = [];
         $oldStepOption = [];
-        $sfogImage = new SfogImage;
+        $sfogImage = new \sfog\image\Image(false, 95);
         $cupon_image = $modelSurvey->cupon_image;
         $preview_image = $modelSurvey->preview_image;
         $success_image = $modelSurvey->success_image;

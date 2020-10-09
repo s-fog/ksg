@@ -324,15 +324,15 @@ class Product extends BaseProduct implements CartPositionInterface
         }
 
         if ($parent0->parent_id == 0) {
-            $parent0Url = Url::to(['catalog/index', 'alias' => $parent0->alias]);
+            $parent0Url = $parent0->url;
             $items[$parent0Url] = $parent0->name;
         } else {
             $parent1 = $parent0->parent1;
             $items = [];
 
             if ($parent1->parent_id == 0) {
-                $parent1Url = Url::to(['catalog/index', 'alias' => $parent1->alias]);
-                $parent0Url = Url::to(['catalog/index', 'alias' => $parent1->alias, 'alias2' => $parent0->alias]);
+                $parent1Url = $parent1->url;
+                $parent0Url = $parent0->url;
                 $items[$parent1Url] = $parent1->name;
                 $items[$parent0Url] = $parent0->name;
             } else {
@@ -340,9 +340,9 @@ class Product extends BaseProduct implements CartPositionInterface
                 $items = [];
 
                 if ($parent2->parent_id == 0) {
-                    $parent2Url = Url::to(['catalog/index', 'alias' => $parent2->alias]);
-                    $parent1Url = Url::to(['catalog/index', 'alias' => $parent2->alias, 'alias2' => $parent1->alias]);
-                    $parent0Url = Url::to(['catalog/index', 'alias' => $parent2->alias, 'alias2' => $parent1->alias, 'alias3' => $parent0->alias]);
+                    $parent2Url = $parent2->url;
+                    $parent1Url = $parent1->url;
+                    $parent0Url = $parent0->url;
                     $items[$parent2Url] = $parent2->name;
                     $items[$parent1Url] = $parent1->name;
                     $items[$parent0Url] = $parent0->name;
@@ -351,21 +351,10 @@ class Product extends BaseProduct implements CartPositionInterface
                     $items = [];
 
                     if ($parent3->parent_id == 0) {
-                        $parent3Url = Url::to(['catalog/index', 'alias' => $parent3->alias]);
-                        $parent2Url = Url::to(['catalog/index', 'alias' => $parent3->alias, 'alias2' => $parent2->alias]);
-                        $parent1Url = Url::to([
-                            'catalog/index',
-                            'alias' => $parent3->alias,
-                            'alias2' => $parent2->alias,
-                            'alias3' => $parent1->alias
-                        ]);
-                        $parent0Url = Url::to([
-                            'catalog/index',
-                            'alias' => $parent3->alias,
-                            'alias2' => $parent2->alias,
-                            'alias3' => $parent1->alias,
-                            'alias4' => $parent0->alias,
-                        ]);
+                        $parent3Url = $parent3->url;
+                        $parent2Url = $parent2->url;
+                        $parent1Url = $parent1->url;
+                        $parent0Url = $parent0->url;
                         $items[$parent3Url] = $parent3->name;
                         $items[$parent2Url] = $parent2->name;
                         $items[$parent1Url] = $parent1->name;
@@ -377,6 +366,10 @@ class Product extends BaseProduct implements CartPositionInterface
 
         $items[0] = $this->name;
         return $items;
+    }
+
+    public function getUrl() {
+        return '/'.$this->alias;
     }
 
     public function getPresents() {

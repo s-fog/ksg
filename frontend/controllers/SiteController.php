@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Adviser;
 use common\models\Brand;
 use common\models\Category;
 use common\models\Feature;
@@ -8,6 +9,7 @@ use common\models\FeatureValue;
 use common\models\Mainpage;
 use common\models\Mainslider;
 use common\models\News;
+use common\models\Param;
 use common\models\Product;
 use common\models\ProductParam;
 use common\models\Subscribe;
@@ -17,11 +19,14 @@ use common\models\Textpage;
 use frontend\models\City;
 use frontend\models\Compare;
 use frontend\models\Favourite;
+use frontend\models\Filter;
 use frontend\models\StepOptionChoose;
 use frontend\models\SubscribeForm;
 use frontend\models\Webp;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -96,6 +101,18 @@ class SiteController extends Controller
     {
         City::setCity();
         $cache = Yii::$app->cache;
+
+        $catalog = $this->catalog($alias, $alias2);
+
+        if (!empty($catalog)) {
+            return $catalog;
+        }
+
+        $product = $this->product($alias);
+
+        if (!empty($product)) {
+            return $product;
+        }
 
         if (!empty($step)) {
             $parent = Textpage::findOne(['alias' => $alias]);
@@ -502,11 +519,11 @@ class SiteController extends Controller
                         }
 
                         if ($product = Product::findOne(['name' => $_GET['query']])) {
-                            return $this->redirect(Url::to(['catalog/view', 'alias' => $product->alias]));
+                            return $this->redirect($product->url);
                         }
 
                         if ($pp = ProductParam::findOne(['artikul' => $_GET['query']])) {
-                            return $this->redirect(Url::to(['catalog/view', 'alias' => $pp->product->alias]));
+                            return $this->redirect($pp->product->url);
                         }
 
                         $productsQuery = Product::find()
@@ -592,6 +609,450 @@ class SiteController extends Controller
         ]));
     }
 
+    private function product($alias) {
+        $model = Product::find()
+            ->with([
+                'productParams',
+                'brand',
+                'images',
+                'parent',
+                'features',
+                'features.featurevalues'])
+            ->where(['alias' => $alias])
+            ->one();
+
+        if (!$model) {
+            return '';
+        }
+
+        if (isset($_POST['reload']) && $_POST['reload'] == 1) {
+            $currentParamName = ($curP = Param::findOne($model->main_param))? $curP->name : '';
+
+            $currentVariant = ProductParam::find()
+                ->where(['product_id' => $model->id])
+                ->andWhere(['params' => $_POST['paramsv']])
+                ->one();
+
+            if (!$currentVariant) {
+                $val = '';
+
+                foreach(explode('|', $_POST['paramsv']) as $r) {
+                    $p = explode(' -> ', $r);
+
+                    if ($p[0] == $currentParamName) {
+                        $val = $r;
+                    }
+                }
+
+                $currentVariant = ProductParam::find()
+                    ->where(['product_id' => $model->id])
+                    ->andWhere(['LIKE', 'params', $val])
+                    ->orderBy('id')
+                    ->one();
+            }
+        } else {
+            $currentVariant = $model->productParams[0];
+        }
+
+        $variants = $model->productParams;
+        $brand = Brand::findOne($model->brand_id);
+        $adviser = Adviser::findOne($model->adviser_id);
+        $features = [];
+
+        foreach($model->features as $index => $feature) {
+            $features[$index]['feature'] = $feature;
+
+            foreach($feature->featurevalues as $i => $fv) {
+                $features[$index]['values'][$i]['name'] = $fv->name;
+                $features[$index]['values'][$i]['value'] = $fv->value;
+            }
+        }
+        ///////////////////////////////////////////////////////////////////////
+
+        $selectsAndDisabled = $model->getSelectsAndDisabled($currentVariant);
+        $selects = $selectsAndDisabled[0];
+        $disabled = $selectsAndDisabled[1];
+
+        ///////////////////////////////////////////////////////////////////////
+
+        if (isset($_POST['reload']) && $_POST['reload'] == 1) {
+            $productView = $this->renderPartial('_product', [
+                'model' => $model,
+                'brand' => $brand,
+                'currentVariant' => $currentVariant,
+                'variants' => $variants,
+                'selects' => $selects,
+                'adviser' => $adviser,
+                'features' => $features,
+                'disabled' => $disabled,
+                'pswHeight' => $_POST['pswHeight'],
+            ]);
+
+            $presents = \common\models\Present::find()->all();
+
+            $presentArtikul = '';
+            foreach($presents as $present) {
+                if ($model->price >= $present->min_price && $model->price <= $present->max_price) {
+                    $presentArtikul = explode(',', $present->product_artikul)[0];
+                }
+            }
+
+            $addToCartView = $this->renderPartial('@frontend/views/catalog/_addToCartInner', [
+                'model' => $model,
+                'currentVariant' => $currentVariant,
+                'selects' => $selects,
+                'disabled' => $disabled,
+                'presentArtikul' => $presentArtikul
+            ]);
+
+            return json_encode([$productView, $addToCartView]);
+        } else {
+            $model->popular++;
+            $model->save();
+            $parent = $model->parent;
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            $accessories = [];
+            $ids = [];
+
+            if (!empty($parent->aksses_ids)) {
+                foreach(json_decode($parent->aksses_ids) as $value) {
+                    $ids[] = (int) $value;
+                }
+
+                $accessories = Product::find()
+                    ->with([
+                        'productParams',
+                        'brand',
+                        'images',
+                        'parent'])
+                    ->where(['parent_id' => $ids])
+                    ->orderBy(new Expression('rand()'))
+                    ->limit(15)
+                    ->all();
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            $similar = [];
+
+            for($i = 15; $i < 100; $i = $i + 5) {
+                $priceFrom = (int) $model->price * ((100 - $i) / 100);
+                $priceTo = (int) $model->price * ((100 + $i) / 100);
+                $similarQuery = Product::find()
+                    ->with([
+                        'productParams',
+                        'brand',
+                        'images',
+                        'parent'])
+                    ->where(['parent_id' => $parent->id])
+                    ->andWhere("id <> {$model->id}")
+                    ->andWhere("price > $priceFrom  AND price < $priceTo")
+                    ->orderBy(new Expression('rand()'))
+                    ->limit(9);
+
+                if ($similarQuery->count() >= 3) {
+                    $similar = $similarQuery->all();
+                    break;
+                }
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////
+
+            ////////////////////////////////////////////////////////////////////////////////////////////
+
+            return $this->render('@frontend/views/catalog/view', [
+                'model' => $model,
+                'brand' => $brand,
+                'currentVariant' => $currentVariant,
+                'variants' => $variants,
+                'selects' => $selects,
+                'disabled' => $disabled,
+                'adviser' => $adviser,
+                'features' => $features,
+                'accessories' => $accessories,
+                'similar' => $similar,
+            ]);
+        }
+    }
+
+    private function catalog($alias, $alias2) {
+        $cookies = Yii::$app->request->cookies;
+        $cookies->readOnly = false;
+        $cookies->add(new \yii\web\Cookie([
+            'name' => 'filter_showed',
+            'value' => '1',
+            'expire' => strtotime('+1 hour'),
+        ]));
+
+        if (isset($_POST['set_filter_opened'])) {
+            setcookie("set_filter_opened", $_POST['set_filter_opened'], time()+(3600*24*30));
+            return false;
+        }
+
+        if ($alias === 'catalog') {
+            $model = Textpage::findOne(1);
+
+            return $this->render('@frontend/views/catalog/outer', [
+                'model' => $model
+            ]);
+        } else {
+            $model = Category::find()->where(['alias' => $alias])->one();
+
+            if ($model) {
+                if (!empty($alias2)) {
+                    $model = Category::find()->where(['alias' => $alias2])->one();
+
+                    if (!$model) {
+                        throw new NotFoundHttpException;
+                    }
+                }
+            } else {
+                return '';
+            }
+
+            $filter_url = $model->filter_url;
+            $url = parse_url($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+            $parts = [];
+
+            if (isset($url['query'])) {
+                $query = str_replace('%20', '', $url['query']);
+                $queryDecoded = urldecode($query);
+                parse_str($queryDecoded, $parts);
+                unset($parts['sort']);
+            }
+
+            // $parts мы очищаем параметр сортировки, и смотрим если есть еще какие-то параметры в _GET, то мы не
+            // используем filter_url, так как мы выбрали что-то еще в фильтре
+
+            if (!empty($filter_url) && empty($parts)) {
+                $get = [];
+                $filter_url_query = parse_url($filter_url, PHP_URL_QUERY);
+                $filter_url_query = urldecode($filter_url_query);
+                parse_str($filter_url_query, $get);
+
+                foreach($get as $index => $value) {
+                    if (is_array($value)) {
+                        foreach($value as $i => $v) {
+                            if (is_numeric($v)) {
+                                $get[$index][$i] = (int) $v;
+                            }
+                        }
+                    } else {
+                        if (is_numeric($value)) {
+                            $get[$index] = (int) $value;
+                        }
+                    }
+                }
+            } else {
+                $get = $_GET;
+            }
+
+            $tags = [];
+            $brandCategories = [];
+            $years = [];
+            $brandsSerial = [];
+
+            if ($model->type == 0) {//Если категория
+                $tags = Category::find()
+                    ->with(['parent0', 'productHasCategories'])
+                    ->where(['parent_id' => $model->id, 'type' => 1, 'active' => 1])
+                    ->orderBy(['sort_order' => SORT_DESC])
+                    ->all();
+                $years = Category::find()
+                    ->with(['parent0', 'productHasCategories'])
+                    ->where(['parent_id' => $model->id, 'type' => 4, 'active' => 1])
+                    ->orderBy(['sort_order' => SORT_DESC])
+                    ->all();
+                $brandCategories = Category::find()
+                    ->with(['parent0', 'brand', 'productHasCategories'])
+                    ->where(['parent_id' => $model->id, 'type' => 2, 'active' => 1])
+                    ->orderBy(['name' => SORT_ASC])
+                    ->all();
+                $productQuery = $model->getProducts();
+            } else {//Если всё остальное
+                if (in_array($model->type, [1, 2, 4])) {
+                    $parent = Category::findOne(['id' => $model->parent_id]);
+
+                    $tags = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
+                        ->where(['parent_id' => $parent->id, 'type' => 1, 'active' => 1])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
+                    $years = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
+                        ->where(['parent_id' => $parent->id, 'type' => 4, 'active' => 1])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
+                    $brandCategories = Category::find()
+                        ->with(['parent0', 'brand', 'productHasCategories'])
+                        ->where(['parent_id' => $parent->id, 'type' => 2, 'active' => 1])
+                        ->orderBy(['name' => SORT_ASC])
+                        ->all();
+                    $brandsSerial = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
+                        ->where(['parent_id' => ArrayHelper::getColumn($brandCategories, 'id'), 'type' => 3, 'active' => 1])
+                        ->orderBy(['name' => SORT_ASC])
+                        ->all();
+                }
+
+                if ($model->type == 3) {// Если серия бренда
+                    $parentBrand = Category::findOne(['id' => $model->parent_id]);
+                    $parent = Category::findOne(['id' => $parentBrand->parent_id]);
+
+                    $tags = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
+                        ->where(['parent_id' => $parent->id, 'type' => 1, 'active' => 1])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
+                    $years = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
+                        ->where(['parent_id' => $parent->id, 'type' => 4, 'active' => 1])
+                        ->orderBy(['sort_order' => SORT_DESC])
+                        ->all();
+                    $brandCategories = Category::find()
+                        ->with(['parent0', 'brand', 'productHasCategories'])
+                        ->where(['parent_id' => $parent->id, 'type' => 2, 'active' => 1])
+                        ->orderBy(['name' => SORT_ASC])
+                        ->all();
+                    $brandsSerial = Category::find()
+                        ->with(['parent0', 'productHasCategories'])
+                        ->where(['parent_id' => ArrayHelper::getColumn($brandCategories, 'id'), 'type' => 3, 'active' => 1])
+                        ->orderBy(['name' => SORT_ASC])
+                        ->all();
+                }
+
+                $productQuery = $model->getProducts();
+            }
+            /////////////////////////////////////////////////////////
+            $bHeader = $model->seo_h1 . ' по брендам';
+            $bHeader2 = $model->seo_h1;
+
+            if (in_array($model->type, [1, 2, 4])) {
+                $parent = Category::findOne($model->parent_id);
+                $bHeader = $parent->seo_h1 . ' по брендам';
+                $bHeader2 = $parent->seo_h1;
+            }
+
+            if ($model->type == 3) {
+                $parent = Category::findOne($model->parent_id);
+                $parent2 = Category::findOne($parent->parent_id);
+                $bHeader = $parent2->seo_h1 . ' по брендам';
+                $bHeader2 = $parent2->seo_h1;
+            }
+            /////////////////////////////////////////////////////////
+            $defaultPageSize = 40;
+            $countAllProducts = $productQuery->count();
+            Product::check404($countAllProducts, $defaultPageSize);
+            $minPrice = 100000000;
+            $maxPrice = 0;
+            $minPriceAvailable = 100000000;
+            $maxPriceAvailable = 0;
+
+            $allProductsQuery = clone $productQuery;
+            $allProducts = $allProductsQuery->asArray()->all();
+            $filterBrands = ArrayHelper::map($allProducts, 'brand_id', 'brand');
+            $filterBrands = Brand::sortBrands($filterBrands, $get);
+            /*$categoriesFull = Yii::$app->cache->getOrSet('categoriesFull', function() {
+                return Category::find()->all();
+            }, 10);*/
+
+            $inCategories = $model->getChildrenCategories();
+            /*foreach($allProducts as $product) {
+                if (!isset($inCategories[$product['parent_id']])) {
+                    foreach($categoriesFull as $cc) {
+                        if ($cc->id == $product['parent_id']) {
+                            $inCategories[$product['parent_id']] = $cc;
+                            break;
+                        }
+                    }
+                }
+            }*/
+            ArrayHelper::multisort($inCategories, ['name'], [SORT_ASC]);
+
+            list($get, $productQuery) = Filter::filter($productQuery, $get);
+
+            /////////////////////////////////////////////////////////////////////////
+            $allProductsQuery = clone $productQuery;
+            $allProducts = $allProductsQuery->asArray()->all();
+
+            foreach($allProducts as $product) {
+                $available = false;
+
+                foreach($product['productParams'] as $pp) {
+                    if ($pp['available'] > 0) {
+                        $available = true;
+                    }
+                }
+
+                if ($available) {
+                    if ($product['price'] < $minPriceAvailable) {
+                        $minPriceAvailable = $product['price'];
+                    }
+
+                    if ($product['price'] > $maxPriceAvailable) {
+                        $maxPriceAvailable = $product['price'];
+                    }
+                }
+
+                if ($product['price'] < $minPrice) {
+                    $minPrice = $product['price'];
+                }
+
+                if ($product['price'] > $maxPrice) {
+                    $maxPrice = $product['price'];
+                }
+            }
+
+            if ($minPrice == 100000000){
+                $minPrice = 0;
+            }
+
+            if ($minPriceAvailable == 100000000){
+                $minPriceAvailable = 0;
+            }
+
+            if ($maxPrice == 0){
+                $maxPrice = 100000000;
+            }
+
+            if ($maxPriceAvailable == 0){
+                $maxPriceAvailable = 100000000;
+            }
+
+            $pages = new \yii\data\Pagination([
+                'totalCount' => $allProductsQuery->count(),
+                'defaultPageSize' => $defaultPageSize,
+                'pageSizeParam' => 'per_page',
+                'forcePageParam' => false,
+                'pageSizeLimit' => 200
+            ]);
+
+            $products = $productQuery->limit($pages->limit)->offset($pages->offset)->all();
+
+            if ($model->type == 0) {
+                $filterFeatures = $model->filterFeatures;
+            } else {
+                $filterFeatures = $model->parent0->filterFeatures;
+            }
+
+            Category::clearEmptyFeatures($filterFeatures, $allProductsQuery);
+
+            return $this->render('@frontend/views/catalog/index', [
+                'model' => $model,
+                'products' => $products,
+                'pages' => $pages,
+                'tags' => $tags,
+                'brandCategories' => $brandCategories,
+                'years' => $years,
+                'brandsSerial' => $brandsSerial,
+                'bHeader' => $bHeader,
+                'bHeader2' => $bHeader2,
+                'minPrice' => $minPriceAvailable,
+                'maxPrice' => $maxPriceAvailable,
+                'filterBrands' => $filterBrands,
+                'inCategories' => $inCategories,
+                'filterFeatures' => $filterFeatures,
+                'get' => $get,
+            ]);
+        }
+    }
 
     public function actionSubscribe()
     {

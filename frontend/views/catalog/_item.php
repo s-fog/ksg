@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 $imageModel = $model->images[0];
 $filename = explode('.', basename($imageModel->image));
-$url = Url::to(['catalog/view', 'alias' => $model->alias]);
+$url = $model->url;
 $available = $model->available;
 
 $variants = $model->productParams;

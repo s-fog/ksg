@@ -39,7 +39,7 @@ class AdviserController extends \backend\controllers\base\AdviserController
                 $model->image = UploadedFile::getInstance($model, "image");
 
                 if ($model->validate()) {
-                    $sfogImage = new Image;
+                    $sfogImage = new Image(false, 95);
                     $model->image = $sfogImage->uploadFile(
                         $model,
                         'image',
@@ -70,7 +70,7 @@ class AdviserController extends \backend\controllers\base\AdviserController
         if ($model->load($_POST)) {
             if ($model->validate()) {
                 if (!empty($_FILES['Adviser']['name']['image'])) {
-                    $sfogImage = new Image;
+                    $sfogImage = new Image(false, 95);
                     $model->image = $sfogImage->uploadFile(
                         $model,
                         'image',

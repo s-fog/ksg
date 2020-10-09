@@ -47,7 +47,7 @@ $this->params['seo_h1'] = $model->seo_h1;
                             $image0 = $product->images[$currentVariant->image_number];
                             $filename = explode('.', basename($image0->image));
                             ?>
-                            <a href="<?=Url::to(['catalog/view', 'alias' => $product->alias])?>" class="compare__productsItem">
+                            <a href="<?=$product->url?>" class="compare__productsItem">
                                 <span class="compare__productsItemTop">
                                     <span class="catalog__itemTop">
                                         <span data-title="Удалить из сравнения"

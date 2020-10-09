@@ -3,6 +3,7 @@ namespace backend\controllers;
 
 use backend\models\UploadFile;
 use common\models\Mainpage;
+use sfog\image\Image;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -66,7 +67,7 @@ class MainpageController extends Controller
         $model = Mainpage::findOne(1);
 
         if ($model->load($_POST)) {
-            $sfogImage = new SfogImage;
+            $sfogImage = new SfogImage(false, 95);
             $banner_image = $model->banner_image;
 
             if (!empty($_FILES['Mainpage']['name']['banner_image'])) {

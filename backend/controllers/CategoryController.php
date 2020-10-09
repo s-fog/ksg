@@ -93,7 +93,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
             }
 
             if ($valid) {
-                $sfogImage = new Image;
+                $sfogImage = new Image(false, 95);
                 $model->image_catalog = $sfogImage->uploadFile(
                     $model,
                     'image_catalog',
@@ -254,7 +254,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
 
 
             if ($valid) {
-                $sfogImage = new Image;
+                $sfogImage = new Image(false, 95);
 
                 if (!empty($_FILES['Category']['name']['image_catalog'])) {
                     $model->image_catalog = $sfogImage->uploadFile(

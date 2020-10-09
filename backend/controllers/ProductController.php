@@ -57,7 +57,7 @@ class ProductController extends \backend\controllers\base\ProductController
         $model->disallow_xml = 0;
         $modelsFeature = [new Feature];
         $modelsFeatureValue = [[new FeatureValue]];
-        $sfogImage = new SfogImage;
+        $sfogImage = new \sfog\image\Image(false, 95);
 
         if ($model->load(Yii::$app->request->post())) {
             $model->generateCode();
@@ -346,7 +346,7 @@ class ProductController extends \backend\controllers\base\ProductController
         $modelsFeatureValue = [];
         $oldFeatureValue = [];
         $present_image = $model->present_image;
-        $sfogImage = new SfogImage;
+        $sfogImage = new \sfog\image\Image(false, 95);
 
         foreach($modelsImage as $index => $modelImage) {
             $images[$modelImage->id] = $modelImage->image;

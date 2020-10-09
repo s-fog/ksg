@@ -2,6 +2,7 @@
 
 namespace console\controllers;
 
+use common\models\Category;
 use common\models\Product;
 use sfog\image\Image as Simage;
 use Yii;
@@ -20,5 +21,26 @@ class ConsoleController extends Controller {
                 $simage->addMoreThumbs($image['image'], ['270x230']);
             }
         }
+    }
+
+    public function actionGetRedirects() {
+        $categories = Category::find()->all();
+
+        foreach($categories as $category) {
+            $url = '/';
+
+            if (in_array($category->type, [1, 2, 4])) {
+                $url .= Category::findOne(['id' => $category->parent_id])->alias.'/'.$category->alias;
+            } else if ($category->type === 3) {
+                $parentBrand = Category::findOne(['id' => $category->parent_id]);
+
+                $url .= Category::findOne(['id' => $parentBrand->parent_id])->alias.'/'.$category->alias;
+            } else {
+                $url .= $category->alias;
+            }
+
+            echo 'Redirect 301 '.$category->url.' '.$url."\n";
+        }
+        die();
     }
 }

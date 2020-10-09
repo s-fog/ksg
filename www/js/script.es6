@@ -1433,12 +1433,15 @@ class Filter {
                 'top': `${top}px`,
                 'opacity': 1
             });
+
+            Filter.getFilterUrl();
         });
 
         this.nodes.filter__priceInput.on('change', (event) => {
             let thisElement = $(event.currentTarget);
 
             this.price(thisElement, true);
+            Filter.getFilterUrl();
         });
 
         this.nodes.filter__showMore.on('click', (event) => {
@@ -1488,6 +1491,8 @@ class Filter {
                 'top': `${parentTop}px`,
                 'opacity': 1
             });
+
+            Filter.getFilterUrl();
         });
     }
 
@@ -1498,7 +1503,7 @@ class Filter {
     price(thisElement, checkMaxMin) {
         let val = parseInt(thisElement.val().replace(/\s+/g, '').trim());
 
-        if (checkMaxMin) {
+        /*if (checkMaxMin) {
             let minPrice = thisElement.data('minprice');
             let maxPrice = thisElement.data('maxprice');
 
@@ -1507,42 +1512,68 @@ class Filter {
             } else if (val > parseInt(maxPrice)) {
                 val = parseInt(maxPrice);
             }
-        }
+        }*/
+        const vv = number_format(val, 0, '', ' ') === '0' ? '' : number_format(val, 0, '', ' ');
+        thisElement.val(vv);
+    }
 
-        thisElement.val(number_format(val, 0, '', ' '));
+    static getFilterUrl() {
+        const filter = $('.filter'),
+            $location = location.origin+filter.attr('data-parent-url')+Filter.getData();
+
+        filter.addClass('pending');
+
+        $.post('/catalog/get-filter-url', `url=${encodeURIComponent($location)}`, function (response) {
+            if (response.found_category_url !== undefined) {
+                filter.attr('data-filter-url', response.found_category_url);
+            } else {
+                filter.removeAttr('data-filter-url');
+            }
+
+            filter.removeClass('pending');
+        });
+    }
+
+    static getData() {
+        return '?'+$(':input', '.filter')
+            .filter(function(index, element) {
+                return $(element).val() != '';
+            }).serialize();
     }
 
     static submit() {
         const filter = $('.filter');
-        let $location = location.pathname;
+        let $location = location.pathname,
+            interval;
 
-        if (filter.hasClass('pending')) {
-            return false;
-        }
-
-        if (filter.attr('data-filter-url') !== undefined) {
-            $location = filter.attr('data-filter-url')+'?sort='+$('.catalogTop__sort').val();
-        } else {
-            $location += '?'+$(':input', filter)
-                .filter(function(index, element) {
-                    return $(element).val() != '';
-                }).serialize()+'&sort='+$('.catalogTop__sort').val();
-        }
-
-        let ids = [];
-        let i = 0;
-        $('.js-category-filter').each(function(index, element) {
-            if ($(element).hasClass('active')) {
-                ids[i] = $(element).data('id');
-                i++;
+        interval = setInterval(function() {
+            if (filter.hasClass('pending')) {
+                return false;
             }
-        });
 
-        if (ids.length > 0) {
-            $location += '&cats='+ids.join();
-        }
+            clearInterval(interval);
 
-        location = $location;
+            if (filter.attr('data-filter-url') !== undefined) {
+                $location = filter.attr('data-filter-url')+'?sort='+$('.catalogTop__sort').val();
+            } else {
+                $location += Filter.getData()+'&sort='+$('.catalogTop__sort').val();
+            }
+
+            let ids = [];
+            let i = 0;
+            $('.js-category-filter').each(function(index, element) {
+                if ($(element).hasClass('active')) {
+                    ids[i] = $(element).data('id');
+                    i++;
+                }
+            });
+
+            if (ids.length > 0) {
+                $location += '&cats='+ids.join();
+            }
+
+            location = $location;
+        }, 50);
     }
 }
 

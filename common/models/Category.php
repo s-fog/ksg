@@ -256,15 +256,15 @@ class Category extends BaseCategory
         }
 
         if ($parent0->parent_id == 0) {
-            $parent0Url = Url::to(['catalog/index', 'alias' => $parent0->alias]);
+            $parent0Url = $parent0->url;
             $items[$parent0Url] = $parent0->name;
         } else {
             $parent1 = Category::findOne(['id' => $parent0->parent_id]);
             $items = [];
 
             if ($parent1->parent_id == 0) {
-                $parent1Url = Url::to(['catalog/index', 'alias' => $parent1->alias]);
-                $parent0Url = Url::to(['catalog/index', 'alias' => $parent1->alias, 'alias2' => $parent0->alias]);
+                $parent1Url = $parent1->url;
+                $parent0Url = $parent0->url;
                 $items[$parent1Url] = $parent1->name;
                 $items[$parent0Url] = $parent0->name;
             } else {
@@ -272,9 +272,9 @@ class Category extends BaseCategory
                 $items = [];
 
                 if ($parent2->parent_id == 0) {
-                    $parent2Url = Url::to(['catalog/index', 'alias' => $parent2->alias]);
-                    $parent1Url = Url::to(['catalog/index', 'alias' => $parent2->alias, 'alias2' => $parent1->alias]);
-                    $parent0Url = Url::to(['catalog/index', 'alias' => $parent2->alias, 'alias2' => $parent1->alias, 'alias3' => $parent0->alias]);
+                    $parent2Url = $parent2->url;
+                    $parent1Url = $parent1->url;
+                    $parent0Url = $parent0->url;
                     $items[$parent2Url] = $parent2->name;
                     $items[$parent1Url] = $parent1->name;
                     $items[$parent0Url] = $parent0->name;
@@ -283,21 +283,10 @@ class Category extends BaseCategory
                     $items = [];
 
                     if ($parent3->parent_id == 0) {
-                        $parent3Url = Url::to(['catalog/index', 'alias' => $parent3->alias]);
-                        $parent2Url = Url::to(['catalog/index', 'alias' => $parent3->alias, 'alias2' => $parent2->alias]);
-                        $parent1Url = Url::to([
-                            'catalog/index',
-                            'alias' => $parent3->alias,
-                            'alias2' => $parent2->alias,
-                            'alias3' => $parent1->alias
-                        ]);
-                        $parent0Url = Url::to([
-                            'catalog/index',
-                            'alias' => $parent3->alias,
-                            'alias2' => $parent2->alias,
-                            'alias3' => $parent1->alias,
-                            'alias4' => $parent0->alias,
-                        ]);
+                        $parent3Url = $parent3->url;
+                        $parent2Url = $parent2->url;
+                        $parent1Url = $parent1->url;
+                        $parent0Url = $parent0->url;
                         $items[$parent3Url] = $parent3->name;
                         $items[$parent2Url] = $parent2->name;
                         $items[$parent1Url] = $parent1->name;
@@ -337,128 +326,18 @@ class Category extends BaseCategory
         return $this->hasOne(Category::className(), ['id' => 'parent_id']);
     }
 
-    public function getUrl($fromBackend = false) {
-        if ($this->type == 1) {
-            $parent0 = $this->parent0;
+    public function getUrl() {
+        if (in_array($this->type, [1, 2, 4])) {
+            $parent = Category::findOne(['id' => $this->parent_id]);
 
-            if ($parent0->parent_id == 0) {
-                if ($fromBackend) {
-                    return "/catalog/{$parent0->alias}/tag/{$this->alias}";
-                } else {
-                    return Url::to([
-                        'catalog/index',
-                        'alias' => $parent0->alias,
-                        'alias2' => 'tag',
-                        'alias3' => $this->alias,
-                    ]);
-                }
-            }
-            ////////////////////////////////////////////////////////////
-            $parent1 = $parent0->parent1;
+            return "/{$parent->alias}/{$this->alias}";
+        } else if ($this->type === 3) {
+            $parentBrand = Category::findOne(['id' => $this->parent_id]);
+            $parent = Category::findOne(['id' => $parentBrand->parent_id]);
 
-            if ($parent1->parent_id == 0) {
-                if ($fromBackend) {
-                    return "/catalog/{$parent1->alias}/{$parent0->alias}/tag/{$this->alias}";
-                } else {
-                    return Url::to([
-                        'catalog/index',
-                        'alias' => $parent1->alias,
-                        'alias2' => $parent0->alias,
-                        'alias3' => 'tag',
-                        'alias4' => $this->alias,
-                    ]);
-                }
-            }
-            ////////////////////////////////////////////////////////////
-            $parent2 = $parent1->parent2;
-
-            if ($parent2->parent_id == 0) {
-                if ($fromBackend) {
-                    return "/catalog/{$parent2->alias}/{$parent1->alias}/{$parent0->alias}/tag/{$this->alias}";
-                } else {
-                    return Url::to([
-                        'catalog/index',
-                        'alias' => $parent2->alias,
-                        'alias2' => $parent1->alias,
-                        'alias3' => $parent0->alias,
-                        'alias4' => 'tag',
-                        'alias5' => $this->alias,
-                    ]);
-                }
-            }
+            return "/{$parent->alias}/{$this->alias}";
         } else {
-            if ($this->parent_id == 0) {
-                if ($fromBackend) {
-                    return "/catalog/{$this->alias}";
-                } else {
-                    return Url::to([
-                        'catalog/index',
-                        'alias' => $this->alias,
-                    ]);
-                }
-            } else {
-                $parent0 = $this->parent0;
-
-                if ($parent0->parent_id == 0) {
-                    if ($fromBackend) {
-                        return "/catalog/{$parent0->alias}/{$this->alias}";
-                    } else {
-                        return Url::to([
-                            'catalog/index',
-                            'alias' => $parent0->alias,
-                            'alias2' => $this->alias,
-                        ]);
-                    }
-                }
-                ////////////////////////////////////////////////////////////
-                $parent1 = $parent0->parent1;
-
-                if ($parent1->parent_id == 0) {
-                    if ($fromBackend) {
-                        return "/catalog/{$parent1->alias}/{$parent0->alias}/{$this->alias}";
-                    } else {
-                        return Url::to([
-                            'catalog/index',
-                            'alias' => $parent1->alias,
-                            'alias2' => $parent0->alias,
-                            'alias3' => $this->alias,
-                        ]);
-                    }
-                }
-                ////////////////////////////////////////////////////////////
-                $parent2 = $parent1->parent2;
-
-                if ($parent2->parent_id == 0) {
-                    if ($fromBackend) {
-                        return "/catalog/{$parent2->alias}/{$parent1->alias}/{$parent0->alias}/{$this->alias}";
-                    } else {
-                        return Url::to([
-                            'catalog/index',
-                            'alias' => $parent2->alias,
-                            'alias2' => $parent1->alias,
-                            'alias3' => $parent0->alias,
-                            'alias4' => $this->alias,
-                        ]);
-                    }
-                }
-                ////////////////////////////////////////////////////////////
-                $parent3 = $parent2->parent3;
-
-                if ($parent3->parent_id == 0) {
-                    if ($fromBackend) {
-                        return "/catalog/{$parent3->alias}/{$parent2->alias}/{$parent1->alias}/{$parent0->alias}/{$this->alias}";
-                    } else {
-                        return Url::to([
-                            'catalog/index',
-                            'alias' => $parent3->alias,
-                            'alias2' => $parent2->alias,
-                            'alias3' => $parent1->alias,
-                            'alias4' => $parent0->alias,
-                            'alias5' => $this->alias,
-                        ]);
-                    }
-                }
-            }
+            return "/{$this->alias}";
         }
     }
 
@@ -670,6 +549,17 @@ class Category extends BaseCategory
                 'type' => 3
             ])
             ->orderBy(['name' => SORT_ASC]);
+    }
+
+    public function getParentCategory() {
+        if (in_array($this->type, [1, 2, 4])) {
+            return Category::findOne(['id' => $this->parent_id]);
+        } else if ($this->type === 3) {
+            $parentBrand = Category::findOne(['id' => $this->parent_id]);
+            return Category::findOne(['id' => $parentBrand->parent_id]);
+        } else {
+            return $this;
+        }
     }
 
     public function getCategoriesNestedToThisCategory() {

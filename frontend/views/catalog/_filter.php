@@ -16,7 +16,8 @@ $urlWithoutPath = $url['scheme'].'://'.$url['host'].$url['path'];
 ?>
 
 <form class="filter<?=isset($_COOKIE['set_filter_opened']) && $_COOKIE['set_filter_opened'] == 1 ? ' active' : ''?>"
-        <?=!empty($model->filter_url) ? 'data-filter-url="'.$urlWithoutPath.'"' : '' ?>"
+    <?=!empty($model->filter_url) ? 'data-filter-url="'.$urlWithoutPath.'"' : '' ?>
+    data-parent-url="<?=$model->getParentCategory()->url?>"
 >
     <div class="filter__mobileOpen<?=isset($_COOKIE['set_filter_opened']) && $_COOKIE['set_filter_opened'] == 1 ? ' active' : ''?>">
         <span class="filter__mobileOpenText">Фильтр</span>

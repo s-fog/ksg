@@ -126,7 +126,7 @@ class UML extends Model
             $offer->appendChild($available);
             ///////////////////////////////////////////////////////////////////////////////////////////
             $https = ($_SERVER['HTTP_HOST'] == 'dev2.ksg.ru') ? 'https://' : 'http://';
-            $url = $dom->createElement('url', $https.$_SERVER['HTTP_HOST'].'/product/'.$product->alias);
+            $url = $dom->createElement('url', $https.$_SERVER['HTTP_HOST'].$product->url);
             $offer->appendChild($url);
             ///////////////////////////////////////////////////////////////////////////////////////////
 

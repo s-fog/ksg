@@ -28,6 +28,8 @@ if ($currentVariant->available == 0) {
         </div>
         <?php foreach($selects as $name => $values) {
             $param = Param::findOne(['name' => $name]);
+            if (!$param) continue;
+
             ?>
             <div class="addToCart__feature">
                 <div class="addToCart__featureHeader"><?=$param->name?></div>

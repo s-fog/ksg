@@ -40,7 +40,7 @@ class BrandController extends \backend\controllers\base\BrandController
                 $model->image = UploadedFile::getInstance($model, "image");
 
                 if ($model->validate()) {
-                    $sfogImage = new Image;
+                    $sfogImage = new Image(false, 95);
                     $model->image = $sfogImage->uploadFile(
                         $model,
                         'image',
@@ -77,7 +77,7 @@ class BrandController extends \backend\controllers\base\BrandController
         if ($model->load($_POST)) {
             if ($model->validate()) {
                 if (!empty($_FILES['Brand']['name']['image'])) {
-                    $sfogImage = new Image;
+                    $sfogImage = new Image(false, 95);
                     $model->image = $sfogImage->uploadFile(
                         $model,
                         'image',

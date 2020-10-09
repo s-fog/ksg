@@ -39,7 +39,7 @@ class NewsController extends \backend\controllers\base\NewsController
                 $model->image = UploadedFile::getInstance($model, "image");
 
                 if ($model->validate()) {
-                    $sfogImage = new Image;
+                    $sfogImage = new Image(false, 95);
                     $model->image = $sfogImage->uploadFile(
                         $model,
                         'image',
@@ -76,7 +76,7 @@ class NewsController extends \backend\controllers\base\NewsController
         if ($model->load($_POST)) {
             if ($model->validate()) {
                 if (!empty($_FILES['News']['name']['image'])) {
-                    $sfogImage = new Image;
+                    $sfogImage = new Image(false, 95);
                     $model->image = $sfogImage->uploadFile(
                         $model,
                         'image',

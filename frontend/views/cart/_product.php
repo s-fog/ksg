@@ -16,7 +16,7 @@ $image = Image::find()
     ->one();
 $filename = explode('.', basename($image->image));
 $quantity = $product->getQuantity();
-$url = Url::to(['catalog/view', 'alias' => $product->alias]);
+$url = $product->url;
 ?>
 
 <tr class="cart__row" data-id="<?=$product->getId()?>">

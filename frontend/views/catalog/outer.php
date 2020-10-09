@@ -39,19 +39,10 @@ $this->params['name'] = $model->name;
                                 ->all();
                     ?>
                     <div class="mainHeader__popupMenuItem">
-                        <a href="<?=Url::to([
-                            'catalog/index',
-                            'alias' => $firstLevelCategory->alias,
-                            'alias2' => $secondLevelCategory->alias,
-                        ])?>" class="mainHeader__popupMenuItemHeader"><span><?=$secondLevelCategory->name?></span></a>
+                        <a href="<?=$secondLevelCategory->url?>" class="mainHeader__popupMenuItemHeader"><span><?=$secondLevelCategory->name?></span></a>
                         <ul class="mainHeader__popupMenuItemMenu">
                             <?php foreach($thirdLevelCategories as $index => $thirdLevelCategory) { ?>
-                                <li><a href="<?=Url::to([
-                                        'catalog/index',
-                                        'alias' => $firstLevelCategory->alias,
-                                        'alias2' => $secondLevelCategory->alias,
-                                        'alias3' => $thirdLevelCategory->alias,
-                                    ])?>" class="mainHeader__popupMenuItemMenuLink active"><?=$thirdLevelCategory->name?></a></li>
+                                <li><a href="<?=$thirdLevelCategory->url?>" class="mainHeader__popupMenuItemMenuLink active"><?=$thirdLevelCategory->name?></a></li>
                             <?php } ?>
                         </ul>
                     </div>
