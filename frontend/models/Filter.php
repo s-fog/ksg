@@ -73,6 +73,6 @@ class Filter
                 ->andWhere([Brand::tableName().'.id' => $get['brands']]);
         }
 
-        return [$get, $query];
+        return $query;
     }
 }

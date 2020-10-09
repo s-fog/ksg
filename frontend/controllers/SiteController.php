@@ -966,7 +966,7 @@ class SiteController extends Controller
             }*/
             ArrayHelper::multisort($inCategories, ['name'], [SORT_ASC]);
 
-            list($get, $productQuery) = Filter::filter($productQuery, $get);
+            $productQuery = Filter::filter($productQuery, $get);
 
             /////////////////////////////////////////////////////////////////////////
             $allProductsQuery = clone $productQuery;
