@@ -972,6 +972,7 @@ class SiteController extends Controller
             /////////////////////////////////////////////////////////////////////////
             $allProductsQuery = clone $productQuery;
             $allProducts = $allProductsQuery->asArray()->all();
+            $countAllProducts = count($allProducts);
 
             foreach($allProducts as $product) {
                 $available = false;

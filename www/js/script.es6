@@ -1543,7 +1543,7 @@ class Filter {
 
     static submit() {
         const filter = $('.filter');
-        let $location = location.pathname,
+        let $location = filter.attr('data-parent-url'),
             interval;
 
         interval = setInterval(function() {

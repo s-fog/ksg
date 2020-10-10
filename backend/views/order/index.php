@@ -149,9 +149,12 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         $fullQuantity += $quantity;
                     }
 
-                    $result = $maxCostProduct->name.' + '.($fullQuantity-1);
+                    if (!empty($maxCostProduct)) {
+                        return $maxCostProduct->name.' + '.($fullQuantity-1);
+                    } else {
+                        return 0;
+                    }
 
-                    return $result;
                 }
             ],
             [
@@ -170,17 +173,21 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         }
                     }
 
-                    $productParam = ProductParam::findOne([
-                        'product_id' => $maxCostProduct->id,
-                        'params' => $maxCostProduct->paramsV
-                    ]);
-                    $image = Image::find()
-                        ->where(['product_id' => $maxCostProduct->id])
-                        ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])
-                        ->offset($productParam->image_number)
-                        ->one();
+                    if (!empty($maxCostProduct)) {
+                        $productParam = ProductParam::findOne([
+                            'product_id' => $maxCostProduct->id,
+                            'params' => $maxCostProduct->paramsV
+                        ]);
+                        $image = Image::find()
+                            ->where(['product_id' => $maxCostProduct->id])
+                            ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])
+                            ->offset($productParam->image_number)
+                            ->one();
 
-                    return '<img src="'.$image->image.'" style="width: 50px;">';
+                        return '<img src="'.$image->image.'" style="width: 50px;">';
+                    } else {
+                        return '';
+                    }
                 }
             ],
         ],

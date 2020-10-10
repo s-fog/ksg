@@ -426,28 +426,7 @@ class Category extends BaseCategory
     }
 
     public function getProductCount() {
-        $wheres = $this->getWheres();
-        $innerIdsWhere = $wheres[0];
-        $otherIdsWhere = $wheres[1];
-
-        if ($this->type == 0) {//Если категория
-            $products = Product::find()
-                ->orWhere($otherIdsWhere)
-                ->orWhere($innerIdsWhere);
-        } else {
-            $idsTags = ArrayHelper::getColumn($this->productHasCategories, 'product_id');
-            $andWhereTags = [Product::tableName().'.id' => ''];
-
-            if (!empty($idsTags)) {
-                $andWhereTags = [Product::tableName().'.id' => $idsTags];
-            }
-
-            $products = Product::find()
-                ->where($andWhereTags)
-                ->orWhere($otherIdsWhere);
-        }
-
-        return $products->count();
+        return $this->getProducts()->count();
     }
 
     public function getFilterFeaturesS () {
