@@ -306,7 +306,7 @@ class Category extends BaseCategory
         if (!empty($categories)) {
             return $categories;
         } else {
-            return false;
+            return [];
         }
     }
 
