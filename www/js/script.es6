@@ -1497,7 +1497,13 @@ class Filter {
     }
 
     _ready() {
+        this.setStartSort();
+    }
 
+    setStartSort() {
+        const catalogTop__sort = $('.catalogTop__sort');
+
+        catalogTop__sort.attr('data-start-value', catalogTop__sort.val());
     }
 
     price(thisElement, checkMaxMin) {
@@ -1542,9 +1548,16 @@ class Filter {
     }
 
     static submit() {
-        const filter = $('.filter');
+        const filter = $('.filter'),
+            catalogTop__sort = $('.catalogTop__sort');
         let $location = filter.attr('data-parent-url'),
+            sortStr = '',
             interval;
+
+        if (catalogTop__sort.attr('data-start-value') !== catalogTop__sort.val() ||
+            catalogTop__sort.attr('data-default-value') !== catalogTop__sort.val()) {
+            sortStr = 'sort='+$('.catalogTop__sort').val();
+        }
 
         interval = setInterval(function() {
             if (filter.hasClass('pending')) {
@@ -1554,9 +1567,17 @@ class Filter {
             clearInterval(interval);
 
             if (filter.attr('data-filter-url') !== undefined) {
-                $location = filter.attr('data-filter-url')+'?sort='+$('.catalogTop__sort').val();
+                $location = filter.attr('data-filter-url');
+
+                if (sortStr.length > 0) {
+                    $location += `?${sortStr}`;
+                }
             } else {
-                $location += Filter.getData()+'&sort='+$('.catalogTop__sort').val();
+                $location += Filter.getData();
+
+                if (sortStr.length > 0) {
+                    $location += `&${sortStr}`;
+                }
             }
 
             let ids = [];

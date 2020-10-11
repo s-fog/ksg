@@ -798,10 +798,23 @@ class SiteController extends Controller
 
             if ($model) {
                 if (!empty($alias2)) {
-                    $model = Category::find()->where(['alias' => $alias2])->one();
+                    $parent = $model;
+
+                    $model = Category::find()->where([
+                        'alias' => $alias2,
+                        'parent_id' => $parent->id,
+                    ])->one();
 
                     if (!$model) {
-                        throw new NotFoundHttpException;
+                        $parentBrand = Category::findOne(['id' => $this->parent_id]);
+                        $model = Category::find()->where([
+                            'alias' => $alias2,
+                            'parent_id' => $parentBrand->id,
+                        ])->one();
+
+                        if (!$model) {
+                            throw new NotFoundHttpException;
+                        }
                     }
                 }
             } else {
