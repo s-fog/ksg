@@ -37,7 +37,7 @@ $presents = \common\models\Present::find()->all();
         <div class="catalogTop__inner<?=empty($childrenCategories) ? ' catalogTop__inner_categoriesEmpty' : ''?>">
             <div class="catalogTop__h1<?=empty($childrenCategories) ? ' catalogTop__h1_categoriesEmpty' : ''?>">
                 <h1><?=$h1?></h1>
-                <?=($page == 1) ? "<span>({$model->productCount})</span>" : ''?>
+                <?=($page == 1) ? "<span>(".count($products).")</span>" : ''?>
             </div>
             <?=$this->render('@frontend/views/blocks/cats', [
                 'childrenCategories' => $childrenCategories,

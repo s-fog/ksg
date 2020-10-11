@@ -396,7 +396,7 @@ class SiteController extends Controller
                             }
                         }
                     } else {
-                        $orderBy = ['popular' => SORT_DESC];
+                        $orderBy = ['price' => SORT_ASC];
                     }
 
                     if (!empty(Favourite::getIds())) {
@@ -1047,7 +1047,7 @@ class SiteController extends Controller
                 $filterFeatures = $model->parent0->filterFeatures;
             }
 
-            Category::clearEmptyFeatures($filterFeatures, $allProductsQuery);
+            //Category::clearEmptyFeatures($filterFeatures, $allProductsQuery);
 
             return $this->render('@frontend/views/catalog/index', [
                 'model' => $model,
