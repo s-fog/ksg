@@ -196,7 +196,7 @@ $mainpage = Mainpage::findOne(1);
                 <div class="container">
                     <?php foreach($model->getCategories()->andWhere(['!=', Category::tableName().'.type', 0])->all() as $category) { ?>
                         <a href="<?=$category->url?>" class="category__tag">
-                            <span><?=$category->name?> (<?=$category->productCount?>)</span>
+                            <span><?=$category->name?></span>
                         </a>
                     <?php } ?>
                 </div>
