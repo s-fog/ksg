@@ -165,11 +165,11 @@ $presents = \common\models\Present::find()->all();
 
                 if ($active) {?>
                     <span class="category__tag active">
-                        <span><?=$tag->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
+                        <span><?=$tag->name?></span>
                     </span>
                 <?php } else { ?>
                     <a href="<?=$tag->url?>" class="category__tag">
-                        <span><?=$tag->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
+                        <span><?=$tag->name?></span>
                     </a>
                 <?php } ?>
             <?php }
@@ -192,11 +192,11 @@ $presents = \common\models\Present::find()->all();
 
                 if ($active) {?>
                     <span class="category__item link active">
-                        <span><?=$year->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
+                        <span><?=$year->name?></span>
                     </span>
                 <?php } else { ?>
                     <a href="<?=$year->url?>" class="category__item link">
-                        <span><?=$year->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
+                        <span><?=$year->name?></span>
                     </a>
                 <?php } ?>
             <?php }
@@ -278,11 +278,11 @@ $presents = \common\models\Present::find()->all();
 
                         if ($active) {?>
                             <span class="brands__listItem active">
-                                <span><?=$brandCategory->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
+                                <span><?=$brandCategory->name?></span>
                             </span>
                         <?php } else { ?>
                             <a href="<?=$url?>" class="brands__listItem">
-                                <span><?=$brandCategory->name?><?=($productCount != 0) ? " ($productCount)" : ""?></span>
+                                <span><?=$brandCategory->name?></span>
                             </a>
                         <?php } ?>
 
