@@ -53,6 +53,7 @@ $catalogPage = Textpage::findOne(1);
             </div>
         </div>
     </div>
+    <br>
     <div class="container">
         <div class="wantMore">
             <div class="wantMore__text">Не нашли нужное? Попробуйте </div>

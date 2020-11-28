@@ -44,7 +44,7 @@ class Sort
                     }
                 }
             } else {
-                $orderBy = ['popular' => SORT_DESC];
+                $orderBy = ['price' => SORT_ASC];
             }
         }
 
