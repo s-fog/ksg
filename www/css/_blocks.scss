@@ -2505,8 +2505,14 @@
   }
 }
 
+.breadcrumbs + [itemtype="http://schema.org/Product"] {
+  margin-top: -10px;
+}
+
 .product {
-  margin: 40px 0;
+  margin: 20px 0;
+  padding: 10px 0;
+  background-color: #fff;
 
   &__inner {
     display: flex;
