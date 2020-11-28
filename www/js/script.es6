@@ -1868,7 +1868,7 @@ class Application {
 
             if (thisElement.hasClass('in')) {
                 $.post('/compare/delete', data, (response) => {
-                    if (response == 'success') {
+                    if (response === 'success') {
                         textC(thisElement);
                         thisElement.removeClass('in');
                     }
