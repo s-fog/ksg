@@ -52,10 +52,11 @@ $inFavourite = Favourite::inFavourite($model->id);
                     <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M11.667 2.12908L4.64173 10.2351L0 5.59342L1.37924 4.21417L4.53969 7.37463L10.193 0.851608L11.667 2.12908Z" fill="#00C514"/>
                     </svg>
+                    <span>В наличии</span>
                 <?php } else { ?>
                     <div class="catalog__itemAvailabilityNone">x</div>
+                    <span>Нет в наличии</span>
                 <?php } ?>
-                <span>В наличии</span>
             </div>
             <div class="catalog__itemPrice"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
             <?php if (!empty($model->price_old)) { ?>

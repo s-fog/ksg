@@ -15,11 +15,11 @@ $urlWithoutPath = $url['scheme'].'://'.$url['host'].$url['path'];
 
 ?>
 
-<form class="filter<?=isset($_COOKIE['set_filter_opened']) && $_COOKIE['set_filter_opened'] == 1 ? ' active' : ''?>"
+<form class="filter<?=isset($_COOKIE['set_filter_opened']) && $_COOKIE['set_filter_opened'] == 76 ? ' active' : ''?>"
     <?=!empty($model->filter_url) ? 'data-filter-url="'.$urlWithoutPath.'"' : '' ?>
     data-parent-url="<?=($model::className() === 'common\models\Category') ? $model->getParentCategory()->url : ''?>"
 >
-    <div class="filter__mobileOpen<?=isset($_COOKIE['set_filter_opened']) && $_COOKIE['set_filter_opened'] == 1 ? ' active' : ''?>">
+    <div class="filter__mobileOpen<?=isset($_COOKIE['set_filter_opened']) && $_COOKIE['set_filter_opened'] == 76 ? ' active' : ''?>">
         <span class="filter__mobileOpenText">Фильтр</span>
         <span class="filter__mobileOpenIcon"></span>
     </div>
