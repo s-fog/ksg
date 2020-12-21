@@ -728,7 +728,7 @@ class Product extends BaseProduct implements CartPositionInterface
         $key = 'main_features_product_'.$this->id;
         $mainFeaturesValues = $cache->get($key);
 
-        if ($forceToCache === true || empty($mainFeatures)) {
+        if ($forceToCache === true || empty($mainFeaturesValues)) {
             $mainFeatures = [];
             $mainFeaturesValues = [];
 
@@ -747,6 +747,7 @@ class Product extends BaseProduct implements CartPositionInterface
                     }
                 }
             }
+
             $cache->set($key, $mainFeaturesValues, 31104000);
         }
 
