@@ -726,7 +726,7 @@ class Product extends BaseProduct implements CartPositionInterface
     public function getMainFeatures($forceToCache = false) {
         $cache = Yii::$app->cache;
         $key = 'main_features_product_'.$this->id;
-        $mainFeatures = $cache->get($key);
+        $mainFeaturesValues = $cache->get($key);
 
         if ($forceToCache === true || empty($mainFeatures)) {
             $mainFeatures = [];
@@ -747,11 +747,9 @@ class Product extends BaseProduct implements CartPositionInterface
                     }
                 }
             }
-            var_dump($mainFeatures);
-
-            $cache->set($mainFeatures, 31104000);
+            $cache->set($mainFeaturesValues, 31104000);
         }
 
-        return $mainFeatures;
+        return $mainFeaturesValues;
     }
 }
