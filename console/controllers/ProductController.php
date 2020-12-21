@@ -14,7 +14,7 @@ class ProductController extends Controller {
         $products = Product::find()->all();
 
         foreach($products as $product) {
-            $product->getMainFeatures();
+            $product->getMainFeatures(true);
         }
     }
 }
