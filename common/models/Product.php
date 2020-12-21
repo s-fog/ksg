@@ -747,7 +747,7 @@ class Product extends BaseProduct implements CartPositionInterface
                     }
                 }
             }
-            $cache->set($mainFeaturesValues, 31104000);
+            $cache->set($key, $mainFeaturesValues, 31104000);
         }
 
         return $mainFeaturesValues;
