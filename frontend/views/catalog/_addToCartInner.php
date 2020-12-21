@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 $empty = false;
 
-if ($currentVariant->available == 0) {
+if ($model->params[0]->available == 0) {
     $empty = true;
 }
 
@@ -14,7 +14,7 @@ if ($currentVariant->available == 0) {
     <div class="addToCart__beforeHeader">Добавить в корзину</div>
     <div class="addToCart__header"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?> <?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
     <?php
-    $image0 = $model->images[$currentVariant->image_number];
+    $image0 = $model->images[$model->params[0]->image_number];
     $filename = explode('.', basename($image0->image)); ?>
     <div class="addToCart__image"><div style="background-image: url(/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>);"></div></div>
     <div class="addToCart__features">
@@ -26,33 +26,7 @@ if ($currentVariant->available == 0) {
                 <div class="cart__countPlus"></div>
             </div>
         </div>
-        <?php foreach($selects as $name => $values) {
-            $param = Param::findOne(['name' => $name]);
-            if (!$param) continue;
-
-            ?>
-            <div class="addToCart__feature">
-                <div class="addToCart__featureHeader"><?=$param->name?></div>
-                <div class="addToCart__featureBottom">
-                    <div class="product__select">
-                        <span class="product__selectName"><?=$name?>:</span>
-                        <select name="<?=$param->name_en?>" class="select-jquery-ui-popup select-<?=$param->name_en?>-jquery-ui-popup">
-                            <?php foreach($values as $value) { ?>
-                                <?php if ($na = Product::checkDisabled($disabled, $name, $value)) { ?>
-                                    <option
-                                        disabled
-                                        value="<?=$value['value']?>"><?=$na?></option>
-                                <?php } else { ?>
-                                    <option
-                                        <?=($value['active']) ? 'selected' : ''?>
-                                        value="<?=$value['value']?>"><?=$value['value']?></option>
-                                <?php } ?>
-                            <?php } ?>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        <?php } ?>
+        <?=$this->render('@frontend/views/catalog/selects', ['model' => $model])?>
     </div>
     <div class="addToCart__bottom">
         <div class="addToCart__bottomTop">

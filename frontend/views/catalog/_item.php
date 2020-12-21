@@ -64,6 +64,12 @@ $inFavourite = Favourite::inFavourite($model->id);
             <?php } ?>
         </div>
         <a href="<?=$url?>" class="catalog__itemName"><span><?=$model->name?></span></a>
+        <div class="catalog__itemFeatures">
+            <?php foreach($model->getMainFeatures() as $name => $value) { ?>
+                <div class="catalog__itemFeatureName"><?=$name?></div>
+                <div class="catalog__itemFeatureValue"><?=$value?></div>
+            <?php } ?>
+        </div>
         <div class="catalog__itemBottom">
             <div data-fancybox
                  data-src="#addToCart<?=$model->id?>"

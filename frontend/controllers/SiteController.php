@@ -655,7 +655,6 @@ class SiteController extends Controller
             $currentVariant = $model->productParams[0];
         }
 
-        $variants = $model->productParams;
         $brand = Brand::findOne($model->brand_id);
         $adviser = Adviser::findOne($model->adviser_id);
         $features = [];
@@ -670,43 +669,56 @@ class SiteController extends Controller
         }
         ///////////////////////////////////////////////////////////////////////
 
-        $selectsAndDisabled = $model->getSelectsAndDisabled($currentVariant);
-        $selects = $selectsAndDisabled[0];
-        $disabled = $selectsAndDisabled[1];
-
         ///////////////////////////////////////////////////////////////////////
+        if (isset($_POST['getProduct']) && $_POST['getProduct'] === 'true') {
+            $brothers = $model->getBrothersAll();
+            $foundBrother = null;
+            $mainParam = Param::findOne($model->main_param);
 
-        if (isset($_POST['reload']) && $_POST['reload'] == 1) {
-            $productView = $this->renderPartial('_product', [
-                'model' => $model,
-                'brand' => $brand,
-                'currentVariant' => $currentVariant,
-                'variants' => $variants,
-                'selects' => $selects,
-                'adviser' => $adviser,
-                'features' => $features,
-                'disabled' => $disabled,
-                'pswHeight' => $_POST['pswHeight'],
-            ]);
+            foreach($brothers as $brother) {
+                $param = $brother->params[0];
+                $params = $param->params;
+                $brotherMainParamName = null;
+                $brotherMainParamValue = null;
+                $brotherAdditionalParamName = null;
+                $brotherAdditionalParamValue = null;
 
-            $presents = \common\models\Present::find()->all();
+                foreach($params as $index => $p) {
+                    list($name, $value) = explode(' -> ', $p);
 
-            $presentArtikul = '';
-            foreach($presents as $present) {
-                if ($model->price >= $present->min_price && $model->price <= $present->max_price) {
-                    $presentArtikul = explode(',', $present->product_artikul)[0];
+                    if ($mainParam->name === $name) {
+                        $brotherMainParamName = $name;
+                        $brotherMainParamValue = $value;
+                    }
+
+                    if (isset($_POST['additionalParam']) && $mainParam->name !== $name) {
+                        $brotherAdditionalParamName = $name;
+                        $brotherAdditionalParamValue = $value;
+                    }
+                }
+
+                if ($brother->id !== $model->id) {
+                    if ($_POST['mainParam'] === $brotherMainParamValue) {
+                        if ($brotherAdditionalParamValue === null) {
+                            $foundBrother = $brother;
+                            break;
+                        } else {
+                            if ($_POST['additionalParam'] === $brotherAdditionalParamValue) {
+                                $foundBrother = $brother;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 
-            $addToCartView = $this->renderPartial('@frontend/views/catalog/_addToCartInner', [
-                'model' => $model,
-                'currentVariant' => $currentVariant,
-                'selects' => $selects,
-                'disabled' => $disabled,
-                'presentArtikul' => $presentArtikul
-            ]);
+            $url = $foundBrother->url;
 
-            return json_encode([$productView, $addToCartView]);
+            if ($_POST['fancyboxOpened'] === 'true') {
+                $url .= '?fancybox=1';
+            }
+
+            return $url;
         } else {
             $model->popular++;
             $model->save();
@@ -755,16 +767,12 @@ class SiteController extends Controller
                 }
             }
             ////////////////////////////////////////////////////////////////////////////////////////////
-
+            //var_dump($model->getMainFeatures());die();
             ////////////////////////////////////////////////////////////////////////////////////////////
-
             return $this->render('@frontend/views/catalog/view', [
                 'model' => $model,
                 'brand' => $brand,
                 'currentVariant' => $currentVariant,
-                'variants' => $variants,
-                'selects' => $selects,
-                'disabled' => $disabled,
                 'adviser' => $adviser,
                 'features' => $features,
                 'accessories' => $accessories,

@@ -67,6 +67,31 @@ $presents = \common\models\Present::find()->all();
 
 <div class="catalog">
     <div class="container">
+        <?php if ($tags) { ?>
+            <div class="catalogTags">
+                <div class="catalogTags__header">Популярные запросы:</div>
+                <div class="catalogTags__container js-catalog-tags-container">
+                    <div class="catalogTags__inner js-catalog-tags-inner">
+                        <?php foreach($tags as $tag) {
+                            $url = $tag->url;
+                            $active = $_SERVER['REQUEST_URI'] == $url;
+                            $productCount = $tag->productCount;
+
+                            if ($active) {?>
+                                <span class="catalogTags__tag active">
+                                <span><?=$tag->name?></span>
+                            </span>
+                            <?php } else { ?>
+                                <a href="<?=$tag->url?>" class="catalogTags__tag">
+                                    <span><?=$tag->name?></span>
+                                </a>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+                </div>
+                <div class="catalogTags__more hidden js-catalog-tags-more"><span>Еще...</span></div>
+            </div>
+        <?php } ?>
         <div class="catalog__inner">
             <div class="catalog__innerLeft">
                 <?=$this->render('_filter', [
@@ -154,32 +179,6 @@ $presents = \common\models\Present::find()->all();
         </div>
     </div>
 </div>
-
-<?php if ($tags) { ?>
-    <div class="category__tags">
-        <div class="container">
-            <?php foreach($tags as $tag) {
-                $url = $tag->url;
-                $active = $_SERVER['REQUEST_URI'] == $url;
-                $productCount = $tag->productCount;
-
-                if ($active) {?>
-                    <span class="category__tag active">
-                        <span><?=$tag->name?></span>
-                    </span>
-                <?php } else { ?>
-                    <a href="<?=$tag->url?>" class="category__tag">
-                        <span><?=$tag->name?></span>
-                    </a>
-                <?php } ?>
-            <?php }
-            if (count($tags) > 10) {
-                echo '<a href="#" class="category__tagSeeAll"><span>посмотреть все-&gt;</span></a>';
-            }
-            ?>
-        </div>
-    </div>
-<?php } ?>
 
 <?php if ($years) { ?>
     <div class="category__years">

@@ -313,7 +313,7 @@ class Header {
         }, 2000);
         element.removeClass('hovered');
     }
-    
+
     minicartAnimation() {
         if (this.nodes.mainHeader__cart.hasClass('not_empty') && this.nodes.mainHeader__cart.hasClass('favourite')) {
             this.minicartInterval = setInterval(() => {
@@ -723,13 +723,13 @@ class Cart {
             },
             touch: false,
             baseTpl:
-            '<div class="fancybox-container productImage__wrapper" role="dialog" tabindex="-1">' +
-            '<div class="fancybox-bg"></div>' +
-            '<div class="fancybox-inner">' +
-            '<div class="fancybox-stage"></div>' +
-            '<div class="fancybox-caption"></div>' +
-            "</div>" +
-            "</div>",
+                '<div class="fancybox-container productImage__wrapper" role="dialog" tabindex="-1">' +
+                '<div class="fancybox-bg"></div>' +
+                '<div class="fancybox-inner">' +
+                '<div class="fancybox-stage"></div>' +
+                '<div class="fancybox-caption"></div>' +
+                "</div>" +
+                "</div>",
             beforeLoad: (instance, slide) => {
                 let thisElement = $(slide.opts.$orig);
                 let name;
@@ -779,76 +779,24 @@ class Cart {
             }
         });
 
-        $('.select-product-jquery-ui').customselectmenu({
+        $('.js-product-jquery-ui-select').customselectmenu({
             change: (event, ui) => {
-                this.reloadProduct();
-            }
-        });
-
-        $('.select-jquery-ui-popup').customselectmenu({
-            change: (event, ui) => {
-                let parent = $(event.target).parents('.addToCart__wrapper');
-                let paramsV = this.getParamsv(true, parent);
-                let popupProductId = parent.data('id');
-
-                parent.addClass('loading');
-
-                if ($('.product').get(0)) {
-                    let productId = $('.product').data('id');
-
-                    if (popupProductId == productId) {
-                        this.reloadProduct(paramsV, 1);
-
-                        return;
+                const isMainParam = $(event.target).hasClass('js-product-main-param');
+                const selects = $(event.target).parents('.js-product-jquery-ui-selects'),
+                    mainParamSelect = $('.js-product-main-param'),
+                    data = {
+                        getProduct: true,
+                        fancyboxOpened: $('.fancybox-container').get(0) !== undefined,
+                        mainParam: mainParamSelect.val()
                     }
 
-                }
-
-                let data = 'reload=1&paramsv='+paramsV+'&onlyPopup=1&id='+popupProductId+'&popupShow=1';
-
-                $.post('/catalog/popup', data, (response) => {
-                    parent.find('.addToCart').replaceWith(response);
-                    parent.removeClass('loading');
-
-                    setTimeout(() => {
-                        this._cacheNodes();
-                        this._bindEvents();
-                    }, 1);
-                });
-
-                /*let array = new Array();
-                let params = '';
-                let parent = $(event.target).parents('.addToCart');
-
-                parent.find('.select-jquery-ui-popup').each((index, element) => {
-                    let value = $(element).val();
-                    let name = $(element).siblings('.product__selectName').html();
-
-                    name = name.substring(0, name.length - 1);
-                    array[index] = `${name} -> ${value}`;
-                });
-
-                for(let i = 0; i < array.length; i++) {
-                    params += array[i]+'|';
-                }
-
-                params = params.substring(0, params.length - 1);
-
-                let data = 'paramsV='+params;
+                    if (!isMainParam) {
+                        data.additionalParam = $(event.target).val()
+                    }
 
                 $.post(location.pathname, data, (response) => {
-
-                });
-
-                $('.product__sliderImage').each((index, element) => {
-                    if ($(element).data('paramsv') == params) {
-                        let image = $(element).data('image');
-
-                        $('.addToCart__image div').css({
-                            'background-image': `url(${image})`
-                        });
-                    }
-                });*/
+                    location = response;
+                })
             }
         });
 
@@ -1050,18 +998,18 @@ class Cart {
                 smallBtn: '<button data-fancybox-close class="fancybox-close-small" title="{{CLOSE}}"><img src="/img/close.svg"></button>',
             },
             baseTpl:
-            '<div class="fancybox-container productImage__wrapper" role="dialog" tabindex="-1">' +
-            '<div class="fancybox-bg"></div>' +
-            '<div class="fancybox-inner">' +
-            '<div class="fancybox-infobar">' +
-            "<span data-fancybox-index></span>&nbsp;/&nbsp;<span data-fancybox-count></span>" +
-            "</div>" +
-            '<div class="fancybox-toolbar" style="display: none;">{{buttons}}</div>' +
-            '<div class="fancybox-navigation" style="display: none;">{{arrows}}</div>' +
-            '<div class="fancybox-stage"></div>' +
-            '<div class="fancybox-caption"></div>' +
-            "</div>" +
-            "</div>",
+                '<div class="fancybox-container productImage__wrapper" role="dialog" tabindex="-1">' +
+                '<div class="fancybox-bg"></div>' +
+                '<div class="fancybox-inner">' +
+                '<div class="fancybox-infobar">' +
+                "<span data-fancybox-index></span>&nbsp;/&nbsp;<span data-fancybox-count></span>" +
+                "</div>" +
+                '<div class="fancybox-toolbar" style="display: none;">{{buttons}}</div>' +
+                '<div class="fancybox-navigation" style="display: none;">{{arrows}}</div>' +
+                '<div class="fancybox-stage"></div>' +
+                '<div class="fancybox-caption"></div>' +
+                "</div>" +
+                "</div>",
             beforeLoad: (instance, slide) => {
                 let thisElement = $(slide.opts.$orig);
                 let header = thisElement.data('header');
@@ -1168,36 +1116,6 @@ class Cart {
         params = params.substring(0, params.length - 1);
 
         return params;
-    }
-
-    reloadProduct(paramsv, popupShow) {
-        if (paramsv === undefined) {
-            paramsv = this.getParamsv();
-        }
-        if (popupShow === undefined) {
-            popupShow = 0;
-        }
-
-        let product__sliderWrapper = $('.product__sliderWrapper');
-        let pswHeight = product__sliderWrapper.height();
-        let data = 'reload=1&paramsv='+paramsv+'&pswHeight='+pswHeight+'&popupShow='+popupShow;
-
-        product__sliderWrapper.addClass('loading');
-        $('.product__allPhoto').hide();
-
-        $.post(location.pathname, data, (response) => {
-            let result = JSON.parse(response);
-
-            $('.product').replaceWith(result[0]);
-            $('#addToCart .addToCart').replaceWith(result[1]);
-            $('#addToCart').removeClass('loading');
-
-            setTimeout(() => {
-                this._cacheNodes();
-                this._bindEvents();
-                this.initProductSlider();
-            }, 1);
-        });
     }
 
     addToCart(id, paramsV, quantity, fromPopupWrapper = false, presentArtikul = false, deliveryDate = false) {
@@ -1858,7 +1776,7 @@ class Application {
             let thisElement = $(event.currentTarget);
             let id = thisElement.data('id');
             let data = `id=${id}`;
-            
+
             function textC(thisElement) {
                 let newText = thisElement.data('text');
 
@@ -1887,6 +1805,23 @@ class Application {
 
         $(document).on('click', '.js-product-preorder', (event) => {
             $('#product-to-cart-add').click();
+        });
+
+        if (location.search === '?fancybox=1') {
+            $('#product-to-cart-add').click();
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        const catalogTagsMore = $('.js-catalog-tags-more'),
+            catalogTagsContainer = $('.js-catalog-tags-container');
+
+        if ($('.js-catalog-tags-inner').height() > catalogTagsContainer.height()) {
+            catalogTagsMore.removeClass('hidden');
+        }
+
+        catalogTagsMore.on('click', () => {
+            catalogTagsContainer.addClass('show');
+            catalogTagsMore.addClass('hidden');
         });
     }
 

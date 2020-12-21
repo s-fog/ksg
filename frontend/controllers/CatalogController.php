@@ -62,9 +62,6 @@ class CatalogController extends Controller
                     ->one();
             }
 
-            $selectsAndDisabled = $model->getSelectsAndDisabled($currentVariant);
-            $selects = $selectsAndDisabled[0];
-            $disabled = $selectsAndDisabled[1];
             $features = [];
 
             foreach($model->features as $index => $feature) {
@@ -87,9 +84,6 @@ class CatalogController extends Controller
 
             return $this->renderPartial('_addToCartInner', [
                 'model' => $model,
-                'currentVariant' => $currentVariant,
-                'selects' => $selects,
-                'disabled' => $disabled,
                 'presentArtikul' => $presentArtikul
             ]);
         }

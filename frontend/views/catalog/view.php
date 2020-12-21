@@ -32,9 +32,6 @@ $mainpage = Mainpage::findOne(1);
         'model' => $model,
         'brand' => $brand,
         'currentVariant' => $currentVariant,
-        'variants' => $variants,
-        'selects' => $selects,
-        'disabled' => $disabled,
         'adviser' => $adviser,
         'features' => $features,
     ])?>
@@ -246,8 +243,6 @@ $mainpage = Mainpage::findOne(1);
 <?=$this->render('_addToCart', [
     'model' => $model,
     'currentVariant' => $currentVariant,
-    'selects' => $selects,
-    'disabled' => $disabled,
     'presentArtikul' => $presentArtikul,
     'delivery_date' => Product::getNearDates()[0],
 ])?>

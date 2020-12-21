@@ -20,7 +20,7 @@ $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
 } else {
 Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . 'Создать', ['create'], ['class' => 'btn btn-success']);
-    $actionColumnTemplateString = "{delete} {update}";
+    $actionColumnTemplateString = "{clone} {delete} {update}";
 }
 $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
 ?>
@@ -84,6 +84,12 @@ JS;
             'class' => 'yii\grid\ActionColumn',
             'template' => $actionColumnTemplateString,
             'buttons' => [
+                'clone' => function ($url, $model, $key) {
+                    $options = [
+                            'style' => 'font-size: 1.6rem'
+                    ];
+                    return Html::a('<span class="glyphicon glyphicon-duplicate"></span>', $url, $options);
+                },
                 'view' => function ($url, $model, $key) {
                     $options = [
                         'title' => Yii::t('cruds', 'View'),
@@ -107,7 +113,7 @@ JS;
                 'attribute' => 'available',
                 'label' => 'Наличие',
                 'content' => function($data) {
-                    return $data->productParams[0]->available;
+                    return !empty($data->productParams) ? $data->productParams[0]->available : '';
                 }
             ],
            [

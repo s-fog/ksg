@@ -30,9 +30,6 @@ if (!isset($delivery_date)) {
      data-present_artikul="<?=$presentArtikul?>">
     <?=$this->render('_addToCartInner', [
         'model' => $model,
-        'currentVariant' => $currentVariant,
-        'selects' => $selects,
-        'disabled' => $disabled,
         'presentArtikul' => $presentArtikul
     ])?>
 </div>

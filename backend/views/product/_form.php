@@ -69,6 +69,10 @@ use yii\helpers\StringHelper;
                 'label'     => 'SEO',
                 'content'   =>  $this->render('_seo', ['form' => $form, 'model' => $model])
             ],
+            [
+                'label'     => 'Доп. функции',
+                'content'   =>  $this->render('_additional_options', ['form' => $form, 'model' => $model])
+            ],
         ]
     ]);
     ?>

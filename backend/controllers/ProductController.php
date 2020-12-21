@@ -647,10 +647,12 @@ class ProductController extends \backend\controllers\base\ProductController
                                 break;
                             }
                         }
+
                     }
 
                     if ($flag) {
                         $transaction->commit();
+                        $model->saveBrothers();
                         Sitemap::doIt();
                         UML::doIt();
 
@@ -674,5 +676,73 @@ class ProductController extends \backend\controllers\base\ProductController
             'modelsFeature' => (empty($modelsFeature)) ? [new Feature] : $modelsFeature,
             'modelsFeatureValue' => (empty($modelsFeatureValue[0])) ? [[new FeatureValue]] : $modelsFeatureValue
         ]);
+    }
+
+    public function actionClone($id) {
+        $product = Product::findOne($id);
+        $clonedProduct = new Product();
+        $clonedProduct->setAttributes($product->attributes);
+        $clonedProduct->id = null;
+        $clonedProduct->alias = $product->alias.'-'.time();
+        $clonedProduct->generateCode();
+
+        foreach($product->getBrothers() as $productProduct) {
+            $clonedProduct->brothers_ids[] = $productProduct['product_id'];
+            $clonedProduct->brothers_ids[] = $productProduct['product_brother_id'];
+        }
+
+        $clonedProduct->save();
+        $clonedProduct->saveBrothers();
+
+        foreach($product->reviews as $review) {
+            $clonedReview = new ProductReview();
+            $clonedReview->setAttributes($review->attributes);
+            $clonedReview->id = null;
+            $clonedReview->product_id = $clonedProduct->id;
+            $clonedReview->save();
+        }
+
+        foreach($product->images as $image) {
+            $clonedImage = new Image();
+            $clonedImage->setAttributes($image->attributes);
+            $clonedImage->id = null;
+            $clonedImage->product_id = $clonedProduct->id;
+            $clonedImage->save();
+        }
+
+        foreach($product->params as $param) {
+            $clonedParam = new ProductParam();
+            $clonedParam->setAttributes($param->attributes);
+            $clonedParam->id = null;
+            $clonedParam->product_id = $clonedProduct->id;
+            $clonedParam->artikul = (string) time();
+            $clonedParam->save();
+        }
+
+        foreach($product->features as $feature) {
+            $clonedFeature = new Feature();
+            $clonedFeature->setAttributes($feature->attributes);
+            $clonedFeature->id = null;
+            $clonedFeature->product_id = $clonedProduct->id;
+            $clonedFeature->save();
+
+            foreach($feature->featurevalues as $featurevalue) {
+                $clonedFeatureValue = new FeatureValue();
+                $clonedFeatureValue->setAttributes($featurevalue->attributes);
+                $clonedFeatureValue->id = null;
+                $clonedFeatureValue->feature_id = $clonedFeature->id;
+                $clonedFeatureValue->save();
+            }
+        }
+
+        foreach($product->productHasFilterFeatureValue as $productHasFilterFeatureValue) {
+            $clonedProductHasFilterFeatureValue = new ProductHasFilterFeatureValue();
+            $clonedProductHasFilterFeatureValue->setAttributes($productHasFilterFeatureValue->attributes);
+            $clonedProductHasFilterFeatureValue->id = null;
+            $clonedProductHasFilterFeatureValue->product_id = $clonedProduct->id;
+            $clonedProductHasFilterFeatureValue->save();
+        }
+
+        return $this->redirect(['update', 'id' => $clonedProduct->id]);
     }
 }

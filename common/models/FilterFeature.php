@@ -27,7 +27,6 @@ class FilterFeature extends BaseFilterFeature
         return ArrayHelper::merge(
             parent::rules(),
             [
-                # custom validation rules
             ]
         );
     }

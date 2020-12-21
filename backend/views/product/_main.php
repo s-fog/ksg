@@ -3,6 +3,7 @@ use common\models\Adviser;
 use common\models\Brand;
 use common\models\Category;
 use common\models\Currency;
+use common\models\Product;
 use common\models\ProductHasCategory;
 use common\models\Supplier;
 use kartik\checkbox\CheckboxX;
@@ -27,41 +28,22 @@ echo $form->field($model, 'parent_id')->widget(Select2::classname(), [
 ]);
 ?>
 
-<?php if (!$model->isNewRecord) { ?>
-    <div class="form-group">
-        <label class="control-label">Другие категории</label>
-        <?php
-        echo Select2::widget([
-            'name' => 'categories_ids',
-            'value' => ProductHasCategory::getValues($model->id), // initial value
-            'data' => Category::getList(),
-            'maintainOrder' => true,
-            'options' => ['placeholder' => 'Выберите категории', 'multiple' => true],
-            'pluginOptions' => [
-                'tags' => true,
-                'maximumInputLength' => 100,
-                'class' => 'difCats'
-            ],
-            'pluginEvents' => [
-                "change" => "function(event) { 
-                        var values = $(this).val();
-                        var request = 'values=' + values + '&product_id=' + ".$model->id.";
-                        console.log(values);
-                                            
-                        $.post('/officeback/ajax/product-has-category-change', request, function(response) {
-                            console.log(response);
-                        });
-                    }",
-            ]
-        ]);
-        ?>
-    </div>
-<?php } else {?>
-    <div class="form-group">
-        <label class="control-label">Другие категории</label>
-        <label class="control-label" style="color: red;">Другие категории станут доступны после сохранения товара</label>
-    </div>
-<?php } ?>
+<?php
+$model->setBrothersIds();
+$products = ArrayHelper::map(Product::find()
+    ->select(['id', 'name'])
+    ->where(['!=', 'id', $model->id])
+    ->orderBy(['name' => SORT_ASC])
+    ->asArray()
+    ->all(), 'id', 'name');
+
+echo $form->field($model, 'brothers_ids')->widget(Select2::classname(), [
+    'data' => $products,
+    'options' => [
+            'multiple' => true
+    ]
+])->label('Братья');
+?>
 
 <?php
 echo '<br>';
@@ -106,68 +88,5 @@ foreach(ArrayHelper::map(Supplier::find()->orderBy(['name' => SORT_ASC])->all(),
 ) ?>
 <!-- attribute description -->
 <?= $form->field($model, 'description')->widget(CKEditor::className()) ?>
-
-<?= $form->field($model, 'disallow_xml')->widget(CheckboxX::classname(), [
-    'pluginOptions' => [
-        'threeState'=>false
-    ]
-]) ?>
-
-<?= $form->field($model, 'hit')->widget(CheckboxX::classname(), [
-    'pluginOptions' => [
-        'threeState'=>false
-    ]
-]) ?>
-
-<?php
-
-$advisers = ['' => 'Ничего не выбрано'];
-
-foreach(Adviser::find()->orderBy(['name' => SORT_ASC])->all() as $tt) {
-    $advisers[$tt->id] = $tt->name;
-}
-
-?>
-
-<?= $form->field($model, 'adviser_id')->dropDownList($advisers) ?>
-<!-- attribute adviser_text -->
-<?= $form->field($model, 'adviser_text')->textarea(['rows' => 6]) ?>
-
-<!-- attribute code -->
-<?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
-
-<div style="border: 1px solid #000;border-radius: 10px;padding: 10px;">
-<?php
-if ($model->instruction) {
-    echo '
-    <div class="form-group">
-        <div>'.$model->instruction.'</div>
-    </div>
-    ';
-    }
-
-    echo $form->field($model, 'instruction')->widget(FileInput::className(), [
-        'pluginOptions' => [
-            'showCaption' => false,
-            'showRemove' => false,
-            'showUpload' => false,
-            'browseClass' => 'btn btn-primary btn-block',
-            'browseIcon' => '<i class="glyphicon glyphicon-camera"></i>',
-            'browseLabel' =>  'Выберите файл'
-        ]
-    ]);
-    ?>
-</div>
-<br>
-
-<!-- attribute video -->
-<?= $form->field($model, 'video')->textInput(['maxlength' => true]) ?>
-
-<?=$this->render('@backend/views/blocks/image', [
-    'form' => $form,
-    'model' => $model,
-    'image' => $model->present_image,
-    'name' => 'present_image'
-])?>
 
 <?=$this->render('@backend/views/features/_sortableJs')?>

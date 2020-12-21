@@ -18,7 +18,7 @@ use yii\helpers\Html;
         'name',
         'value',
     ],
-]); ?>
+]);?>
 <table class="table table-bordered">
     <thead>
     <tr>
@@ -44,6 +44,11 @@ use yii\helpers\Html;
             <td class="vcenter">
                 <?= $form->field($modelFeatureValue, "[{$indexFeature}][{$indexFeatureValue}]value")->label(false)->textInput(['maxlength' => true]) ?>
             </td>
+            <?php if ($formId === 'Category') { ?>
+                <td class="vcenter">
+                    <?= $form->field($modelFeatureValue, "[{$indexFeature}][{$indexFeatureValue}]main_param")->checkbox() ?>
+                </td>
+            <?php } ?>
             <td class="text-center vcenter" style="width: 90px;">
                 <button type="button" class="remove-fv btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
             </td>

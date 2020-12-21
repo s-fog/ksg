@@ -222,28 +222,7 @@ if ($currentVariant->available == 0) {
                                 <div class="product__requestSale" data-fancybox="oneClick" data-src="#oneClick">Купить в один клик</div>
                             <?php } ?>
                         </div>
-                        <div class="product__selects">
-                            <?php foreach($selects as $name => $values) {
-                                $param = Param::findOne(['name' => $name]);
-                                ?>
-                                <div class="product__select">
-                                    <span class="product__selectName"><?=$name?>:</span>
-                                    <select name="<?=$param->name_en?>" class="select-product-jquery-ui select-<?=$param->name_en?>-jquery-ui">
-                                        <?php foreach($values as $value) { ?>
-                                            <?php if ($na = Product::checkDisabled($disabled, $name, $value)) { ?>
-                                                <option
-                                                    disabled
-                                                    value="<?=$value['value']?>"><?=$na?></option>
-                                            <?php } else { ?>
-                                                <option
-                                                    <?=($value['active']) ? 'selected' : ''?>
-                                                    value="<?=$value['value']?>"><?=$value['value']?></option>
-                                            <?php } ?>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            <?php } ?>
-                        </div>
+                        <?=$this->render('@frontend/views/catalog/selects', ['model' => $model])?>
                     </div>
                 </div>
                 <?php
