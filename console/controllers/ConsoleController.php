@@ -10,6 +10,10 @@ use yii\console\Controller;
 
 class ConsoleController extends Controller {
 
+    public function actionServer() {
+        var_dump($_SERVER);
+    }
+
     public function actionGenerateMoreThumbs() {
         $simage = new SImage;
 
