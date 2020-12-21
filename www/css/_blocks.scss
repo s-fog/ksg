@@ -1254,7 +1254,7 @@
     @include respond-to(550) {
       flex: 0 0 49%;
     }
-    @include respond-to(450) {
+    @include respond-to(400) {
       flex: 0 0 100%;
     }
 
