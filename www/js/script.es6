@@ -5,6 +5,7 @@ class Header {
         this.timeOut = '';
         this.minicartInterval = '';
         this.animate = false;
+        this.animate2 = false;
 
         this._cacheNodes();
         this._bindEvents();
@@ -37,6 +38,8 @@ class Header {
             mainHeader__popupMenuTab: $('.mainHeader__popupMenuTab'),
             mainHeader__popupMenuItems: $('.mainHeader__popupMenuItems'),
             mainHeader__popupSearchItem: $('.mainHeader__popupSearchItem'),
+            mainHeader__popupLink: $('.js-main-header-popup-link'),
+            mainHeader__popupLinkContent: $('.js-main-header-popup-content'),
         }
     }
 
@@ -159,36 +162,19 @@ class Header {
 
         this.nodes.js_popup.click((event) => {
             let active = $('.js-popup.active');
+            let popup = $('.mainHeader__popup.active');
+
+            if (popup.get(0)) {
+                this.close();
+            } else {
+                this.popupHeader($(event.currentTarget));
+            }
 
             if (active.get(0)) {
-                let popup = $('.mainHeader__popup.active');
-                if (popup.get(0)) {
-                    popup.removeClass('active');
-                    setTimeout(() => {
-                        popup.removeClass('unhidden');
-                    }, 500);
-                    this.nodes.mainHeader__popupTriangle.removeClass('active');
-                    $('.js-popup.active').removeClass('active');
-                } else {
-                    this.popupHeader($(event.currentTarget));
-                }
-
                 if (active.get(0) != $(event.currentTarget).get(0)) {
                     setTimeout(() => {
                         this.popupHeader($(event.currentTarget));
                     }, 200);
-                }
-            } else {
-                let popup = $('.mainHeader__popup.active');
-                if (popup.get(0)) {
-                    popup.removeClass('active');
-                    setTimeout(() => {
-                        popup.removeClass('unhidden');
-                    }, 500);
-                    this.nodes.mainHeader__popupTriangle.removeClass('active');
-                    $('.js-popup.active').removeClass('active');
-                } else {
-                    this.popupHeader($(event.currentTarget));
                 }
             }
 
@@ -252,6 +238,74 @@ class Header {
                 this.nodes.mainHeader__searchTrigger.click();
             }, 500);
         });
+
+        this.nodes.mainHeader__popupLink.on('click', (event) => {
+            const thisElement = $(event.currentTarget),
+                ankor = thisElement.data('ankor');
+
+            this.nodes.mainHeader__popupLink.removeClass('active');
+            thisElement.addClass('active');
+
+            this.nodes.mainHeader__popupLinkContent.removeClass('active');
+            this.nodes.mainHeader__popupLinkContent.each((index, element) => {
+                if ($(element).data('ankor') === ankor) {
+                    $(element).addClass('active');
+                }
+            })
+        })
+
+        $('.js-mobile-header-link[data-ankor]').on('click', (event) => {
+            if (this.animate2 === false) {
+                this.animate2 = true;
+
+                const thisElement = $(event.currentTarget),
+                    ankor = thisElement.data('ankor'),
+                    foundItem = $(`.js-mobile-header-item[data-ankor="${ankor}"]`);
+
+                $('.js-mobile-header-item.active').removeClass('active');
+                foundItem.addClass('found-next');
+
+                setTimeout(() => {
+                    foundItem.addClass('go-left')
+                }, 10)
+                setTimeout(() => {
+                    foundItem.addClass('remove-transition').removeClass('found-next').removeClass('go-left').addClass('active');
+                    setTimeout(() => {
+                        foundItem.removeClass('remove-transition');
+                        this.animate2 = false;
+                    }, 100)
+                }, 410)
+            }
+        })
+
+        $('.js-mobile-header-prev').on('click', (event) => {
+            if (this.animate2 === false) {
+                this.animate2 = true;
+
+                const thisElement = $(event.currentTarget),
+                    ankor = thisElement.data('ankor'),
+                    foundItem = $(`.js-mobile-header-item[data-ankor="${ankor}"]`),
+                    activeItem = $('.js-mobile-header-item.active');
+
+                activeItem.addClass('move-active-right').addClass('remove-transition');
+                setTimeout(() => {
+                    activeItem.addClass('remove-transition')
+                        .removeClass('active')
+                        .removeClass('move-active-right');
+                    setTimeout(() => {
+                        activeItem.removeClass('remove-transition');
+                        this.animate2 = false;
+                    }, 100)
+                }, 400)
+
+                foundItem.addClass('active');
+            }
+        })
+
+        $('.js-mobile-header-close').on('click', (event) => {
+            this.close();
+            $('.js-mobile-header-prev[data-ankor="main"]').get(0).click();
+        })
     }
 
     picked(element) {
@@ -279,6 +333,18 @@ class Header {
         setTimeout(() => {
             this.animate = false;
         }, 500);
+    }
+
+    close() {
+        let popup = $('.mainHeader__popup.active');
+
+        popup.removeClass('active');
+        setTimeout(() => {
+            popup.removeClass('unhidden');
+        }, 500);
+        this.nodes.mainHeader__popupTriangle.removeClass('active');
+        $('.js-popup.active').removeClass('active');
+        bodyScrollLock.clearAllBodyScrollLocks();
     }
 
     onHover(thisElement) {
@@ -356,7 +422,7 @@ class Header {
                 this.nodes.mainHeader__searchInput.focus();
             } else if (dataPopup == 'menu') {
                 setTimeout(() => {
-                    this.picked($('.mainHeader__popupMenuTab.active'));
+                    //this.picked($('.mainHeader__popupMenuTab.active'));
                 }, 500);
             }
             //////////////////////////////////////////////////////
@@ -374,6 +440,12 @@ class Header {
 
             this.nodes.mainHeader__popupTriangle.removeClass('active');
             element.removeClass('active');
+        }
+
+        if (dataPopup === 'menu') {
+            bodyScrollLock.disableBodyScroll(popup.get(0));
+        } else {
+            bodyScrollLock.clearAllBodyScrollLocks();
         }
     }
 
@@ -1608,7 +1680,6 @@ class Application {
 
         flexGridAddElements('catalog__innerRightItems', 'catalog__item', 'catalog__item_hide');
         flexGridAddElements('newsBlock__inner', 'newsBlock__item', 'newsBlock__item_hide');
-        flexGridAddElements('brands__listInner', 'brands__listItem', 'brands__listItem_hide');
         flexGridAddElements('mostCatalog__inner', 'mostCatalog__item', 'mostCatalog__item_hide');
         flexGridAddElements('catalog__inner_search', 'catalog__item', 'catalog__item_hide');
 

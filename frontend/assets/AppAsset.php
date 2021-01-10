@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/vendor.js',
         'js/flex-grid-add-elements.js',
+        'js/bodyScrollLock.min.js',
         'js/script.js',
     ];
     public $depends = [

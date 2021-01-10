@@ -23,6 +23,7 @@ class AppAssetCart extends AssetBundle
         'js/vendor.js',
         'js/flex-grid-add-elements.js',
         'js/jquery.kladr.min.js',
+        'js/bodyScrollLock.min.js',
         'js/script.js',
     ];
     public $depends = [

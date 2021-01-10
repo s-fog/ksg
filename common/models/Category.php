@@ -599,4 +599,49 @@ class Category extends BaseCategory
 
         return $productsQuery;
     }
+
+    public static function getFirstLevelCategories() {
+        $cache = Yii::$app->cache;
+
+        if (!$firstLevelCategories = $cache->get('firstLevelCategories')){
+            $firstLevelCategories = Category::find()
+                ->where(['parent_id' => 0, 'type' => 0, 'active' => 1])
+                ->orderBy(['sort_order' => SORT_DESC])
+                ->all();
+            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
+            $cache->set('firstLevelCategories', $firstLevelCategories, null, $dependency);
+        }
+
+        return $firstLevelCategories;
+    }
+
+    public static function getSecondLevelCategories($firstLevelCategory) {
+        $cache = Yii::$app->cache;
+
+        if (!$secondLevelCategories = $cache->get('secondLevelCategories'.$firstLevelCategory->id)){
+            $secondLevelCategories = Category::find()
+                ->where(['parent_id' => $firstLevelCategory->id, 'type' => 0, 'active' => 1])
+                ->orderBy(['sort_order' => SORT_DESC])
+                ->all();
+            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
+            $cache->set('secondLevelCategories'.$firstLevelCategory->id, $secondLevelCategories, null, $dependency);
+        }
+
+        return $secondLevelCategories;
+    }
+
+    public static function getThirdLevelCategories($secondLevelCategory) {
+        $cache = Yii::$app->cache;
+
+        if (!$thirdLevelCategories = $cache->get('thirdLevelCategories'.$secondLevelCategory->id)){
+            $thirdLevelCategories = Category::find()
+                ->where(['parent_id' => $secondLevelCategory->id, 'type' => 0, 'active' => 1])
+                ->orderBy(['sort_order' => SORT_DESC])
+                ->all();
+            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
+            $cache->set('thirdLevelCategories'.$secondLevelCategory->id, $thirdLevelCategories, null, $dependency);
+        }
+
+        return $thirdLevelCategories;
+    }
 }

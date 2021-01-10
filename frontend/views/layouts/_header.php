@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Brand;
 use common\models\Category;
 use common\models\Textpage;
 use frontend\models\City;
@@ -19,6 +20,14 @@ if ($city == 'Москва') {
     $phoneLink = $others['phoneLink'];
 }
 
+$firstLevelCategories = Category::getFirstLevelCategories();
+$deliveryPage = Textpage::findOne(5);
+$paymentsPage = Textpage::findOne(4);
+$createPage = Textpage::findOne(19);
+$contactsPage = Textpage::findOne(14);
+$alphabetBrandList = Brand::getAlphabetList();
+
+$detect = new Mobile_Detect();
 ?>
 
 <div class="mainHeader">
@@ -34,25 +43,6 @@ if ($city == 'Москва') {
                     <span>Каталог</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.68 15.68"><defs><style>.cls-1gfdg{fill:none;stroke:#e83b4b;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.92px;}</style></defs><g><line class="cls-1gfdg" x1="0.96" y1="14.72" x2="14.72" y2="0.96"/><line class="cls-1gfdg" x1="0.96" y1="0.96" x2="14.72" y2="14.72"/></g></svg>
                 </div>
-                <?php /* ?>
-                <ul class="mainHeader__menu">
-                    <li>
-                        <a href="#" class="mainHeader__menuLink mainHeader__menuLink_catalog js-hovered js-triangle js-popup" data-popup="menu">
-                            <span>Каталог</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.68 15.68"><defs><style>.cls-1gfdg{fill:none;stroke:#e83b4b;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.92px;}</style></defs><g><line class="cls-1gfdg" x1="0.96" y1="14.72" x2="14.72" y2="0.96"/><line class="cls-1gfdg" x1="0.96" y1="0.96" x2="14.72" y2="14.72"/></g></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/catalog/trenazhery/kardiotrenazhery/begovye-dorozhki" class="mainHeader__menuLink js-hovered">Беговые дорожки</a>
-                    </li>
-                    <li>
-                        <a href="/catalog/trenazhery/silovye" class="mainHeader__menuLink js-hovered">Силовые тренажеры</a>
-                    </li>
-                    <li>
-                        <a href="/catalog/trenazhery/kardiotrenazhery/velotrenazhery" class="mainHeader__menuLink js-hovered">Велотренажеры</a>
-                    </li>
-                </ul>
-                <?php */ ?>
                 <form class="mainHeader__search2" action="<?=Url::to(['site/index', 'alias' => Textpage::findOne(15)->alias])?>" method="GET">
                     <input type="text" name="query" class="mainHeader__search2Input" placeholder="Поиск по сайту">
                     <button class="mainHeader__search2Submit" type="submit">
@@ -87,83 +77,242 @@ if ($city == 'Москва') {
             </div>
         </div>
     </div>
-    <div class="mainHeader__popup" data-popup="menu">
-        <div class="mainHeader__popupOuter" style="padding-bottom: 0;">
+    <div class="mainHeader__popup <?= $detect->isMobile() || $detect->isTablet() ? ' mobile' : '' ?>" data-popup="menu">
+        <div class="mainHeader__popupOuter">
+            <?php if ($detect->isMobile() || $detect->isTablet()) { ?>
+                <div class="mobileHeaderPopup">
+                    <div class="mobileHeaderPopup__item js-mobile-header-item active" data-ankor="main">
+                        <?=$this->render('_mobile/_header', [
+                            'header' => 'Главное',
+                            'ankor' => '',
+                            'main' => true
+                        ])?>
+                        <ul class="mobileHeaderPopup__menu">
+                            <li>
+                                <?=$this->render('_mobile/_link', [
+                                    'name' => 'Каталог',
+                                    'ankor' => 'catalog',
+                                    'href' => '',
+                                    'haveChildren' => true,
+                                ])?>
+                            </li>
+                            <li>
+                                <?=$this->render('_mobile/_link', [
+                                    'name' => $deliveryPage->name,
+                                    'ankor' => '',
+                                    'href' => $deliveryPage->url
+                                ])?>
+                            </li>
+                            <li>
+                                <?=$this->render('_mobile/_link', [
+                                    'name' => $paymentsPage->name,
+                                    'ankor' => '',
+                                    'href' => $paymentsPage->url
+                                ])?>
+                            </li>
+                            <li>
+                                <?=$this->render('_mobile/_link', [
+                                    'name' => $createPage->name,
+                                    'ankor' => '',
+                                    'href' => $createPage->url
+                                ])?>
+                            </li>
+                            <li>
+                                <?=$this->render('_mobile/_link', [
+                                    'name' => $contactsPage->name,
+                                    'ankor' => '',
+                                    'href' => $contactsPage->url
+                                ])?>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mobileHeaderPopup__item js-mobile-header-item" data-ankor="catalog">
+                        <?=$this->render('_mobile/_header', [
+                            'header' => 'Каталог',
+                            'ankor' => 'main',
+                            'main' => false
+                        ])?>
+                        <ul class="mobileHeaderPopup__menu">
+                            <?php foreach($firstLevelCategories as $index => $firstLevelCategory) { ?>
+                                <li>
+                                    <?php if (!empty(Category::getSecondLevelCategories($firstLevelCategory))) { ?>
+                                        <?=$this->render('_mobile/_link', [
+                                            'name' => $firstLevelCategory->name,
+                                            'ankor' => 'category-'.$firstLevelCategory->id,
+                                            'href' => ''
+                                        ])?>
+                                    <?php } else { ?>
+                                        <?=$this->render('_mobile/_link', [
+                                            'name' => $firstLevelCategory->name,
+                                            'ankor' => '',
+                                            'href' => $firstLevelCategory->url
+                                        ])?>
+                                    <?php } ?>
+                                </li>
+                            <?php } ?>
+                            <li>
+                                <?=$this->render('_mobile/_link', [
+                                    'name' => 'Поиск по брендам',
+                                    'ankor' => 'brands',
+                                    'href' => ''
+                                ])?>
+                            </li>
+                        </ul>
+                    </div>
+                    <?php foreach($firstLevelCategories as $index => $firstLevelCategory) { ?>
+                        <div class="mobileHeaderPopup__item js-mobile-header-item" data-ankor="category-<?=$firstLevelCategory->id?>">
+                            <?=$this->render('_mobile/_header', [
+                                'header' => $firstLevelCategory->name,
+                                'ankor' => 'catalog',
+                                'main' => false
+                            ])?>
+                            <ul class="mobileHeaderPopup__menu">
+                                <?php foreach(Category::getSecondLevelCategories($firstLevelCategory) as $secondLevelCategory) { ?>
+                                    <?php foreach(Category::getThirdLevelCategories($secondLevelCategory) as $thirdLevelCategory) { ?>
+                                        <?=$this->render('_mobile/_link', [
+                                            'name' => $thirdLevelCategory->name,
+                                            'ankor' => '',
+                                            'href' => $thirdLevelCategory->url
+                                        ])?>
+                                    <?php } ?>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    <?php } ?>
+                    <div class="mobileHeaderPopup__item js-mobile-header-item" data-ankor="brands">
+                        <?=$this->render('_mobile/_header', [
+                            'header' => 'Поиск по бредам',
+                            'ankor' => 'catalog',
+                            'main' => false
+                        ])?>
+
+                        <?php foreach($alphabetBrandList as $letter => $notUse) { ?>
+                            <div class="alphabet__content">
+                                <div class="alphabet__contentHeader"><?=$letter?></div>
+                                <div class="brands__listInner">
+                                    <?php foreach($alphabetBrandList[$letter] as $brand) { ?>
+                                        <a href="<?=$brand->url?>" class="brands__listItem"><span><?=$brand->name?></span></a>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php } else { ?>
+                <div class="container">
+                    <div class="mainHeader__popupInner">
+                        <div class="mainHeader__popupLeft">
+                            <div class="mainHeader__popupCatalogHeader">Каталог</div>
+                            <div class="mainHeader__popupCatalogLinks">
+                                <?php foreach($firstLevelCategories as $index => $firstLevelCategory) { ?>
+                                    <div data-ankor="<?=$firstLevelCategory->id?>"
+                                         class="mainHeader__popupCatalogLink js-main-header-popup-link<?=$index === 0 ? ' active' : ''?>">
+                                        <?=$firstLevelCategory->name?>
+                                    </div>
+                                <?php } ?>
+                                <div data-ankor="brands"
+                                     class="mainHeader__popupCatalogLink js-main-header-popup-link">
+                                    Поиск по брендам
+                                </div>
+                            </div>
+                            <div class="mainHeader__popupOtherLinks">
+                                <a href="<?=$deliveryPage->url?>" class="mainHeader__popupOtherLink"><span><?=$deliveryPage->name?></span></a>
+                                <a href="<?=$paymentsPage->url?>" class="mainHeader__popupOtherLink"><span><?=$paymentsPage->name?></span></a>
+                                <a href="<?=$createPage->url?>" class="mainHeader__popupOtherLink"><span><?=$createPage->name?></span></a>
+                                <a href="<?=$contactsPage->url?>" class="mainHeader__popupOtherLink"><span><?=$contactsPage->name?></span></a>
+                            </div>
+                        </div>
+                        <div class="mainHeader__popupRight">
+                            <?php foreach($firstLevelCategories as $index => $firstLevelCategory) { ?>
+                                <div data-ankor="<?=$firstLevelCategory->id?>"
+                                     class="mainHeader__popupContent js-main-header-popup-content <?=$index === 0 ? ' active' : ''?>">
+                                    <?php foreach(Category::getSecondLevelCategories($firstLevelCategory) as $secondLevelCategory) { ?>
+                                        <div class="mainHeader__popupMenuItem">
+                                            <a href="<?=$secondLevelCategory->url?>"
+                                               class="mainHeader__popupMenuItemHeader"><span><?=$secondLevelCategory->name?></span></a>
+                                            <ul class="mainHeader__popupMenuItemMenu">
+                                                <?php foreach(Category::getThirdLevelCategories($secondLevelCategory) as $thirdLevelCategory) { ?>
+                                                    <li>
+                                                        <a href="<?=$thirdLevelCategory->url?>"
+                                                           class="mainHeader__popupMenuItemMenuLink">
+                                                            <span><?=$thirdLevelCategory->name?></span>
+                                                        </a>
+                                                    </li>
+                                                <?php } ?>
+                                            </ul>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
+                            <div data-ankor="brands"
+                                 class="mainHeader__popupContent js-main-header-popup-content <?=$index === 0 ? ' active' : ''?>">
+                                <?php foreach($alphabetBrandList as $letter => $notUse) { ?>
+                                    <div class="alphabet__content">
+                                        <div class="alphabet__contentHeader"><?=$letter?></div>
+                                        <div class="brands__listInner">
+                                            <?php foreach($alphabetBrandList[$letter] as $brand) { ?>
+                                                <a href="<?=$brand->url?>" class="brands__listItem"><span><?=$brand->name?></span></a>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+
+        <!--<div class="mainHeader__popupOuter" style="padding-bottom: 0;">
             <div class="container">
                 <div class="mainHeader__popupMenuInner">
                     <svg class="mainHeader__popupMenuPicked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 3"><title>some-2</title><polygon points="1.7 0 0 1.4 0 3 87.3 3 89 1.5 89 0 1.7 0"/></svg>
                     <div class="mainHeader__popupMenuTabs">
                         <?php
-                        if (!$firstLevelCategories = $cache->get('firstLevelCategories')){
-                            $firstLevelCategories = Category::find()
-                                ->where(['parent_id' => 0, 'type' => 0, 'active' => 1])
-                                ->orderBy(['sort_order' => SORT_DESC])
-                                ->all();
-                            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
-                            $cache->set('firstLevelCategories', $firstLevelCategories, null, $dependency);
-                        }
 
-                        foreach($firstLevelCategories as $index => $firstLevelCategory) {
-                            $active = '';
+        foreach($firstLevelCategories as $index => $firstLevelCategory) {
+            $active = '';
 
-                            if ($index == 0) {
-                                $active = ' active';
-                            }
+            if ($index == 0) {
+                $active = ' active';
+            }
 
-                            echo '<div class="mainHeader__popupMenuTab'.$active.'"><span>'.$firstLevelCategory->name.'</span></div>';
-                        }
-                        ?>
+            echo '<div class="mainHeader__popupMenuTab'.$active.'"><span>'.$firstLevelCategory->name.'</span></div>';
+        }
+        ?>
                     </div>
                     <div class="mainHeader__popupMenuContent">
                         <?php
-                        foreach($firstLevelCategories as $index => $firstLevelCategory) {
-                            $active = '';
+        foreach($firstLevelCategories as $index => $firstLevelCategory) {
+            $active = '';
 
-                            if ($index == 0) {
-                                $active = ' active';
-                            }
+            if ($index == 0) {
+                $active = ' active';
+            }
+            echo '<div class="mainHeader__popupMenuItems'.$active.'">';
 
-                            if (!$secondLevelCategories = $cache->get('secondLevelCategories'.$firstLevelCategory->id)){
-                                $secondLevelCategories = Category::find()
-                                    ->where(['parent_id' => $firstLevelCategory->id, 'type' => 0, 'active' => 1])
-                                    ->orderBy(['sort_order' => SORT_DESC])
-                                    ->all();
-                                $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
-                                $cache->set('secondLevelCategories'.$firstLevelCategory->id, $secondLevelCategories, null, $dependency);
-                            }
-                            echo '<div class="mainHeader__popupMenuItems'.$active.'">';
-
-                            foreach($secondLevelCategories as $secondLevelCategory) {
-                                if (!$thirdLevelCategories = $cache->get('thirdLevelCategories'.$secondLevelCategory->id)){
-                                    $thirdLevelCategories = Category::find()
-                                        ->where(['parent_id' => $secondLevelCategory->id, 'type' => 0, 'active' => 1])
-                                        ->orderBy(['sort_order' => SORT_DESC])
-                                        ->all();
-                                    $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
-                                    $cache->set('thirdLevelCategories'.$secondLevelCategory->id, $thirdLevelCategories, null, $dependency);
-                                }
-                                ?>
+            foreach(Category::getSecondLevelCategories($firstLevelCategory) as $secondLevelCategory) {?>
                                 <div class="mainHeader__popupMenuItem">
                                     <a href="<?=$secondLevelCategory->url?>" class="mainHeader__popupMenuItemHeader"><span><?=$secondLevelCategory->name?></span></a>
                                     <ul class="mainHeader__popupMenuItemMenu">
-                                        <?php foreach($thirdLevelCategories as $index => $thirdLevelCategory) {
-                                            $active = '';
-                                            $url = $thirdLevelCategory->url;
+                                        <?php foreach(Category::getThirdLevelCategories($secondLevelCategory) as $index => $thirdLevelCategory) {
+                $active = '';
+                $url = $thirdLevelCategory->url;
 
-                                            if ($_SERVER['REQUEST_URI'] == $url) {
-                                                $active = ' active';
-                                            }
-                                            ?>
+                if ($_SERVER['REQUEST_URI'] == $url) {
+                    $active = ' active';
+                }
+                ?>
                                             <li><a href="<?=$url?>" class="mainHeader__popupMenuItemMenuLink<?=$active?>"><?=$thirdLevelCategory->name?></a></li>
                                         <?php } ?>
                                     </ul>
                                 </div>
                         <?php
-                            }
+            }
 
-                            echo '</div>';
-                        }
-                        ?>
+            echo '</div>';
+        }
+        ?>
                     </div>
                 </div>
             </div>
@@ -181,7 +330,7 @@ if ($city == 'Москва') {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
     <?=$this->render('_mainHeader__popup_contacts')?>
     <div class="mainHeader__popup mainHeader__popupCart" data-popup="cart">

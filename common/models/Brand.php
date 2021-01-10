@@ -88,4 +88,27 @@ class Brand extends BaseBrand
 
         return $return;
     }
+
+    public static function getAlphabetList() {
+        $result = [];
+        $brands = Brand::find()->orderBy(['name' => SORT_ASC])->all();
+        $alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','А-Я'];
+        $russianAlphabet = ['А','Б','В','Г','Д','Е','Ж','З','И','К','Д','М','Н','О','П','Р','С','Т','У','Ф','Ч','Ц','Ч','Ш','Щ','Э','Ю','Я'];
+
+        foreach($brands as $brand) {
+            foreach($alphabet as $letter) {
+                if ($letter == 'А-Я') {
+                    if (in_array(mb_strtoupper(mb_substr($brand->name, 0, 1)), $russianAlphabet)) {
+                        $result[$letter][] = $brand;
+                    }
+                } else {
+                    if (stristr($brand->name[0], $letter)) {
+                        $result[$letter][] = $brand;
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
 }

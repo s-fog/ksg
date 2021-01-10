@@ -40,7 +40,8 @@
         "kroshilin/yii2-yandex-kassa": "*",
         "yandex-money/yandex-checkout-sdk-php": "*",
         "phpoffice/phpspreadsheet": "*",
-        "s-fog/yii2-sfog-image": "*"
+        "s-fog/yii2-sfog-image": "*",
+        "mobiledetect/mobiledetectlib": "^2.8"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
