@@ -443,7 +443,7 @@ class Header {
         }
 
         if (dataPopup === 'menu') {
-            bodyScrollLock.disableBodyScroll(popup.get(0));
+            //bodyScrollLock.disableBodyScroll(popup.get(0));
         } else {
             bodyScrollLock.clearAllBodyScrollLocks();
         }
