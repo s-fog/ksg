@@ -234,10 +234,16 @@ $detect = new Mobile_Detect();
                             <div class="mainHeader__popupCatalogLinks">
                                 <?php foreach($firstLevelCategories as $index => $firstLevelCategory) { ?>
                                     <?=$index === 0 ? '' : '<br>' ?>
-                                    <div data-ankor="<?=$firstLevelCategory->id?>"
-                                         class="mainHeader__popupCatalogLink js-main-header-popup-link<?=$index === 0 ? ' active' : ''?>">
-                                        <?=$firstLevelCategory->name?>
-                                    </div>
+                                        <?php if (!empty(Category::getSecondLevelCategories($firstLevelCategory))) { ?>
+                                        <div data-ankor="<?=$firstLevelCategory->id?>"
+                                        class="mainHeader__popupCatalogLink js-main-header-popup-link<?=$index === 0 ? ' active' : ''?>">
+                                            <?=$firstLevelCategory->name?>
+                                        </div>
+                                        <?php } else { ?>
+                                            <a href="<?=$firstLevelCategory->url?>" class="mainHeader__popupCatalogLink">
+                                                <?=$firstLevelCategory->name?>
+                                            </a>
+                                        <?php } ?>
                                 <?php } ?>
                                 <br>
                                 <div data-ankor="brands"
