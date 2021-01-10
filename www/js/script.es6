@@ -443,7 +443,14 @@ class Header {
         }
 
         if (dataPopup === 'menu') {
-            //bodyScrollLock.disableBodyScroll(popup.get(0));
+            if (popup.hasClass('mobile')) {
+                $('.mobileHeaderPopup__item').each((i, e) => {
+                    bodyScrollLock.disableBodyScroll(e);
+                });
+            } else {
+                bodyScrollLock.disableBodyScroll(popup.get(0));
+            }
+
         } else {
             bodyScrollLock.clearAllBodyScrollLocks();
         }
