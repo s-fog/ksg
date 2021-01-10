@@ -159,10 +159,12 @@ class Category extends BaseCategory
     }
 
     public function getFeatures() {
-        return Feature::find()
+        return $this->hasMany(Feature::className(), ['category_id' => 'id'])
+            ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC]);
+        /*return Feature::find()
             ->where(['category_id' => $this->id])
             ->orderBy(['sort_order' => SORT_ASC, 'id' => SORT_ASC])
-            ->all();
+            ->all();*/
     }
 
     public function afterSave($insert, $changedAttributes)
@@ -593,6 +595,7 @@ class Category extends BaseCategory
             ->joinWith(['productParams' => function($q) {
                 $q->andWhere([ProductParam::tableName().'.available' => 10]);
             }])
+            ->with(['category', 'category.features', 'category.features.featurevalues', 'features', 'features.featurevalues'])
             ->andWhere(['parent_id' => $categoryIds])
             ->with(['brand', 'images'])
             ->orderBy($orderBy);
