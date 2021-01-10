@@ -82,11 +82,6 @@ $detect = new Mobile_Detect();
             <?php if ($detect->isMobile() || $detect->isTablet()) { ?>
                 <div class="mobileHeaderPopup">
                     <div class="mobileHeaderPopup__item js-mobile-header-item active" data-ankor="main">
-                        <?=$this->render('_mobile/_header', [
-                            'header' => 'Главное',
-                            'ankor' => '',
-                            'main' => true
-                        ])?>
                         <ul class="mobileHeaderPopup__menu">
                             <li>
                                 <?=$this->render('_mobile/_link', [
