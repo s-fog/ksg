@@ -7497,7 +7497,7 @@ body.fancybox-active {
       position: absolute;
       margin-left: 5px;
       @extend .sportsWorld;
-      @include respond-to(360) {
+      @include respond-to(500) {
         position: static;
         margin-left: 0;
       }
