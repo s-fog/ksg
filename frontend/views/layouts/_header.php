@@ -168,6 +168,34 @@ $detect = new Mobile_Detect();
                             ])?>
                             <ul class="mobileHeaderPopup__menu">
                                 <?php foreach(Category::getSecondLevelCategories($firstLevelCategory) as $secondLevelCategory) { ?>
+                                    <li>
+                                        <?php if (!empty(Category::getThirdLevelCategories($secondLevelCategory))) { ?>
+                                            <?=$this->render('_mobile/_link', [
+                                                'name' => $secondLevelCategory->name,
+                                                'ankor' => 'category-'.$secondLevelCategory->id,
+                                                'href' => ''
+                                            ])?>
+                                        <?php } else { ?>
+                                            <?=$this->render('_mobile/_link', [
+                                                'name' => $secondLevelCategory->name,
+                                                'ankor' => '',
+                                                'href' => $secondLevelCategory->url
+                                            ])?>
+                                        <?php } ?>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    <?php } ?>
+                    <?php foreach($firstLevelCategories as $index => $firstLevelCategory) { ?>
+                        <?php foreach(Category::getSecondLevelCategories($firstLevelCategory) as $secondLevelCategory) { ?>
+                            <div class="mobileHeaderPopup__item js-mobile-header-item" data-ankor="category-<?=$secondLevelCategory->id?>">
+                                <?=$this->render('_mobile/_header', [
+                                    'header' => $secondLevelCategory->name,
+                                    'ankor' => 'category-'.$firstLevelCategory->id,
+                                    'main' => false
+                                ])?>
+                                <ul class="mobileHeaderPopup__menu">
                                     <?php foreach(Category::getThirdLevelCategories($secondLevelCategory) as $thirdLevelCategory) { ?>
                                         <?=$this->render('_mobile/_link', [
                                             'name' => $thirdLevelCategory->name,
@@ -175,9 +203,9 @@ $detect = new Mobile_Detect();
                                             'href' => $thirdLevelCategory->url
                                         ])?>
                                     <?php } ?>
-                                <?php } ?>
-                            </ul>
-                        </div>
+                                </ul>
+                            </div>
+                        <?php } ?>
                     <?php } ?>
                     <div class="mobileHeaderPopup__item js-mobile-header-item" data-ankor="brands">
                         <?=$this->render('_mobile/_header', [
@@ -205,11 +233,13 @@ $detect = new Mobile_Detect();
                             <div class="mainHeader__popupCatalogHeader">Каталог</div>
                             <div class="mainHeader__popupCatalogLinks">
                                 <?php foreach($firstLevelCategories as $index => $firstLevelCategory) { ?>
+                                    <?=$index === 0 ? '' : '<br>' ?>
                                     <div data-ankor="<?=$firstLevelCategory->id?>"
                                          class="mainHeader__popupCatalogLink js-main-header-popup-link<?=$index === 0 ? ' active' : ''?>">
                                         <?=$firstLevelCategory->name?>
                                     </div>
                                 <?php } ?>
+                                <br>
                                 <div data-ankor="brands"
                                      class="mainHeader__popupCatalogLink js-main-header-popup-link">
                                     Поиск по брендам
