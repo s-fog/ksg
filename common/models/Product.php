@@ -608,7 +608,17 @@ class Product extends BaseProduct implements CartPositionInterface
     public function selects() {
         if (empty($this->selects)) {
             $this->selects = [];
-            $mainParam = Param::findOne($this->main_param);
+
+            if (empty($this->params[0]->params)) {
+                return [];
+            }
+
+            if (count($this->params[0]->params) === 1) {
+                list($name, $value) = explode(' -> ', $this->params[0]->params[0]);
+                $mainParam = Param::findOne(['name' => $name]);
+            } else {
+                $mainParam = Param::findOne($this->main_param);
+            }
             $thisBrotherMainParamName = null;
             $thisBrotherMainParamValue = null;
 
