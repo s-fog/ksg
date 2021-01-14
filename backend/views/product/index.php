@@ -85,10 +85,16 @@ JS;
             'template' => $actionColumnTemplateString,
             'buttons' => [
                 'clone' => function ($url, $model, $key) {
-                    $options = [
-                            'style' => 'font-size: 1.6rem'
-                    ];
-                    return Html::a('<span class="glyphicon glyphicon-duplicate"></span>', $url, $options);
+                    if (isset($model->params[0])) {
+                        if (!empty($model->params[0]->params)) {
+                            $options = [
+                                'style' => 'font-size: 1.6rem'
+                            ];
+                            return Html::a('<span class="glyphicon glyphicon-duplicate"></span>', $url, $options);
+                        }
+                    }
+
+                    return '';
                 },
                 'view' => function ($url, $model, $key) {
                     $options = [
