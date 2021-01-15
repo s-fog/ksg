@@ -344,8 +344,6 @@ class CategoryController extends \backend\controllers\base\CategoryController
                             $product->getMainFeatures(true);
                         }
 
-                        die();
-
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
                         } else {
