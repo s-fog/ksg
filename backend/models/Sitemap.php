@@ -82,6 +82,6 @@ class Sitemap extends Model
         }
 
         $dom->appendChild($urlset);
-        var_dump($dom->save('../sitemap.xml'));
+        $dom->save('../sitemap.xml');
     }
 }

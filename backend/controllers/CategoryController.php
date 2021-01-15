@@ -152,6 +152,10 @@ class CategoryController extends \backend\controllers\base\CategoryController
                         $transaction->commit();
                         Sitemap::doIt();
 
+                        foreach($model->getProducts()->all() as $product) {
+                            $product->getMainFeatures(true);
+                        }
+
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
                         } else {
@@ -335,6 +339,12 @@ class CategoryController extends \backend\controllers\base\CategoryController
                     if ($flag) {
                         $transaction->commit();
                         Sitemap::doIt();
+
+                        foreach($model->getProducts()->all() as $product) {
+                            $product->getMainFeatures(true);
+                        }
+
+                        die();
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
