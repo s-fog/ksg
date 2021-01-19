@@ -191,7 +191,7 @@ $mainpage = Mainpage::findOne(1);
             <div class="brands__header"><?=$model->name?> находится в подборках:</div>
             <div class="category__tags">
                 <div class="container">
-                    <?php foreach($model->getCategories()->andWhere(['!=', Category::tableName().'.type', 0])->all() as $category) { ?>
+                    <?php foreach($model->getCompilationCategories() as $category) { ?>
                         <a href="<?=$category->url?>" class="category__tag">
                             <span><?=$category->name?></span>
                         </a>

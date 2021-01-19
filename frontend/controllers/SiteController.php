@@ -751,6 +751,7 @@ class SiteController extends Controller
             ////////////////////////////////////////////////////////////////////////////////////////////
             //var_dump($model->getMainFeatures());die();
             ////////////////////////////////////////////////////////////////////////////////////////////
+
             return $this->render('@frontend/views/catalog/view', [
                 'model' => $model,
                 'brand' => $brand,

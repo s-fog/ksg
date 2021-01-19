@@ -154,6 +154,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
 
                         foreach($model->getProducts()->all() as $product) {
                             $product->getMainFeatures(true);
+                            $product->getCompilationCategoryIds(true);
                         }
 
                         if ($_POST['mode'] == 'justSave') {
@@ -342,6 +343,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
 
                         foreach($model->getProducts()->all() as $product) {
                             $product->getMainFeatures(true);
+                            $product->getCompilationCategoryIds(true);
                         }
 
                         if ($_POST['mode'] == 'justSave') {

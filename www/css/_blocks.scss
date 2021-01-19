@@ -1377,6 +1377,10 @@
       flex: 0 1 630px;
       transform: none;
     }
+
+    &_hide {
+      box-shadow: none;
+    }
   }
 
   &__itemFeatures {

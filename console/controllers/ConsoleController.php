@@ -47,4 +47,10 @@ class ConsoleController extends Controller {
         }
         die();
     }
+
+    public function actionTest() {
+        $product = Product::findOne(1040);
+        $product->getCompilationCategoryIds();
+
+    }
 }

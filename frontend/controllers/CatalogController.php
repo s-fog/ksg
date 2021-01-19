@@ -91,6 +91,7 @@ class CatalogController extends Controller
 
     public function actionView($alias)
     {
+
     }
 
     function in_multiarray( $e, $a )

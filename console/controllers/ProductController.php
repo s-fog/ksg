@@ -17,4 +17,12 @@ class ProductController extends Controller {
             $product->getMainFeatures(true);
         }
     }
+
+    public function actionCacheProductCompilations() {
+        $products = Product::find()->all();
+
+        foreach($products as $product) {
+            $product->getCompilationCategoryIds(true);
+        }
+    }
 }
