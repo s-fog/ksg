@@ -507,7 +507,7 @@ class Product extends BaseProduct implements CartPositionInterface
                 }
             }
 
-            $mainParam = Param::findOne($this->main_param);
+            $mainParam = $this->getMainParamM();
 
             foreach($this->selectsDirty as $brotherId => $selectDirty) {
                 foreach($selectDirty['items'] as $item) {
@@ -607,6 +607,17 @@ class Product extends BaseProduct implements CartPositionInterface
         return [$disabled, $disabledReason, $disabledText];
     }
 
+    public function getMainParamM() {
+        if (count($this->params[0]->params) === 1) {
+            list($name, $value) = explode(' -> ', $this->params[0]->params[0]);
+            $mainParam = Param::findOne(['name' => $name]);
+        } else {
+            $mainParam = Param::findOne($this->main_param);
+        }
+
+        return $mainParam;
+    }
+
     public function selects() {
         if (empty($this->selects)) {
             $this->selects = [];
@@ -615,12 +626,7 @@ class Product extends BaseProduct implements CartPositionInterface
                 return [];
             }
 
-            if (count($this->params[0]->params) === 1) {
-                list($name, $value) = explode(' -> ', $this->params[0]->params[0]);
-                $mainParam = Param::findOne(['name' => $name]);
-            } else {
-                $mainParam = Param::findOne($this->main_param);
-            }
+            $mainParam = $this->getMainParamM();
             $thisBrotherMainParamName = null;
             $thisBrotherMainParamValue = null;
 
@@ -672,7 +678,7 @@ class Product extends BaseProduct implements CartPositionInterface
                 }
             }
 
-            if (array_key_first($this->selects) !== $this->main_param) {
+            if (array_key_first($this->selects) !== $mainParam->id) {
                 $this->selects = array_reverse($this->selects, true);
             }
         }
@@ -686,6 +692,7 @@ class Product extends BaseProduct implements CartPositionInterface
         } else {
             $this->brothers_ids[] = $this->id;
         }
+
 
         $currentIds = ArrayHelper::getColumn($this->getBrothers(), 'product_id');
         $currentBrothersIds = array_merge($currentIds, ArrayHelper::getColumn($this->getBrothers(), 'product_brother_id'));

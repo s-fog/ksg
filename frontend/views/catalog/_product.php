@@ -139,7 +139,12 @@ if ($currentVariant->available == 0) {
                              data-src="#productImages">
                         <?php foreach($model->images as $index => $imageModel) {
                             if ($index != $currentVariant->image_number) {
+                                $image = '';
                                 $filename = explode('.', basename($imageModel->image));
+
+                                if (isset($filename[1])) {
+                                    $image = '/images/thumbs/'.$filename[0].'-770-553.'.$filename[1];
+                                }
                                 $var = '';
 
                                 foreach($model->productParams as $pp) {
@@ -148,12 +153,12 @@ if ($currentVariant->available == 0) {
                                     }
                                 }
                                 ?>
-                                <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
+                                <img src="<?=$image?>"
                                      class="product__sliderImage"
                                      data-paramsv="<?=($var) ? implode('|', $var->params) : ''?>"
                                      data-header="<?=$model->name?>"
                                      data-text="<?=$imageModel->text?>"
-                                     data-image="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>"
+                                     data-image="<?=$image?>"
                                      data-fancybox="productImages"
                                      data-src="#productImages">
                             <?php }
@@ -170,9 +175,14 @@ if ($currentVariant->available == 0) {
                     <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?> Фото 1" itemprop="image">
                     <?php foreach($model->images as $index => $imageModel) {
                         if ($index != $currentVariant->image_number) {
+                            $image = '';
                             $filename = explode('.', basename($imageModel->image));
+
+                            if (isset($filename[1])) {
+                                $image = '/images/thumbs/'.$filename[0].'-770-553.'.$filename[1];
+                            }
                             ?>
-                            <img src="/images/thumbs/<?=$filename[0]?>-770-553.<?=$filename[1]?>" alt="<?=$model->name?> Фото <?=($index+1)?>" style="display: none;">
+                            <img src="<?=$image?>" alt="<?=$model->name?> Фото <?=($index+1)?>" style="display: none;">
                         <?php }
                     } ?>
                     <div class="product__allPhoto">смотреть все фото</div>

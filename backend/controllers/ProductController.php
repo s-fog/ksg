@@ -686,6 +686,8 @@ class ProductController extends \backend\controllers\base\ProductController
         $clonedProduct->alias = $product->alias.'-'.time();
         $clonedProduct->generateCode();
 
+        $clonedProduct->brothers_ids[] = $product->id;
+
         foreach($product->getBrothers() as $productProduct) {
             $clonedProduct->brothers_ids[] = $productProduct['product_id'];
             $clonedProduct->brothers_ids[] = $productProduct['product_brother_id'];
@@ -693,6 +695,7 @@ class ProductController extends \backend\controllers\base\ProductController
 
         $clonedProduct->save();
         $clonedProduct->saveBrothers();
+        $clonedProduct->brothers_ids[] = $clonedProduct->id;
 
         foreach($product->reviews as $review) {
             $clonedReview = new ProductReview();
