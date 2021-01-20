@@ -821,6 +821,15 @@ class SiteController extends Controller
                 $queryDecoded = urldecode($query);
                 parse_str($queryDecoded, $parts);
                 unset($parts['sort']);
+
+                foreach($parts as $index => $value) {
+                    if (strpos($index, 'utm_') !== false
+                        ||
+                        $index === 'yclid'
+                    ) {
+                        unset($parts[$index]);
+                    }
+                }
             }
 
             // $parts мы очищаем параметр сортировки, и смотрим если есть еще какие-то параметры в _GET, то мы не
@@ -833,6 +842,7 @@ class SiteController extends Controller
                 parse_str($filter_url_query, $get);
 
                 foreach($get as $index => $value) {
+                    var_dump($index);
                     if (is_array($value)) {
                         foreach($value as $i => $v) {
                             if (is_numeric($v)) {
