@@ -842,7 +842,6 @@ class SiteController extends Controller
                 parse_str($filter_url_query, $get);
 
                 foreach($get as $index => $value) {
-                    var_dump($index);
                     if (is_array($value)) {
                         foreach($value as $i => $v) {
                             if (is_numeric($v)) {
