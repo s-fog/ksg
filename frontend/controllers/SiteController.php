@@ -1056,6 +1056,7 @@ class SiteController extends Controller
                 'tags' => $tags,
                 'brandCategories' => $brandCategories,
                 'years' => $years,
+                'countAllProducts' => $countAllProducts,
                 'brandsSerial' => $brandsSerial,
                 'bHeader' => $bHeader,
                 'bHeader2' => $bHeader2,

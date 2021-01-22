@@ -68,31 +68,6 @@ if ($currentVariant->available == 0) {
                     </div>
                     <?php */ ?>
                 </div>
-                <div class="product__toCart product__toCart_mobile" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                    <div class="product__toCartLeft">
-                        <?php if (!empty($model->price_old)) { ?>
-                            <div class="product__oldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></div>
-                        <?php } ?>
-                        <div class="product__price"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
-                        <span itemprop="price" style="display: none;"><?=$model->price?></span>
-                    </div>
-                    <span style="display: none;" itemprop="priceCurrency">RUB</span>
-                    <?php if (!$empty) { ?>
-                        <div class="product__toCartRight">
-                            <button class="button button5 js-product-in-js" data-fancybox data-src="#addToCart">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136.84 45.96"><g><polygon points="117.25 0 19.5 0 10.99 0 0 9.1 0 45.96 19.59 45.96 117.34 45.96 125.85 45.96 136.84 36.87 136.84 0 117.25 0"></polygon></g></svg>
-                                <span>Купить</span>
-                            </button>
-                        </div>
-                    <?php } else { ?>
-                        <div class="product__toCartRight">
-                            <button class="button button5 js-product-in-js" data-fancybox data-src="#addToCart">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136.84 45.96"><g><polygon points="117.25 0 19.5 0 10.99 0 0 9.1 0 45.96 19.59 45.96 117.34 45.96 125.85 45.96 136.84 36.87 136.84 0 117.25 0"></polygon></g></svg>
-                                <span>Предзаказ</span>
-                            </button>
-                        </div>
-                    <?php } ?>
-                </div>
                 <div class="product__req product__req_mobile">
                     <?php if ($empty) { ?>
                     <?php } else { ?>
@@ -185,18 +160,13 @@ if ($currentVariant->available == 0) {
                             <img src="<?=$image?>" alt="<?=$model->name?> Фото <?=($index+1)?>" style="display: none;">
                         <?php }
                     } ?>
-                    <div class="product__allPhoto">смотреть все фото</div>
                     <div class="product__itemImageShadow"></div>
-                </div>
-                <div class="product__seeAllImage">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.8 37.8"><g><path d="M18.9,0A18.9,18.9,0,1,0,37.8,18.9,18.95,18.95,0,0,0,18.9,0Zm0,35A16.1,16.1,0,1,1,35,18.9,16.09,16.09,0,0,1,18.9,35Z"/><path d="M29.8,10H19.3V8a1.37,1.37,0,0,0-1.4-1.4H11A1.37,1.37,0,0,0,9.6,8v2H8.1a1.37,1.37,0,0,0-1.4,1.4V27a1.37,1.37,0,0,0,1.4,1.4H29.9A1.37,1.37,0,0,0,31.3,27V11.4A1.52,1.52,0,0,0,29.8,10ZM12.4,9.5h4.1V10H12.4Zm16,16.1H9.5V12.8H28.4Z"/><path d="M14.1,19.2A4.8,4.8,0,0,0,18.9,24a4.87,4.87,0,0,0,4.8-4.8,4.8,4.8,0,0,0-4.8-4.8A4.87,4.87,0,0,0,14.1,19.2Zm4.8-2a2,2,0,1,1-2,2A2,2,0,0,1,18.9,17.2Z"/><path d="M24.2,16.1h2.4a1.4,1.4,0,0,0,0-2.8H24.2a1.4,1.4,0,1,0,0,2.8Z"/></g></svg>
-                    <span>смотреть все фото</span>
                 </div>
             </div>
             <div class="product__right">
                 <div class="product__rightBorder">
                     <div class="product__rightBorderInner">
-                        <div class="product__toCart product__toCart_desktop">
+                        <div class="product__toCart">
                             <div class="product__toCartLeft">
                                 <?php if (!empty($model->price_old)) { ?>
                                     <div class="product__oldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></div>

@@ -37,7 +37,7 @@ $presents = \common\models\Present::find()->all();
         <div class="catalogTop__inner<?=empty($childrenCategories) ? ' catalogTop__inner_categoriesEmpty' : ''?>">
             <div class="catalogTop__h1<?=empty($childrenCategories) ? ' catalogTop__h1_categoriesEmpty' : ''?>">
                 <h1><?=$h1?></h1>
-                <?=($page == 1) ? "<span>(".count($products).")</span>" : ''?>
+                <?=($page == 1) ? "<span>(".$countAllProducts.")</span>" : ''?>
             </div>
             <?=$this->render('@frontend/views/blocks/cats', [
                 'childrenCategories' => $childrenCategories,
@@ -124,8 +124,19 @@ $presents = \common\models\Present::find()->all();
                                 'model' => $item
                             ]);
 
-                            if (($index == 2 || (($productCount - 1) == $index && $index < 3)) && !empty($model->text_advice) && !isset($_GET['page'])) {
-                                echo '<div class="catalog__item advice">
+                            if (($index == 7 || (($productCount - 1) == $index && $index < 3)) && !empty($model->text_advice) && !isset($_GET['page'])) {
+                                echo '<div class="catalog__item advice advice_mobile">
+                                <div class="advice__inner">
+                                    <div class="advice__header">Совет от KSG</div>
+                                    <div class="advice__html content">
+                                        '.$model->text_advice.'
+                                    </div>
+                                    '.$serials.'
+                                </div>
+                            </div>';
+                            }
+                            if (($index == 8 || (($productCount - 1) == $index && $index < 3)) && !empty($model->text_advice) && !isset($_GET['page'])) {
+                                echo '<div class="catalog__item advice advice_desktop">
                                 <div class="advice__inner">
                                     <div class="advice__header">Совет от KSG</div>
                                     <div class="advice__html content">
