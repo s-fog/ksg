@@ -179,7 +179,8 @@ if ($currentVariant->available == 0) {
                         <div class="product__req">
                             <?php if ($empty) { ?>
                                 <div class="product__available">
-                                    <span>Нет в наличии</span>
+                                    <?=file_get_contents(Yii::getAlias('@www').'/img/no.svg')?>
+                                    <span style="display: inline-block; transform: translate(5px, -3px)">Нет в наличии</span>
                                 </div>
                             <?php } else { ?>
                                 <div class="product__available active">
