@@ -212,36 +212,38 @@ $presents = \common\models\Present::find()->all();
     </div>
 
     <?php if (!empty($model->steps)) { ?>
-        <div class="survey__items">
-            <div class="survey__itemsColumn">
+        <?php if (!empty($model->steps[0]->name)) { ?>
+            <div class="survey__items">
+                <div class="survey__itemsColumn">
+                    <?php foreach($model->steps as $index => $step) {
+                        if ($index % 2 === 0) {
+                            echo $this->render('@frontend/views/survey/_stepItem', [
+                                'model' => $step,
+                                'index' => $index,
+                            ]);
+                        }
+                    } ?>
+                </div>
+                <div class="survey__itemsColumn">
+                    <?php foreach($model->steps as $index => $step) {
+                        if ($index % 2 !== 0) {
+                            echo $this->render('@frontend/views/survey/_stepItem', [
+                                'model' => $step,
+                                'index' => $index,
+                            ]);
+                        }
+                    } ?>
+                </div>
+            </div>
+            <div class="survey__items survey__items_mobile">
                 <?php foreach($model->steps as $index => $step) {
-                    if ($index % 2 === 0) {
-                        echo $this->render('@frontend/views/survey/_stepItem', [
-                            'model' => $step,
-                            'index' => $index,
-                        ]);
-                    }
+                    echo $this->render('@frontend/views/survey/_stepItem', [
+                        'model' => $step,
+                        'index' => $index,
+                    ]);
                 } ?>
             </div>
-            <div class="survey__itemsColumn">
-                <?php foreach($model->steps as $index => $step) {
-                    if ($index % 2 !== 0) {
-                        echo $this->render('@frontend/views/survey/_stepItem', [
-                            'model' => $step,
-                            'index' => $index,
-                        ]);
-                    }
-                } ?>
-            </div>
-        </div>
-        <div class="survey__items survey__items_mobile">
-            <?php foreach($model->steps as $index => $step) {
-                echo $this->render('@frontend/views/survey/_stepItem', [
-                    'model' => $step,
-                    'index' => $index,
-                ]);
-            } ?>
-        </div>
+        <?php } ?>
     <?php } ?>
 <?php } ?>
 
