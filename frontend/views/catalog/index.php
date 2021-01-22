@@ -151,9 +151,9 @@ $detect = new Mobile_Detect();
 
                                  if ($detect->isMobile() || $detect->isTablet()) {
                                      if (
-                                         ($productCount > 10 && $index == 9)
+                                         ($productCount > 12 && $index == 11)
                                          ||
-                                         ($productCount <= 10 && $productCount == ($index + 1))
+                                         ($productCount <= 12 && $productCount == ($index + 1))
                                      ) {
                                          echo '<div class="catalog__item newsBlock__item">
                                     <div class="newsBlock__itemInner">
