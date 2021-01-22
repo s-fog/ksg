@@ -2954,7 +2954,7 @@
   
   &__sliderWrapper {
     position: relative;
-    margin: 30px auto 60px;
+    margin: 30px auto 10px;
 
     &.loading {
       &:before {
@@ -5497,7 +5497,7 @@
     max-width: 480px;
     width: 100%;
     height: 303px;
-    background: url(../img/productBack4.png) no-repeat center center;
+    //background: url(../img/productBack4.png) no-repeat center center;
     @include respond-to(450) {
       height: 210px;
       background-size: 320px auto;

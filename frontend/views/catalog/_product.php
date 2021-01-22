@@ -68,19 +68,6 @@ if ($currentVariant->available == 0) {
                     </div>
                     <?php */ ?>
                 </div>
-                <div class="product__req product__req_mobile">
-                    <?php if ($empty) { ?>
-                    <?php } else { ?>
-                        <div class="product__available active">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 23.1"><g><polygon points="16.1 0 13.6 1 6.8 17.9 2.8 12.7 0.3 12.4 0 15 6.3 23.1 8.6 23.1 17 2.4 16.1 0"/></g></svg>
-                            <span>Есть в наличии</span>
-                        </div>
-                        &nbsp;/&nbsp;
-                    <?php } ?>
-                    <?php if (!$empty) { ?>
-                        <div class="product__requestSale" data-fancybox="oneClick" data-src="#oneClick">Купить в один клик</div>
-                    <?php } ?>
-                </div>
                 <div class="product__underArt">
                     <div class="product__brand">
                         <?php $filename = explode('.', basename($brand->image)); ?>
@@ -189,8 +176,11 @@ if ($currentVariant->available == 0) {
                                 </div>
                             <?php } ?>
                         </div>
-                        <div class="product__req product__req_desktop">
+                        <div class="product__req">
                             <?php if ($empty) { ?>
+                                <div class="product__available">
+                                    <span>Нет в наличии</span>
+                                </div>
                             <?php } else { ?>
                                 <div class="product__available active">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 23.1"><g><polygon points="16.1 0 13.6 1 6.8 17.9 2.8 12.7 0.3 12.4 0 15 6.3 23.1 8.6 23.1 17 2.4 16.1 0"/></g></svg>
