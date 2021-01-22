@@ -27,6 +27,7 @@ $this->params['name'] = $model->name;
 
 $childrenCategories = $model->getChildrenCategories();
 $presents = \common\models\Present::find()->all();
+$detect = new Mobile_Detect();
 
 ?>
 
@@ -147,12 +148,14 @@ $presents = \common\models\Present::find()->all();
                             </div>';
                             }
                             if (!empty($model->video)) {
-                                if (
-                                    ($productCount > 12 && $index == 11)
-                                    ||
-                                    ($productCount <= 12 && $productCount == ($index + 1))
-                                ) {
-                                    echo '<div class="catalog__item newsBlock__item">
+
+                                 if ($detect->isMobile() || $detect->isTablet()) {
+                                     if (
+                                         ($productCount > 12 && $index == 11)
+                                         ||
+                                         ($productCount <= 12 && $productCount == ($index + 1))
+                                     ) {
+                                         echo '<div class="catalog__item newsBlock__item">
                                     <div class="newsBlock__itemInner">
                                         <div class="newsBlock__itemImage">
                                             <iframe src="https://www.youtube.com/embed/'.$model->video.'?rel=0&showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -162,7 +165,25 @@ $presents = \common\models\Present::find()->all();
                                         </div>
                                     </div>
                                 </div>';
-                                }
+                                     }
+                                 } else {
+                                     if (
+                                         ($productCount > 13 && $index == 12)
+                                         ||
+                                         ($productCount <= 13 && $productCount == ($index + 1))
+                                     ) {
+                                         echo '<div class="catalog__item newsBlock__item">
+                                    <div class="newsBlock__itemInner">
+                                        <div class="newsBlock__itemImage">
+                                            <iframe src="https://www.youtube.com/embed/'.$model->video.'?rel=0&showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                        </div>
+                                        <div class="newsBlock__itemInfo">
+                                            <div class="newsBlock__itemHeader">'.$model->video_header.'</div>
+                                        </div>
+                                    </div>
+                                </div>';
+                                     }
+                                 }
                             }
                         } ?>
                     </div>
