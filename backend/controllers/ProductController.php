@@ -705,14 +705,6 @@ class ProductController extends \backend\controllers\base\ProductController
             $clonedReview->save();
         }
 
-        foreach($product->images as $image) {
-            $clonedImage = new Image();
-            $clonedImage->setAttributes($image->attributes);
-            $clonedImage->id = null;
-            $clonedImage->product_id = $clonedProduct->id;
-            $clonedImage->save();
-        }
-
         foreach($product->params as $param) {
             $clonedParam = new ProductParam();
             $clonedParam->setAttributes($param->attributes);

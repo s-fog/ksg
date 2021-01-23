@@ -740,11 +740,11 @@ class SiteController extends Controller
                     ->where(['parent_id' => $parent->id])
                     ->andWhere("id <> {$model->id}")
                     ->andWhere("price > $priceFrom  AND price < $priceTo")
-                    ->orderBy(new Expression('rand()'))
+                    ->orderBy(['price' => SORT_DESC])
                     ->limit(9);
 
-                if ($similarQuery->count() >= 3) {
-                    $similar = $similarQuery->all();
+                if ($similarQuery->count() >= 3 && count($similar) < 9) {
+                    $similar = array_merge($similar, $similarQuery->all());
                     break;
                 }
             }
