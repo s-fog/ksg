@@ -49,8 +49,20 @@ class ConsoleController extends Controller {
     }
 
     public function actionTest() {
-        $product = Product::findOne(1040);
-        $product->getCompilationCategoryIds();
 
+
+        $unixfit = simplexml_load_file('http://unixfit.ru/bitrix/catalog_export/catalog.php');
+        $unixfitArray = [];
+
+        foreach($unixfit->shop->offers->offer as $offer) {
+            $available = (string) $offer['available'] === 'false' ? 0 : 10;
+            $artikul = (string) $offer->vendorCode;
+            $price = (int) $offer->price;
+
+            $unixfitArray[$artikul]['price'] = $price;
+            $unixfitArray[$artikul]['available'] = $available;
+        }
+
+        var_dump($unixfitArray);
     }
 }

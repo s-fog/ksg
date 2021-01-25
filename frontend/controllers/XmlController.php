@@ -88,7 +88,7 @@ class XmlController extends Controller
             $unixfitArray = [];
 
             foreach($unixfit->shop->offers->offer as $offer) {
-                $available = (int) $offer->quantity;
+                $available = (string) $offer['available'] === 'false' ? 0 : 10;
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
 
