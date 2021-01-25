@@ -62,12 +62,14 @@ class SimpleExcel extends Model
                         $available = 10;
                     } else if ($available == 'ДЕМО') {
                         $available = 10;
-                    } else if ($available == 'В наличии') {
-                        $available = 10;
                     } else if ($available == 'Уточняйте') {
                         $available = 10;
                     } else if (preg_match('#([^-]+)-шт#siU', $available, $match)) {
-                        $available = $match[1];
+                        if ($match[1] == 0) {
+                            $available = 0;
+                        } else {
+                            $available = 10;
+                        }
                     } else if ($available == 'нет') {
                         $available = 0;
                     } else if ($available == 'есть') {
@@ -75,7 +77,11 @@ class SimpleExcel extends Model
                     } else if ($available == 'ожидается') {
                         $available = 0;
                     } else if (preg_match('#Менее ([^-]+) шт.#siU', $available, $match)) {
-                        $available = $match[1];
+                        if ($match[1] == 0) {
+                            $available = 0;
+                        } else {
+                            $available = 10;
+                        }
                     } else if ((int)$available < 0) {
                         $available = 0;
                     } else if ((int)$available > 1) {
