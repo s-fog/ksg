@@ -41,7 +41,9 @@
         "yandex-money/yandex-checkout-sdk-php": "*",
         "phpoffice/phpspreadsheet": "*",
         "s-fog/yii2-sfog-image": "*",
-        "mobiledetect/mobiledetectlib": "^2.8"
+        "mobiledetect/mobiledetectlib": "^2.8",
+      "ext-simplexml": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

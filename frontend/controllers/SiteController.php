@@ -826,6 +826,8 @@ class SiteController extends Controller
                     if (strpos($index, 'utm_') !== false
                         ||
                         $index === 'yclid'
+                        ||
+                        $index === 'gclid'
                     ) {
                         unset($parts[$index]);
                     }
