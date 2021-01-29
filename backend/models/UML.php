@@ -156,7 +156,7 @@ class UML extends Model
             $picture = $dom->createElement('picture', $https.$_SERVER['HTTP_HOST']."/images/thumbs/{$filename[0]}-770-553.{$filename[1]}");
             $offer->appendChild($picture);
 
-            $pickup = $dom->createElement('pickup', "true");
+            $pickup = $dom->createElement('pickup', "false");
             $offer->appendChild($pickup);
 
             $name = $dom->createElement('name', htmlspecialchars($product->name));
