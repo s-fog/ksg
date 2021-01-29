@@ -737,6 +737,9 @@ class SiteController extends Controller
                         'brand',
                         'images',
                         'parent'])
+                    ->joinWith(['productParams' => function($q) {
+                        $q->andWhere([ProductParam::tableName().'.available' => 10]);
+                    }])
                     ->where(['parent_id' => $parent->id])
                     ->andWhere("id <> {$model->id}")
                     ->andWhere("price > $priceFrom  AND price < $priceTo")
