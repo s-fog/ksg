@@ -742,9 +742,9 @@ class SiteController extends Controller
                     ->andWhere("price > $priceFrom  AND price < $priceTo")
                     ->orderBy(['price' => SORT_DESC])
                     ->limit(9);
+                $similar = array_merge($similar, $similarQuery->all());
 
-                if ($similarQuery->count() >= 3 && count($similar) < 9) {
-                    $similar = array_merge($similar, $similarQuery->all());
+                if (count($similar) >= 9) {
                     break;
                 }
             }
