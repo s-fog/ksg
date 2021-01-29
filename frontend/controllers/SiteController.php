@@ -743,6 +743,7 @@ class SiteController extends Controller
                     ->orderBy(['price' => SORT_DESC])
                     ->limit(9);
                 $similar = array_merge($similar, $similarQuery->all());
+                var_dump($similar);die();
 
                 if (count($similar) >= 9) {
                     break;
