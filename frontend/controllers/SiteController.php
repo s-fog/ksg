@@ -743,7 +743,7 @@ class SiteController extends Controller
                     ->where(['parent_id' => $parent->id])
                     ->andWhere(Product::tableName().".id <> {$model->id}")
                     ->andWhere("price > $priceFrom  AND price < $priceTo")
-                    ->orderBy(["price' => SORT_DESC])
+                    ->orderBy(['price' => SORT_DESC])
                     ->limit(9);
                 $similar = array_merge($similar, $similarQuery->all());
 
