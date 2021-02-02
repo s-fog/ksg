@@ -143,8 +143,7 @@ class UML extends Model
                 $offer->appendChild($mmodel);
             }
 
-            $sn = $product->price >= 15000 ? 'Спортивный гипермаркет. Бесплатная сборка. Гарантия' : 'Спортивный гипермаркет. Оплата при получении. Гарантия';
-            $sales_notes = $dom->createElement('sales_notes', $sn);
+            $sales_notes = $dom->createElement('sales_notes', 'Спортивный гипермаркет. Доставка. Сборка. Гарантия');
             $offer->appendChild($sales_notes);
 
             $currencyId = $dom->createElement('currencyId', "RUR");
