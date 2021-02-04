@@ -23,8 +23,8 @@ if ($currentVariant->available == 0) {
             <div class="product__left">
                 <div class="product__callback">
                     <div class="product__header">Ответим на любой вопрос!</div>
-                    <div class="product__callbackText">Акции и скидки магазина, условия покупки и сборки, особенности эксплуатации, аналоги и акесссуары: узнайте подробнее по телефону +7 (495) 015 70 17  (бесплатно для Москвы)<br>
-                        8 (800) 350 06 08 (бесплатно по России) или заказав у нас <span style="cursor: pointer;" data-fancybox data-src="#callback" class="link lightRedColor">бесплатный обратный звонок</span></div>
+                    <div class="product__callbackText">Акции и скидки магазина, условия покупки и сборки, особенности эксплуатации, аналоги и акесссуары: узнайте подробнее по телефону <?=Yii::$app->params['cities']['Москва']['phone']?> (бесплатно для Москвы)<br>
+                        <?=Yii::$app->params['cities']['Others']['phone']?> (бесплатно по России) или заказав у нас <span style="cursor: pointer;" data-fancybox data-src="#callback" class="link lightRedColor">бесплатный обратный звонок</span></div>
                 </div>
                 <?php if (!empty($model->category->video_header)) { ?>
                     <br>
