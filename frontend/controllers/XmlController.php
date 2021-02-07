@@ -24,7 +24,24 @@ class XmlController extends Controller
     public function actionImport()
     {
         $xml = new Xml();
+        ////////////////////////////////////////////////////////////////////////////////
+        try {
+            $victoryFit = simplexml_load_file('https://victoryfit.ru/wp-content/uploads/market-exporter/ym-export.yml');
+            $victoryFitArray = [];
 
+            foreach($victoryFit->catalog->items->item as $offer) {
+                $available = (string) $offer->attributes()->{'available'};
+                $artikul = (string) $offer->vendorCode;
+                $price = (int) $offer->price;
+
+                $unixfitArray[$artikul]['price'] = $price;
+                $unixfitArray[$artikul]['available'] = $available;
+            }
+
+            $xml->loadXml('VictoryFit', $victoryFitArray, 24, false);
+        } catch(Exception $e) {
+            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+        }
         ////////////////////////////////////////////////////////////////////////////////
         try {
             $wellFitness = simplexml_load_file('http://www.wellfitness.ru/system/storage/download/export.xml');

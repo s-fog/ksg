@@ -51,18 +51,20 @@ class ConsoleController extends Controller {
 
     public function actionTest() {
         $xml = new Xml();
-        $fitnessBoutique = simplexml_load_file('https://www.fitness-boutique.ru/system/files/dealer/stock_fitness-boutique_xml.xml');
-        $fitnessBoutiqueArray = [];
+        $stark = simplexml_load_file('http://xn----dtbgdaodln4afhyim1m.com/price/?sklad=moscow');
+        $starkArray = [];
 
-        foreach($fitnessBoutique->shop->offers->offer as $offer) {
-            $available = (string) $offer->attributes()->{'available'};
-            $artikul = (string) $offer->param;
-            $price = (int) $offer->price;
+        foreach($stark->products->product as $product) {
+            foreach($product->offers->offer as $offer) {
+                $available = (string) $offer->attributes()->{'available'};
+                $artikul = (string) $offer->articul;
+                $price = (int) $product->price;
 
-            $fitnessBoutiqueArray[$artikul]['price'] = $price;
-            $fitnessBoutiqueArray[$artikul]['available'] = $available;
+                $starkArray[$artikul]['price'] = $price;
+                $starkArray[$artikul]['available'] = $available;
+            }
         }
 
-        $xml->loadXml('fitnessBoutique', $fitnessBoutiqueArray, 8, true);
+        $xml->loadXml('stark', $starkArray, 6);
     }
 }
