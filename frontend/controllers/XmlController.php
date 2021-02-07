@@ -26,10 +26,17 @@ class XmlController extends Controller
         $xml = new Xml();
         ////////////////////////////////////////////////////////////////////////////////
         try {
-            $victoryFit = simplexml_load_file('https://victoryfit.ru/wp-content/uploads/market-exporter/ym-export.yml');
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://victoryfit.ru/wp-content/uploads/market-exporter/ym-export.yml');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $result = curl_exec($ch);
+
+            $victoryFit = simplexml_load_string($result);
             $victoryFitArray = [];
 
-            foreach($victoryFit->catalog->items->item as $offer) {
+            foreach($victoryFit->shop->offers->offer as $offer) {
                 $available = (string) $offer->attributes()->{'available'};
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
