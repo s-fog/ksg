@@ -169,8 +169,8 @@ class XmlController extends Controller
 
             foreach($stark->products->product as $product) {
                 foreach($product->offers->offer as $offer) {
-                    $available = (string) $offer->amount;
-                    $artikul = (string) $offer->id;
+                    $available = (string) $offer->attributes()->{'available'};
+                    $artikul = (string) $offer->articul;
                     $price = (int) $product->price;
 
                     $starkArray[$artikul]['price'] = $price;
@@ -183,7 +183,7 @@ class XmlController extends Controller
             $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
         ////////////////////////////////////////////////////////////////////////////////
-        try {
+        /*try {
             $svenson = simplexml_load_file('https://jorgen-svensson.com/ru/data.yml');
             $svensonArray = [];
 
@@ -199,7 +199,7 @@ class XmlController extends Controller
             $xml->loadXml('jorgen-svensson', $svensonArray, 2);
         } catch(Exception $e) {
             $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }
+        }*/
         ////////////////////////////////////////////////////////////////////////////////
         try {
             $driada = simplexml_load_file('http://driada-sport.ru/data/files/XML_prise_s.xml');
