@@ -54,15 +54,13 @@ class ConsoleController extends Controller {
         $stark = simplexml_load_file('http://xn----dtbgdaodln4afhyim1m.com/price/?sklad=moscow');
         $starkArray = [];
 
-        foreach($stark->products->product as $product) {
-            foreach($product->offers->offer as $offer) {
-                $available = (string) $offer->attributes()->{'available'};
-                $artikul = (string) $offer->articul;
-                $price = (int) $product->price;
+        foreach($stark->shop->offers->offer as $offer) {
+            $available = (string) $offer->attributes()->{'available'};
+            $artikul = (string) $offer->articul;
+            $price = (int) $offer->price;
 
-                $starkArray[$artikul]['price'] = $price;
-                $starkArray[$artikul]['available'] = $available;
-            }
+            $starkArray[$artikul]['price'] = $price;
+            $starkArray[$artikul]['available'] = $available;
         }
 
         $xml->loadXml('stark', $starkArray, 6);
