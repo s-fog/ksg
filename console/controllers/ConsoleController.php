@@ -51,26 +51,18 @@ class ConsoleController extends Controller {
 
     public function actionTest() {
         $xml = new Xml();
-        $neotren = simplexml_load_file('https://neotren.ru/yml.php');
-        $neotrenArray = [];
+        $fitnessBoutique = simplexml_load_file('https://www.fitness-boutique.ru/system/files/dealer/stock_fitness-boutique_xml.xml');
+        $fitnessBoutiqueArray = [];
 
-        foreach($neotren->shop->offers->offer as $offer) {
-            $offerXml = $offer->asXml();
-
-            if (strstr($offerXml, '<param name="status"/>')) {
-                $available = 0;
-            } else {
-                preg_match('#<param name="status">([^<]+)</param>#siU', $offerXml, $match);
-                $available = $match[1];
-            }
-
-            $artikul = (string) $offer->vendorCode;
+        foreach($fitnessBoutique->shop->offers->offer as $offer) {
+            $available = (string) $offer->attributes()->{'available'};
+            $artikul = (string) $offer->param;
             $price = (int) $offer->price;
 
-            $neotrenArray[$artikul]['price'] = $price;
-            $neotrenArray[$artikul]['available'] = $available;
+            $fitnessBoutiqueArray[$artikul]['price'] = $price;
+            $fitnessBoutiqueArray[$artikul]['available'] = $available;
         }
 
-        $xml->loadXml('neotren', $neotrenArray, 5, false);
+        $xml->loadXml('fitnessBoutique', $fitnessBoutiqueArray, 8, true);
     }
 }

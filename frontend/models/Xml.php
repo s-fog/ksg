@@ -128,7 +128,7 @@ class Xml extends Model
             $str .= "error;".implode(',', $currentArray).";Этих артикулов нет у поставщика\r\n";
         }
 
-        file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/www/logs/$supplierName.log", $str);
+        file_put_contents(Yii::getAlias('@www')."/logs/$supplierName.log", $str);
     }
 
     public function sendMessage($subject, $message) {
