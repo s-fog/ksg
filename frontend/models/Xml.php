@@ -56,9 +56,9 @@ class Xml extends Model
                         ||
                         ((int) $item['available'] < 0)
                         ||
-                        stristr($item['available'], 'Под заказ')
+                        stristr($item['available'], 'Под заказ') !== false
                         ||
-                        stristr($item['available'], 'жидается')
+                        stristr($item['available'], 'жидается') !== false
                     ) {
                         $available = 0;
                     } else if (is_numeric($item['available'])) {

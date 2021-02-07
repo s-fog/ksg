@@ -4,6 +4,7 @@ namespace console\controllers;
 
 use common\models\Category;
 use common\models\Product;
+use frontend\models\Xml;
 use sfog\image\Image as Simage;
 use Yii;
 use yii\console\Controller;
@@ -49,20 +50,27 @@ class ConsoleController extends Controller {
     }
 
     public function actionTest() {
+        $xml = new Xml();
+        $neotren = simplexml_load_file('https://neotren.ru/yml.php');
+        $neotrenArray = [];
 
+        foreach($neotren->shop->offers->offer as $offer) {
+            $offerXml = $offer->asXml();
 
-        $unixfit = simplexml_load_file('http://unixfit.ru/bitrix/catalog_export/catalog.php');
-        $unixfitArray = [];
+            if (strstr($offerXml, '<param name="status"/>')) {
+                $available = 0;
+            } else {
+                preg_match('#<param name="status">([^<]+)</param>#siU', $offerXml, $match);
+                $available = $match[1];
+            }
 
-        foreach($unixfit->shop->offers->offer as $offer) {
-            $available = (string) $offer['available'] === 'false' ? 0 : 10;
             $artikul = (string) $offer->vendorCode;
             $price = (int) $offer->price;
 
-            $unixfitArray[$artikul]['price'] = $price;
-            $unixfitArray[$artikul]['available'] = $available;
+            $neotrenArray[$artikul]['price'] = $price;
+            $neotrenArray[$artikul]['available'] = $available;
         }
 
-        var_dump($unixfitArray);
+        $xml->loadXml('neotren', $neotrenArray, 5, false);
     }
 }
