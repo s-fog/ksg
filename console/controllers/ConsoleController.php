@@ -51,18 +51,18 @@ class ConsoleController extends Controller {
 
     public function actionTest() {
         $xml = new Xml();
-        $stark = simplexml_load_file('http://xn----dtbgdaodln4afhyim1m.com/price/?sklad=moscow');
-        $starkArray = [];
+        $victoryFit = simplexml_load_file('https://victoryfit.ru/wp-content/uploads/market-exporter/ym-export.yml');
+        $victoryFitArray = [];
 
-        foreach($stark->shop->offers->offer as $offer) {
+        foreach($victoryFit->catalog->items->item as $offer) {
             $available = (string) $offer->attributes()->{'available'};
-            $artikul = (string) $offer->articul;
+            $artikul = (string) $offer->vendorCode;
             $price = (int) $offer->price;
 
-            $starkArray[$artikul]['price'] = $price;
-            $starkArray[$artikul]['available'] = $available;
+            $unixfitArray[$artikul]['price'] = $price;
+            $unixfitArray[$artikul]['available'] = $available;
         }
 
-        $xml->loadXml('stark', $starkArray, 6);
+        $xml->loadXml('VictoryFit', $victoryFitArray, 24, false);
     }
 }
