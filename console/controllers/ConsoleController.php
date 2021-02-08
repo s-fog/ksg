@@ -69,6 +69,7 @@ class ConsoleController extends Controller {
             $unixfitArray[$artikul]['price'] = $price;
             $unixfitArray[$artikul]['available'] = $available;
         }
+        var_dump($victoryFitArray);die();
 
         $xml->loadXml('VictoryFit', $victoryFitArray, 24, false);
     }
