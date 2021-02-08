@@ -57,12 +57,11 @@ class ConsoleController extends Controller {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $result = curl_exec($ch);
-        var_dump($result);die();
 
         $victoryFit = simplexml_load_string($result);
         $victoryFitArray = [];
 
-        var_dump($victoryFit->shop->offers->offer);die();
+        var_dump($victoryFit);die();
         foreach($victoryFit->shop->offers->offer as $offer) {
             $available = (string) $offer->attributes()->{'available'};
             $artikul = (string) $offer->vendorCode;
