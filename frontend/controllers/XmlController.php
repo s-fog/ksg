@@ -41,8 +41,8 @@ class XmlController extends Controller
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
 
-                $unixfitArray[$artikul]['price'] = $price;
-                $unixfitArray[$artikul]['available'] = $available;
+                $victoryFitArray[$artikul]['price'] = $price;
+                $victoryFitArray[$artikul]['available'] = $available;
             }
 
             $xml->loadXml('VictoryFit', $victoryFitArray, 24, false);
