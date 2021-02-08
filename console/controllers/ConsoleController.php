@@ -61,11 +61,14 @@ class ConsoleController extends Controller {
         $victoryFit = simplexml_load_string($result);
         $victoryFitArray = [];
 
-        var_dump($victoryFit->shop->offers->offer);die();
         foreach($victoryFit->shop->offers->offer as $offer) {
             $available = (string) $offer->attributes()->{'available'};
             $artikul = (string) $offer->vendorCode;
             $price = (int) $offer->price;
+            var_dump($available);
+            var_dump($artikul);
+            var_dump($price);
+            die();
 
             $unixfitArray[$artikul]['price'] = $price;
             $unixfitArray[$artikul]['available'] = $available;
