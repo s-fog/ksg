@@ -92,10 +92,10 @@ class Xml extends Model
 
                         $productParam->available = $available;
                     } else {
-                        if ($product->price > $item['price']) {
+                        /*if ($product->price > $item['price']) {
                             $str .= "attention;$artikul; Есть цена ниже у {$supplier->name}\r\n";
                             $this->sendMessage("Для $artikul есть цена ниже у {$supplier->name}", '');
-                        }
+                        }*/
 
                         if ($available > 0 && $productParam->available == 0) {
                             $str .= "attention;$artikul; У {$supplier->name} товар есть в наличии\r\n";
