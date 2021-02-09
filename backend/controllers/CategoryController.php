@@ -11,7 +11,6 @@ use common\models\FeatureValue;
 use common\models\FilterFeature;
 use common\models\Step;
 use Exception;
-use sfog\image\Image;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
@@ -93,14 +92,14 @@ class CategoryController extends \backend\controllers\base\CategoryController
             }
 
             if ($valid) {
-                $sfogImage = new Image(false, 95);
-                $model->image_catalog = $sfogImage->uploadFile(
+                $uploadedCustom = new UploadFile(true, 95);
+                $model->image_catalog = $uploadedCustom->uploadFile(
                     $model,
                     'image_catalog',
                     'image_catalog',
                     ['1600x250']
                 );
-                $model->image_menu = $sfogImage->uploadFile(
+                $model->image_menu = $uploadedCustom->uploadFile(
                     $model,
                     'image_menu',
                     'image_menu',
@@ -259,10 +258,10 @@ class CategoryController extends \backend\controllers\base\CategoryController
 
 
             if ($valid) {
-                $sfogImage = new Image(false, 95);
+                $uploadedCustom = new UploadFile(true, 95);
 
                 if (!empty($_FILES['Category']['name']['image_catalog'])) {
-                    $model->image_catalog = $sfogImage->uploadFile(
+                    $model->image_catalog = $uploadedCustom->uploadFile(
                         $model,
                         'image_catalog',
                         'image_catalog',
@@ -273,7 +272,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
                 }
 
                 if (!empty($_FILES['Category']['name']['image_menu'])) {
-                    $model->image_menu = $sfogImage->uploadFile(
+                    $model->image_menu = $uploadedCustom->uploadFile(
                         $model,
                         'image_menu',
                         'image_menu',

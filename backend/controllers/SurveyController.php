@@ -3,11 +3,11 @@
 namespace backend\controllers;
 
 use backend\models\Model;
+use backend\models\UploadFile;
 use common\models\Step;
 use common\models\StepOption;
 use common\models\Survey;
 use Exception;
-use sfog\image\Image as SfogImage;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -41,7 +41,7 @@ class SurveyController extends \backend\controllers\base\SurveyController
         $modelSurvey->scenario = 'create';
         $modelsStep = [new Step];
         $modelsStepOption = [[new StepOption]];
-        $sfogImage = new \sfog\image\Image(false, 95);
+        $customUpload = new UploadFile(true, 95);
 
         if ($modelSurvey->load(Yii::$app->request->post())) {
             $modelsStep = Model::createMultiple(Step::classname());
@@ -77,7 +77,7 @@ class SurveyController extends \backend\controllers\base\SurveyController
             }
 
             if (!empty($_FILES['Survey']['name']['preview_image'])) {
-                $modelSurvey->preview_image = $sfogImage->uploadFile(
+                $modelSurvey->preview_image = $customUpload->uploadFile(
                     $modelSurvey,
                     'preview_image',
                     'preview_image',
@@ -86,7 +86,7 @@ class SurveyController extends \backend\controllers\base\SurveyController
             }
 
             if (!empty($_FILES['Survey']['name']['cupon_image'])) {
-                $modelSurvey->cupon_image = $sfogImage->uploadFile(
+                $modelSurvey->cupon_image = $customUpload->uploadFile(
                     $modelSurvey,
                     'cupon_image',
                     'cupon_image',
@@ -95,7 +95,7 @@ class SurveyController extends \backend\controllers\base\SurveyController
             }
 
             if (!empty($_FILES['Survey']['name']['success_image'])) {
-                $modelSurvey->success_image = $sfogImage->uploadFile(
+                $modelSurvey->success_image = $customUpload->uploadFile(
                     $modelSurvey,
                     'success_image',
                     'success_image',
@@ -155,7 +155,7 @@ class SurveyController extends \backend\controllers\base\SurveyController
         $modelsStep = $modelSurvey->steps;
         $modelsStepOption = [];
         $oldStepOption = [];
-        $sfogImage = new \sfog\image\Image(false, 95);
+        $customUpload = new UploadFile(true, 95);
         $cupon_image = $modelSurvey->cupon_image;
         $preview_image = $modelSurvey->preview_image;
         $success_image = $modelSurvey->success_image;
@@ -208,7 +208,7 @@ class SurveyController extends \backend\controllers\base\SurveyController
             $deletedStepOptionIDs = array_diff($oldStepOptionIDs, $stepOptionIDs);
 
             if (!empty($_FILES['Survey']['name']['preview_image'])) {
-                $modelSurvey->preview_image = $sfogImage->uploadFile(
+                $modelSurvey->preview_image = $customUpload->uploadFile(
                     $modelSurvey,
                     'preview_image',
                     'preview_image',
@@ -219,7 +219,7 @@ class SurveyController extends \backend\controllers\base\SurveyController
             }
 
             if (!empty($_FILES['Survey']['name']['cupon_image'])) {
-                $modelSurvey->cupon_image = $sfogImage->uploadFile(
+                $modelSurvey->cupon_image = $customUpload->uploadFile(
                     $modelSurvey,
                     'cupon_image',
                     'cupon_image',
@@ -230,7 +230,7 @@ class SurveyController extends \backend\controllers\base\SurveyController
             }
 
             if (!empty($_FILES['Survey']['name']['success_image'])) {
-                $modelSurvey->success_image = $sfogImage->uploadFile(
+                $modelSurvey->success_image = $customUpload->uploadFile(
                     $modelSurvey,
                     'success_image',
                     'success_image',

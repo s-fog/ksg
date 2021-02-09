@@ -513,6 +513,8 @@ class Product extends BaseProduct implements CartPositionInterface
                 foreach($selectDirty['items'] as $item) {
                     if ($item['name'] !== $mainParam->name) {
                         $this->selectsDirty[$brotherId]['items'] = array_reverse($selectDirty['items']);
+                    } else {
+                        break 2;
                     }
                 }
             }
@@ -794,7 +796,6 @@ class Product extends BaseProduct implements CartPositionInterface
                 parse_str($filter_url_query, $get);
 
                 $productQuery = Product::find()
-                    ->distinct()
                     ->select([Product::tableName().'.id'])
                     ->joinWith(['productParams' => function($q) {
                         $q->andWhere([ProductParam::tableName().'.available' => 10]);

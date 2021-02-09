@@ -13,7 +13,6 @@ use common\models\FeatureValue;
 use common\models\FilterFeature;
 use common\models\FilterFeatureValue;
 use common\models\Image;
-use sfog\image\Image as SfogImage;
 use common\models\Product;
 use common\models\ProductHasFilterFeatureValue;
 use common\models\ProductParam;
@@ -57,7 +56,7 @@ class ProductController extends \backend\controllers\base\ProductController
         $model->disallow_xml = 0;
         $modelsFeature = [new Feature];
         $modelsFeatureValue = [[new FeatureValue]];
-        $sfogImage = new \sfog\image\Image(false, 95);
+        $uploadedCustom = new UploadFile(true, 95);
 
         if ($model->load(Yii::$app->request->post())) {
             $model->generateCode();
@@ -79,7 +78,7 @@ class ProductController extends \backend\controllers\base\ProductController
             }
 
             if (!empty($_FILES['Product']['name']['present_image'])) {
-                $model->present_image = $sfogImage->uploadFile(
+                $model->present_image = $uploadedCustom->uploadFile(
                     $model,
                     'present_image',
                     'present_image',
@@ -134,7 +133,7 @@ class ProductController extends \backend\controllers\base\ProductController
                 );
 
                 foreach($modelsImage as $index => $modelImage) {
-                    $modelImage->image = $sfogImage->uploadFileDynamicForm(
+                    $modelImage->image = $uploadedCustom->uploadFileDynamicForm(
                         $modelImage,
                         $index,
                         "[{$index}]image",
@@ -346,7 +345,7 @@ class ProductController extends \backend\controllers\base\ProductController
         $modelsFeatureValue = [];
         $oldFeatureValue = [];
         $present_image = $model->present_image;
-        $sfogImage = new \sfog\image\Image(false, 95);
+        $uploadedCustom = new UploadFile(true, 95);
 
         foreach($modelsImage as $index => $modelImage) {
             $images[$modelImage->id] = $modelImage->image;
@@ -395,7 +394,7 @@ class ProductController extends \backend\controllers\base\ProductController
             }
 
             if (!empty($_FILES['Product']['name']['present_image'])) {
-                $model->present_image = $sfogImage->uploadFile(
+                $model->present_image = $uploadedCustom->uploadFile(
                     $model,
                     'present_image',
                     'present_image',
@@ -446,7 +445,7 @@ class ProductController extends \backend\controllers\base\ProductController
             if ($valid) {
                 foreach($modelsImage as $index => $modelImage) {
                     if (!empty($_FILES['Image']['name'][$index]['image'])) {
-                        $modelImage->image = $sfogImage->uploadFileDynamicForm(
+                        $modelImage->image = $uploadedCustom->uploadFileDynamicForm(
                             $modelImage,
                             $index,
                             "[{$index}]image",

@@ -3,13 +3,11 @@ namespace backend\controllers;
 
 use backend\models\UploadFile;
 use common\models\Mainpage;
-use sfog\image\Image;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
-use sfog\image\Image as SfogImage;
 
 /**
  * Site controller
@@ -67,11 +65,11 @@ class MainpageController extends Controller
         $model = Mainpage::findOne(1);
 
         if ($model->load($_POST)) {
-            $sfogImage = new SfogImage(false, 95);
+            $uploadedCustom = new UploadFile(true, 95);
             $banner_image = $model->banner_image;
 
             if (!empty($_FILES['Mainpage']['name']['banner_image'])) {
-                $model->banner_image = $sfogImage->uploadFile(
+                $model->banner_image = $uploadedCustom->uploadFile(
                     $model,
                     'banner_image',
                     'banner_image',

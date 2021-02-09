@@ -5,7 +5,6 @@ namespace backend\controllers;
 use backend\models\Sitemap;
 use backend\models\UploadFile;
 use common\models\Brand;
-use sfog\image\Image;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
@@ -40,8 +39,8 @@ class BrandController extends \backend\controllers\base\BrandController
                 $model->image = UploadedFile::getInstance($model, "image");
 
                 if ($model->validate()) {
-                    $sfogImage = new Image(false, 95);
-                    $model->image = $sfogImage->uploadFile(
+                    $uploadedCustom = new UploadFile(true, 95);
+                    $model->image = $uploadedCustom->uploadFile(
                         $model,
                         'image',
                         'image',
@@ -77,8 +76,8 @@ class BrandController extends \backend\controllers\base\BrandController
         if ($model->load($_POST)) {
             if ($model->validate()) {
                 if (!empty($_FILES['Brand']['name']['image'])) {
-                    $sfogImage = new Image(false, 95);
-                    $model->image = $sfogImage->uploadFile(
+                    $uploadedCustom = new UploadFile(true, 95);
+                    $model->image = $uploadedCustom->uploadFile(
                         $model,
                         'image',
                         'image',

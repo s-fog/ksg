@@ -43,7 +43,8 @@
         "s-fog/yii2-sfog-image": "*",
         "mobiledetect/mobiledetectlib": "^2.8",
       "ext-simplexml": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+      "ext-gd": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

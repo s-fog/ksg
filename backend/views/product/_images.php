@@ -44,7 +44,7 @@ use yii\helpers\Html;
                                 ?>
                                 <div class="form-group">
                                     <div class="col-sm-3">
-                                        <?=Html::img($modelImage->image, ['width' => 250])?>
+                                        <?=Html::img(Yii::$app->params['frontendHost'].$modelImage->image, ['width' => 250])?>
                                     </div>
                                     <div class="col-sm-9">
                                         <?=$form->field($modelImage, "[{$i}]image")->widget(FileInput::className(), [

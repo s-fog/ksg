@@ -1,0 +1,75 @@
+version: '3'
+
+networks:
+  ksg_pro:
+
+services:
+  ksg_nginx_frontend:
+    build:
+      context: ./nginx-frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 6325:80
+    volumes:
+      - .:/var/www/html:delegated
+    depends_on:
+      - ksg_php
+      - ksg_redis
+      - ksg_mysql
+    networks:
+      - ksg_pro
+
+  ksg_nginx_backend:
+    build:
+      context: ./nginx-backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 6361:80
+    volumes:
+      - .:/var/www/html:delegated
+    depends_on:
+      - ksg_php
+      - ksg_redis
+      - ksg_mysql
+    networks:
+      - ksg_pro
+
+  ksg_mysql:
+    image: mysql/mysql-server:8.0
+    ports:
+      - "3106:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_pppp
+      - MYSQL_DATABASE=ksg
+      - MYSQL_USER=ksg_user
+      - MYSQL_PASSWORD=some_cool_password_2747
+    volumes:
+      - 'mysql_k:/var/lib/mysql'
+    restart: unless-stopped
+    networks:
+      - ksg_pro
+
+  ksg_php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    user: '1000:1000'
+    volumes:
+      - .:/var/www/html:delegated
+    networks:
+      - ksg_pro
+
+  ksg_redis:
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - ksg_pro
+
+volumes:
+  mysql_k:
+    driver: local
+  redis_k:
+    driver: local

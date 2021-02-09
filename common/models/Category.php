@@ -587,7 +587,6 @@ class Category extends BaseCategory
         $categoryIds = ArrayHelper::getColumn($this->getCategoriesNestedToThisCategory(), 'id');
 
         $productsQuery = Product::find()
-            ->distinct()
             ->joinWith(['productParams' => function($q) {
                 $q->andWhere([ProductParam::tableName().'.available' => 10]);
             }])

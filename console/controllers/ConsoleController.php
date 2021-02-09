@@ -8,6 +8,7 @@ use frontend\models\Xml;
 use sfog\image\Image as Simage;
 use Yii;
 use yii\console\Controller;
+use yii\imagine\Image;
 
 class ConsoleController extends Controller {
 
@@ -50,26 +51,9 @@ class ConsoleController extends Controller {
     }
 
     public function actionTest() {
-        $xml = new Xml();
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://victoryfit.ru/wp-content/uploads/market-exporter/ym-export.yml');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $result = curl_exec($ch);
 
-        $victoryFit = simplexml_load_string($result);
-        $victoryFitArray = [];
-
-        foreach($victoryFit->shop->offers->offer as $offer) {
-            $available = (string) $offer->attributes()->{'available'};
-            $artikul = (string) $offer->vendorCode;
-            $price = (int) $offer->price;
-
-            $victoryFitArray[$artikul]['price'] = $price;
-            $victoryFitArray[$artikul]['available'] = $available;
-        }
-
-        $xml->loadXml('VictoryFit', $victoryFitArray, 24, false);
+        $filePath = Yii::getAlias('@www').'/uploads/f6e1756c12e45e9c4187bdbe0aed62f8.jpg';
+        Image::thumbnail($filePath, 200, 300)
+            ->save(Yii::getAlias('@www').'/gfgfgfgfg.png', ['quality' => 80]);
     }
 }

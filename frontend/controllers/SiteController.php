@@ -752,7 +752,7 @@ class SiteController extends Controller
                 }
             }
             ////////////////////////////////////////////////////////////////////////////////////////////
-            //var_dump($model->getMainFeatures());die();
+            //var_dump($model->selects());die();
             ////////////////////////////////////////////////////////////////////////////////////////////
 
             return $this->render('@frontend/views/catalog/view', [

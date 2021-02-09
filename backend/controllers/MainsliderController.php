@@ -4,8 +4,6 @@ namespace backend\controllers;
 
 use backend\models\UploadFile;
 use common\models\Mainslider;
-use sfog\image\Image;
-use sfog\image\Image as SfogImage;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 
@@ -39,8 +37,8 @@ class MainsliderController extends \backend\controllers\base\MainsliderControlle
                 $model->image = UploadedFile::getInstance($model, "image");
 
                 if ($model->validate()) {
-                    $sfogImage = new Image(false, 95);
-                    $model->image = $sfogImage->uploadFile(
+                    $customUploaded = new UploadFile(true, 95);
+                    $model->image = $customUploaded->uploadFile(
                         $model,
                         'image',
                         'image',
@@ -75,8 +73,8 @@ class MainsliderController extends \backend\controllers\base\MainsliderControlle
         if ($model->load($_POST)) {
             if ($model->validate()) {
                 if (!empty($_FILES['Mainslider']['name']['image'])) {
-                    $sfogImage = new Image(false, 95);
-                    $model->image = $sfogImage->uploadFile(
+                    $customUploaded = new UploadFile(true, 95);
+                    $model->image = $customUploaded->uploadFile(
                         $model,
                         'image',
                         'image',

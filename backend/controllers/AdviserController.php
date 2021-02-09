@@ -4,9 +4,7 @@ namespace backend\controllers;
 
 use backend\models\UploadFile;
 use common\models\Adviser;
-use sfog\image\Image;
 use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
@@ -39,8 +37,8 @@ class AdviserController extends \backend\controllers\base\AdviserController
                 $model->image = UploadedFile::getInstance($model, "image");
 
                 if ($model->validate()) {
-                    $sfogImage = new Image(false, 95);
-                    $model->image = $sfogImage->uploadFile(
+                    $uploadedCustom = new UploadFile(true, 95);
+                    $model->image = $uploadedCustom->uploadFile(
                         $model,
                         'image',
                         'image',
@@ -70,8 +68,8 @@ class AdviserController extends \backend\controllers\base\AdviserController
         if ($model->load($_POST)) {
             if ($model->validate()) {
                 if (!empty($_FILES['Adviser']['name']['image'])) {
-                    $sfogImage = new Image(false, 95);
-                    $model->image = $sfogImage->uploadFile(
+                    $uploadedCustom = new UploadFile(true, 95);
+                    $model->image = $uploadedCustom->uploadFile(
                         $model,
                         'image',
                         'image',

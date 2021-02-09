@@ -30,5 +30,18 @@ return [
                 ],
             ],
         ],
+        'redis' => [
+            'class' => \yii\redis\Connection::class,
+            'hostname' => 'localhost',
+            'port' => 6379,
+            'retries' => 2,
+        ],
+        'queue_default' => [
+            'class' => \yii\queue\redis\Queue::class,
+            'redis' => 'redis',
+            'ttr' => 20,
+            'attempts' => 3,
+            'as log' => \yii\queue\LogBehavior::class
+        ],
     ],
 ];
