@@ -39,12 +39,12 @@
         "omnilight/yii2-shopping-cart": "*",
         "kroshilin/yii2-yandex-kassa": "*",
         "yandex-money/yandex-checkout-sdk-php": "*",
-        "phpoffice/phpspreadsheet": "*",
-        "s-fog/yii2-sfog-image": "*",
         "mobiledetect/mobiledetectlib": "^2.8",
-      "ext-simplexml": "*",
+        "yiisoft/yii2-queue": "^2.3",
+        "yiisoft/yii2-redis": "^2.0",
+        "ext-simplexml": "*",
         "ext-curl": "*",
-      "ext-gd": "*"
+        "ext-imagick": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
