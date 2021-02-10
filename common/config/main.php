@@ -39,7 +39,7 @@ return [
         'queue_default' => [
             'class' => \yii\queue\redis\Queue::class,
             'redis' => 'redis',
-            'ttr' => 40,
+            'ttr' => 100,
             'attempts' => 3,
             'as log' => \yii\queue\LogBehavior::class
         ],
