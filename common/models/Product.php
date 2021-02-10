@@ -228,10 +228,7 @@ class Product extends BaseProduct implements CartPositionInterface
     }
 
     public function getParams() {
-        return ProductParam::find()
-            ->where(['product_id' => $this->id])
-            ->orderBy(['id' => SORT_ASC])
-            ->all();
+        return $this->hasMany(ProductParam::className(), ['product_id' => 'id'])->orderBy(['id' => SORT_ASC]);
     }
 
     public function getParam() {
@@ -623,6 +620,7 @@ class Product extends BaseProduct implements CartPositionInterface
     public function selects() {
         if (empty($this->selects)) {
             $this->selects = [];
+            $paramModels = [];
 
             if (empty($this->params[0]->params)) {
                 return [];
@@ -636,7 +634,11 @@ class Product extends BaseProduct implements CartPositionInterface
                 foreach($brother->params as $currentBrotherParam) {
                     foreach($currentBrotherParam->params as $p) {
                         list($name, $value) = explode(' -> ', $p);
-                        $paramModel = Param::findOne(['name' => $name]);
+                        $paramModel = $paramModels[$name];
+
+                        if ($paramModel === null) {
+                            $paramModel = $paramModels[$name] = Param::findOne(['name' => $name]);
+                        }
                         $paramName = $paramValue = null;
 
                         if ($mainParam->name === $name) {
@@ -723,7 +725,7 @@ class Product extends BaseProduct implements CartPositionInterface
     }
 
     public function getBrothersAll() {
-        return Product::find()->where(['id' => $this->getBrothersIds()])->all();
+        return Product::find()->where(['id' => $this->getBrothersIds()])->with(['params'])->all();
     }
 
     public function getBrothers() {
