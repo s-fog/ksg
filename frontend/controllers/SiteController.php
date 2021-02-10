@@ -800,7 +800,7 @@ class SiteController extends Controller
                     ])->one();
 
                     if (!$model) {
-                        $parentBrand = Category::findOne(['id' => $this->parent_id]);
+                        $parentBrand = Category::findOne(['id' => $parent->parent_id]);
                         $model = Category::find()->where([
                             'alias' => $alias2,
                             'parent_id' => $parentBrand->id,
