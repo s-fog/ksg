@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Url;
+
 $this->title = 'Логи';
 
 ?>
@@ -45,7 +47,7 @@ $this->title = 'Логи';
                 <tr>
                     <td nowrap="nowrap">
                         <div class="action-buttons">
-                            <a href="/officeback/index.php?r=log/view&name=<?=$name?>">
+                            <a href="<?=Url::to(['log/view', 'name' => $name])?>">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
                         </div>
