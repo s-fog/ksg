@@ -304,6 +304,8 @@ class ProductController extends \backend\controllers\base\ProductController
                         $transaction->commit();
                         Yii::$app->queue_default->push(new Sitemap());
                         Yii::$app->queue_default->push(new UML());
+                        $model->getMainFeatures(true);
+                        $model->getCompilationCategoryIds(true);
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
@@ -654,6 +656,8 @@ class ProductController extends \backend\controllers\base\ProductController
                         $model->saveBrothers();
                         Yii::$app->queue_default->push(new Sitemap());
                         Yii::$app->queue_default->push(new UML());
+                        $model->getMainFeatures(true);
+                        $model->getCompilationCategoryIds(true);
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
