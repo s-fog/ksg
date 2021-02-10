@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\Model;
+use backend\models\ProductCaching;
 use backend\models\Sitemap;
 use backend\models\UML;
 use backend\models\UploadFile;
@@ -304,8 +305,9 @@ class ProductController extends \backend\controllers\base\ProductController
                         $transaction->commit();
                         Yii::$app->queue_default->push(new Sitemap());
                         Yii::$app->queue_default->push(new UML());
-                        $model->getMainFeatures(true);
-                        $model->getCompilationCategoryIds(true);
+                        Yii::$app->queue_default->push(new ProductCaching([
+                            'product_id' => $model->id
+                        ]));
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
@@ -656,8 +658,9 @@ class ProductController extends \backend\controllers\base\ProductController
                         $model->saveBrothers();
                         Yii::$app->queue_default->push(new Sitemap());
                         Yii::$app->queue_default->push(new UML());
-                        $model->getMainFeatures(true);
-                        $model->getCompilationCategoryIds(true);
+                        Yii::$app->queue_default->push(new ProductCaching([
+                            'product_id' => $model->id
+                        ]));
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);

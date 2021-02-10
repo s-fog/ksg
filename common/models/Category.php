@@ -548,43 +548,52 @@ class Category extends BaseCategory
         }
     }
 
-    public function getCategoriesNestedToThisCategory() {
-        if (in_array($this->type, [1, 2, 4])) {
-            $category = Category::findOne(['id' => $this->parent_id]);
-        } else if ($this->type === 3) {
-            $parentBrand = Category::findOne(['id' => $this->parent_id]);
-            $category = Category::findOne(['id' => $parentBrand->parent_id]);
-        } else {
-            $category = $this;
-        }
+    public function getCategoriesNestedToThisCategoryIds($forceCache = false) {
+        $cache = Yii::$app->cache;
+        $key = 'categoriesNestedToThisCategoryIds_'.$this->id;
+        $categoriesNestedToThisCategoryIds = $cache->get($key);
 
-        $levelAndCats = $category->getLevel();
-        $categories = [];
-
-        if ($levelAndCats[0] === 1) {
-            $categories[] = $category;
-            $childrenCats = $category->getChildrenCategories();
-            $categories = array_merge($categories, $childrenCats);
-
-            foreach($childrenCats as $child) {
-                $categories = array_merge($categories, $child->getChildrenCategories());
+        if ($categoriesNestedToThisCategoryIds === null || $forceCache === true) {
+            if (in_array($this->type, [1, 2, 4])) {
+                $category = Category::findOne(['id' => $this->parent_id]);
+            } else if ($this->type === 3) {
+                $parentBrand = Category::findOne(['id' => $this->parent_id]);
+                $category = Category::findOne(['id' => $parentBrand->parent_id]);
+            } else {
+                $category = $this;
             }
-        } else if ($levelAndCats[0] === 2) {
-            $categories[] = $category;
-            $categories[] = $levelAndCats[1];
-            $categories = array_merge($categories, $category->getChildrenCategories());
-        } else if ($levelAndCats[0] === 3) {
-            $categories[] = $category;
-            $categories[] = $levelAndCats[1];
-            $categories[] = $levelAndCats[2];
+
+            $levelAndCats = $category->getLevel();
+            $categories = [];
+
+            if ($levelAndCats[0] === 1) {
+                $categories[] = $category;
+                $childrenCats = $category->getChildrenCategories();
+                $categories = array_merge($categories, $childrenCats);
+
+                foreach($childrenCats as $child) {
+                    $categories = array_merge($categories, $child->getChildrenCategories());
+                }
+            } else if ($levelAndCats[0] === 2) {
+                $categories[] = $category;
+                $categories[] = $levelAndCats[1];
+                $categories = array_merge($categories, $category->getChildrenCategories());
+            } else if ($levelAndCats[0] === 3) {
+                $categories[] = $category;
+                $categories[] = $levelAndCats[1];
+                $categories[] = $levelAndCats[2];
+            }
+
+            $categoriesNestedToThisCategoryIds = ArrayHelper::getColumn($categories, 'id');
+            $cache->set($key, $categoriesNestedToThisCategoryIds);
         }
 
-        return $categories;
+        return $categoriesNestedToThisCategoryIds;
     }
 
     public function getProducts() {
         $orderBy = array_merge([ProductParam::tableName().'.available' => SORT_DESC], Sort::getOrderBy($this, $_GET));
-        $categoryIds = ArrayHelper::getColumn($this->getCategoriesNestedToThisCategory(), 'id');
+        $categoryIds = $this->getCategoriesNestedToThisCategoryIds();
 
         $productsQuery = Product::find()
             ->joinWith(['productParams' => function($q) {

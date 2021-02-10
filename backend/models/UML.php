@@ -127,7 +127,7 @@ class UML extends Model implements JobInterface
             $offer->appendChild($available);
             ///////////////////////////////////////////////////////////////////////////////////////////
             $https = ($_SERVER['HTTP_HOST'] == 'dev2.ksg.ru') ? 'https://' : 'http://';
-            $url = $dom->createElement('url', $https.$_SERVER['HTTP_HOST'].$product->url);
+            $url = $dom->createElement('url', Yii::$app->params['frontendHost'].$product->url);
             $offer->appendChild($url);
             ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -153,7 +153,7 @@ class UML extends Model implements JobInterface
             $categoryId = $dom->createElement('categoryId', $product->parent_id);
             $offer->appendChild($categoryId);
 
-            $picture = $dom->createElement('picture', $https.$_SERVER['HTTP_HOST']."/images/thumbs/{$filename[0]}-770-553.{$filename[1]}");
+            $picture = $dom->createElement('picture', Yii::$app->params['frontendHost']."/images/thumbs/{$filename[0]}-770-553.{$filename[1]}");
             $offer->appendChild($picture);
 
             $pickup = $dom->createElement('pickup', "false");
