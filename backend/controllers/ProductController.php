@@ -124,7 +124,7 @@ class ProductController extends \backend\controllers\base\ProductController
                     $modelReview->date = strtotime($_POST['ProductReview'][$index]['date']);
                 }
 
-                $model->instruction = UploadFile::upload(
+                $model->instruction = $uploadedCustom->uploadFile(
                     $model,
                     Product::findOne($model->id),
                     'instruction',
@@ -460,7 +460,7 @@ class ProductController extends \backend\controllers\base\ProductController
                 }
 
                 if (!empty($_FILES['Product']['name']['instruction'])) {
-                    $model->instruction = UploadFile::upload(
+                    $model->instruction = $uploadedCustom->uploadFile(
                         $model,
                         Product::findOne($model->id),
                         'instruction',
