@@ -24,4 +24,9 @@ use yii\helpers\Html;
     <!-- End Google Tag Manager -->
 
 <?php $this->head() ?>
+    <link rel="preload" crossorigin href="/fonts/r.woff2" as="font">
+    <link rel="preload" crossorigin href="/fonts/d.woff2" as="font">
+    <link rel="preload" crossorigin href="/fonts/unisansheavycaps-webfont.woff2" as="font">
+    <link rel="preload" crossorigin href="/fonts/Sports%20World.woff2" as="font">
+    <link rel="preload" crossorigin href="/fonts/PT%20Sans.woff2" as="font">
 </head>
