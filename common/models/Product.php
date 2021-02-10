@@ -538,7 +538,7 @@ class Product extends BaseProduct implements CartPositionInterface
         return $selected;
     }
 
-    private function isSelectItemDisabled(Param $mainParam,
+    private function isSelectItemDisabled($mainParam,
                                           $thisBrotherMainParamName,
                                           $thisBrotherMainParamValue,
                                           $paramName,
