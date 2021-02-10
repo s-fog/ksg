@@ -9,8 +9,7 @@ return [
     'bootstrap' => ['queue_default'],
     'components' => [
         'cache' => [
-            'class' => 'yii\caching\FileCache',
-            'cachePath' => '@frontend/runtime/cache',
+            'class' => 'yii\redis\Cache',
         ],
         'cart' => [
             'class' => 'yz\shoppingcart\ShoppingCart'
