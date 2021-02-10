@@ -754,23 +754,26 @@ class Product extends BaseProduct implements CartPositionInterface
             $mainFeatures = [];
             $mainFeaturesValues = [];
 
-            foreach($this->category->features as $feature) {
-                foreach($feature->featurevalues as $featureValue) {
-                    if ($featureValue->main_param == 1) {
-                        $mainFeatures[$featureValue->name] = $featureValue->toArray();
+            if ($this->category !== null) {
+
+                foreach($this->category->features as $feature) {
+                    foreach($feature->featurevalues as $featureValue) {
+                        if ($featureValue->main_param == 1) {
+                            $mainFeatures[$featureValue->name] = $featureValue->toArray();
+                        }
                     }
                 }
-            }
 
-            foreach($this->features as $feature) {
-                foreach($feature->featurevalues as $featureValue) {
-                    if (array_key_exists($featureValue->name, $mainFeatures)) {
-                        $mainFeaturesValues[$featureValue->name] = $featureValue->value;
+                foreach($this->features as $feature) {
+                    foreach($feature->featurevalues as $featureValue) {
+                        if (array_key_exists($featureValue->name, $mainFeatures)) {
+                            $mainFeaturesValues[$featureValue->name] = $featureValue->value;
+                        }
                     }
                 }
-            }
 
-            $cache->set($key, $mainFeaturesValues, 31104000);
+                $cache->set($key, $mainFeaturesValues, 31104000);
+            }
         }
 
         return $mainFeaturesValues;
