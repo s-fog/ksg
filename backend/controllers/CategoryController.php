@@ -149,7 +149,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
                     }
                     if ($flag) {
                         $transaction->commit();
-                        Sitemap::doIt();
+                        Yii::$app->queue_default->push(new Sitemap());
 
                         foreach($model->getProducts()->all() as $product) {
                             $product->getMainFeatures(true);
@@ -338,7 +338,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
                     }
                     if ($flag) {
                         $transaction->commit();
-                        Sitemap::doIt();
+                        Yii::$app->queue_default->push(new Sitemap());
 
                         foreach($model->getProducts()->all() as $product) {
                             $product->getMainFeatures(true);

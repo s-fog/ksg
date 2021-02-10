@@ -48,7 +48,7 @@ class BrandController extends \backend\controllers\base\BrandController
                     );
 
                     if ($model->save(false)) {
-                        Sitemap::doIt();
+                        Yii::$app->queue_default->push(new Sitemap());
                         return $this->redirect(['index']);
                     }
                 }
@@ -88,7 +88,7 @@ class BrandController extends \backend\controllers\base\BrandController
                 }
 
                 if ($model->save(false)) {
-                    Sitemap::doIt();
+                    Yii::$app->queue_default->push(new Sitemap());
                     return $this->redirect(['index']);
                 }
             }

@@ -32,7 +32,7 @@ class TextpageController extends \backend\controllers\base\TextpageController
 
         try {
             if ($model->load($_POST) && $model->save()) {
-                Sitemap::doIt();
+                Yii::$app->queue_default->push(new Sitemap());
                 return $this->redirect(['index']);
             } elseif (!\Yii::$app->request->isPost) {
                 $model->load($_GET);
@@ -55,7 +55,7 @@ class TextpageController extends \backend\controllers\base\TextpageController
         $model = $this->findModel($id);
 
         if ($model->load($_POST) && $model->save()) {
-            Sitemap::doIt();
+            Yii::$app->queue_default->push(new Sitemap());
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [

@@ -302,8 +302,8 @@ class ProductController extends \backend\controllers\base\ProductController
                         //Заполняем предзаполненные характеристики из категории для товара END
 
                         $transaction->commit();
-                        Sitemap::doIt();
-                        UML::doIt();
+                        Yii::$app->queue_default->push(new Sitemap());
+                        Yii::$app->queue_default->push(new UML());
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
@@ -652,8 +652,8 @@ class ProductController extends \backend\controllers\base\ProductController
                     if ($flag) {
                         $transaction->commit();
                         $model->saveBrothers();
-                        Sitemap::doIt();
-                        UML::doIt();
+                        Yii::$app->queue_default->push(new Sitemap());
+                        Yii::$app->queue_default->push(new UML());
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);

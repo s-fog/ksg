@@ -43,7 +43,7 @@ class SimpleexcelController extends \yii\web\Controller
                 $success = $model->doIt();
             }
 
-            UML::doIt();
+            Yii::$app->queue_default->push(new UML());
 
             return $this->render('index', [//
                 'model' => $model,

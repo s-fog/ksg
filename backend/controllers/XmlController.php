@@ -2,8 +2,8 @@
 namespace backend\controllers;
 
 use backend\models\UML;
+use backend\models\Xml;
 use Exception;
-use frontend\models\Xml;
 use Yii;
 use yii\web\Controller;
 
@@ -21,8 +21,6 @@ class XmlController extends Controller
 
     public function actionImport()
     {
-        $xml = new Xml();
-        ////////////////////////////////////////////////////////////////////////////////
         try {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, 'https://victoryfit.ru/wp-content/uploads/market-exporter/ym-export.yml');
@@ -43,9 +41,14 @@ class XmlController extends Controller
                 $victoryFitArray[$artikul]['available'] = $available;
             }
 
-            $xml->loadXml('VictoryFit', $victoryFitArray, 24, false);
+            Yii::$app->queue_default->push(new Xml([
+                'supplierName' => 'VictoryFit',
+                'data' => $victoryFitArray,
+                'supplierId' => 24,
+                'notAvailableIfExists' => false,
+            ]));
         } catch(Exception $e) {
-            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
         ////////////////////////////////////////////////////////////////////////////////
         try {
@@ -61,9 +64,14 @@ class XmlController extends Controller
                 $wellFitnessArray[$artikul]['available'] = $available;
             }
 
-            $xml->loadXml('wellFitness', $wellFitnessArray, 9, false);
+            Yii::$app->queue_default->push(new Xml([
+                'supplierName' => 'wellFitness',
+                'data' => $wellFitnessArray,
+                'supplierId' => 9,
+                'notAvailableIfExists' => false,
+            ]));
         } catch(Exception $e) {
-            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
         ////////////////////////////////////////////////////////////////////////////////
         try {
@@ -100,9 +108,14 @@ class XmlController extends Controller
                 $hasttingsArray[$artikul]['available'] = $available;
             }
 
-            $xml->loadXml('hasttings', $hasttingsArray, 3, false);
+            Yii::$app->queue_default->push(new Xml([
+                'supplierName' => 'hasttings',
+                'data' => $hasttingsArray,
+                'supplierId' => 3,
+                'notAvailableIfExists' => false,
+            ]));
         } catch(Exception $e) {
-            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
         ////////////////////////////////////////////////////////////////////////////////
         try {
@@ -118,9 +131,14 @@ class XmlController extends Controller
                 $unixfitArray[$artikul]['available'] = $available;
             }
 
-            $xml->loadXml('unixfit', $unixfitArray, 7, false);
+            Yii::$app->queue_default->push(new Xml([
+                'supplierName' => 'unixfit',
+                'data' => $unixfitArray,
+                'supplierId' => 7,
+                'notAvailableIfExists' => false,
+            ]));
         } catch(Exception $e) {
-            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
         ////////////////////////////////////////////////////////////////////////////////
         try {
@@ -144,9 +162,14 @@ class XmlController extends Controller
                 $neotrenArray[$artikul]['available'] = $available;
             }
 
-            $xml->loadXml('neotren', $neotrenArray, 5, false);
+            Yii::$app->queue_default->push(new Xml([
+                'supplierName' => 'neotren',
+                'data' => $neotrenArray,
+                'supplierId' => 5,
+                'notAvailableIfExists' => false,
+            ]));
         } catch(Exception $e) {
-            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
         ////////////////////////////////////////////////////////////////////////////////
         try {
@@ -162,9 +185,14 @@ class XmlController extends Controller
                 $fitnessBoutiqueArray[$artikul]['available'] = $available;
             }
 
-            $xml->loadXml('fitnessBoutique', $fitnessBoutiqueArray, 8, true);
+            Yii::$app->queue_default->push(new Xml([
+                'supplierName' => 'fitnessBoutique',
+                'data' => $fitnessBoutiqueArray,
+                'supplierId' => 8,
+                'notAvailableIfExists' => true,
+            ]));
         } catch(Exception $e) {
-            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
         ////////////////////////////////////////////////////////////////////////////////
         try {
@@ -180,9 +208,14 @@ class XmlController extends Controller
                 $soulfitArray[$artikul]['available'] = $available;
             }
 
-            $xml->loadXml('soulfit', $soulfitArray, 4);
+            Yii::$app->queue_default->push(new Xml([
+                'supplierName' => 'soulfit',
+                'data' => $soulfitArray,
+                'supplierId' => 4,
+                'notAvailableIfExists' => false,
+            ]));
         } catch(Exception $e) {
-            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
         ////////////////////////////////////////////////////////////////////////////////
         try {
@@ -198,9 +231,14 @@ class XmlController extends Controller
                 $starkArray[$artikul]['available'] = $available;
             }
 
-            $xml->loadXml('stark', $starkArray, 6);
+            Yii::$app->queue_default->push(new Xml([
+                'supplierName' => 'stark',
+                'data' => $starkArray,
+                'supplierId' => 6,
+                'notAvailableIfExists' => false,
+            ]));
         } catch(Exception $e) {
-            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
         ////////////////////////////////////////////////////////////////////////////////
         /*try {
@@ -218,7 +256,7 @@ class XmlController extends Controller
 
             $xml->loadXml('jorgen-svensson', $svensonArray, 2);
         } catch(Exception $e) {
-            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }*/
         ////////////////////////////////////////////////////////////////////////////////
         try {
@@ -235,12 +273,17 @@ class XmlController extends Controller
                 $driadaArray[$artikul]['available'] = $available;
             }
 
-            $xml->loadXml('driada', $driadaArray, 1);
+            Yii::$app->queue_default->push(new Xml([
+                'supplierName' => 'driada',
+                'data' => $driadaArray,
+                'supplierId' => 2,
+                'notAvailableIfExists' => false,
+            ]));
         } catch(Exception $e) {
-            $xml->sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
 
-        UML::doIt();
+        Yii::$app->queue_default->push(new UML());
         ////////////////////////////////////////////////////////////////////////////////
         //echo '<pre>',print_r($driada->shop->offers),'</pre>';
     }

@@ -1,16 +1,22 @@
 <?php
 
-namespace frontend\models;
+namespace backend\models;
 
 use common\models\Product;
 use common\models\ProductParam;
 use common\models\Supplier;
 use Yii;
 use yii\base\Model;
+use yii\queue\JobInterface;
 
-class Xml extends Model
+class Xml extends Model implements JobInterface
 {
-    public function loadXml($supplierName, $data, $supplierId, $notAvailableIfExists = false) {
+    public $supplierName,
+        $data,
+        $supplierId,
+        $notAvailableIfExists = false;
+
+    public function execute($queue) {
         $folder = Yii::getAlias('@backend')."/web/logs";
 
         if (!is_dir($folder)) {
@@ -18,9 +24,9 @@ class Xml extends Model
         }
 
         $str = "type;artikul;message\r\n";
-        $currentProducts = Product::findAll(['supplier' => $supplierId]);
+        $currentProducts = Product::findAll(['supplier' => $this->supplierId]);
         $currentArray = [];
-        $supplier = Supplier::findOne($supplierId);
+        $supplier = Supplier::findOne($this->supplierId);
 
         foreach($currentProducts as $product) {
             $productParams = $product->getParams();
@@ -29,10 +35,10 @@ class Xml extends Model
                 $ppArtikul = trim($pp->artikul);
 
                 if (!empty($ppArtikul)) {
-                    if (!array_key_exists($ppArtikul, $data)) {
+                    if (!array_key_exists($ppArtikul, $this->data)) {
                         $currentArray[] = $ppArtikul;
 
-                        if ($notAvailableIfExists) {
+                        if ($this->notAvailableIfExists) {
                             $pp->available = 0;
                         }
 
@@ -42,7 +48,7 @@ class Xml extends Model
             }
         }
 
-        foreach($data as $artikul => $item) {
+        foreach($this->data as $artikul => $item) {
             $artikul = trim($artikul);
 
             if (!empty($artikul)) {
@@ -83,7 +89,7 @@ class Xml extends Model
                         $available = 10;
                     }
 
-                    if ($product->supplier == $supplierId) {
+                    if ($product->supplier == $this->supplierId) {
                         if ($product->price != $item['price']) {
                             $message[] = "Изменена цена";
                         }
@@ -134,10 +140,10 @@ class Xml extends Model
             $str .= "error;".implode(',', $currentArray).";Этих артикулов нет у поставщика\r\n";
         }
 
-        file_put_contents("$folder/$supplierName.log", $str);
+        file_put_contents("$folder/$this->supplierName.log", $str);
     }
 
-    public function sendMessage($subject, $message) {
+    public static function sendMessage($subject, $message) {
         Yii::$app->mailer
             ->compose()
             ->setFrom(Yii::$app->params['adminEmail'])

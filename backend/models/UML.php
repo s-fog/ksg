@@ -11,11 +11,12 @@ use DOMDocument;
 use Yii;
 use yii\console\Exception;
 use yii\helpers\Url;
+use yii\queue\JobInterface;
 
 
-class UML extends Model
+class UML extends Model implements JobInterface
 {
-    public static function doIt() {
+    public function execute($queue) {
         $dom = new DOMDocument('1.0', 'utf-8');
         $yml_catalog = $dom->createElement('yml_catalog');
         $date = $dom->createAttribute('date');

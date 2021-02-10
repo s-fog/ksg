@@ -108,7 +108,7 @@ class SimpleExcel extends Model
             }
         }
 
-        UML::doIt();
+        Yii::$app->queue_default->push(new UML());
 
         return $changedCount;
     }

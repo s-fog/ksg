@@ -7,5 +7,5 @@ COPY ./php.ini $PHP_INI_DIR/conf.d/
 RUN apt-get update
 RUN apt-get install -y libzip-dev zip libpq-dev libpng-dev webp libmagickwand-dev --no-install-recommends
 RUN pecl install redis imagick
-RUN docker-php-ext-install pdo pdo_mysql zip pcntl
+RUN docker-php-ext-install pdo pdo_mysql zip pcntl dom
 RUN docker-php-ext-enable redis imagick

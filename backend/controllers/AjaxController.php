@@ -64,11 +64,11 @@ class AjaxController extends \yii\web\Controller
 
     public function actionDisallowYandexProducts() {
         Product::updateAll(['disallow_xml' => 1]);
-        UML::doIt();
+        Yii::$app->queue_default->push(new UML());
     }
 
     public function actionAllowYandexProducts() {
         Product::updateAll(['disallow_xml' => 0]);
-        UML::doIt();
+        Yii::$app->queue_default->push(new UML());
     }
 }

@@ -86,6 +86,6 @@ class ChangerForm extends Model
             }
         }
 
-        UML::doIt();
+        Yii::$app->queue_default->push(new UML());
     }
 }

@@ -7,6 +7,7 @@ use common\models\FeatureValue;
 use common\models\Image;
 use common\models\Product;
 use common\models\ProductParam;
+use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
@@ -37,7 +38,8 @@ class LogController extends Controller
 
     public function actionView($name) {
         $array = [];
-        $str = file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/www/logs/$name.log");
+        $folder = Yii::getAlias('@backend').'/web/logs';
+        $str = file_get_contents("$folder/$name.log");
 
         foreach(explode("\r\n", $str) as $index => $item) {
             if ($index != 0 && !empty($item)) {

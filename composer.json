@@ -44,7 +44,8 @@
         "yiisoft/yii2-redis": "^2.0",
         "ext-simplexml": "*",
         "ext-curl": "*",
-        "ext-imagick": "*"
+        "ext-imagick": "*",
+      "ext-dom": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

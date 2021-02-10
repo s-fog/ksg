@@ -47,7 +47,7 @@ class NewsController extends \backend\controllers\base\NewsController
                     );
 
                     if ($model->save(false)) {
-                        Sitemap::doIt();
+                        Yii::$app->queue_default->push(new Sitemap());
                         return $this->redirect(['index']);
                     }
                 }
@@ -87,7 +87,7 @@ class NewsController extends \backend\controllers\base\NewsController
                 }
 
                 if ($model->save(false)) {
-                    Sitemap::doIt();
+                    Yii::$app->queue_default->push(new Sitemap());
                     return $this->redirect(['index']);
                 }
             }

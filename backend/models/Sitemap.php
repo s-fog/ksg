@@ -10,11 +10,12 @@ use common\models\Textpage;
 use DOMDocument;
 use Yii;
 use yii\helpers\Url;
+use yii\queue\JobInterface;
 
 
-class Sitemap extends Model
+class Sitemap extends Model implements JobInterface
 {
-    public static function doIt()
+    public function execute($queue)
     {
         $dom = new DOMDocument('1.0', 'utf-8');
         $urlset = $dom->createElement('urlset');
@@ -82,6 +83,6 @@ class Sitemap extends Model
         }
 
         $dom->appendChild($urlset);
-        $dom->save('../sitemap.xml');
+        $dom->save(Yii::getAlias('@www').'/sitemap.xml');
     }
 }

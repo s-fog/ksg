@@ -16,11 +16,14 @@ $this->title = 'Логи';
                 <th>Кол-во ошибок</th>
                 <th>Кол-во успехов</th>
             </tr>
-            <?php foreach (glob("{$_SERVER['DOCUMENT_ROOT']}/www/logs/*.log") as $filename) {
+            <?php
+            $folder = Yii::getAlias('@backend').'/web/logs';
+
+            foreach (glob("$folder/*.log") as $filename) {
                 $name = str_replace('.log', '', basename($filename));
                 $date = date('d-m-Y H:i',filemtime($filename));
 
-                $str = file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/www/logs/$name.log");
+                $str = file_get_contents("$folder/$name.log");
                 $errors = 0;
                 $successes = 0;
 
