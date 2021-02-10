@@ -41,10 +41,10 @@ services:
     ports:
       - "3106:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=root_pppp
-      - MYSQL_DATABASE=ksg
-      - MYSQL_USER=ksg_user
-      - MYSQL_PASSWORD=some_cool_password_2747
+      - MYSQL_ROOT_PASSWORD='${MYSQL_ROOT_PASSWORD}'
+      - MYSQL_DATABASE='${MYSQL_DATABASE}'
+      - MYSQL_USER='${MYSQL_USER}'
+      - MYSQL_PASSWORD='${MYSQL_PASSWORD}'
     volumes:
       - 'mysql_k:/var/lib/mysql'
     restart: unless-stopped

@@ -38,3 +38,5 @@ phpunit.phar
 export-csv.csv
 ai-bolit.php
 AIBOLIT-WHITELIST.db
+
+.env

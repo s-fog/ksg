@@ -1,9 +1,6 @@
 #!/bin/bash
-ssh -i "~/.ssh/yandex_cloud_compute_cloud_rsa" ubuntu@178.154.249.173 <<'ENDSSH'
-cd /var/usync.pro
-git pull origin master
-sudo systemctl restart usync-horizon.service
-cp template.env.prod .env
-docker-compose run --rm usync_php ./deploy_php.sh
-echo 'Успешно';
+ssh -i "~/.ssh/ksg_rsa" ubuntu@46.229.214.117 <<'ENDSSH'
+cd /var/www/ksg.ru
+git pull
+docker-compose run --rm ksg_php ./deploy_php.sh
 ENDSSH
