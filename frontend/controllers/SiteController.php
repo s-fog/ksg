@@ -144,9 +144,9 @@ class SiteController extends Controller
                         setcookie($surveyCookieName,"",time()-3600);
                         setcookie($surveyFormCookieName,"",time()-3600);
 
-                        return $this->render('@frontend/views/survey/success', [
+                        return Webp::replaceToWebp($this->render('@frontend/views/survey/success', [
                             'model' => $survey,
-                        ]);
+                        ]));
                     } else {
                         return $this->redirect(Url::to([
                             'site/index',
@@ -250,7 +250,7 @@ class SiteController extends Controller
                 
                 $this->layout = 'cart';
 
-                return $this->render('@frontend/views/survey/step', [
+                return Webp::replaceToWebp($this->render('@frontend/views/survey/step', [
                     'model' => $survey,
                     'stepOptionsChoose' => $stepOptionsChoose,
                     'step' => $step,
@@ -260,7 +260,7 @@ class SiteController extends Controller
                     'surveyCookieName' => $surveyCookieName,
                     'surveyFormCookieName' => $surveyFormCookieName,
                     'surveyForm' => $surveyForm
-                ]);
+                ]));
             }
         }
 
@@ -278,10 +278,10 @@ class SiteController extends Controller
                         throw new NotFoundHttpException;
                     }
 
-                    return $this->render('@frontend/views/survey/view', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/survey/view', [
                         'parent' => $parent,
                         'model' => $survey,
-                    ]);
+                    ]));
                 }
                 if ($textpage) {
                         if ($textpage->type == 1) {
@@ -297,18 +297,18 @@ class SiteController extends Controller
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
 
-                    return $this->render('@frontend/views/textpage/index', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/textpage/index', [
                         'model' => $textpage,
                         'textpages' => $textpages,
                         'parent' => $parent,
-                    ]);
+                    ]));
                 }
 
                 if ($newsItem) {
-                    return $this->render('@frontend/views/news/view', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/news/view', [
                         'model' => $newsItem,
                         'parent' => Textpage::findOne(13),
-                    ]);
+                    ]));
                 }
             } else {
                 throw new NotFoundHttpException;
@@ -329,10 +329,10 @@ class SiteController extends Controller
                 case 2: {
                     $this->layout = 'textpage';
 
-                    return $this->render('@frontend/views/textpage/brands', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/textpage/brands', [
                         'model' => $textpage,
                         'result' => Brand::getAlphabetList(),
-                    ]);
+                    ]));
                 }
                 case 8: {
                     $textpages = Textpage::find()
@@ -340,10 +340,10 @@ class SiteController extends Controller
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
 
-                    return $this->render('@frontend/views/textpage/index', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/textpage/index', [
                         'model' => $textpage,
                         'textpages' => $textpages,
-                    ]);
+                    ]));
                 }
                 case 9: {
                     $textpages = Textpage::find()
@@ -351,18 +351,18 @@ class SiteController extends Controller
                         ->orderBy(['sort_order' => SORT_DESC])
                         ->all();
 
-                    return $this->render('@frontend/views/textpage/index', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/textpage/index', [
                         'model' => $textpage,
                         'textpages' => $textpages,
-                    ]);
+                    ]));
                 }
                 case 13: {
                     $news = News::find()->orderBy(['created_at' => SORT_DESC])->all();
 
-                    return $this->render('@frontend/views/news/index', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/news/index', [
                         'model' => $textpage,
                         'news' => $news,
-                    ]);
+                    ]));
                 }
                 case 11: {
                     $orderBy = [];
@@ -427,11 +427,11 @@ class SiteController extends Controller
                         }
                     }
 
-                    return $this->render('@frontend/views/favourite/index', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/favourite/index', [
                         'model' => $textpage,
                         'products' => $products,
                         'pages' => $pages,
-                    ]);
+                    ]));
                 }
                 case 12: {
                     $features = [];
@@ -482,18 +482,18 @@ class SiteController extends Controller
                         }
                     }
 
-                    return $this->render('@frontend/views/compare/index', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/compare/index', [
                         'model' => $textpage,
                         'features' => $features,
                         'products' => $products,
-                    ]);
+                    ]));
                 }
                 case 14: {
                     $this->layout = 'textpage';
 
-                    return $this->render('@frontend/views/textpage/contacts', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/textpage/contacts', [
                         'model' => $textpage
-                    ]);
+                    ]));
                 }
                 case 15: {
                     if (isset($_GET['query']) && !empty($_GET['query'])) {
@@ -520,11 +520,11 @@ class SiteController extends Controller
                         $categoriesCount = $categoriesQuery->count();
 
                         if ($productsCount == 0 && $categoriesCount == 0) {
-                            return $this->render('@frontend/views/textpage/search', [
+                            return Webp::replaceToWebp($this->render('@frontend/views/textpage/search', [
                                 'model' => $textpage,
                                 'query' => $_GET['query'],
                                 'empty' => true
-                            ]);
+                            ]));
                         }
 
                         $pages = new \yii\data\Pagination([
@@ -538,7 +538,7 @@ class SiteController extends Controller
                         $products = $productsQuery->limit($pages->limit)->offset($pages->offset)->all();
                         $categories = $categoriesQuery->all();
 
-                        return $this->render('@frontend/views/textpage/search', [
+                        return Webp::replaceToWebp($this->render('@frontend/views/textpage/search', [
                             'model' => $textpage,
                             'products' => $products,
                             'productsCount' => $productsCount,
@@ -546,21 +546,21 @@ class SiteController extends Controller
                             'query' => $_GET['query'],
                             'pages' => $pages,
                             'empty' => false
-                        ]);
+                        ]));
                     }
 
-                    return $this->render('@frontend/views/textpage/search', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/textpage/search', [
                         'model' => $textpage,
                         'query' => $_GET['query'],
                         'empty' => true
-                    ]);
+                    ]));
                 }
                 case 21: {
                     $this->layout = 'textpage';
 
-                    return $this->render('@frontend/views/survey/index', [
+                    return Webp::replaceToWebp($this->render('@frontend/views/survey/index', [
                         'model' => $textpage
-                    ]);
+                    ]));
                 }
                 default: {
                     throw new NotFoundHttpException;
@@ -755,7 +755,7 @@ class SiteController extends Controller
             //var_dump($model->selects());die();
             ////////////////////////////////////////////////////////////////////////////////////////////
 
-            return $this->render('@frontend/views/catalog/view', [
+            return Webp::replaceToWebp($this->render('@frontend/views/catalog/view', [
                 'model' => $model,
                 'brand' => $brand,
                 'currentVariant' => $currentVariant,
@@ -763,7 +763,7 @@ class SiteController extends Controller
                 'features' => $features,
                 'accessories' => $accessories,
                 'similar' => $similar,
-            ]);
+            ]));
         }
     }
 
@@ -784,9 +784,9 @@ class SiteController extends Controller
         if ($alias === 'catalog') {
             $model = Textpage::findOne(1);
 
-            return $this->render('@frontend/views/catalog/outer', [
+            return Webp::replaceToWebp($this->render('@frontend/views/catalog/outer', [
                 'model' => $model
-            ]);
+            ]));
         } else {
             $model = Category::find()->where(['alias' => $alias])->one();
 
@@ -1054,7 +1054,7 @@ class SiteController extends Controller
 
             //Category::clearEmptyFeatures($filterFeatures, $allProductsQuery);
 
-            return $this->render('@frontend/views/catalog/index', [
+            return Webp::replaceToWebp($this->render('@frontend/views/catalog/index', [
                 'model' => $model,
                 'products' => $products,
                 'pages' => $pages,
@@ -1071,7 +1071,7 @@ class SiteController extends Controller
                 'inCategories' => $inCategories,
                 'filterFeatures' => $filterFeatures,
                 'get' => $get,
-            ]);
+            ]));
         }
     }
 
