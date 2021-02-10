@@ -11,6 +11,12 @@ use yii\base\Model;
 class Xml extends Model
 {
     public function loadXml($supplierName, $data, $supplierId, $notAvailableIfExists = false) {
+        $folder = Yii::getAlias('@backend')."/web/logs";
+
+        if (!is_dir($folder)) {
+            mkdir($folder);
+        }
+
         $str = "type;artikul;message\r\n";
         $currentProducts = Product::findAll(['supplier' => $supplierId]);
         $currentArray = [];
@@ -128,7 +134,7 @@ class Xml extends Model
             $str .= "error;".implode(',', $currentArray).";Этих артикулов нет у поставщика\r\n";
         }
 
-        file_put_contents(Yii::getAlias('@www')."/logs/$supplierName.log", $str);
+        file_put_contents("$folder/$supplierName.log", $str);
     }
 
     public function sendMessage($subject, $message) {
