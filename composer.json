@@ -45,7 +45,8 @@
         "ext-simplexml": "*",
         "ext-curl": "*",
         "ext-imagick": "*",
-      "ext-dom": "*"
+      "ext-dom": "*",
+      "ext-json": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

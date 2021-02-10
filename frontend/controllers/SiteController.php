@@ -726,31 +726,25 @@ class SiteController extends Controller
                     ->all();
             }
             ////////////////////////////////////////////////////////////////////////////////////////////
-            $similar = [];
+            $priceFrom = (int) $model->price * ((100 - 15) / 100);
+            $priceTo = (int) $model->price * ((100 + 15) / 100);
+            $similar = Product::find()
+                ->with([
+                    'productParams',
+                    'brand',
+                    'images',
+                    'parent'
+                ])
+                ->joinWith(['productParams' => function($q) {
+                    $q->andWhere([ProductParam::tableName().'.available' => 10]);
+                }])
+                ->where(['parent_id' => $parent->id])
+                ->andWhere(Product::tableName().".id <> {$model->id}")
+                ->andWhere("price > $priceFrom  AND price < $priceTo")
+                ->orderBy(['price' => SORT_ASC])
+                ->limit(9)
+                ->all();
 
-            for($i = 15; $i < 100; $i = $i + 5) {
-                $priceFrom = (int) $model->price * ((100 - $i) / 100);
-                $priceTo = (int) $model->price * ((100 + $i) / 100);
-                $similarQuery = Product::find()
-                    ->with([
-                        'productParams',
-                        'brand',
-                        'images',
-                        'parent'])
-                    ->joinWith(['productParams' => function($q) {
-                        $q->andWhere([ProductParam::tableName().'.available' => 10]);
-                    }])
-                    ->where(['parent_id' => $parent->id])
-                    ->andWhere(Product::tableName().".id <> {$model->id}")
-                    ->andWhere("price > $priceFrom  AND price < $priceTo")
-                    ->orderBy(['price' => SORT_ASC])
-                    ->limit(9);
-                $similar = array_merge($similar, $similarQuery->all());
-
-                if (count($similar) >= 9) {
-                    break;
-                }
-            }
             ////////////////////////////////////////////////////////////////////////////////////////////
             //var_dump($model->selects());die();
             ////////////////////////////////////////////////////////////////////////////////////////////

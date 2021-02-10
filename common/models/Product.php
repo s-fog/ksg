@@ -725,7 +725,11 @@ class Product extends BaseProduct implements CartPositionInterface
     }
 
     public function getBrothersAll() {
-        return Product::find()->where(['id' => $this->getBrothersIds()])->with(['params'])->all();
+        return Product::find()->where(['id' => $this->getBrothersIds()])->with([
+                'params',
+                'features',
+                'features.featurevalues'
+        ])->all();
     }
 
     public function getBrothers() {
