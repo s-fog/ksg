@@ -30,7 +30,7 @@ class UML extends Model implements JobInterface
         $company = $dom->createElement('company', 'KSG Shop');
         $shop->appendChild($company);
 
-        $url = $dom->createElement('url', 'https://ksg.ru');
+        $url = $dom->createElement('url', Yii::$app->params['frontendHost']);
         $shop->appendChild($url);
 
         $currencies = $dom->createElement('currencies');
@@ -126,7 +126,6 @@ class UML extends Model implements JobInterface
             $available->value = $availableProduct;
             $offer->appendChild($available);
             ///////////////////////////////////////////////////////////////////////////////////////////
-            $https = ($_SERVER['HTTP_HOST'] == 'dev2.ksg.ru') ? 'https://' : 'http://';
             $url = $dom->createElement('url', Yii::$app->params['frontendHost'].$product->url);
             $offer->appendChild($url);
             ///////////////////////////////////////////////////////////////////////////////////////////
