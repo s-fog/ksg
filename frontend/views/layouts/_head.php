@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 ?>
     <!doctype html>
-<html lang="ru">
+<html lang="ru" class="<?=\frontend\models\Webp::checkWebp() === true ? 'webp' : 'no-webp'?>">
 <head>
     <meta charset="<?=Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

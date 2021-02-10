@@ -1754,7 +1754,6 @@
 
 .infoBlock {
   padding: 1px 0 50px;
-  background: #000 url(../img/infoBg.png) no-repeat center center;
   background-size: cover;
 
   .header {
@@ -2250,7 +2249,6 @@
     top: -181px;
     width: 304px;
     height: 492px;
-    background-image: url(../img/gira.png);
     @include respond-to(1500) {
       display: none;
     }
@@ -2761,7 +2759,6 @@
   &__left {
     flex: 0 0 285px;
     padding-top: 230px;
-    background: url(../img/callbackWoman.png) no-repeat center top;
     background-size: 200px auto;
     @include respond-to(900) {
       order: 3;
@@ -3059,7 +3056,6 @@
   }
 
   &__mainImage {
-    background: url(../img/productBack2.png) no-repeat center center;
     background-size: 448px 286px;
     @include respond-to(1150) {
       background-size: contain;
@@ -3447,7 +3443,6 @@
       }
       .ui-selectmenu-icon {
         display: none;
-        background-image: url(../img/toBottomGreen.png);
       }
     }
   }
@@ -3526,7 +3521,6 @@
     margin: auto;
     width: 14px;
     height: 8px;
-    background-image: url(../img/toBottom.png);
   }
 
   .ui-selectmenu-text {
@@ -4640,7 +4634,6 @@
     margin-right: 15px;
     flex: 0 0 186px;
     height: 117px;
-    background: url(../img/productBack3.png) no-repeat center center;
     @include respond-to(660) {
       display: none;
     }
@@ -4705,7 +4698,6 @@
   &__presentImage {
     margin-bottom: 7px;
     height: 24px;
-    background: url(../img/present.png) no-repeat center center;
   }
 
   &__presentText {
@@ -6232,7 +6224,6 @@
     bottom: 0;
     width: 100%;
     height: 330px;
-    background-image: url(../img/callbackWoman.png);
     background-size: 100% 100%;
   }
 
@@ -6456,7 +6447,6 @@ body.fancybox-active {
     margin: 0 auto;
     width: 326px;
     height: 407px;
-    background-image: url(../img/gira404.png);
     transform: translate(-25px, 0);
   }
 
@@ -6949,7 +6939,6 @@ body.fancybox-active {
   &__button {
     width: 169px;
     height: 119px;
-    background-image: url(../img/mail/pay.png);
     cursor: pointer;
   }
 }
@@ -7622,7 +7611,6 @@ body.fancybox-active {
         margin: 0;
         width: 11px;
         height: 15px;
-        background-image: url(../img/tudasuda.png);
       }
 
       .ui-selectmenu-text {
@@ -7665,7 +7653,6 @@ body.fancybox-active {
           margin-left: 10px;
           width: 12px;
           height: 13px;
-          background-image: url(../img/gal3.png);
           opacity: 0;
           @extend .transition;
         }
@@ -7764,7 +7751,6 @@ body.fancybox-active {
       margin: auto;
       width: 11px;
       height: 6px;
-      background-image: url(../img/arb.png);
       @extend .transition;
       @include respond-to(550) {
         right: 0;
@@ -7850,7 +7836,6 @@ body.fancybox-active {
       }
 
       &:after {
-        background-image: url(../img/checkboxT.png);
         opacity: 0;
       }
     }
@@ -7873,7 +7858,6 @@ body.fancybox-active {
       top: 7px;
       width: 11px;
       height: 6px;
-      background-image: url(/img/arb.png);
       transform: rotate(180deg);
     }
   }
@@ -7902,7 +7886,6 @@ body.fancybox-active {
     width: 133px;
     height: 41px;
     padding: 0 0 0 5px;
-    background-image: url(../img/fixedSubmit.png);
     font-size: 14px;
     box-sizing: border-box;
     opacity: 0;

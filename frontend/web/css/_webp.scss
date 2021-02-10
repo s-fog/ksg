@@ -1,0 +1,220 @@
+.webp .infoBlock {
+  background: #000 url(../img/infoBg.webp) no-repeat center center;
+  .product {
+
+    &__left {
+      background: url(../img/callbackWoman.webp) no-repeat center top;
+    }
+
+    &__mainImage {
+      background: url(../img/productBack2.webp) no-repeat center center;
+    }
+
+    &__featureHeader {
+      .ui-selectmenu-button.ui-button {
+        .ui-selectmenu-icon {
+          background-image: url(../img/toBottomGreen.webp);
+        }
+      }
+    }
+  }
+
+  .ui-selectmenu-button {
+    .ui-selectmenu-icon {
+      background-image: url(../img/toBottom.webp);
+    }
+  }
+
+  .cart {
+    &__itemImage {
+      background: url(../img/productBack3.webp) no-repeat center center;
+    }
+
+    &__presentImage {
+      background: url(../img/present.webp) no-repeat center center;
+    }
+  }
+
+  .callback {
+    &__image {
+      background-image: url(../img/callbackWoman.webp);
+    }
+  }
+
+  .notFound {
+    &__image {
+      background-image: url(../img/gira404.webp);
+    }
+  }
+
+  .formYandex {
+    &__button {
+      background-image: url(../img/mail/pay.webp);
+    }
+  }
+
+  .catalogTop {
+    &__sort {
+      &+.ui-selectmenu-button {
+        .ui-selectmenu-icon {
+          background-image: url(../img/tudasuda.webp);
+        }
+      }
+    }
+  }
+
+  .selectmenu-sort {
+    .ui-menu {
+      .ui-menu-item {
+        .ui-menu-item-wrapper {
+          &:after {
+            background-image: url(../img/gal3.webp);
+          }
+        }
+      }
+    }
+  }
+
+  .filter {
+    &__itemHeader {
+      &:before {
+        background-image: url(../img/arb.webp);
+      }
+    }
+
+    &__itemLabel {
+      span {
+        &:after {
+          background-image: url(../img/checkboxT.webp);
+        }
+      }
+    }
+
+    &__showMore {
+      &:before {
+        background-image: url(/img/arb.webp);
+      }
+    }
+
+    &__fixedSubmit {
+      background-image: url(../img/fixedSubmit.webp);
+    }
+  }
+
+  .subscribeBlock {
+    &__image {
+      background-image: url(../img/gira.webp);
+    }
+  }
+}
+
+.no-webp .infoBlock {
+  background: #000 url(../img/infoBg.png) no-repeat center center;
+
+  .product {
+
+    &__left {
+      background: url(../img/callbackWoman.png) no-repeat center top;
+    }
+
+    &__mainImage {
+      background: url(../img/productBack2.png) no-repeat center center;
+    }
+
+    &__featureHeader {
+      .ui-selectmenu-button.ui-button {
+        .ui-selectmenu-icon {
+          background-image: url(../img/toBottomGreen.png);
+        }
+      }
+    }
+  }
+
+  .ui-selectmenu-button {
+    .ui-selectmenu-icon {
+      background-image: url(../img/toBottom.png);
+    }
+  }
+
+  .cart {
+    &__itemImage {
+      background: url(../img/productBack3.png) no-repeat center center;
+    }
+
+    &__presentImage {
+      background: url(../img/present.png) no-repeat center center;
+    }
+  }
+
+  .callback {
+    &__image {
+      background-image: url(../img/callbackWoman.png);
+    }
+  }
+
+  .notFound {
+    &__image {
+      background-image: url(../img/gira404.png);
+    }
+  }
+
+  .formYandex {
+    &__button {
+      background-image: url(../img/mail/pay.png);
+    }
+  }
+
+  .catalogTop {
+    &__sort {
+      &+.ui-selectmenu-button {
+        .ui-selectmenu-icon {
+          background-image: url(../img/tudasuda.png);
+        }
+      }
+    }
+  }
+
+  .selectmenu-sort {
+    .ui-menu {
+      .ui-menu-item {
+        .ui-menu-item-wrapper {
+          &:after {
+            background-image: url(../img/gal3.png);
+          }
+        }
+      }
+    }
+  }
+
+  .filter {
+    &__itemHeader {
+      &:before {
+        background-image: url(../img/arb.png);
+      }
+    }
+
+    &__itemLabel {
+      span {
+        &:after {
+          background-image: url(../img/checkboxT.png);
+        }
+      }
+    }
+
+    &__showMore {
+      &:before {
+        background-image: url(/img/arb.png);
+      }
+    }
+
+    &__fixedSubmit {
+      background-image: url(../img/fixedSubmit.png);
+    }
+  }
+
+  .subscribeBlock {
+    &__image {
+      background-image: url(../img/gira.png);
+    }
+  }
+}
