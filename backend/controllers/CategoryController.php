@@ -2,7 +2,9 @@
 
 namespace backend\controllers;
 
+use backend\models\CategoryCaching;
 use backend\models\Model;
+use backend\models\ProductCaching;
 use backend\models\Sitemap;
 use backend\models\UploadFile;
 use common\models\Category;
@@ -150,11 +152,9 @@ class CategoryController extends \backend\controllers\base\CategoryController
                     if ($flag) {
                         $transaction->commit();
                         Yii::$app->queue_default->push(new Sitemap());
-
-                        foreach($model->getProducts()->all() as $product) {
-                            $product->getMainFeatures(true);
-                            $product->getCompilationCategoryIds(true);
-                        }
+                        Yii::$app->queue_default->push(new CategoryCaching([
+                            'category_id' => $model->id
+                        ]));
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
@@ -339,11 +339,9 @@ class CategoryController extends \backend\controllers\base\CategoryController
                     if ($flag) {
                         $transaction->commit();
                         Yii::$app->queue_default->push(new Sitemap());
-
-                        foreach($model->getProducts()->all() as $product) {
-                            $product->getMainFeatures(true);
-                            $product->getCompilationCategoryIds(true);
-                        }
+                        Yii::$app->queue_default->push(new CategoryCaching([
+                            'category_id' => $model->id
+                        ]));
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
