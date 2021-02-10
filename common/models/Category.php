@@ -606,8 +606,7 @@ class Category extends BaseCategory
                 ->where(['parent_id' => 0, 'type' => 0, 'active' => 1])
                 ->orderBy(['sort_order' => SORT_DESC])
                 ->all();
-            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
-            $cache->set('firstLevelCategories', $firstLevelCategories, null, $dependency);
+            $cache->set('firstLevelCategories', $firstLevelCategories, 3600);
         }
 
         return $firstLevelCategories;
@@ -621,8 +620,7 @@ class Category extends BaseCategory
                 ->where(['parent_id' => $firstLevelCategory->id, 'type' => 0, 'active' => 1])
                 ->orderBy(['sort_order' => SORT_DESC])
                 ->all();
-            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
-            $cache->set('secondLevelCategories'.$firstLevelCategory->id, $secondLevelCategories, null, $dependency);
+            $cache->set('secondLevelCategories'.$firstLevelCategory->id, $secondLevelCategories, 3600);
         }
 
         return $secondLevelCategories;
@@ -636,8 +634,7 @@ class Category extends BaseCategory
                 ->where(['parent_id' => $secondLevelCategory->id, 'type' => 0, 'active' => 1])
                 ->orderBy(['sort_order' => SORT_DESC])
                 ->all();
-            $dependency = new \yii\caching\DbDependency(['sql' => 'SELECT updated_at FROM category ORDER BY updated_at DESC']);
-            $cache->set('thirdLevelCategories'.$secondLevelCategory->id, $thirdLevelCategories, null, $dependency);
+            $cache->set('thirdLevelCategories'.$secondLevelCategory->id, $thirdLevelCategories, 3600);
         }
 
         return $thirdLevelCategories;

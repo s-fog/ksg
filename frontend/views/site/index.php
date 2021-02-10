@@ -16,6 +16,8 @@ $this->params['name'] = $model->name;
 $presents = \common\models\Present::find()->all();
 $catalogPage = Textpage::findOne(1);
 
+$cache = Yii::$app->cache;
+
 ?>
 
 <div class="mainSlider owl-carousel">
