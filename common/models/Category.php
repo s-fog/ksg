@@ -579,12 +579,12 @@ class Category extends BaseCategory
             $categories[] = $levelAndCats[2];
         }
 
-        return [];
+        return $categories;
     }
 
     public function getProducts() {
         $orderBy = array_merge([ProductParam::tableName().'.available' => SORT_DESC], Sort::getOrderBy($this, $_GET));
-        //$categoryIds = ArrayHelper::getColumn($this->getCategoriesNestedToThisCategory(), 'id');
+        $categoryIds = ArrayHelper::getColumn($this->getCategoriesNestedToThisCategory(), 'id');
 
         $productsQuery = Product::find()
             ->joinWith(['productParams' => function($q) {
@@ -598,7 +598,7 @@ class Category extends BaseCategory
                 'images',
                 'features',
                 'features.featurevalues'])
-            ->andWhere(['parent_id' => $this->id])
+            ->andWhere(['parent_id' => $categoryIds])
             ->orderBy($orderBy);
 
         return $productsQuery;
