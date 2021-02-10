@@ -1,5 +1,8 @@
-.webp .infoBlock {
-  background: #000 url(../img/infoBg.webp) no-repeat center center;
+.webp {
+  .infoBlock {
+    background: #000 url(../img/infoBg.webp) no-repeat center center;
+  }
+
   .product {
 
     &__left {
@@ -108,11 +111,13 @@
   }
 }
 
-.no-webp .infoBlock {
-  background: #000 url(../img/infoBg.png) no-repeat center center;
+.no-webp  {
+
+  .infoBlock {
+    background: #000 url(../img/infoBg.png) no-repeat center center;
+  }
 
   .product {
-
     &__left {
       background: url(../img/callbackWoman.png) no-repeat center top;
     }
