@@ -863,41 +863,16 @@ class SiteController extends Controller
             $brandsSerial = [];
 
             if ($model->type == 0) {//Если категория
-                $tags = Category::find()
-                    ->with(['parent0', 'productHasCategories'])
-                    ->where(['parent_id' => $model->id, 'type' => 1, 'active' => 1])
-                    ->orderBy(['sort_order' => SORT_DESC])
-                    ->all();
-                $years = Category::find()
-                    ->with(['parent0', 'productHasCategories'])
-                    ->where(['parent_id' => $model->id, 'type' => 4, 'active' => 1])
-                    ->orderBy(['sort_order' => SORT_DESC])
-                    ->all();
-                $brandCategories = Category::find()
-                    ->with(['parent0', 'brand', 'productHasCategories'])
-                    ->where(['parent_id' => $model->id, 'type' => 2, 'active' => 1])
-                    ->orderBy(['name' => SORT_ASC])
-                    ->all();
+                $tags = $model->tags;
+                $years = $model->years;
+                $brandCategories = $model->brandCategories;
                 $productQuery = $model->getProducts();
             } else {//Если всё остальное
                 if (in_array($model->type, [1, 2, 4])) {
                     $parent = Category::findOne(['id' => $model->parent_id]);
-
-                    $tags = Category::find()
-                        ->with(['parent0', 'productHasCategories'])
-                        ->where(['parent_id' => $parent->id, 'type' => 1, 'active' => 1])
-                        ->orderBy(['sort_order' => SORT_DESC])
-                        ->all();
-                    $years = Category::find()
-                        ->with(['parent0', 'productHasCategories'])
-                        ->where(['parent_id' => $parent->id, 'type' => 4, 'active' => 1])
-                        ->orderBy(['sort_order' => SORT_DESC])
-                        ->all();
-                    $brandCategories = Category::find()
-                        ->with(['parent0', 'brand', 'productHasCategories'])
-                        ->where(['parent_id' => $parent->id, 'type' => 2, 'active' => 1])
-                        ->orderBy(['name' => SORT_ASC])
-                        ->all();
+                    $tags = $parent->tags;
+                    $years = $parent->years;
+                    $brandCategories = $parent->brandCategories;
                     $brandsSerial = Category::find()
                         ->with(['parent0', 'productHasCategories'])
                         ->where(['parent_id' => ArrayHelper::getColumn($brandCategories, 'id'), 'type' => 3, 'active' => 1])
@@ -909,21 +884,9 @@ class SiteController extends Controller
                     $parentBrand = Category::findOne(['id' => $model->parent_id]);
                     $parent = Category::findOne(['id' => $parentBrand->parent_id]);
 
-                    $tags = Category::find()
-                        ->with(['parent0', 'productHasCategories'])
-                        ->where(['parent_id' => $parent->id, 'type' => 1, 'active' => 1])
-                        ->orderBy(['sort_order' => SORT_DESC])
-                        ->all();
-                    $years = Category::find()
-                        ->with(['parent0', 'productHasCategories'])
-                        ->where(['parent_id' => $parent->id, 'type' => 4, 'active' => 1])
-                        ->orderBy(['sort_order' => SORT_DESC])
-                        ->all();
-                    $brandCategories = Category::find()
-                        ->with(['parent0', 'brand', 'productHasCategories'])
-                        ->where(['parent_id' => $parent->id, 'type' => 2, 'active' => 1])
-                        ->orderBy(['name' => SORT_ASC])
-                        ->all();
+                    $tags = $parent->tags;
+                    $years = $parent->years;
+                    $brandCategories = $parent->brandCategories;
                     $brandsSerial = Category::find()
                         ->with(['parent0', 'productHasCategories'])
                         ->where(['parent_id' => ArrayHelper::getColumn($brandCategories, 'id'), 'type' => 3, 'active' => 1])

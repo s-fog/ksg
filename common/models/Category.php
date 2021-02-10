@@ -579,20 +579,26 @@ class Category extends BaseCategory
             $categories[] = $levelAndCats[2];
         }
 
-        return $categories;
+        return [];
     }
 
     public function getProducts() {
         $orderBy = array_merge([ProductParam::tableName().'.available' => SORT_DESC], Sort::getOrderBy($this, $_GET));
-        $categoryIds = ArrayHelper::getColumn($this->getCategoriesNestedToThisCategory(), 'id');
+        //$categoryIds = ArrayHelper::getColumn($this->getCategoriesNestedToThisCategory(), 'id');
 
         $productsQuery = Product::find()
             ->joinWith(['productParams' => function($q) {
                 $q->andWhere([ProductParam::tableName().'.available' => 10]);
             }])
-            ->with(['category', 'category.features', 'category.features.featurevalues', 'features', 'features.featurevalues'])
-            ->andWhere(['parent_id' => $categoryIds])
-            ->with(['brand', 'images'])
+            ->with(['category',
+                'category.features',
+                'category.features.featurevalues',
+                'params',
+                'brand',
+                'images',
+                'features',
+                'features.featurevalues'])
+            ->andWhere(['parent_id' => $this->id])
             ->orderBy($orderBy);
 
         return $productsQuery;
