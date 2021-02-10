@@ -553,7 +553,7 @@ class Category extends BaseCategory
         $key = 'categoriesNestedToThisCategoryIds_'.$this->id;
         $categoriesNestedToThisCategoryIds = $cache->get($key);
 
-        if ($categoriesNestedToThisCategoryIds === null || $forceCache === true) {
+        if (!is_array($categoriesNestedToThisCategoryIds) || $forceCache === true) {
             if (in_array($this->type, [1, 2, 4])) {
                 $category = Category::findOne(['id' => $this->parent_id]);
             } else if ($this->type === 3) {
