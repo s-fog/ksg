@@ -1,11 +1,9 @@
 <?php
-namespace frontend\controllers;
+namespace backend\controllers;
 
-use backend\models\Sitemap;
 use backend\models\UML;
 use Exception;
 use frontend\models\Xml;
-use SimpleXMLElement;
 use Yii;
 use yii\web\Controller;
 
