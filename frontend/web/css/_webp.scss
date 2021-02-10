@@ -6,7 +6,7 @@
   .product {
 
     &__left {
-      background: url(../img/callbackWoman.webp) no-repeat center top;
+      background-image: url(../img/callbackWoman.webp);
     }
 
     &__mainImage {
@@ -119,7 +119,7 @@
 
   .product {
     &__left {
-      background: url(../img/callbackWoman.png) no-repeat center top;
+      background-image: url(../img/callbackWoman.png);
     }
 
     &__mainImage {

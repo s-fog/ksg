@@ -2759,6 +2759,8 @@
   &__left {
     flex: 0 0 285px;
     padding-top: 230px;
+    background-repeat: no-repeat;
+    background-position: center top;
     background-size: 200px auto;
     @include respond-to(900) {
       order: 3;
