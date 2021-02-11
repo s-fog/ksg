@@ -2,20 +2,15 @@
 
 namespace console\controllers;
 
+use backend\controllers\XmlController;
+use backend\models\Xml;
 use common\models\Category;
 use common\models\Product;
-use frontend\models\Xml;
-use sfog\image\Image as Simage;
 use Yii;
 use yii\console\Controller;
 use yii\imagine\Image;
 
 class ConsoleController extends Controller {
-
-    public function actionServer() {
-        var_dump($_SERVER);
-    }
-
     public function actionGenerateMoreThumbs() {
         $simage = new SImage;
 
@@ -55,5 +50,9 @@ class ConsoleController extends Controller {
         $filePath = Yii::getAlias('@www').'/uploads/f6e1756c12e45e9c4187bdbe0aed62f8.jpg';
         Image::thumbnail($filePath, 200, 300)
             ->save(Yii::getAlias('@www').'/gfgfgfgfg.png', ['quality' => 80]);
+    }
+
+    public function actionXmlImport() {
+        Xml::doIt();
     }
 }
