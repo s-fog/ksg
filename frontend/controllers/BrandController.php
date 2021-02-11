@@ -34,17 +34,6 @@ class BrandController extends Controller
 
         $orderBy = array_merge([ProductParam::tableName().'.available' => SORT_DESC], Sort::getOrderBy($model, $_GET));
         $productQuery = $model->getProducts()
-            ->joinWith(['productParams' => function($q) {
-                $q->andWhere([ProductParam::tableName().'.available' => 10]);
-            }])
-            ->with(['category',
-                'category.features',
-                'category.features.featurevalues',
-                'params',
-                'brand',
-                'images',
-                'features',
-                'features.featurevalues'])
             ->orderBy($orderBy);
         /////////////////////////////////////////////////////////
         $defaultPageSize = 40;

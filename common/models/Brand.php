@@ -58,7 +58,20 @@ class Brand extends BaseBrand
     }
 
     public function getProducts () {
-        return $this->hasMany(Product::className(), ['brand_id' => 'id']);
+        return $this->hasMany(Product::className(), ['brand_id' => 'id'])
+            ->joinWith(['productParams' => function($q) {
+                $q->andWhere([ProductParam::tableName().'.available' => 10]);
+            }])
+            ->with([
+                'category',
+                'category.features',
+                'category.features.featurevalues',
+                'params',
+                'brand',
+                'images',
+                'features',
+                'features.featurevalues'
+            ]);
     }
 
     public function getFilterFeatures ($category_id) {
