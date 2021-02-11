@@ -1893,7 +1893,7 @@ class Application {
         const catalogTagsMore = $('.js-catalog-tags-more'),
             catalogTagsContainer = $('.js-catalog-tags-container');
 
-        if ($('.js-catalog-tags-inner').height() > catalogTagsContainer.height()) {
+        if ($('.js-catalog-tags-inner').height() > catalogTagsContainer.height() + 5) {
             catalogTagsMore.removeClass('hidden');
         }
 

@@ -36,7 +36,7 @@ use yii\helpers\StringHelper;
     <?php
         echo '<div style="margin: 15px 0;border: 1px solid #000;border-radius: 10px;padding: 10px;">';
         if ($model->banner_image) {
-            echo Html::img($model->banner_image, ['width' => 250]).'<br><br>';
+            echo Html::img(Yii::$app->params['frontendHost'].$model->banner_image, ['width' => 250]).'<br><br>';
         }
 
         echo $form->field($model, 'banner_image')->widget(FileInput::className(), [

@@ -505,6 +505,10 @@ class SiteController extends Controller
                             return $this->redirect($product->url);
                         }
 
+                        if ($product = Product::findOne(['id' => $_GET['query']])) {
+                            return $this->redirect($product->url);
+                        }
+
                         if ($pp = ProductParam::findOne(['artikul' => $_GET['query']])) {
                             return $this->redirect($pp->product->url);
                         }

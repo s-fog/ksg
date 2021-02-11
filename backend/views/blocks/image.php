@@ -6,7 +6,7 @@ if ($image) {
     echo '
                 <div class="form-group">
                     <div>
-                        ' . Html::img($image, ['width' => 250]) . '
+                        ' . Html::img(Yii::$app->params['frontendHost'].$image, ['width' => 250]) . '
                     </div>
                 </div>
                 ';

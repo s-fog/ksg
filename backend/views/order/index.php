@@ -106,9 +106,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 'format'=>'text',
                 'content'=>function($data){
                     if (!empty($data->paid)) {
-                        return "<div style='text-align: center;'><img src='/img/icon_02.png' alt=''></div>";
+                        return "<div style='text-align: center;'><img src='".Yii::$app->params['frontendHost']."/img/icon_02.png' alt=''></div>";
                     } else {
-                        return "<div style='text-align: center;'><img src='/img/icon_01.png' alt=''></div>";
+                        return "<div style='text-align: center;'><img src='".Yii::$app->params['frontendHost']."/img/icon_01.png' alt=''></div>";
                     }
                 },
                 'filter' => [

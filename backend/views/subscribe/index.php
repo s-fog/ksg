@@ -94,5 +94,5 @@ if (strstr($_SERVER['REQUEST_URI'], '?')) {
 ?>
 <div style="text-align: right;">
     <a href="<?=$url?>" class="" style="display: block;">
-        <img src="/img/excel-icon.png" style="width: 50px;" alt="">Сохранить в Excel</a>
+        <img src="<?=Yii::$app->params['frontendHost']?>/img/excel-icon.png" style="width: 50px;" alt="">Сохранить в Excel</a>
 </div>

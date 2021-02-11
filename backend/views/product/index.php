@@ -113,6 +113,7 @@ JS;
             },
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
+			'id',
 			'name',
 			'price',
            [

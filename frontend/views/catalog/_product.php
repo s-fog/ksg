@@ -46,7 +46,7 @@ if ($currentVariant->available == 0) {
             <div class="product__middle">
                 <h1 itemprop="name" class="product__name"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
                 <div class="product__art">
-                    <div class="product__artText">Артикул: <?=$currentVariant->artikul?>&nbsp;&nbsp;//&nbsp;&nbsp;Код товара: <?=$model->code?></div>
+                    <div class="product__artText">Артикул: <?=$currentVariant->artikul?>&nbsp;&nbsp;//&nbsp;&nbsp;Код товара: <?=$model->id?></div>
                     <?php /* ?>
                     <div class="catalog__itemTop">
                         <a href="#"

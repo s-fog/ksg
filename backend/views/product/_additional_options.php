@@ -33,9 +33,6 @@ foreach(Adviser::find()->orderBy(['name' => SORT_ASC])->all() as $tt) {
 <!-- attribute adviser_text -->
 <?= $form->field($model, 'adviser_text')->textarea(['rows' => 6]) ?>
 
-<!-- attribute code -->
-<?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
-
 <div style="border: 1px solid #000;border-radius: 10px;padding: 10px;">
     <?php
     if ($model->instruction) {

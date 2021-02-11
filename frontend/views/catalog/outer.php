@@ -27,9 +27,9 @@ $this->params['name'] = $model->name;
             ->all();
         ?>
         <div class="catalogPage__item">
-            <div class="catalogPage__header" style="background-image: url(/images/thumbs/<?=$filename[0]?>-1600-250.<?=$filename[1]?>);">
-                <div class="header"><span><?=$firstLevelCategory->name?></span></div>
-            </div>
+            <a href="<?=$firstLevelCategory->url?>" class="catalogPage__header" style="background-image: url(/images/thumbs/<?=$filename[0]?>-1600-250.<?=$filename[1]?>);">
+                <span class="header"><span><?=$firstLevelCategory->name?></span></span>
+            </a>
             <div class="container">
                 <div class="mainHeader__popupMenuItems">
                     <?php foreach($secondLevelCategories as $secondLevelCategory) {
