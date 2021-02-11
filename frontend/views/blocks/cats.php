@@ -35,18 +35,11 @@ if (!empty($childrenCategories) || (isset($inCategories) &&
                             $filename[1] = '';
                         }
 
-                        $active = (isset($_GET['cats']) && $inCategory->id == $_GET['cats']) ? ' active' : '';
-                        $unactive = '';
-
-                        if (isset($_GET['cats'])) {
-                            $unactive = !in_array($inCategory->id, explode(',', $_GET['cats'])) ? ' unactive' : '';
-                        }
-
                         ?>
-                        <div class="category__sliderItem js-category-filter<?=$active?><?=$unactive?>" data-id="<?=$inCategory->id?>">
+                        <a href="<?=$inCategory->url?>?brands[]=<?=$brand->id?>" class="category__sliderItem">
                             <span class="category__sliderItemImage" style="background-image: url(/images/thumbs/<?=$filename[0]?>-134-134.<?=$filename[1]?>);"></span>
                             <span class="category__sliderItemName"><span><?=$inCategory->name?></span></span>
-                        </div>
+                        </a>
                     <?php } ?>
                 </div>
             <?php } ?>

@@ -48,6 +48,7 @@ $presents = \common\models\Present::find()->all();
                 <?=$this->render('@frontend/views/blocks/cats', [
                     'inCategories' => $inCategories,
                     'childrenCategories' => [],
+                    'brand' => $model,
                 ])?>
                 <select class="catalogTop__sort sort-select" name="sort">
                     <?php if (($model::className() == 'common\models\Brand') ||
@@ -70,7 +71,7 @@ $presents = \common\models\Present::find()->all();
             </div>
         </div>
     </div>
-    <div class="catalog">
+    <div class="catalog catalog_brand">
         <div class="container">
             <div class="catalog__inner">
                 <div class="catalog__innerLeft">

@@ -1316,6 +1316,12 @@
     }
   }
 
+  &_brand {
+    .catalog__innerLeft {
+      display: none;
+    }
+  }
+
   &__inner {
     display: flex;
     justify-content: space-between;
