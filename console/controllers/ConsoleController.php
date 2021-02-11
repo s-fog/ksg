@@ -56,13 +56,4 @@ class ConsoleController extends Controller {
     public function actionXmlImport() {
         Xml::doIt();
     }
-
-    public function actionCacheAll() {
-        foreach(Category::find()->all() as $category) {
-
-            Yii::$app->queue_default->push(new CategoryCaching([
-                'category_id' => $category->id
-            ]));
-        }
-    }
 }

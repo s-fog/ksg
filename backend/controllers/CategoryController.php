@@ -152,9 +152,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
                     if ($flag) {
                         $transaction->commit();
                         Yii::$app->queue_default->push(new Sitemap());
-                        Yii::$app->queue_default->push(new CategoryCaching([
-                            'category_id' => $model->id
-                        ]));
+                        $model->caching();
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);
@@ -340,9 +338,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
                     if ($flag) {
                         $transaction->commit();
                         Yii::$app->queue_default->push(new Sitemap());
-                        Yii::$app->queue_default->push(new CategoryCaching([
-                            'category_id' => $model->id
-                        ]));
+                        $model->caching();
 
                         if ($_POST['mode'] == 'justSave') {
                             return $this->redirect(['update', 'id' => $model->id]);

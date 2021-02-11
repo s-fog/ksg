@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use backend\models\CategoryCaching;
 use backend\models\Sitemap;
 use backend\models\UML;
 use frontend\models\Sort;
@@ -648,5 +649,16 @@ class Category extends BaseCategory
         }
 
         return $thirdLevelCategories;
+    }
+
+    public function caching() {
+        Yii::$app->queue_default->push(new CategoryCaching([
+            'category_id' => $this->id
+        ]));
+
+        if ($this->parent_id !== 0) {
+            $parent = Category::findOne($this->parent_id);
+            $parent->caching();
+        }
     }
 }
