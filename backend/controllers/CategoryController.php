@@ -336,6 +336,7 @@ class CategoryController extends \backend\controllers\base\CategoryController
                             }
                         }
                     }
+
                     if ($flag) {
                         $transaction->commit();
                         Yii::$app->queue_default->push(new Sitemap());

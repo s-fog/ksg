@@ -3,6 +3,7 @@
 namespace console\controllers;
 
 use backend\controllers\XmlController;
+use backend\models\CategoryCaching;
 use backend\models\Xml;
 use common\models\Category;
 use common\models\Product;
@@ -54,5 +55,14 @@ class ConsoleController extends Controller {
 
     public function actionXmlImport() {
         Xml::doIt();
+    }
+
+    public function actionCacheAll() {
+        foreach(Category::find()->all() as $category) {
+
+            Yii::$app->queue_default->push(new CategoryCaching([
+                'category_id' => $category->id
+            ]));
+        }
     }
 }
