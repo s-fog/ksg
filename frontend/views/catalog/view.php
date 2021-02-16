@@ -185,13 +185,17 @@ $mainpage = Mainpage::findOne(1);
     } ?>
 <?php } ?>
 
+    <?php
+    $compilations = $model->getCompilationCategories();
 
+    if (!empty($compilations)) {
+?>
     <div class="brands productCategories">
         <div class="container">
             <div class="brands__header"><?=$model->name?> находится в подборках:</div>
             <div class="category__tags">
                 <div class="container">
-                    <?php foreach($model->getCompilationCategories() as $category) { ?>
+                    <?php foreach($compilations as $category) { ?>
                         <a href="<?=$category->url?>" class="category__tag">
                             <span><?=$category->name?></span>
                         </a>
@@ -200,6 +204,7 @@ $mainpage = Mainpage::findOne(1);
             </div>
         </div>
     </div>
+        <?php }?>
 
 <?php if (!empty($similar)) { ?>
     <div class="productSlider">

@@ -48,9 +48,47 @@ class ConsoleController extends Controller {
 
     public function actionTest() {
 
-        $filePath = Yii::getAlias('@www').'/uploads/f6e1756c12e45e9c4187bdbe0aed62f8.jpg';
-        Image::thumbnail($filePath, 200, 300)
-            ->save(Yii::getAlias('@www').'/gfgfgfgfg.png', ['quality' => 80]);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        curl_setopt($ch, CURLOPT_URL, 'https://hasttings.ru/diler/login/');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "site_user_login=ksg&site_user_password=qwertydas123&remember_me=1&apply=Войти");
+        curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+        curl_setopt($ch, CURLOPT_COOKIEJAR, Yii::getAlias('@www').'/cookie.txt');
+        curl_exec($ch);
+
+        curl_setopt($ch, CURLOPT_COOKIEFILE, Yii::getAlias('@www').'/cookie.txt');
+        curl_setopt($ch, CURLOPT_URL, 'https://hasttings.ru/diler/fast.yml');
+        $result = curl_exec($ch);
+
+        $hasttings = simplexml_load_string($result);
+        $hasttingsArray = [];
+
+        foreach($hasttings->shop->offers->offer as $offer) {
+            if ($offer->available == 'true') {
+                $available = 10;
+            } else {
+                $available = 0;
+            }
+
+            $artikul = (string) $offer->marking;
+            $price = (int) $offer->price;
+
+            $hasttingsArray[$artikul]['price'] = $price;
+            $hasttingsArray[$artikul]['available'] = $available;
+        }
+
+        var_dump($hasttingsArray);die();
+
+        Yii::$app->queue_default->push(new Xml([
+            'supplierName' => 'hasttings',
+            'data' => $hasttingsArray,
+            'supplierId' => 3,
+            'notAvailableIfExists' => false,
+        ]));
     }
 
     public function actionXmlImport() {

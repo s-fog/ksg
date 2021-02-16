@@ -1,0 +1,7 @@
+.git/
+.idea/
+php/
+nginx-frontend/
+nginx-backend/
+.dockerignore
+docker-compose.yml

@@ -25,7 +25,7 @@ class Sitemap extends Model implements JobInterface
 
         foreach(Textpage::find()->orderBy(['name' => SORT_ASC])->all() as $model) {
             $url = $dom->createElement('url');
-            $loc = $dom->createElement('loc', 'https://'.$_SERVER['HTTP_HOST'].htmlspecialchars($model->backendUrl));
+            $loc = $dom->createElement('loc', Yii::$app->params['frontendHost'].htmlspecialchars($model->backendUrl));
             $url->appendChild($loc);
             $changefreq = $dom->createElement('changefreq', 'daily');
             $url->appendChild($changefreq);
@@ -38,7 +38,7 @@ class Sitemap extends Model implements JobInterface
 
         foreach(News::find()->orderBy(['created_at' => SORT_DESC])->all() as $model) {
             $url = $dom->createElement('url');
-            $loc = $dom->createElement('loc', 'https://'.$_SERVER['HTTP_HOST'].$newsPageUrl.'/'.$model->alias);
+            $loc = $dom->createElement('loc', Yii::$app->params['frontendHost'].$newsPageUrl.'/'.$model->alias);
             $url->appendChild($loc);
             $changefreq = $dom->createElement('changefreq', 'daily');
             $url->appendChild($changefreq);
@@ -51,7 +51,7 @@ class Sitemap extends Model implements JobInterface
 
         foreach(Brand::find()->orderBy(['name' => SORT_ASC])->all() as $model) {
             $url = $dom->createElement('url');
-            $loc = $dom->createElement('loc', 'https://'.$_SERVER['HTTP_HOST'].'/'.$brandsPageUrl.'/'.$model->alias);
+            $loc = $dom->createElement('loc', Yii::$app->params['frontendHost'].'/'.$brandsPageUrl.'/'.$model->alias);
             $url->appendChild($loc);
             $changefreq = $dom->createElement('changefreq', 'daily');
             $url->appendChild($changefreq);
@@ -62,7 +62,7 @@ class Sitemap extends Model implements JobInterface
 
         foreach(Category::find()->where(['active' => 1])->orderBy(['name' => SORT_ASC])->all() as $model) {
             $url = $dom->createElement('url');
-            $loc = $dom->createElement('loc', 'https://'.$_SERVER['HTTP_HOST'].$model->getUrl(true));
+            $loc = $dom->createElement('loc', Yii::$app->params['frontendHost'].$model->getUrl(true));
             $url->appendChild($loc);
             $changefreq = $dom->createElement('changefreq', 'daily');
             $url->appendChild($changefreq);
@@ -73,7 +73,7 @@ class Sitemap extends Model implements JobInterface
 
         foreach(Product::find()->orderBy(['name' => SORT_ASC])->all() as $model) {
             $url = $dom->createElement('url');
-            $loc = $dom->createElement('loc', 'https://'.$_SERVER['HTTP_HOST'].$model->url);
+            $loc = $dom->createElement('loc', Yii::$app->params['frontendHost'].$model->url);
             $url->appendChild($loc);
             $changefreq = $dom->createElement('changefreq', 'daily');
             $url->appendChild($changefreq);

@@ -2,6 +2,7 @@
 
 //$model -> common/models/Product
 
+use common\models\Textpage;
 use frontend\models\Compare;
 use frontend\models\Favourite;
 use yii\helpers\Url;
@@ -28,7 +29,6 @@ if (!isset($favourite)) {
     $favourite = false;
 }
 
-$inCompare = Compare::inCompare($model->id);
 $inFavourite = Favourite::inFavourite($model->id);
 
 
@@ -36,12 +36,7 @@ $inFavourite = Favourite::inFavourite($model->id);
 <div class="catalog__item" data-id="<?=$model->id?>">
     <div class="catalog__itemInner">
         <div class="catalog__itemTop">
-            <a href="#"
-               class="catalog__itemCompare js-add-to-compare"
-               data-id="<?=$model->id?>"
-               data-title="<?=($inCompare) ? 'Товар в сравнении' : 'Добавить в сравнение'?>">
-                <span><?=($inCompare) ? 'В сравнении' : 'К сравнению'?></span>
-                <svg<?=($inCompare) ? ' class="active"' : ''?> xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.37 18.97"><defs><style>.cls-1{fill:#fff;}</style></defs><g><g><path class="cls-1" d="M11.41,19a1,1,0,0,1-1-1V1a1,1,0,0,1,1.92,0V18A1,1,0,0,1,11.41,19Z"/><path class="cls-1" d="M6.18,19a1,1,0,0,1-1-1V6.24a1,1,0,0,1,1.92,0V18A1,1,0,0,1,6.18,19Z"/><path class="cls-1" d="M1,19a1,1,0,0,1-1-1v-7.5a1,1,0,0,1,1.92,0V18A1,1,0,0,1,1,19Z"/></g></g></svg></a>
+            <?=$this->render('@frontend/views/catalog/_compare', ['model' => $model])?>
         </div>
         <a href="<?=$url?>" class="catalog__itemImage">
             <img src="/images/thumbs/<?=$filename[0]?>-350-300.<?=$filename[1]?>" alt="">

@@ -72,4 +72,10 @@ class Textpage extends BaseTextpage
             return Textpage::findOne(21);
         }, 5);
     }
+
+    public static function getCompareUrl() {
+        return Yii::$app->cache->getOrSet('compareUrl', function() {
+            return Url::to(['site/index', 'alias' => Textpage::findOne(12)->alias]);
+        }, 3600);
+    }
 }

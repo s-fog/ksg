@@ -80,11 +80,7 @@ if ($currentVariant->available == 0) {
                     $textAdd = 'Добавить к сравнению';
                     $textDelete = 'Удалить из сравнения';
                     ?>
-                    <div class="product__compare js-product-compare<?=($inCompare) ? ' in' : ''?>"
-                         data-id="<?=$model->id?>"
-                         data-text="<?=($inCompare) ? $textAdd : $textDelete?>">
-                        <?=($inCompare) ? $textDelete : $textAdd?>
-                    </div>
+                    <?=$this->render('@frontend/views/catalog/_compare', ['model' => $model])?>
                 </div>
                 <?php
                 $image0 = $model->images[$currentVariant->image_number];

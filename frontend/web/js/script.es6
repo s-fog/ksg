@@ -950,46 +950,51 @@ class Cart {
             let id = thisElement.data('id');
             let data = `id=${id}`;
 
-            $.post('/compare/add', data, (response) => {
-                if (response == 'success') {
-                    thisElement.find('svg').addClass('active');
-                    thisElement.attr('title', 'Товар в сравнении');
-                    this.nodes.mainHeader__popupSuccess_compare.addClass('unhidden');
-                    this.nodes.mainHeader__popupSuccess_compare.addClass('active');
-                    this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-                    this.nodes.mainHeader.removeClass('hide');
-
-                    setTimeout(() => {
-                        this.nodes.mainHeader__popupSuccess_compare.removeClass('active');
-                        this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
-
-                        setTimeout(() => {
-                            this.nodes.mainHeader__popupSuccess_compare.removeClass('unhidden');
-                        }, 500)
-                    }, 2000);
-
-                    this.minicartReload();
-                } else if (response == 'already') {
-                    let already = $('.mainHeader__popupSuccess_compareAlready');
-                    already.addClass('unhidden');
-                    already.addClass('active');
-                    this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
-                    this.nodes.mainHeader.removeClass('hide');
-
-                    setTimeout(() => {
-                        already.removeClass('active');
-                        this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+            if (!thisElement.hasClass('added')) {
+                $.post('/compare/add', data, (response) => {
+                    if (response === 'success') {
+                        thisElement.find('svg').addClass('active');
+                        thisElement.attr('title', 'Перейти к сравнению');
+                        $('span', thisElement).text('Перейти к сравнению');
+                        thisElement.attr('href', thisElement.data('url'));
+                        thisElement.addClass('added');
+                        this.nodes.mainHeader__popupSuccess_compare.addClass('unhidden');
+                        this.nodes.mainHeader__popupSuccess_compare.addClass('active');
+                        this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                        this.nodes.mainHeader.removeClass('hide');
 
                         setTimeout(() => {
-                            already.removeClass('unhidden');
-                        }, 500)
-                    }, 2000);
-                } else {
+                            this.nodes.mainHeader__popupSuccess_compare.removeClass('active');
+                            this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
 
-                }
-            });
+                            setTimeout(() => {
+                                this.nodes.mainHeader__popupSuccess_compare.removeClass('unhidden');
+                            }, 500)
+                        }, 2000);
 
-            return false;
+                        this.minicartReload();
+                    } else if (response == 'already') {
+                        /*let already = $('.mainHeader__popupSuccess_compareAlready');
+                        already.addClass('unhidden');
+                        already.addClass('active');
+                        this.nodes.mainHeader__popupSuccessTriangle.addClass('active');
+                        this.nodes.mainHeader.removeClass('hide');
+
+                        setTimeout(() => {
+                            already.removeClass('active');
+                            this.nodes.mainHeader__popupSuccessTriangle.removeClass('active');
+
+                            setTimeout(() => {
+                                already.removeClass('unhidden');
+                            }, 500)
+                        }, 2000);*/
+                    } else {
+
+                    }
+                });
+
+                return false;
+            }
         });
 
         this.nodes.catalog__itemFavourite.click((event) => {

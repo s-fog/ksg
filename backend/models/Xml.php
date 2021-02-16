@@ -235,7 +235,7 @@ class Xml extends Model implements JobInterface
                     $available = 0;
                 }
 
-                $artikul = (string) $offer->marking;
+                $artikul = str_replace('  ', ' ', (string) $offer->marking);
                 $price = (int) $offer->price;
 
                 $hasttingsArray[$artikul]['price'] = $price;
@@ -312,7 +312,7 @@ class Xml extends Model implements JobInterface
 
             foreach($fitnessBoutique->shop->offers->offer as $offer) {
                 $available = (string) $offer->attributes()->{'available'};
-                $artikul = (string) $offer->param;
+                $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
 
                 $fitnessBoutiqueArray[$artikul]['price'] = $price;
