@@ -38,7 +38,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
         $('#disallow_yandex').click(function() {
             confirm('Вы уверены?');
             
-            $.get('/officeback/index.php?r=ajax/disallow-yandex-products', function() {
+            $.get('/ajax/disallow-yandex-products', function() {
                 alert('Готово');
             })
         });
@@ -46,7 +46,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
         $('#allow_yandex').click(function() {
             confirm('Вы уверены?');
             
-            $.get('/officeback/index.php?r=ajax/allow-yandex-products', function() {
+            $.get('/ajax/allow-yandex-products', function() {
                 alert('Готово');
             })
         });
