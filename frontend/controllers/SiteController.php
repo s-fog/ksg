@@ -929,27 +929,14 @@ class SiteController extends Controller
             $minPriceAvailable = 100000000;
             $maxPriceAvailable = 0;
 
-            $allProductsQuery = clone $productQuery;
-            $allProducts = $allProductsQuery->asArray()->all();
-            $filterBrands = ArrayHelper::map($allProducts, 'brand_id', 'brand');
+            $queryToFillBrands = clone $productQuery;
+            unset($queryToFillBrands->where[2]);
+            $productsToFillBrands = $queryToFillBrands->asArray()->all();
+            $filterBrands = ArrayHelper::map($productsToFillBrands, 'brand_id', 'brand');
             $filterBrands = Brand::sortBrands($filterBrands, $get);
-            /*$categoriesFull = Yii::$app->cache->getOrSet('categoriesFull', function() {
-                return Category::find()->all();
-            }, 10);*/
 
             $inCategories = $model->getChildrenCategories();
-            /*foreach($allProducts as $product) {
-                if (!isset($inCategories[$product['parent_id']])) {
-                    foreach($categoriesFull as $cc) {
-                        if ($cc->id == $product['parent_id']) {
-                            $inCategories[$product['parent_id']] = $cc;
-                            break;
-                        }
-                    }
-                }
-            }*/
             ArrayHelper::multisort($inCategories, ['name'], [SORT_ASC]);
-
             $productQuery = Filter::filter($productQuery, $get);
 
             /////////////////////////////////////////////////////////////////////////

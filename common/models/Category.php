@@ -587,14 +587,10 @@ class Category extends BaseCategory
         return $categoriesNestedToThisCategoryIds;
     }
 
-    public function getProducts() {
-        $orderBy = array_merge([ProductParam::tableName().'.available' => SORT_DESC], Sort::getOrderBy($this, $_GET));
+    public function getProducts($forceAvailable = true) {
+        $orderBy = Sort::getOrderBy($this, $_GET);
         $categoryIds = $this->getCategoriesNestedToThisCategoryIds();
-
         $productsQuery = Product::find()
-            ->joinWith(['productParams' => function($q) {
-                $q->andWhere([ProductParam::tableName().'.available' => 10]);
-            }])
             ->with(['category',
                 'category.features',
                 'category.features.featurevalues',
@@ -605,6 +601,12 @@ class Category extends BaseCategory
                 'features.featurevalues'])
             ->andWhere(['parent_id' => $categoryIds])
             ->orderBy($orderBy);
+
+        if ($forceAvailable === true) {
+            $productsQuery->joinWith(['productParams' => function($q) {
+                $q->andWhere([ProductParam::tableName().'.available' => 10]);
+            }]);
+        }
 
         return $productsQuery;
     }

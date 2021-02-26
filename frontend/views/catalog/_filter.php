@@ -52,6 +52,7 @@ $urlWithoutPath = $url['scheme'].'://'.$url['host'].$url['path'];
             <div class="filter__itemContent">
                 <?php
                 $i = 0;
+
                 foreach($filterBrands as $brand) {
                     $checked = false;
 
