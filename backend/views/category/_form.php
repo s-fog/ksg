@@ -46,6 +46,13 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
 
             <?php
 
+            echo $this->render('@backend/views/blocks/image', [
+                'form' => $form,
+                'model' => $model,
+                'image' => $model->image_menu,
+                'name' => 'image_menu'
+            ]);
+
             $parents = Category::getCategoryChain($model);
             echo $form->field($model, 'parent_id')->widget(Select2::classname(), [
                 'data' => $parents,
@@ -77,13 +84,6 @@ $model->aksses_ids = json_decode($model->aksses_ids, true);
                         'model' => $model,
                         'image' => $model->image_catalog,
                         'name' => 'image_catalog'
-                    ]);
-
-                    echo $this->render('@backend/views/blocks/image', [
-                        'form' => $form,
-                        'model' => $model,
-                        'image' => $model->image_menu,
-                        'name' => 'image_menu'
                     ]);
 
                     echo '<br>';

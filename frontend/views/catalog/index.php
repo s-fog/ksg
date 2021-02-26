@@ -11,7 +11,10 @@ $page = (isset($_GET['page'])) ? $_GET['page'] : '1';
 $pagePart = ($page != 1) ? ' - Страница '.$page : '';
 
 if ($page != 1) {
-    $this->params['canonical'] = Url::canonical();
+    $this->params['canonical'] = $_SERVER['REQUEST_SCHEME'].
+        '://'.
+        $_SERVER['HTTP_HOST'].
+        explode("?", $_SERVER['REQUEST_URI'])[0];
 }
 
 if (empty($model->seo_h1)) {

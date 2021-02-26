@@ -514,8 +514,12 @@ class SiteController extends Controller
                         }
 
                         $productsQuery = Product::find()
+                            ->joinWith(['productParams'])
                             ->where(['like', 'name', $_GET['query']])
-                            ->orderBy(['name' => SORT_ASC]);
+                            ->orderBy([
+                                ProductParam::tableName().'.available' => SORT_DESC,
+                                'price' => SORT_ASC
+                            ]);
                         $categoriesQuery = Category::find()
                             ->where(['like', 'name', $_GET['query']])
                             ->andWhere(['active' => 1])
@@ -928,6 +932,7 @@ class SiteController extends Controller
             $allProductsQuery = clone $productQuery;
             $allProducts = $allProductsQuery->asArray()->all();
             $filterBrands = ArrayHelper::map($allProducts, 'brand_id', 'brand');
+            var_dump($allProducts);die();
             $filterBrands = Brand::sortBrands($filterBrands, $get);
             /*$categoriesFull = Yii::$app->cache->getOrSet('categoriesFull', function() {
                 return Category::find()->all();
