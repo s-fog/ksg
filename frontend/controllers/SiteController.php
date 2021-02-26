@@ -932,7 +932,6 @@ class SiteController extends Controller
             $allProductsQuery = clone $productQuery;
             $allProducts = $allProductsQuery->asArray()->all();
             $filterBrands = ArrayHelper::map($allProducts, 'brand_id', 'brand');
-            var_dump($allProducts);die();
             $filterBrands = Brand::sortBrands($filterBrands, $get);
             /*$categoriesFull = Yii::$app->cache->getOrSet('categoriesFull', function() {
                 return Category::find()->all();
