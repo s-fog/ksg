@@ -10,7 +10,7 @@ use yii\widgets\LinkPager;
 $page = (isset($_GET['page'])) ? $_GET['page'] : '1';
 $pagePart = ($page != 1) ? ' - Страница '.$page : '';
 
-if ($page != 1) {
+if (strpos($_SERVER['REQUEST_URI'], '?') !== false) {
     $this->params['canonical'] = $_SERVER['REQUEST_SCHEME'].
         '://'.
         $_SERVER['HTTP_HOST'].

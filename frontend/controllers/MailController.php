@@ -21,13 +21,15 @@ class MailController extends \yii\web\Controller
                 $form = new CallbackForm();
                 $post = $_POST['CallbackForm'];
                 $files = (isset($_FILES['CallbackForm'])) ? $_FILES['CallbackForm'] : [];
-                $form->send($post, $files);
+                $result = $form->send($post, $files);
 
                 $callback = new Callback;
                 $callback->name = $_POST['CallbackForm']['name'];
                 $callback->phone = $_POST['CallbackForm']['phone'];
                 $callback->status = 0;
                 $callback->save();
+
+                return $result;
             }
         }
 
@@ -36,7 +38,7 @@ class MailController extends \yii\web\Controller
                 $form = new ReviewForm();
                 $post = $_POST['ReviewForm'];
                 $files = (isset($_FILES['ReviewForm'])) ? $_FILES['ReviewForm'] : [];
-                $form->send($post, $files);
+                $result = $form->send($post, $files);
 
                 $item = new ProductReview();
                 $item->name = $_POST['ReviewForm']['name'];
@@ -45,6 +47,8 @@ class MailController extends \yii\web\Controller
                 $item->date = time();
                 $item->active = 0;
                 $item->save();
+
+                return $result;
             }
         }
 

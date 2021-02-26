@@ -61,9 +61,9 @@ class Forms extends Model
         }
 
         if ($emailSendError) {
-            echo 'error';
+            return 'error';
         } else {
-            echo 'success';
+            return 'success';
         }
     }
 

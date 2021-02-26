@@ -26,8 +26,14 @@ class City extends Model
                     $city = $match[1];
                     $region = $match[2];
 
-                    if ($region == 'Московская область') {
-                        $city = 'Москва';
+                    if ($city !== 'Москва') {
+                        if ($region == 'Московская область') {
+                            $city = 'Москва';
+                        } else {
+                            $city = 'Others';
+                        }
+                    } else {
+                        $city = 'Others';
                     }
                 } else {
                     $city = 'Москва';
