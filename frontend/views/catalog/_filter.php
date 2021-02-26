@@ -54,6 +54,7 @@ $urlWithoutPath = $url['scheme'].'://'.$url['host'].$url['path'];
                 $i = 0;
 
                 foreach($filterBrands as $brand) {
+                    if (empty($brand)) continue;
                     $checked = false;
 
                     if (isset($get['brands']) && in_array($brand['id'], $get['brands'])) {
