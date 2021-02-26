@@ -930,7 +930,6 @@ class SiteController extends Controller
             $maxPriceAvailable = 0;
 
             $queryToFillBrands = clone $productQuery;
-            unset($queryToFillBrands->where[2]);
             $productsToFillBrands = $queryToFillBrands->asArray()->all();
             $filterBrands = ArrayHelper::map($productsToFillBrands, 'brand_id', 'brand');
             $filterBrands = Brand::sortBrands($filterBrands, $get);
