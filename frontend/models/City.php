@@ -33,7 +33,7 @@ class City extends Model
                             $city = 'Others';
                         }
                     } else {
-                        $city = 'Others';
+                        $city = 'Москва';
                     }
                 } else {
                     $city = 'Москва';
