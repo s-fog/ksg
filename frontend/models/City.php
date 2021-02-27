@@ -13,8 +13,6 @@ class City extends Model
         $sessionCity = $session->get('city');
 
         if (!$sessionCity) {
-            $city = '';
-
             try {
                 $ip = $_SERVER['REMOTE_ADDR'];
                 if ($ip == '127.0.0.1') $ip = '5.3.164.145';
@@ -36,10 +34,10 @@ class City extends Model
                         $city = 'Москва';
                     }
                 } else {
-                    $city = 'Москва';
+                    $city = 'Others';
                 }
             } catch (Exception $e) {
-                $city = 'Москва';
+                $city = 'Others';
             }
 
             $session->set('city', $city);
@@ -50,6 +48,7 @@ class City extends Model
     }
 
     public static function getCity() {
+        return 'Others';
         $session = Yii::$app->session;
         $sessionCity = $session->get('city');
 
