@@ -263,7 +263,7 @@
 
     &_phone {
       margin-right: 10px;
-      padding: 11px 10px 15px 28px;
+      padding: 9px 10px 15px 28px;
       cursor: default;
       @include respond-to(690) {
         padding: 5px;
@@ -279,10 +279,16 @@
         }
       }
 
+      .mainHeader__contactsItemTop {
+        @include respond-to(690) {
+          display: none;
+        }
+      }
+
       svg {
         position: absolute;
         left: 0;
-        top: 9px;
+        top: 18px;
         width: 23px;
         height: 23px;
         @include respond-to(690) {
@@ -345,9 +351,8 @@
   }
 
   &__contactsItemTop {
-    @extend .light;
-    font-size: 9px;
-    color: #95959a;
+    font-size: 7px;
+    color: #fff;
   }
 
   &__contactsItemBottom {

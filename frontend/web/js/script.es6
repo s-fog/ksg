@@ -1480,9 +1480,10 @@ class Filter {
         });
 
         $('.js-filter-clear').on("click", () => {
-            this.nodes.filter.find('[type="checkbox"]').prop('checked', false);
+            location = this.nodes.filter.data('parent-url')
+            /*this.nodes.filter.find('[type="checkbox"]').prop('checked', false);
             this.nodes.filter.find('[type="text"]').val('');
-            Filter.submit();
+            Filter.submit();*/
         });
 
         $('.filter__itemContent [type="checkbox"]').on('change', (event) => {
