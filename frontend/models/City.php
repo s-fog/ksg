@@ -48,7 +48,7 @@ class City extends Model
     }
 
     public static function getCity() {
-        return 'Others';
+        return 'Регионы';
         $session = Yii::$app->session;
         $sessionCity = $session->get('city');
 
