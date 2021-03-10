@@ -47,20 +47,7 @@ class ConsoleController extends Controller {
     }
 
     public function actionTest() {
-        $city = 'nbnvbnvbnbv';
-        $region = 'Московская область';
 
-        if ($city !== 'Москва') {
-            if ($region == 'Московская область') {
-                $city = 'Москва';
-            } else {
-                $city = 'Others';
-            }
-        } else {
-            $city = 'Москва';
-        }
-
-        var_dump($city);
     }
 
     public function actionXmlImport() {

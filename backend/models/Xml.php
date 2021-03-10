@@ -296,6 +296,8 @@ class Xml extends Model implements JobInterface
                 $neotrenArray[$artikul]['available'] = $available;
             }
 
+            var_dump($neotrenArray);
+
             Yii::$app->queue_default->push(new Xml([
                 'supplierName' => 'neotren',
                 'data' => $neotrenArray,
