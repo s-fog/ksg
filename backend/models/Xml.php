@@ -25,7 +25,7 @@ class Xml extends Model implements JobInterface
         }
 
         $str = "type;artikul;message\r\n";
-        $currentProducts = Product::findAll(['supplier' => $this->supplierId]);
+        $currentProducts = Product::find()->where(['supplier' => $this->supplierId])->all();
         $currentArray = [];
         $supplier = Supplier::findOne($this->supplierId);
 
@@ -53,7 +53,9 @@ class Xml extends Model implements JobInterface
             $artikul = trim($artikul);
 
             if (!empty($artikul)) {
-                if ($productParam = ProductParam::findOne(['artikul' => $artikul])) {
+                $productParam = ProductParam::findOne(['artikul' => $artikul]);
+
+                if ($productParam !== null) {
                     $message = [];
                     $product = Product::findOne($productParam->product_id);
                     if (!$product) continue;
@@ -105,11 +107,6 @@ class Xml extends Model implements JobInterface
 
                         $productParam->available = $available;
                     } else {
-                        /*if ($product->price > $item['price']) {
-                            $str .= "attention;$artikul; Есть цена ниже у {$supplier->name}\r\n";
-                            $this->sendMessage("Для $artikul есть цена ниже у {$supplier->name}", '');
-                        }*/
-
                         if ($available > 0 && $productParam->available == 0) {
                             $str .= "attention;$artikul; У {$supplier->name} товар есть в наличии\r\n";
                             $this->sendMessage("Для $artikul у {$supplier->name} товар есть в наличии", '');
@@ -295,8 +292,6 @@ class Xml extends Model implements JobInterface
                 $neotrenArray[$artikul]['price'] = $price;
                 $neotrenArray[$artikul]['available'] = $available;
             }
-
-            var_dump($neotrenArray);
 
             Yii::$app->queue_default->push(new Xml([
                 'supplierName' => 'neotren',

@@ -7,7 +7,7 @@ return [
     'timeZone' => 'Europe/Moscow',
     'language' => 'ru-RU',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-    'bootstrap' => ['queue_default'],
+    'bootstrap' => ['queue_default', 'queue_sync'],
     'components' => [
         'cache' => [
             'class' => 'yii\redis\Cache',
@@ -43,6 +43,10 @@ return [
             'ttr' => 100,
             'attempts' => 3,
             'as log' => \yii\queue\LogBehavior::class
+        ],
+        'queue_sync' => [
+            'class' => \yii\queue\sync\Queue::class,
+            'handle' => true,
         ],
     ],
 ];

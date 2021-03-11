@@ -7,6 +7,7 @@ use backend\models\CategoryCaching;
 use backend\models\Xml;
 use common\models\Category;
 use common\models\Product;
+use common\models\ProductParam;
 use Yii;
 use yii\console\Controller;
 use yii\imagine\Image;
@@ -47,10 +48,45 @@ class ConsoleController extends Controller {
     }
 
     public function actionTest() {
+        $neotren = simplexml_load_file(Yii::getAlias('@common').'/neo.xml');
+        $neotrenArray = [];
 
+        foreach($neotren->shop->offers->offer as $offer) {
+            $offerXml = $offer->asXml();
+
+            if (strstr($offerXml, '<param name="status"/>')) {
+                $available = 0;
+            } else {
+                preg_match('#<param name="status">([^<]+)</param>#siU', $offerXml, $match);
+                $available = $match[1];
+            }
+
+            $artikul = (string) $offer->vendorCode;
+            $price = (int) $offer->price;
+
+            $neotrenArray[$artikul]['price'] = $price;
+            $neotrenArray[$artikul]['available'] = $available;
+        }
+
+        Yii::$app->queue_sync->push(new Xml([
+            'supplierName' => 'neotren',
+            'data' => $neotrenArray,
+            'supplierId' => 5,
+            'notAvailableIfExists' => false,
+        ]));
     }
 
     public function actionXmlImport() {
         Xml::doIt();
+    }
+
+    public function actionClearEmptyElementsInDb() {
+        $productParams = ProductParam::find()->with('product')->all();
+
+        foreach($productParams as $pp) {
+            if ($pp->product === null) {
+                $pp->delete();
+            }
+        }
     }
 }
