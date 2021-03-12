@@ -52,9 +52,13 @@ class BrandController extends Controller
         $inCategories = [];
         foreach($allProducts as $product) {
             if (!isset($inCategories[$product['parent_id']])) {
-                $inCategories[$product['parent_id']] = Category::find()
+                $category = Category::find()
                     ->where(['id' => $product['parent_id']])
                     ->one();
+
+                if ($category !== null) {
+                    $inCategories[$product['parent_id']] = $category;
+                }
             }
         }
         ArrayHelper::multisort($inCategories, ['name'], [SORT_ASC]);
