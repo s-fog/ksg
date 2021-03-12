@@ -28,7 +28,7 @@
     @include respond-to(690) {
       justify-content: center;
       order: 2;
-      flex: 0 0 50%;
+      //flex: 0 0 50%;
       text-align: center;
     }
 
@@ -248,29 +248,10 @@
   &__cartContacts {
     display: flex;
     justify-content: flex-start;
-
-    .mainHeader__contactsItem {
-      display: inline-flex !important;
-
-      .mainHeader__contactsItemBottom {
-        display: block !important;
-      }
-
-      svg {
-        right: auto;
-      }
-    }
+    order: 5;
 
     .mainHeader__contactsItem_phone {
-      @include respond-to(500) {
-        flex: 0 0 auto ;
-      }
-
-      .mainHeader__contactsItemBottom {
-        /*@include respond-to(410) {
-          display: none !important;
-        }*/
-      }
+      display: block;
     }
   }
 
