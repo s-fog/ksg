@@ -26,7 +26,10 @@
       flex: 0 0 auto;
     }
     @include respond-to(690) {
+      justify-content: center;
       order: 2;
+      flex: 0 0 50%;
+      text-align: center;
     }
 
     &_desktop {
@@ -47,7 +50,7 @@
     display: none;
     padding-bottom: 10px;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     @include respond-to(690) {
       display: flex;
     }
@@ -55,10 +58,13 @@
     .mainHeader__search2 {
       display: block;
       margin: 0;
-      flex: 0 0 80%;
+      flex: 0 0 50%;
+      @include respond-to(360) {
+        flex: 0 0 40%;
+      }
     }
 
-    .mainHeader__cart {
+    .mainHeader__contactsItem_phone {
       @include respond-to(690) {
         display: block;
       }
@@ -291,6 +297,7 @@
       padding: 9px 10px 15px 28px;
       cursor: default;
       @include respond-to(690) {
+        display: none;
         margin-right: 0;
         padding-left: 0;
         padding-right: 0;
@@ -379,6 +386,7 @@
     color: #fff;
     @include respond-to(690) {
       font-size: 10px;
+      white-space: nowrap;
     }
   }
 
@@ -400,6 +408,7 @@
     align-items: center;
     transition: all 0.5s ease-in-out;
     @include respond-to(690) {
+      display: block;
       order: 3;
     }
 
@@ -470,9 +479,9 @@
   &__cart {
     flex: 0 0 auto;
     cursor: pointer;
-    @include respond-to(690) {
+    /*@include respond-to(690) {
       display: none;
-    }
+    }*/
 
     &.hide {
       display: none;
@@ -509,7 +518,7 @@
     transform: translate(0, -500px);
     transition: transform 0.5s ease-in-out, opacity 0.3s 0.1s ease-in-out;
     @include respond-to(500) {
-      top: 108px;
+      top: 127px;
     }
 
     &.active {
