@@ -3309,17 +3309,13 @@
   &__selects {
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
     margin: 20px 0;
-    @include respond-to(400) {
-      justify-content: space-around;
-    }
   }
 
   &__select {
-    flex: 0 0 50%;
-    @include respond-to(400) {
-      flex: 0 0 auto;
-    }
+    margin-bottom: 10px;
+    flex: 0 0 auto;
   }
 
   &__selectName {
@@ -3414,6 +3410,9 @@
     text-align: center;
     cursor: pointer;
     @extend .transition;
+    @include respond-to(600) {
+      margin-left: 0;
+    }
     @include respond-to(500) {
       margin-bottom: 10px;
     }
@@ -3762,6 +3761,7 @@
 }
 
 .properties {
+  margin-top: 30px;
 
   &__tabs {
     position: relative;
