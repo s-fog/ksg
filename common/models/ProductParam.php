@@ -54,4 +54,8 @@ class ProductParam extends BaseProductParam
     public function getProduct() {
         return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
+
+    public function getParamsv() {
+        return empty($this->params) ? '' : implode('|', $this->params);
+    }
 }

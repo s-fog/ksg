@@ -744,6 +744,76 @@ class ProductTabs {
     }
 }
 
+class ProductSliders {
+    constructor(root) {
+        this.root = root;
+        this.needToChange = true;
+
+        this._cacheNodes();
+        this._init();
+    }
+
+    _cacheNodes() {
+        this.nodes = {
+            slider: null,
+            sliderThumbs: null
+        }
+    }
+
+    _init() {
+        this.nodes.slider = $('.product__slider').owlCarousel({
+            items: 1,
+            dots: false,
+            nav: true,
+            navText: [
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.49 24.9"><g><path class="sliderButton__outer" d="M7.25,24.9h14.6A7.36,7.36,0,0,0,27,22.8l10.4-10.4A7.26,7.26,0,0,0,32.25,0H17.65a7.36,7.36,0,0,0-5.1,2.1L2.15,12.5a7.26,7.26,0,0,0,5.1,12.4Z"></path><path class="sliderButton__inner" d="M25.65,18.3V6.7a.82.82,0,0,0-1.1-.7l-13.9,5.8a.8.8,0,0,0,0,1.5l13.9,5.8A.89.89,0,0,0,25.65,18.3Z"></path></g></svg>',
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.51 24.9"><g><path class="sliderButton__outer" d="M32.25,0H17.65a7.36,7.36,0,0,0-5.1,2.1L2.15,12.5a7.26,7.26,0,0,0,5.1,12.4h14.6A7.36,7.36,0,0,0,27,22.8l10.4-10.4A7.24,7.24,0,0,0,32.25,0Z"></path><path class="sliderButton__inner" d="M13.85,6.6V18.2a.78.78,0,0,0,1.1.7l13.9-5.8a.8.8,0,0,0,0-1.5L15,5.8A.83.83,0,0,0,13.85,6.6Z"></path></g></svg>'
+            ],
+            navClass: [
+                'owl-prev sliderButton',
+                'owl-next sliderButton'
+            ],
+            loop: true
+        });
+        this.nodes.sliderThumbs = $('.product__sliderThumbs').owlCarousel({
+            items: 3,
+            dots: false,
+            nav: false,
+            center: true,
+            loop: true,
+            touchDrag: false,
+            pullDrag: false,
+        });
+
+        this.nodes.sliderThumbs.on('click', '.product__sliderThumbsItem', (event) => {
+            const thisElement = $(event.currentTarget),
+                index = thisElement.data('index');
+
+            this.needToChange = false;
+
+            this.nodes.slider.trigger('to.owl.carousel', index, [150]);
+            this.nodes.sliderThumbs.trigger('to.owl.carousel', index, [150]);
+
+            setTimeout(() => {
+                this.needToChange = true;
+            }, 15)
+        })
+
+        this.nodes.slider.on('changed.owl.carousel', (event) => {
+            if (this.needToChange === true) {
+                setTimeout(() => {
+                    const index = this.nodes.slider.find('.owl-item.active .product__sliderItem').data('index')
+                    this.nodes.sliderThumbs.trigger('to.owl.carousel', index, [150]);
+                }, 10);
+            }
+        })
+    }
+
+    _ready() {
+
+    }
+}
+
 class Cart {
     constructor(root) {
         this.root = root;
@@ -833,8 +903,8 @@ class Cart {
                     name = pp2.find('h1').text();
                     product_id = pp2.data('id');
                     paramsV = this.getParamsv();
-                    console.log(1);
-                    image = pp2.find('.product__sliderImage[data-paramsv="'+paramsV+'"]').prop('src');
+                    //image = pp2.find('.product__sliderImage[data-paramsv="'+paramsV+'"]').prop('src');
+                    image = $('[data-currentVariant="1"]').prop('src');
                     console.log(image);
                 }
 
@@ -1131,7 +1201,7 @@ class Cart {
         this.popupLeft();
         this.address();
         this.addressMap();
-        this.initProductSlider();
+        //this.initProductSlider();
 
         $('.productImages__arrowLeft').click(() => {
             $('.fancybox-button--arrow_left').click();
@@ -1146,7 +1216,7 @@ class Cart {
     }
 
     initProductSlider() {
-        $('.product__slider').owlCarousel({
+        /*$('.product__slider').owlCarousel({
             items: 1,
             dots: false,
             nav: true,
@@ -1159,7 +1229,7 @@ class Cart {
                 'owl-next sliderButton'
             ],
             loop: false,
-        });
+        });*/
     }
 
     cartReload() {
@@ -1666,31 +1736,6 @@ class Application {
             }
         });
 
-        $('.productSlider__inner').owlCarousel({
-            dots: false,
-            nav: true,
-            navText: [
-                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.49 24.9"><g><path class="sliderButton__outer" d="M7.25,24.9h14.6A7.36,7.36,0,0,0,27,22.8l10.4-10.4A7.26,7.26,0,0,0,32.25,0H17.65a7.36,7.36,0,0,0-5.1,2.1L2.15,12.5a7.26,7.26,0,0,0,5.1,12.4Z"></path><path class="sliderButton__inner" d="M25.65,18.3V6.7a.82.82,0,0,0-1.1-.7l-13.9,5.8a.8.8,0,0,0,0,1.5l13.9,5.8A.89.89,0,0,0,25.65,18.3Z"></path></g></svg>',
-                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.51 24.9"><g><path class="sliderButton__outer" d="M32.25,0H17.65a7.36,7.36,0,0,0-5.1,2.1L2.15,12.5a7.26,7.26,0,0,0,5.1,12.4h14.6A7.36,7.36,0,0,0,27,22.8l10.4-10.4A7.24,7.24,0,0,0,32.25,0Z"></path><path class="sliderButton__inner" d="M13.85,6.6V18.2a.78.78,0,0,0,1.1.7l13.9-5.8a.8.8,0,0,0,0-1.5L15,5.8A.83.83,0,0,0,13.85,6.6Z"></path></g></svg>'
-            ],
-            navClass: [
-                'owl-prev sliderButton',
-                'owl-next sliderButton'
-            ],
-            loop: true,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                750: {
-                    items: 2
-                },
-                1130: {
-                    items: 3
-                },
-            }
-        });
-
         flexGridAddElements('catalog__innerRightItems', 'catalog__item', 'catalog__item_hide');
         flexGridAddElements('newsBlock__inner', 'newsBlock__item', 'newsBlock__item_hide');
         flexGridAddElements('mostCatalog__inner', 'mostCatalog__item', 'mostCatalog__item_hide');
@@ -1793,7 +1838,7 @@ class Application {
                             var response = xhr.responseText;
                             submitButton.removeClass('loading');
 
-                            if (form.attr('id') == 'oneClick') {
+                            if (form.attr('id') == 'oneClick' || form.attr('id') == 'delayPayment') {
                                 if (response) {
                                     location = '/cart/success/' + response;
                                 }
@@ -1913,6 +1958,7 @@ class Application {
         new Header();
         new MainSlider();
         new ProductTabs();
+        new ProductSliders();
         new Cart();
         new Filter();
         new Sorting();

@@ -58,7 +58,13 @@ class MailController extends \yii\web\Controller
                 $product->paramsV = $_POST['OneClickForm']['paramsV'];
                 $product->setQuantity(1);
                 $order = new Order;
-                $order->payment = 0;
+
+                if ($_POST['OneClickForm']['delay_payment'] == 1) {
+                    $order->payment = 2;
+                } else {
+                    $order->payment = 0;
+                }
+
                 $order->name = $_POST['OneClickForm']['name'];
                 $order->phone = $_POST['OneClickForm']['phone'];
                 $order->email = Yii::$app->params['adminEmail'];

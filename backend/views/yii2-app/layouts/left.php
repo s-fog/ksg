@@ -55,6 +55,7 @@ $ordersTemplate = '<a href="{url}">
                             ['label' => 'Подарки', 'url' => ['/present/index']],
                             ['label' => 'Сборка', 'url' => ['/build/index']],
                             ['label' => 'Гарантия', 'url' => ['/waranty/index']],
+                            ['label' => 'Доставка', 'url' => ['/delivery/index']],
                         ]
                     ],
                     ['label' => 'Справочники',

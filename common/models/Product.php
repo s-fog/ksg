@@ -824,4 +824,8 @@ class Product extends BaseProduct implements CartPositionInterface
     public function getCompilationCategories() {
         return Category::find()->where(['id' => $this->getCompilationCategoryIds()])->all();
     }
+
+    public function getDelayPrice() {
+        return ceil($this->price / 12);
+    }
 }
