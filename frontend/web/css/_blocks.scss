@@ -2811,7 +2811,7 @@
   }
 
   &__left {
-    flex: 0 0 395px;
+    flex: 0 0 320px;
     @include respond-to(1270) {
       padding: 0 10px;
       order: 3;
@@ -2848,7 +2848,7 @@
   }
 
   &__right {
-    flex: 0 0 395px;
+    flex: 0 0 320px;
     @include respond-to(1270) {
       padding: 0 10px;
       order: 2;
@@ -2865,8 +2865,9 @@
   }
 
   &__klavdiaLeft {
-    flex: 0 0 173px;
-    height: 160px;
+    flex: 0 0 120px;
+    height: 111px;
+    background-size: cover;
     @include respond-to(500) {
       display: none;
     }
@@ -2874,7 +2875,7 @@
 
   &__klavdiaRight {
     flex: 1 1 auto;
-    margin-left: 20px;
+    margin-left: 10px;
     @include respond-to(500) {
       margin-top: 30px;
       margin-left: 0;
@@ -2883,7 +2884,7 @@
 
   &__klavdiaHeader {
     @extend .semibold;
-    font-size: 21px;
+    font-size: 18px;
     color: #fff;
     line-height: 1.2;
   }
@@ -2898,12 +2899,13 @@
   }
 
   &__klavdiaText {
-    font-size: 14px;
+    font-size: 12px;
     color: #9A9A9A;
     line-height: 1.4;
   }
 
   &__klavdiaPhone {
+    display: inline-block;
     color: $lightRedColor;
     font-size: 16px;
   }
@@ -2935,13 +2937,13 @@
 
   &__leftHeaderText {
     @extend .semibold;
-    font-size: 21px;
+    font-size: 18px;
     color: #fff;
     line-height: 1.2;
   }
 
   &__leftText {
-    font-size: 14px;
+    font-size: 12px;
     color: #9A9A9A;
     line-height: 1.5;
 
@@ -2959,7 +2961,7 @@
 
   &__art {
     @extend .semibold;
-    font-size: 14px;
+    font-size: 12px;
     color: #9A9A9A;
     line-height: 1.5;
   }
@@ -2968,7 +2970,7 @@
     margin: 5px 0 10px;
     font-family: Uni Sans,Arial,sans-serif;
     @extend .semibold;
-    font-size: 32px;
+    font-size: 24px;
     color: #fff;
     line-height: 1.1;
     text-align: left;
@@ -3005,6 +3007,7 @@
 
   &__brandText {
     margin-left: 10px;
+    font-size: 14px;
     color: #fff;
   }
 
@@ -3192,6 +3195,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    font-size: 14px;
     color: #9A9A9A;
 
     svg {
@@ -3217,7 +3221,7 @@
 
   &__price {
     @extend .heavyCaps;
-    font-size: 32px;
+    font-size: 26px;
     color: #fff;
   }
 
@@ -3226,7 +3230,7 @@
     flex: 0 1 auto;
     position: relative;
     padding: 0 5px;
-    font-size: 21px;
+    font-size: 18px;
     color: #9A9A9A;
 
     &:before {
@@ -3258,8 +3262,9 @@
     padding: 6px 21px 9px;
     background-color: $lightRedColor;
     @extend .semibold;
-    font-size: 24px;
+    font-size: 20px;
     color: #fff;
+    cursor: pointer;
     @extend .transition;
 
     &:hover {
@@ -3352,7 +3357,7 @@
     position: relative;
     margin: 20px 0 25px;
     @extend .semibold;
-    font-size: 21px;
+    font-size: 18px;
     color: #fff;
 
     &:before {
@@ -3372,8 +3377,8 @@
     padding-left: 15px;
     @extend .semibold;
     color: #9A9A9A;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 1.2;
     @include respond-to(600) {
       padding-left: 0;
     }
@@ -3393,18 +3398,14 @@
   }
 
   &__rightDelayPaymentInner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    @include respond-to(500) {
-      flex-wrap: wrap;
-    }
+
   }
 
   &__rightDelayPaymentButton {
+    margin: 10px 0 10px 15px;
     border: 1px solid #ABC555;
     border-radius: 10px;
-    flex: 0 0 170px;
+    width: 170px;
     padding: 5px 0;
     background-color: transparent;
     @extend .semibold;
@@ -3427,7 +3428,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px 0 15px;
+    padding: 0 15px 0 15px;
     @include respond-to(600) {
       padding-left: 0;
     }
