@@ -2800,6 +2800,7 @@
       color: #fff;
 
       &__inner {
+        padding-left: 10px;
         li {
           &.before-last {
             &:before {
@@ -3030,7 +3031,6 @@
   }
 
   &__brandText {
-    margin-left: 10px;
     font-size: 14px;
     color: #fff;
   }

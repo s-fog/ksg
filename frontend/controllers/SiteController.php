@@ -505,7 +505,8 @@ class SiteController extends Controller
                             ->joinWith(['productParams'])
                             ->where(['or',
                                 ['like', 'product.name', $_GET['query']],
-                                ['like', 'product_param.artikul', $_GET['query']]
+                                ['like', 'product_param.artikul', $_GET['query']],
+                                ['like', 'product.id', $_GET['query']]
                             ])
                             ->orderBy([
                                 ProductParam::tableName().'.available' => SORT_DESC,

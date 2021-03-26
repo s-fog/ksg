@@ -36,7 +36,7 @@ if ($currentVariant->available == 0) {
                     <div class="product__leftItem">
                         <div class="product__leftHeader">
                             <div class="product__leftHeaderIcon"><svg fill="none" viewBox="0 0 69 38" xmlns="http://www.w3.org/2000/svg" style="width: 69px;"><g clip-path="url(#a)" stroke="#fff" stroke-miterlimit="10" stroke-width="2"><path d="M49.275 31.846H36.538M64.851 31.846h3.42v-7.8a3.625 3.625 0 00-1.673-3.078l-4.076-2.576-1.674-7.442c-.291-1.289-1.383-2.147-2.766-2.147h-8.006V.716H12.3v31.13M21.035 31.846h-8.734"/><path d="M57.136 12.452l1.456 6.584h-8.516v-6.584h7.06zM66.598 26.335h1.674M32.153 32.741c.495-3.004-1.581-5.833-4.637-6.32s-5.933 1.555-6.427 4.559 1.58 5.833 4.636 6.32c3.056.486 5.933-1.555 6.428-4.559zM60.35 33.078c.709-2.962-1.159-5.929-4.172-6.626s-6.03 1.14-6.739 4.102c-.708 2.963 1.16 5.929 4.172 6.626s6.03-1.14 6.739-4.102z"/><path d="M56.554 31.846c0 .93-.8 1.718-1.747 1.718s-1.747-.788-1.747-1.718c0-.93.801-1.718 1.747-1.718 1.02 0 1.747.788 1.747 1.718zM26.566 33.563c.965 0 1.747-.769 1.747-1.718 0-.948-.782-1.717-1.747-1.717-.965 0-1.747.769-1.747 1.718 0 .948.782 1.717 1.747 1.717zM45.854 19.036H12.3M26.566 10.305h8.807M33.335 7.228l2.547 3.077-2.547 3.006M7.86 31.846H0M7.86 26.335H2.548M7.86 20.896H5.169"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h69v38H0z"/></clipPath></defs></svg></div>
-                            <div class="product__leftHeaderText">Бесплатно соберем и настроим</div>
+                            <div class="product__leftHeaderText"><?=$build->thisPrice($model->price) > 0 ? 'Соберем' : 'Бесплатно соберем'?> и настроим</div>
                         </div>
                         <div class="product__leftText"><span><?=$model->category->name?></span> требуют сборки и настройки. Покупая в у нас вы снимаете с себя все заботы по сборке, а также риски связанные с потерей гарантии в случае, если сделаете что-то «не так».</div>
                     </div>
@@ -70,7 +70,7 @@ if ($currentVariant->available == 0) {
                 <div class="product__leftItem">
                     <div class="product__leftHeader">
                         <div class="product__leftHeaderIcon"><svg width="35" height="47" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)" stroke="#fff" stroke-width="2" stroke-miterlimit="10"><path d="M17.466 28.741c5.677 0 10.279-4.632 10.279-10.347 0-5.714-4.602-10.347-10.279-10.347-5.676 0-10.278 4.633-10.278 10.347 0 5.715 4.602 10.347 10.278 10.347z"/><path d="M17.466 36.112c-1.746 0-3.023-2.908-4.635-3.449-1.612-.54-4.367 1.082-5.71.068-1.41-1.014-.74-4.125-1.747-5.478-1.007-1.352-4.165-1.69-4.702-3.381-.538-1.623 1.814-3.72 1.814-5.478 0-1.758-2.352-3.854-1.814-5.477.537-1.623 3.695-1.962 4.702-3.382 1.008-1.42.336-4.53 1.747-5.477 1.343-1.015 4.098.608 5.71.067 1.612-.54 2.889-3.449 4.635-3.449 1.747 0 3.023 2.908 4.636 3.45 1.612.54 4.366-1.083 5.71-.068 1.41 1.014.739 4.125 1.746 5.477 1.008 1.353 4.166 1.69 4.703 3.382.537 1.623-1.814 3.719-1.814 5.477 0 1.759 2.351 3.855 1.814 5.478-.537 1.623-3.695 1.961-4.703 3.381-1.007 1.42-.335 4.531-1.746 5.478-1.344 1.014-4.098-.609-5.71-.068-1.613.541-2.889 3.45-4.636 3.45z"/><path d="M17.466 21.37l3.36 1.758-.672-3.72 2.687-2.637-3.695-.54-1.68-3.382-1.612 3.381-3.762.541 2.687 2.638-.604 3.719 3.291-1.758zM25.192 35.233l2.62 11.09H7.188l2.62-11.09M12.966 43.078l.738-5.478M21.296 37.6l.739 5.478"/></g><defs><clipPath id="clip0"><path fill="#fff" d="M0 0h35v47H0z"/></clipPath></defs></svg></div>
-                        <div class="product__leftHeaderText">Официальный дилер <?=$model->brand->name?></div>
+                        <div class="product__leftHeaderText">Официальный дилер <br> <?=$model->brand->name?></div>
                     </div>
                     <div class="product__leftText">KSG - официальный дилер <?=$model->brand->name?> на территории Российской федерации, это значит, что проблем с гарантийным обслуживанием у вас не возникнет. Покупать у нас - безопасно!</div>
                 </div>
@@ -81,10 +81,10 @@ if ($currentVariant->available == 0) {
                 <h1 itemprop="name" class="product__name"><?=empty($model->seo_h1) ? $model->name : $model->seo_h1?></h1>
                 <div class="product__afterH1">
                     <div class="product__brand">
-                        <div class="product__brandImageContainer">
+                        <?php /* ?><div class="product__brandImageContainer">
                             <?php $filename = explode('.', basename($brand->image)); ?>
                             <img src="/images/thumbs/<?=$filename[0]?>-60-30.<?=$filename[1]?>" alt="<?=$model->name?>" class="product__brandImage">
-                        </div>
+                        </div><?php */ ?>
                         <div class="product__brandText">
                             Бренд: <a href="<?=$brand->url?>" class="link"><?=$brand->name?></a>
                         </div>
