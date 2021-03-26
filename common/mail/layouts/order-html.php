@@ -9,6 +9,10 @@ $products = $this->params['products'];
 $orderUrl = 'cart/success/'.$order->md5Id;
 $host = 'https://www.ksg.ru';
 
+$array = Yii::$app->params['cities'];
+$moscow = $array['Москва'];
+$others = $array['Others'];
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html style="margin: 0 auto;width: 600px;">
@@ -24,8 +28,8 @@ $host = 'https://www.ksg.ru';
             <tr>
                 <td class="header__1" style="width: 10%;vertical-align: middle;text-align: center;"><a href="<?=$host?>/" style="font-size: 16px;color: #fff;"><img src="<?=$host?>/img/mail/logo.jpg" alt=""></a></td>
                 <td class="header__2" style="width: 25%;vertical-align: middle;text-align: center;"><a href="<?=$host?>/catalog" style="font-size: 16px;color: #fff;"><img src="<?=$host?>/img/mail/catalog.jpg" alt=""></a></td>
-                <td class="header__3" style="width: 25%;vertical-align: middle;text-align: center;"><a href="mailto:magazin@ksg.ru" style="font-size: 16px;color: #fff;">magazin@ksg.ru</a></td>
-                <td class="header__4" style="width: 25%;vertical-align: middle;text-align: center;"><a href="tel:+74950157017" style="font-size: 16px;color: #fff;">+7 (495) 015-70-17</a></td>
+                <td class="header__3" style="width: 25%;vertical-align: middle;text-align: center;"><a href="mailto:<?=Yii::$app->params['adminEmail']?>" style="font-size: 16px;color: #fff;"><?=Yii::$app->params['adminEmail']?></a></td>
+                <td class="header__4" style="width: 25%;vertical-align: middle;text-align: center;"><a href="tel:<?=$others['phoneLink']?>" style="font-size: 16px;color: #fff;"><?=$others['phone']?></a></td>
             </tr>
         </table>
     </div>
@@ -205,8 +209,8 @@ $host = 'https://www.ksg.ru';
                     </td>
                     <td class="woman__table2" style="padding: 10px 0;vertical-align: middle;text-align: left;padding-left: 40px !important;">
                         <span style="font-weight: bold;color: #686c7a;line-height: 1.5;">Мы всегда на связи</span>
-                        <a href="tel:+78003500608" style="display: block;color: #1f232f;line-height: 1.5;text-decoration: none;">8 (800) 350 06 08</a>
-                        <a href="tel:+74950157017" style="display: block;color: #1f232f;line-height: 1.5;text-decoration: none;">+7 (495) 015-70-17</a>
+                        <a href="tel:<?=$others['phoneLink']?>" style="display: block;color: #1f232f;line-height: 1.5;text-decoration: none;"><?=$others['phone']?></a>
+                        <a href="tel:<?=$moscow['phoneLink']?>" style="display: block;color: #1f232f;line-height: 1.5;text-decoration: none;"><?=$moscow['phone']?></a>
                         <a href="mailto:<?=Yii::$app->params['adminEmail']?>" style="display: block;color: #1f232f;line-height: 1.5;text-decoration: none;"><?=Yii::$app->params['adminEmail']?></a>
                         <a href="<?=$host?>/" style="font-size: 16px;color: #1f232f;">Перейти на сайт</a>
                     </td>

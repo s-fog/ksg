@@ -501,21 +501,12 @@ class SiteController extends Controller
                             return $this->redirect($page->url);
                         }
 
-                        if ($product = Product::findOne(['name' => $_GET['query']])) {
-                            return $this->redirect($product->url);
-                        }
-
-                        if ($product = Product::findOne(['id' => $_GET['query']])) {
-                            return $this->redirect($product->url);
-                        }
-
-                        if ($pp = ProductParam::findOne(['artikul' => $_GET['query']])) {
-                            return $this->redirect($pp->product->url);
-                        }
-
                         $productsQuery = Product::find()
                             ->joinWith(['productParams'])
-                            ->where(['like', 'name', $_GET['query']])
+                            ->where(['or',
+                                ['like', 'product.name', $_GET['query']],
+                                ['like', 'product_param.artikul', $_GET['query']]
+                            ])
                             ->orderBy([
                                 ProductParam::tableName().'.available' => SORT_DESC,
                                 'price' => SORT_ASC

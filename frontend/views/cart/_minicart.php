@@ -68,7 +68,7 @@ if ($compareCount == 0) {
                 <?php } ?>
             </div>
         </div>
-        <div class="mainHeader__popupCartItem">
+        <?php /* ?><div class="mainHeader__popupCartItem">
             <a href="<?=Url::to(['site/index', 'alias' => Textpage::findOne(11)->alias])?>" class="mainHeader__popupCartItemTop"><span>В избранном</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.09 16.2"><defs><style>.cls-1{fill:#fff;}</style></defs><g><path class="cls-1" d="M8.05,16.2A1,1,0,0,1,7.42,16C6.66,15.32,0,9.47,0,5.08,0,1.06,2.79,0,4.27,0A4.33,4.33,0,0,1,8.05,1.87,4.3,4.3,0,0,1,11.82,0c1.48,0,4.27,1.06,4.27,5.08,0,4.39-6.66,10.24-7.42,10.89A1,1,0,0,1,8.05,16.2ZM4.27,1.92c-.38,0-2.35.2-2.35,3.16,0,2.69,4,6.9,6.13,8.88,2.15-2,6.12-6.19,6.12-8.88,0-3.07-2.11-3.16-2.35-3.16C9.08,1.92,9,4.72,9,5A1,1,0,1,1,7.09,5C7.08,4.73,7,1.92,4.27,1.92Z"/></g></svg></a>
             <div class="mainHeader__popupCartItemBottom">
                 <?php if ($favouriteCount == 0) { ?>
@@ -78,5 +78,6 @@ if ($compareCount == 0) {
                 <?php } ?>
             </div>
         </div>
+        <?php */ ?>
     </div>
 </div>
