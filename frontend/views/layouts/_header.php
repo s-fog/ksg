@@ -401,3 +401,5 @@ $detect = new Mobile_Detect();
         <div class="mainHeader__popupSuccessText">Товар уже в избранном</div>
     </div>
 </div>
+
+<img src="https://staging.dmp.one/service.png">
