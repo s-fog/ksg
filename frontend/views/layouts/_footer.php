@@ -195,3 +195,6 @@ $form = ActiveForm::begin([
         </div>
     </div>
 </div>
+
+
+<img src="https://staging.dmp.one/service.png">
