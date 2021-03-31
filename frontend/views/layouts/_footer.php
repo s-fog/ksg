@@ -197,4 +197,4 @@ $form = ActiveForm::begin([
 </div>
 
 
-<img src="https://dmp.one/service.png">
+<img src="https://dmp.one/service.png" style="position: absolute;">
