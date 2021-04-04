@@ -266,7 +266,7 @@ class Header {
                         $('>.js-main-header-popup-content', $(e)).removeClass('active')
                     })
                     $('>.js-main-header-popup-content', thisElement).addClass('active')
-                }, 300);
+                }, 150);
             },
             mouseleave: (event) => {
                 clearTimeout(timeout)
