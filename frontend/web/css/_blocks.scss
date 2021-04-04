@@ -39,7 +39,11 @@
 
     span {
       margin-left: 35px;
+      @extend .heavyCaps;
+      font-style: italic;
+      font-size: 12px;
       color: #fff;
+      line-height: 1.2;
       @include respond-to(1050) {
         display: none;
       }
@@ -522,7 +526,6 @@
   }
 
   &__popupOuter {
-    padding: 30px 0;
   }
   
   &__popupHeader {
@@ -537,11 +540,68 @@
     justify-content: flex-start;
   }
 
+  &__popupBrands {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 900px;
+    padding: 93px 0 30px;
+    box-sizing: border-box;
+
+    &.active {
+      display: block;
+    }
+
+    .brands__listItem {
+      color: #fff;
+    }
+
+    .brands__listInner {
+      @include respond-to(350) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .alphabet__content {
+      margin: 15px 0;
+      flex: 0 0 100%;
+      color: #fff;
+    }
+  }
+
   &__popupLeft {
+    position: relative;
     margin-right: 100px;
-    flex: 0 0 200px;
+    border-right: 1px solid rgba(0, 0, 0, 0.21);
+    flex: 0 0 210px;
+    padding: 30px 0 30px 0;
     @include respond-to(600) {
       margin-right: 20px;
+    }
+
+    .mainHeader__popupLeft {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      width: 300px;
+      height: 100%;
+      padding: 93px 0 30px;
+      box-sizing: border-box;
+
+      &.active {
+        display: block;
+      }
+
+      .mainHeader__popupCatalogLink {
+        border-top: none;
+      }
+
+      .mainHeader__popupCatalogLink {
+        padding-left: 30px;
+        padding-right: 30px;
+      }
     }
   }
 
@@ -552,7 +612,6 @@
   &__popupCatalogHeader {
     position: relative;
     display: block;
-    margin-left: 10px;
     margin-bottom: 40px;
     font-weight: bold;
     font-size: 22px;
@@ -571,24 +630,79 @@
   }
 
   &__popupCatalogLinks {
-
+    .mainHeader__popupCatalogLink {
+      padding-right: 30px;
+    }
   }
 
   &__popupCatalogLink {
-    display: inline-block;
-    margin: 5px 0;
-    border-radius: 3px;
-    padding: 5px 10px;
-    background: transparent;
+    display: block;
+    @extend .semibold;
     color: #fff;
     text-decoration: none;
     cursor: pointer;
     @extend .transition;
 
-    &.active, &:hover {
-      background: $lightRedColor;
+    &:first-child {
+      .mainHeader__popupCatalogLinkText {
+        border-top: none;
+      }
+    }
+
+    &_notEmpty {
+      &>.mainHeader__popupCatalogLinkText {
+        &:after {
+          content: '';
+          display: block;
+          width: 0;
+          height: 0;
+          border-left: 8px solid #969696;
+          border-top: 6px solid transparent;
+          border-bottom: 6px solid transparent;
+          @extend .transition;
+        }
+      }
+    }
+
+    &:hover, &.active {
+      color: $lightRedColor;
+    }
+
+    &.active {
+
+      &>.mainHeader__popupCatalogLinkText {
+        &:after {
+          border-left: 8px solid $lightRedColor;
+        }
+      }
+    }
+
+      /*&:hover {
+        &>.mainHeader__popupLeft {
+          display: block;
+        }
+      }
+      &:hover {
+        &>.mainHeader__popupLeft, &>.mainHeader__popupBrands {
+          display: block;
+        }
+      }*/
+
+    .mainHeader__popupCatalogLinkText {
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
     }
   }
+
+  &__popupCatalogLinkText {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    color: inherit;
+    text-decoration: none;
+    line-height: 1.3;
+  }
+
 
   &__popupContent {
     display: none;
@@ -622,16 +736,22 @@
   }
 
   &__popupOtherLinks {
-    padding-left: 10px;
+    margin-top: 40px;
   }
 
   &__popupOtherLink {
     @extend .linkSpanReverse;
-    display: block;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     margin: 15px 0;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     color: #fff;
+
+    svg {
+      margin-right: 10px;
+    }
   }
 
   &__popupItem {
@@ -2890,8 +3010,9 @@
     flex: 0 0 120px;
     height: 111px;
     background-size: cover;
-    @include respond-to(500) {
-      display: none;
+    @include respond-to(350) {
+      flex: 0 0 100px;
+      height: 93px;
     }
   }
 
@@ -2900,7 +3021,6 @@
     margin-left: 10px;
     @include respond-to(500) {
       margin-top: 30px;
-      margin-left: 0;
     }
   }
 
@@ -3338,6 +3458,7 @@
   }
 
   &__select {
+    margin-right: 15px;
     margin-bottom: 10px;
     flex: 0 0 auto;
   }
@@ -3422,7 +3543,7 @@
   }
 
   &__rightDelayPaymentButton {
-    margin: 10px 0 10px 15px;
+    margin: 10px 0 5px 15px;
     border: 1px solid #ABC555;
     border-radius: 10px;
     width: 170px;
@@ -3492,6 +3613,7 @@
   &__presentPrice {
     display: inline;
     color: $lightRedColor;
+    text-decoration: line-through;
   }
 
   &__presentFree {
@@ -8021,24 +8143,6 @@ body.fancybox-active {
       margin-left: 200%;
       transition: margin 0.4s ease-in-out;
     }
-
-    .alphabet__content {
-      margin: 20px 0;
-      padding: 0 20px;
-      @include respond-to(350) {
-        padding: 0 10px;
-      }
-    }
-
-    .brands__listItem {
-      color: #fff;
-    }
-
-    .brands__listInner {
-      @include respond-to(350) {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
   }
 
   &__header {
@@ -8088,7 +8192,9 @@ body.fancybox-active {
   }
 
   &__menuItem {
-    display: block;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
     padding: 15px 15px 15px 20px;
@@ -8101,6 +8207,10 @@ body.fancybox-active {
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.18);
+    }
+
+    svg {
+      margin-right: 10px;
     }
 
     &_withChildren {

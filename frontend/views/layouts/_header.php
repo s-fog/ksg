@@ -37,7 +37,7 @@ $detect = new Mobile_Detect();
             <div class="mainHeader__inner">
                 <a href="/" class="mainHeader__logo">
                     <img src="/img/logo.svg" alt="" class="mainHeader__logo_desktop">
-                    <span>Спортивный гипермаркет</span>
+                    <span>Тренажеры <br> Для дома и зала</span>
                 </a>
                 <div class="mainHeader__menuLink mainHeader__menuLink_catalog js-hovered js-triangle js-popup" data-popup="menu">
                     <span>Каталог</span>
@@ -88,18 +88,28 @@ $detect = new Mobile_Detect();
                 <div class="mobileHeaderPopup">
                     <div class="mobileHeaderPopup__item js-mobile-header-item active" data-ankor="main">
                         <ul class="mobileHeaderPopup__menu">
-                            <li>
-                                <?=$this->render('_mobile/_link', [
-                                    'name' => 'Каталог',
-                                    'ankor' => 'catalog',
-                                    'href' => '',
-                                    'haveChildren' => true,
-                                ])?>
-                            </li>
+                            <?php foreach($firstLevelCategories as $index => $firstLevelCategory) { ?>
+                                <li>
+                                    <?php if (!empty(Category::getSecondLevelCategories($firstLevelCategory))) { ?>
+                                        <?=$this->render('_mobile/_link', [
+                                            'name' => $firstLevelCategory->name,
+                                            'ankor' => 'category-'.$firstLevelCategory->id,
+                                            'href' => ''
+                                        ])?>
+                                    <?php } else { ?>
+                                        <?=$this->render('_mobile/_link', [
+                                            'name' => $firstLevelCategory->name,
+                                            'ankor' => '',
+                                            'href' => $firstLevelCategory->url
+                                        ])?>
+                                    <?php } ?>
+                                </li>
+                            <?php } ?>
                             <li>
                                 <?=$this->render('_mobile/_link', [
                                     'name' => $deliveryPage->name,
                                     'ankor' => '',
+                                    'svg' => 'ic_d.svg',
                                     'href' => $deliveryPage->url
                                 ])?>
                             </li>
@@ -107,6 +117,7 @@ $detect = new Mobile_Detect();
                                 <?=$this->render('_mobile/_link', [
                                     'name' => $paymentsPage->name,
                                     'ankor' => '',
+                                    'svg' => 'ic_sp.svg',
                                     'href' => $paymentsPage->url
                                 ])?>
                             </li>
@@ -114,6 +125,7 @@ $detect = new Mobile_Detect();
                                 <?=$this->render('_mobile/_link', [
                                     'name' => $createPage->name,
                                     'ankor' => '',
+                                    'svg' => 'ic_sb.svg',
                                     'href' => $createPage->url
                                 ])?>
                             </li>
@@ -121,11 +133,13 @@ $detect = new Mobile_Detect();
                                 <?=$this->render('_mobile/_link', [
                                     'name' => $contactsPage->name,
                                     'ankor' => '',
+                                    'svg' => 'ic_con.svg',
                                     'href' => $contactsPage->url
                                 ])?>
                             </li>
                         </ul>
                     </div>
+                    <?php /* ?>
                     <div class="mobileHeaderPopup__item js-mobile-header-item" data-ankor="catalog">
                         <?=$this->render('_mobile/_header', [
                             'header' => 'Каталог',
@@ -159,11 +173,12 @@ $detect = new Mobile_Detect();
                             </li>
                         </ul>
                     </div>
+                    <?php */ ?>
                     <?php foreach($firstLevelCategories as $index => $firstLevelCategory) { ?>
                         <div class="mobileHeaderPopup__item js-mobile-header-item" data-ankor="category-<?=$firstLevelCategory->id?>">
                             <?=$this->render('_mobile/_header', [
                                 'header' => $firstLevelCategory->name,
-                                'ankor' => 'catalog',
+                                'ankor' => 'main',
                                 'main' => false
                             ])?>
                             <ul class="mobileHeaderPopup__menu">
@@ -232,32 +247,75 @@ $detect = new Mobile_Detect();
                         <div class="mainHeader__popupLeft">
                             <div class="mainHeader__popupCatalogHeader">Каталог</div>
                             <div class="mainHeader__popupCatalogLinks">
-                                <?php foreach($firstLevelCategories as $index => $firstLevelCategory) { ?>
-                                    <?=$index === 0 ? '' : '<br>' ?>
-                                        <?php if (!empty(Category::getSecondLevelCategories($firstLevelCategory))) { ?>
-                                        <div data-ankor="<?=$firstLevelCategory->id?>"
-                                        class="mainHeader__popupCatalogLink js-main-header-popup-link<?=$index === 0 ? ' active' : ''?>">
-                                            <?=$firstLevelCategory->name?>
-                                        </div>
-                                        <?php } else { ?>
-                                            <a href="<?=$firstLevelCategory->url?>" class="mainHeader__popupCatalogLink">
-                                                <?=$firstLevelCategory->name?>
-                                            </a>
+                                <?php foreach($firstLevelCategories as $index => $firstLevelCategory) {
+                                    $secondLevelCategories = Category::getSecondLevelCategories($firstLevelCategory);
+                                    ?>
+                                    <div class="mainHeader__popupCatalogLink<?=!empty($secondLevelCategories) ? ' mainHeader__popupCatalogLink_notEmpty js-main-header-popup-link' : ''?>">
+                                        <a href="<?=$firstLevelCategory->url?>" class="mainHeader__popupCatalogLinkText">
+                                            <span><?=$firstLevelCategory->name?></span>
+                                        </a>
+                                        <?php if (!empty($secondLevelCategories)) { ?>
+                                            <div class="mainHeader__popupLeft js-main-header-popup-content">
+                                                <?php foreach($secondLevelCategories as $secondLevelCategory) {
+                                                    $thirdLevelCategories = Category::getThirdLevelCategories($secondLevelCategory);
+                                                    ?>
+                                                    <div class="mainHeader__popupCatalogLink<?=!empty($thirdLevelCategories) ? ' mainHeader__popupCatalogLink_notEmpty js-main-header-popup-link' : ''?>">
+                                                        <a href="<?=$secondLevelCategory->url?>" class="mainHeader__popupCatalogLinkText">
+                                                            <span><?=$secondLevelCategory->name?></span>
+                                                        </a>
+                                                        <?php if (!empty($thirdLevelCategories)) { ?>
+                                                            <div class="mainHeader__popupLeft js-main-header-popup-content">
+                                                                <?php foreach($thirdLevelCategories as $thirdLevelCategory) {?>
+                                                                    <div class="mainHeader__popupCatalogLink">
+                                                                        <a href="<?=$thirdLevelCategory->url?>" class="mainHeader__popupCatalogLinkText">
+                                                                            <span><?=$thirdLevelCategory->name?></span>
+                                                                        </a>
+                                                                    </div>
+                                                                <?php } ?>
+                                                            </div>
+                                                        <?php } ?>
+                                                    </div>
+                                                <?php } ?>
+                                            </div>
                                         <?php } ?>
+                                    </div>
                                 <?php } ?>
-                                <br>
-                                <div data-ankor="brands"
-                                     class="mainHeader__popupCatalogLink js-main-header-popup-link">
-                                    Поиск по брендам
+                                <div class="mainHeader__popupCatalogLink mainHeader__popupCatalogLink_notEmpty js-main-header-popup-link">
+                                    <span class="mainHeader__popupCatalogLinkText"><span>Поиск по брендам</span></span>
+                                    <div class="mainHeader__popupBrands js-main-header-popup-content">
+                                        <?php foreach($alphabetBrandList as $letter => $notUse) { ?>
+                                            <div class="alphabet__content">
+                                                <div class="alphabet__contentHeader"><?=$letter?></div>
+                                                <div class="brands__listInner">
+                                                    <?php foreach($alphabetBrandList[$letter] as $brand) { ?>
+                                                        <a href="<?=$brand->url?>" class="brands__listItem"><span><?=$brand->name?></span></a>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="mainHeader__popupOtherLinks">
-                                <a href="<?=$deliveryPage->url?>" class="mainHeader__popupOtherLink"><span><?=$deliveryPage->name?></span></a>
-                                <a href="<?=$paymentsPage->url?>" class="mainHeader__popupOtherLink"><span><?=$paymentsPage->name?></span></a>
-                                <a href="<?=$createPage->url?>" class="mainHeader__popupOtherLink"><span><?=$createPage->name?></span></a>
-                                <a href="<?=$contactsPage->url?>" class="mainHeader__popupOtherLink"><span><?=$contactsPage->name?></span></a>
+                                <a href="<?=$deliveryPage->url?>" class="mainHeader__popupOtherLink">
+                                    <?=file_get_contents(Yii::getAlias('@www').'/img/ic_d.svg')?>
+                                    <span><?=$deliveryPage->name?></span>
+                                </a>
+                                <a href="<?=$paymentsPage->url?>" class="mainHeader__popupOtherLink">
+                                    <?=file_get_contents(Yii::getAlias('@www').'/img/ic_sp.svg')?>
+                                    <span><?=$paymentsPage->name?></span>
+                                </a>
+                                <a href="<?=$createPage->url?>" class="mainHeader__popupOtherLink">
+                                    <?=file_get_contents(Yii::getAlias('@www').'/img/ic_sb.svg')?>
+                                    <span><?=$createPage->name?></span>
+                                </a>
+                                <a href="<?=$contactsPage->url?>" class="mainHeader__popupOtherLink">
+                                    <?=file_get_contents(Yii::getAlias('@www').'/img/ic_con.svg')?>
+                                    <span><?=$contactsPage->name?></span>
+                                </a>
                             </div>
                         </div>
+                        <?php /* ?>
                         <div class="mainHeader__popupRight">
                             <?php foreach($firstLevelCategories as $index => $firstLevelCategory) { ?>
                                 <div data-ankor="<?=$firstLevelCategory->id?>"
@@ -294,6 +352,7 @@ $detect = new Mobile_Detect();
                                 <?php } ?>
                             </div>
                         </div>
+                        <?php */ ?>
                     </div>
                 </div>
             <?php } ?>

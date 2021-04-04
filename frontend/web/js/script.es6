@@ -239,20 +239,51 @@ class Header {
             }, 500);
         });
 
-        this.nodes.mainHeader__popupLink.on('click', (event) => {
-            const thisElement = $(event.currentTarget),
-                ankor = thisElement.data('ankor');
+        let timeout;
+        this.nodes.mainHeader__popupLink.on({
+            mouseenter:  (event) => {
+                timeout = setTimeout(() => {
+                    const thisElement = $(event.currentTarget),
+                        container = thisElement.parent(),
+                        elements = container.children();
+
+                    let someSiblingsIsActive = false;
+
+                    elements.each((i, e) => {
+                        if ($(e).hasClass('active')) {
+                            someSiblingsIsActive = true;
+                        }
+                    })
+
+                    if (someSiblingsIsActive === true) {
+                        elements.removeClass('active');
+                        thisElement.addClass('active');
+                    } else {
+                        thisElement.addClass('active');
+                    }
+
+                    elements.each((i, e) => {
+                        $('>.js-main-header-popup-content', $(e)).removeClass('active')
+                    })
+                    $('>.js-main-header-popup-content', thisElement).addClass('active')
+                }, 300);
+            },
+            mouseleave: (event) => {
+                clearTimeout(timeout)
+            }
+        })
+
+
+        /*this.nodes.mainHeader__popupLink.on('click', (event) => {
+            event.preventDefault();
+            const thisElement = $(event.currentTarget);
 
             this.nodes.mainHeader__popupLink.removeClass('active');
             thisElement.addClass('active');
 
             this.nodes.mainHeader__popupLinkContent.removeClass('active');
-            this.nodes.mainHeader__popupLinkContent.each((index, element) => {
-                if ($(element).data('ankor') === ankor) {
-                    $(element).addClass('active');
-                }
-            })
-        })
+            $(thisElement).siblings(this.nodes.mainHeader__popupLinkContent).addClass('active');
+        })*/
 
         $('.js-mobile-header-link[data-ankor]').on('click', (event) => {
             if (this.animate2 === false) {
