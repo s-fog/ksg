@@ -630,6 +630,8 @@ class Product extends BaseProduct implements CartPositionInterface
 
             foreach($this->getBrothersAll() as $brother) {
                 foreach($brother->params as $currentBrotherParam) {
+                    if (empty($currentBrotherParam->params)) continue;
+
                     foreach($currentBrotherParam->params as $p) {
                         list($name, $value) = explode(' -> ', $p);
                         $paramModel = $paramModels[$name];
