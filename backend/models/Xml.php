@@ -183,22 +183,68 @@ class Xml extends Model implements JobInterface
         }
         ////////////////////////////////////////////////////////////////////////////////
         try {
-            $wellFitness = simplexml_load_file('http://www.wellfitness.ru/system/storage/download/export.xml');
+            $wellFitness = simplexml_load_file('https://www.wellfitness.ru/index.php?route=feed/yandex_market');
             $wellFitnessArray = [];
 
             foreach($wellFitness->catalog->items->item as $offer) {
-                $available = (int) $offer->QUANTITY;
-                $artikul = (string) trim($offer->article);
+                $available = (string) $offer->attributes()->{'available'};
+                $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
 
-                $wellFitnessArray[$artikul]['price'] = $price;
-                $wellFitnessArray[$artikul]['available'] = $available;
+                $victoryFitArray[$artikul]['price'] = $price;
+                $victoryFitArray[$artikul]['available'] = $available;
             }
 
             Yii::$app->queue_default->push(new Xml([
                 'supplierName' => 'wellFitness',
                 'data' => $wellFitnessArray,
                 'supplierId' => 9,
+                'notAvailableIfExists' => false,
+            ]));
+        } catch(Exception $e) {
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+        }
+        ////////////////////////////////////////////////////////////////////////////////
+        try {
+            $fineFitness = simplexml_load_file('https://finefitness.ru/index.php?route=feed/yandex_market');
+            $fineFitnessArray = [];
+
+            foreach($fineFitness->catalog->items->item as $offer) {
+                $available = (string) $offer->attributes()->{'available'};
+                $artikul = (string) $offer->vendorCode;
+                $price = (int) $offer->price;
+
+                $victoryFitArray[$artikul]['price'] = $price;
+                $victoryFitArray[$artikul]['available'] = $available;
+            }
+
+            Yii::$app->queue_default->push(new Xml([
+                'supplierName' => 'fineFitness',
+                'data' => $fineFitnessArray,
+                'supplierId' => 13,
+                'notAvailableIfExists' => false,
+            ]));
+        } catch(Exception $e) {
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+        }
+        ////////////////////////////////////////////////////////////////////////////////
+        try {
+            $bradex = simplexml_load_file('https://api.bradex.ru/acrit.exportpro/bradex_expo_titanium_inform.xml?encoding=utf-8');
+            $bradexArray = [];
+
+            foreach($bradex->catalog->items->item as $offer) {
+                $available = (string) $offer->attributes()->{'available'};
+                $artikul = (string) $offer->vendorCode;
+                $price = (int) $offer->price;
+
+                $victoryFitArray[$artikul]['price'] = $price;
+                $victoryFitArray[$artikul]['available'] = $available;
+            }
+
+            Yii::$app->queue_default->push(new Xml([
+                'supplierName' => 'bradex',
+                'data' => $bradexArray,
+                'supplierId' => 27,
                 'notAvailableIfExists' => false,
             ]));
         } catch(Exception $e) {
