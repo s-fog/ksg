@@ -591,6 +591,7 @@ class Category extends BaseCategory
         $orderBy = Sort::getOrderBy($this, $_GET);
         $categoryIds = $this->getCategoriesNestedToThisCategoryIds();
         $productsQuery = Product::find()
+            ->joinWith('productParams')
             ->with(['category',
                 'category.features',
                 'category.features.featurevalues',
@@ -600,7 +601,8 @@ class Category extends BaseCategory
                 'features',
                 'features.featurevalues'])
             ->andWhere(['parent_id' => $categoryIds])
-            ->orderBy($orderBy);
+            ->orderBy($orderBy)
+            ->groupBy('product.id');
 
         if ($forceAvailable === true) {
             $productsQuery->joinWith(['productParams' => function($q) {

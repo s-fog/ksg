@@ -749,7 +749,6 @@ class Product extends BaseProduct implements CartPositionInterface
     }
 
     public function getMainFeatures($forceToCache = false) {
-        //return [];
         $cache = Yii::$app->cache;
         $key = 'main_features_product_'.$this->id;
         $mainFeaturesValues = $cache->get($key);

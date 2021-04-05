@@ -40,6 +40,7 @@ services:
     image: mysql/mysql-server:8.0
     ports:
       - "3106:3306"
+    command: mysqld --sql_mode=""
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}

@@ -986,7 +986,6 @@ class SiteController extends Controller
                 'forcePageParam' => false,
                 'pageSizeLimit' => 200
             ]);
-
             $products = $productQuery->limit($pages->limit)->offset($pages->offset)->all();
 
             if ($model->type == 0) {

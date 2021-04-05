@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Category;
 use common\models\Supplier;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -143,6 +144,14 @@ JS;
                     return $data->supplierModel->name;
                 },
                 'filter' => ArrayHelper::map(Supplier::find()->all(), 'id', 'name')
+            ],
+            [
+                'attribute' => 'parent_id',
+                'label' => 'Категория',
+                'content' => function($data) {
+                    return $data->category->name;
+                },
+                'filter' => Category::getCategoryChain()
             ],
         ],
         ]); ?>
