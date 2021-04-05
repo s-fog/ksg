@@ -41,7 +41,7 @@
       margin-left: 35px;
       @extend .heavyCaps;
       font-style: italic;
-      font-size: 12px;
+      font-size: 11px;
       color: #fff;
       line-height: 1.2;
       @include respond-to(1050) {
@@ -546,7 +546,7 @@
     top: 0;
     left: 100%;
     width: 900px;
-    padding: 93px 0 30px;
+    padding: 93px 0 30px 30px;
     box-sizing: border-box;
 
     &.active {
@@ -3543,7 +3543,7 @@
   }
 
   &__rightDelayPaymentButton {
-    margin: 10px 0 5px 15px;
+    margin: 0 0 5px 15px;
     border: 1px solid #ABC555;
     border-radius: 10px;
     width: 170px;
