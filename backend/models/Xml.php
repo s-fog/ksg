@@ -191,8 +191,8 @@ class Xml extends Model implements JobInterface
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
 
-                $victoryFitArray[$artikul]['price'] = $price;
-                $victoryFitArray[$artikul]['available'] = $available;
+                $wellFitnessArray[$artikul]['price'] = $price;
+                $wellFitnessArray[$artikul]['available'] = $available;
             }
 
             Yii::$app->queue_default->push(new Xml([
@@ -214,8 +214,8 @@ class Xml extends Model implements JobInterface
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
 
-                $victoryFitArray[$artikul]['price'] = $price;
-                $victoryFitArray[$artikul]['available'] = $available;
+                $fineFitnessArray[$artikul]['price'] = $price;
+                $fineFitnessArray[$artikul]['available'] = $available;
             }
 
             Yii::$app->queue_default->push(new Xml([
@@ -237,8 +237,8 @@ class Xml extends Model implements JobInterface
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
 
-                $victoryFitArray[$artikul]['price'] = $price;
-                $victoryFitArray[$artikul]['available'] = $available;
+                $bradexArray[$artikul]['price'] = $price;
+                $bradexArray[$artikul]['available'] = $available;
             }
 
             Yii::$app->queue_default->push(new Xml([

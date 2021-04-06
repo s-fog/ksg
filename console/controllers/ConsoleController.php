@@ -48,32 +48,17 @@ class ConsoleController extends Controller {
     }
 
     public function actionTest() {
-        $neotren = simplexml_load_file(Yii::getAlias('@common').'/neo.xml');
-        $neotrenArray = [];
+        $wellFitness = simplexml_load_file('https://www.wellfitness.ru/index.php?route=feed/yandex_market');
+        $wellFitnessArray = [];
 
-        foreach($neotren->shop->offers->offer as $offer) {
-            $offerXml = $offer->asXml();
-
-            if (strstr($offerXml, '<param name="status"/>')) {
-                $available = 0;
-            } else {
-                preg_match('#<param name="status">([^<]+)</param>#siU', $offerXml, $match);
-                $available = $match[1];
-            }
-
+        foreach($wellFitness->catalog->items->item as $offer) {
+            $available = (string) $offer->attributes()->{'available'};
             $artikul = (string) $offer->vendorCode;
             $price = (int) $offer->price;
 
-            $neotrenArray[$artikul]['price'] = $price;
-            $neotrenArray[$artikul]['available'] = $available;
+            $victoryFitArray[$artikul]['price'] = $price;
+            $victoryFitArray[$artikul]['available'] = $available;
         }
-
-        Yii::$app->queue_sync->push(new Xml([
-            'supplierName' => 'neotren',
-            'data' => $neotrenArray,
-            'supplierId' => 5,
-            'notAvailableIfExists' => false,
-        ]));
     }
 
     public function actionXmlImport() {
