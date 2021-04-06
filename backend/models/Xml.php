@@ -186,7 +186,7 @@ class Xml extends Model implements JobInterface
             $wellFitness = simplexml_load_file('https://www.wellfitness.ru/index.php?route=feed/yandex_market');
             $wellFitnessArray = [];
 
-            foreach($wellFitness->catalog->items->item as $offer) {
+            foreach($wellFitness->shop->offers->offer as $offer) {
                 $available = (string) $offer->attributes()->{'available'};
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
@@ -209,7 +209,7 @@ class Xml extends Model implements JobInterface
             $fineFitness = simplexml_load_file('https://finefitness.ru/index.php?route=feed/yandex_market');
             $fineFitnessArray = [];
 
-            foreach($fineFitness->catalog->items->item as $offer) {
+            foreach($fineFitness->shop->offers->offer as $offer) {
                 $available = (string) $offer->attributes()->{'available'};
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
@@ -232,7 +232,7 @@ class Xml extends Model implements JobInterface
             $bradex = simplexml_load_file('https://api.bradex.ru/acrit.exportpro/bradex_expo_titanium_inform.xml?encoding=utf-8');
             $bradexArray = [];
 
-            foreach($bradex->catalog->items->item as $offer) {
+            foreach($bradex->shop->offers->offer as $offer) {
                 $available = (string) $offer->attributes()->{'available'};
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
