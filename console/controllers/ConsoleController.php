@@ -48,19 +48,19 @@ class ConsoleController extends Controller {
     }
 
     public function actionTest() {
-        $bradex = simplexml_load_file('https://api.bradex.ru/acrit.exportpro/bradex_expo_titanium_inform.xml?encoding=utf-8');
-        $bradexArray = [];
+        $wellFitness = simplexml_load_file('https://www.wellfitness.ru/index.php?route=feed/yandex_market');
+        $wellFitnessArray = [];
 
-        foreach($bradex->shop->offers->offer as $offer) {
+        foreach($wellFitness->shop->offers->offer as $offer) {
             $available = (string) $offer->attributes()->{'available'};
             $artikul = (string) $offer->vendorCode;
             $price = (int) $offer->price;
 
-            $bradexArray[$artikul]['price'] = $price;
-            $bradexArray[$artikul]['available'] = $available;
+            $wellFitnessArray[$artikul]['price'] = $price;
+            $wellFitnessArray[$artikul]['available'] = $available;
         }
 
-        var_dump($bradexArray);die();
+        var_dump($wellFitnessArray);die();
     }
 
     public function actionXmlImport() {
