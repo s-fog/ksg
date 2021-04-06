@@ -189,7 +189,7 @@ class Xml extends Model implements JobInterface
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             $result = curl_exec($ch);
-            $wellFitness = simplexml_load_file($result);
+            $wellFitness = simplexml_load_string($result);
             $wellFitnessArray = [];
 
             foreach($wellFitness->shop->offers->offer as $offer) {
