@@ -53,10 +53,8 @@ class ConsoleController extends Controller {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $err = curl_error($ch);
         $result = curl_exec($ch);
-        var_dump($result);die();
-        $wellFitness = simplexml_load_file($result);
+        $wellFitness = simplexml_load_string($result);
         $wellFitnessArray = [];
 
         foreach($wellFitness->shop->offers->offer as $offer) {
@@ -67,6 +65,7 @@ class ConsoleController extends Controller {
             $wellFitnessArray[$artikul]['price'] = $price;
             $wellFitnessArray[$artikul]['available'] = $available;
         }
+
 
         var_dump($wellFitnessArray);die();
     }
