@@ -183,7 +183,13 @@ class Xml extends Model implements JobInterface
         }
         ////////////////////////////////////////////////////////////////////////////////
         try {
-            $wellFitness = simplexml_load_file('https://www.wellfitness.ru/index.php?route=feed/yandex_market');
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://www.wellfitness.ru/index.php?route=feed/yandex_market');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $result = curl_exec($ch);
+            $wellFitness = simplexml_load_file($result);
             $wellFitnessArray = [];
 
             foreach($wellFitness->shop->offers->offer as $offer) {

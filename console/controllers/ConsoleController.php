@@ -48,7 +48,15 @@ class ConsoleController extends Controller {
     }
 
     public function actionTest() {
-        $wellFitness = simplexml_load_file('https://www.wellfitness.ru/index.php?route=feed/yandex_market');
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://www.wellfitness.ru/index.php?route=feed/yandex_market');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $err = curl_error($ch);
+        $result = curl_exec($ch);
+        var_dump($result);die();
+        $wellFitness = simplexml_load_file($result);
         $wellFitnessArray = [];
 
         foreach($wellFitness->shop->offers->offer as $offer) {
