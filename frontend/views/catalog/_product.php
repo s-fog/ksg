@@ -163,8 +163,9 @@ if ($currentVariant->available == 0) {
                             По запросу
                         <?php } else { ?>
                             <?=number_format($model->price, 0, '', ' ')?>
-                            <span class="rubl">₽</span></div>
+                            <span class="rubl">₽</span>
                         <?php } ?>
+                    </div>
                     <?php if (!empty($model->price_old)) { ?>
                         <div class="product__oldPrice">
                             <?=number_format($model->price_old, 0, '', ' ')?>
