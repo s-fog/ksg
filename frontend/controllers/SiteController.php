@@ -825,6 +825,8 @@ class SiteController extends Controller
                         $index === 'yclid'
                         ||
                         $index === 'gclid'
+                        ||
+                        $index === 'page'
                     ) {
                         unset($parts[$index]);
                     }
