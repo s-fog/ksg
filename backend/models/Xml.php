@@ -157,7 +157,7 @@ class Xml extends Model implements JobInterface
 
         Xml::xmlYandex([$suppliers[24], $suppliers[9], $suppliers[13], $suppliers[27], $suppliers[7], $suppliers[8], $suppliers[4], $suppliers[6]]);
         ////////////////////////////////////////////////////////////////////////////////
-        /*try {
+        try {
             $supplier = $suppliers[3];
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
@@ -199,9 +199,9 @@ class Xml extends Model implements JobInterface
             ]));
         } catch(Exception $e) {
             Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }*/
+        }
         ////////////////////////////////////////////////////////////////////////////////
-        try {
+        /*try {
             $supplier = $suppliers[5];
             $data = simplexml_load_file($supplier->xml_url);
             $dataArray = [];
@@ -230,7 +230,7 @@ class Xml extends Model implements JobInterface
             ]));
         } catch(Exception $e) {
             Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }
+        }*/
         ////////////////////////////////////////////////////////////////////////////////
         try {
             $supplier = $suppliers[2];
