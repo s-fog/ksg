@@ -157,7 +157,104 @@ class Xml extends Model implements JobInterface
 
         Xml::xmlYandex([$suppliers[24], $suppliers[9], $suppliers[13], $suppliers[27], $suppliers[7], $suppliers[8], $suppliers[4], $suppliers[6]]);
         ////////////////////////////////////////////////////////////////////////////////
+        /*try {
+            $supplier = $suppliers[3];
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
+            curl_setopt($ch, CURLOPT_VERBOSE, 1);
+            curl_setopt($ch, CURLOPT_URL, 'https://hasttings.ru/diler/login/');
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "site_user_login=ksg&site_user_password=qwertydas123&remember_me=1&apply=Войти");
+            curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+            curl_setopt($ch, CURLOPT_COOKIEJAR, Yii::getAlias('@www').'/cookie.txt');
+            curl_exec($ch);
 
+            curl_setopt($ch, CURLOPT_COOKIEFILE, Yii::getAlias('@www').'/cookie.txt');
+            curl_setopt($ch, CURLOPT_URL, $supplier->id);
+            $result = curl_exec($ch);
+
+            $dat = simplexml_load_string($result);
+            $dataArray = [];
+
+            foreach($dat->shop->offers->offer as $offer) {
+                if ($offer->available == 'true') {
+                    $available = 10;
+                } else {
+                    $available = 0;
+                }
+
+                $artikul = str_replace('  ', ' ', (string) $offer->marking);
+                $price = (int) $offer->price;
+
+                $dataArray[$artikul]['price'] = $price;
+                $dataArray[$artikul]['available'] = $available;
+            }
+
+            Yii::$app->queue_default->push(new Xml([
+                'data' => $dataArray,
+                'supplierId' => $supplier->id,
+                'notAvailableIfExists' => false,
+            ]));
+        } catch(Exception $e) {
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+        }*/
+        ////////////////////////////////////////////////////////////////////////////////
+        try {
+            $supplier = $suppliers[5];
+            $data = simplexml_load_file($supplier->xml_url);
+            $dataArray = [];
+
+            foreach($data->shop->offers->offer as $offer) {
+                $offerXml = $offer->asXml();
+
+                if (strstr($offerXml, '<param name="status"/>')) {
+                    $available = 0;
+                } else {
+                    preg_match('#<param name="status">([^<]+)</param>#siU', $offerXml, $match);
+                    $available = $match[1];
+                }
+
+                $artikul = (string) $offer->vendorCode;
+                $price = (int) $offer->price;
+
+                $dataArray[$artikul]['price'] = $price;
+                $dataArray[$artikul]['available'] = $available;
+            }
+
+            Yii::$app->queue_default->push(new Xml([
+                'data' => $dataArray,
+                'supplierId' => $supplier->id,
+                'notAvailableIfExists' => false,
+            ]));
+        } catch(Exception $e) {
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+        }
+        ////////////////////////////////////////////////////////////////////////////////
+        try {
+            $supplier = $suppliers[2];
+            $data = simplexml_load_file($supplier->xml_url);
+            $dataArray = [];
+
+            foreach($data->price as $offer) {
+                $values = $offer->attributes();
+                $available = (string) $values['Остаток'];
+                $artikul = (string) $values['Артикул'];
+                $price = (int) $values['Цена'];
+
+                $dataArray[$artikul]['price'] = $price;
+                $dataArray[$artikul]['available'] = $available;
+            }
+
+            Yii::$app->queue_default->push(new Xml([
+                'data' => $dataArray,
+                'supplierId' => $supplier->id,
+                'notAvailableIfExists' => false,
+            ]));
+        } catch(Exception $e) {
+            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+        }
 
         Yii::$app->queue_default->push(new UML());
     }
