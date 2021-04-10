@@ -172,7 +172,7 @@ class Xml extends Model implements JobInterface
             curl_exec($ch);
 
             curl_setopt($ch, CURLOPT_COOKIEFILE, Yii::getAlias('@www').'/cookie.txt');
-            curl_setopt($ch, CURLOPT_URL, $supplier->id);
+            curl_setopt($ch, CURLOPT_URL, $supplier->xml_url);
             $result = curl_exec($ch);
 
             $dat = simplexml_load_string($result);
@@ -201,7 +201,7 @@ class Xml extends Model implements JobInterface
             Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
         }
         ////////////////////////////////////////////////////////////////////////////////
-        /*try {
+        try {
             $supplier = $suppliers[5];
             $data = simplexml_load_file($supplier->xml_url);
             $dataArray = [];
@@ -230,7 +230,7 @@ class Xml extends Model implements JobInterface
             ]));
         } catch(Exception $e) {
             Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }*/
+        }
         ////////////////////////////////////////////////////////////////////////////////
         try {
             $supplier = $suppliers[2];
