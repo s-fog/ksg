@@ -173,7 +173,7 @@ class UML extends Model implements JobInterface
 
             if (!empty($variant->params)) {
                 foreach($variant->params as $paramName => $paramValue) {
-                    $param = $dom->createElement('param', $paramValue);
+                    $param = $dom->createElement('param', htmlspecialchars($paramValue));
                     $name = $dom->createAttribute('name');
                     $name->value = $paramName;
                     $param->appendChild($name);
