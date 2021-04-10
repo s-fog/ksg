@@ -13,8 +13,7 @@ use yii\queue\JobInterface;
 
 class Xml extends Model implements JobInterface
 {
-    public $supplierName,
-        $data,
+    public $data,
         $supplierId,
         $notAvailableIfExists = false;
 
@@ -139,7 +138,7 @@ class Xml extends Model implements JobInterface
             $str .= "error;".implode(',', $currentArray).";Этих артикулов нет у поставщика\r\n";
         }
 
-        file_put_contents("$folder/$this->supplierName.log", $str);
+        file_put_contents("$folder/$supplier->name.log", $str);
     }
 
     public static function sendMessage($subject, $message) {
