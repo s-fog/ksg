@@ -47,7 +47,13 @@ $inFavourite = Favourite::inFavourite($model->id);
             <?php } ?>
         </a>
         <div class="catalog__itemPrices">
-            <div class="catalog__itemPrice"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
+            <div class="catalog__itemPrice">
+                <?php if ($model->price == 0) { ?>
+                    По запросу
+                <?php } else { ?>
+                    <?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span>
+                <?php } ?>
+            </div>
             <?php if (!empty($model->price_old)) { ?>
                 <div class="catalog__itemOldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></div>
             <?php } ?>
