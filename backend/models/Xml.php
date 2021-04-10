@@ -7,6 +7,7 @@ use common\models\ProductParam;
 use common\models\Supplier;
 use Exception;
 use Yii;
+use yii\base\BaseObject;
 use yii\base\Model;
 use yii\queue\JobInterface;
 
@@ -152,112 +153,12 @@ class Xml extends Model implements JobInterface
     }
 
     public static function doIt() {
-        try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://victoryfit.ru/wp-content/uploads/market-exporter/ym-export.yml');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            $result = curl_exec($ch);
+        $suppliers = Supplier::find()->indexBy('id')->all();
 
-            $victoryFit = simplexml_load_string($result);
-            $victoryFitArray = [];
-
-            foreach($victoryFit->shop->offers->offer as $offer) {
-                $available = (string) $offer->attributes()->{'available'};
-                $artikul = (string) $offer->vendorCode;
-                $price = (int) $offer->price;
-
-                $victoryFitArray[$artikul]['price'] = $price;
-                $victoryFitArray[$artikul]['available'] = $available;
-            }
-
-            Yii::$app->queue_default->push(new Xml([
-                'supplierName' => 'VictoryFit',
-                'data' => $victoryFitArray,
-                'supplierId' => 24,
-                'notAvailableIfExists' => false,
-            ]));
-        } catch(Exception $e) {
-            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }
+        Xml::xmlYandex([$suppliers[24], $suppliers[9], $suppliers[13], $suppliers[27], $suppliers[7], $suppliers[8], $suppliers[4], $suppliers[6]]);
         ////////////////////////////////////////////////////////////////////////////////
         try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://www.wellfitness.ru/index.php?route=feed/yandex_market');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            $result = curl_exec($ch);
-            $wellFitness = simplexml_load_string($result);
-            $wellFitnessArray = [];
-
-            foreach($wellFitness->shop->offers->offer as $offer) {
-                $available = (string) $offer->attributes()->{'available'};
-                $artikul = (string) $offer->vendorCode;
-                $price = (int) $offer->price;
-
-                $wellFitnessArray[$artikul]['price'] = $price;
-                $wellFitnessArray[$artikul]['available'] = $available;
-            }
-
-            Yii::$app->queue_default->push(new Xml([
-                'supplierName' => 'wellFitness',
-                'data' => $wellFitnessArray,
-                'supplierId' => 9,
-                'notAvailableIfExists' => false,
-            ]));
-        } catch(Exception $e) {
-            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }
-        ////////////////////////////////////////////////////////////////////////////////
-        try {
-            $fineFitness = simplexml_load_file('https://finefitness.ru/index.php?route=feed/yandex_market');
-            $fineFitnessArray = [];
-
-            foreach($fineFitness->shop->offers->offer as $offer) {
-                $available = (string) $offer->attributes()->{'available'};
-                $artikul = (string) $offer->vendorCode;
-                $price = (int) $offer->price;
-
-                $fineFitnessArray[$artikul]['price'] = $price;
-                $fineFitnessArray[$artikul]['available'] = $available;
-            }
-
-            Yii::$app->queue_default->push(new Xml([
-                'supplierName' => 'fineFitness',
-                'data' => $fineFitnessArray,
-                'supplierId' => 13,
-                'notAvailableIfExists' => false,
-            ]));
-        } catch(Exception $e) {
-            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }
-        ////////////////////////////////////////////////////////////////////////////////
-        try {
-            $bradex = simplexml_load_file('https://api.bradex.ru/acrit.exportpro/bradex_expo_titanium_inform.xml?encoding=utf-8');
-            $bradexArray = [];
-
-            foreach($bradex->shop->offers->offer as $offer) {
-                $available = (string) $offer->attributes()->{'available'};
-                $artikul = (string) $offer->vendorCode;
-                $price = (int) $offer->price;
-
-                $bradexArray[$artikul]['price'] = $price;
-                $bradexArray[$artikul]['available'] = $available;
-            }
-
-            Yii::$app->queue_default->push(new Xml([
-                'supplierName' => 'bradex',
-                'data' => $bradexArray,
-                'supplierId' => 27,
-                'notAvailableIfExists' => false,
-            ]));
-        } catch(Exception $e) {
-            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }
-        ////////////////////////////////////////////////////////////////////////////////
-        try {
+            $supplier = $suppliers[3];
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]);
             curl_setopt($ch, CURLOPT_VERBOSE, 1);
@@ -271,13 +172,13 @@ class Xml extends Model implements JobInterface
             curl_exec($ch);
 
             curl_setopt($ch, CURLOPT_COOKIEFILE, Yii::getAlias('@www').'/cookie.txt');
-            curl_setopt($ch, CURLOPT_URL, 'https://hasttings.ru/diler/fast.yml');
+            curl_setopt($ch, CURLOPT_URL, $supplier->id);
             $result = curl_exec($ch);
 
-            $hasttings = simplexml_load_string($result);
-            $hasttingsArray = [];
+            $dat = simplexml_load_string($result);
+            $dataArray = [];
 
-            foreach($hasttings->shop->offers->offer as $offer) {
+            foreach($dat->shop->offers->offer as $offer) {
                 if ($offer->available == 'true') {
                     $available = 10;
                 } else {
@@ -287,14 +188,13 @@ class Xml extends Model implements JobInterface
                 $artikul = str_replace('  ', ' ', (string) $offer->marking);
                 $price = (int) $offer->price;
 
-                $hasttingsArray[$artikul]['price'] = $price;
-                $hasttingsArray[$artikul]['available'] = $available;
+                $dataArray[$artikul]['price'] = $price;
+                $dataArray[$artikul]['available'] = $available;
             }
 
             Yii::$app->queue_default->push(new Xml([
-                'supplierName' => 'hasttings',
-                'data' => $hasttingsArray,
-                'supplierId' => 3,
+                'data' => $dataArray,
+                'supplierId' => $supplier->id,
                 'notAvailableIfExists' => false,
             ]));
         } catch(Exception $e) {
@@ -302,33 +202,11 @@ class Xml extends Model implements JobInterface
         }
         ////////////////////////////////////////////////////////////////////////////////
         try {
-            $unixfit = simplexml_load_file('http://unixfit.ru/bitrix/catalog_export/catalog.php');
-            $unixfitArray = [];
+            $supplier = $suppliers[5];
+            $data = simplexml_load_file($supplier->xml_url);
+            $dataArray = [];
 
-            foreach($unixfit->shop->offers->offer as $offer) {
-                $available = (string) $offer['available'] === 'false' ? 0 : 10;
-                $artikul = (string) $offer->vendorCode;
-                $price = (int) $offer->price;
-
-                $unixfitArray[$artikul]['price'] = $price;
-                $unixfitArray[$artikul]['available'] = $available;
-            }
-
-            Yii::$app->queue_default->push(new Xml([
-                'supplierName' => 'unixfit',
-                'data' => $unixfitArray,
-                'supplierId' => 7,
-                'notAvailableIfExists' => false,
-            ]));
-        } catch(Exception $e) {
-            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }
-        ////////////////////////////////////////////////////////////////////////////////
-        try {
-            $neotren = simplexml_load_file('https://neotren.ru/yml.php');
-            $neotrenArray = [];
-
-            foreach($neotren->shop->offers->offer as $offer) {
+            foreach($data->shop->offers->offer as $offer) {
                 $offerXml = $offer->asXml();
 
                 if (strstr($offerXml, '<param name="status"/>')) {
@@ -341,14 +219,13 @@ class Xml extends Model implements JobInterface
                 $artikul = (string) $offer->vendorCode;
                 $price = (int) $offer->price;
 
-                $neotrenArray[$artikul]['price'] = $price;
-                $neotrenArray[$artikul]['available'] = $available;
+                $dataArray[$artikul]['price'] = $price;
+                $dataArray[$artikul]['available'] = $available;
             }
 
             Yii::$app->queue_default->push(new Xml([
-                'supplierName' => 'neotren',
-                'data' => $neotrenArray,
-                'supplierId' => 5,
+                'data' => $dataArray,
+                'supplierId' => $supplier->id,
                 'notAvailableIfExists' => false,
             ]));
         } catch(Exception $e) {
@@ -356,110 +233,23 @@ class Xml extends Model implements JobInterface
         }
         ////////////////////////////////////////////////////////////////////////////////
         try {
-            $fitnessBoutique = simplexml_load_file('https://www.fitness-boutique.ru/system/files/dealer/stock_fitness-boutique_xml.xml');
-            $fitnessBoutiqueArray = [];
+            $supplier = $suppliers[2];
+            $data = simplexml_load_file($supplier->xml_url);
+            $dataArray = [];
 
-            foreach($fitnessBoutique->shop->offers->offer as $offer) {
-                $available = (string) $offer->attributes()->{'available'};
-                $artikul = (string) $offer->vendorCode;
-                $price = (int) $offer->price;
-
-                $fitnessBoutiqueArray[$artikul]['price'] = $price;
-                $fitnessBoutiqueArray[$artikul]['available'] = $available;
-            }
-
-            Yii::$app->queue_default->push(new Xml([
-                'supplierName' => 'fitnessBoutique',
-                'data' => $fitnessBoutiqueArray,
-                'supplierId' => 8,
-                'notAvailableIfExists' => true,
-            ]));
-        } catch(Exception $e) {
-            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }
-        ////////////////////////////////////////////////////////////////////////////////
-        try {
-            $soulfit = simplexml_load_file('http://soulfitnes.ru/wp-content/plugins/saphali-export-yml2/export.yml');
-            $soulfitArray = [];
-
-            foreach($soulfit->shop->offers->offer as $offer) {
-                $available = (string) $offer->attributes()->{'available'};
-                $artikul = (string) $offer->vendorCode;
-                $price = (int) $offer->price;
-
-                $soulfitArray[$artikul]['price'] = $price;
-                $soulfitArray[$artikul]['available'] = $available;
-            }
-
-            Yii::$app->queue_default->push(new Xml([
-                'supplierName' => 'soulfit',
-                'data' => $soulfitArray,
-                'supplierId' => 4,
-                'notAvailableIfExists' => false,
-            ]));
-        } catch(Exception $e) {
-            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }
-        ////////////////////////////////////////////////////////////////////////////////
-        try {
-            $stark = simplexml_load_file('http://xn----dtbgdaodln4afhyim1m.com/price/?sklad=moscow');
-            $starkArray = [];
-
-            foreach($stark->shop->offers->offer as $offer) {
-                $available = (string) $offer->attributes()->{'available'};
-                $artikul = (string) $offer->articul;
-                $price = (int) $offer->price;
-
-                $starkArray[$artikul]['price'] = $price;
-                $starkArray[$artikul]['available'] = $available;
-            }
-
-            Yii::$app->queue_default->push(new Xml([
-                'supplierName' => 'stark',
-                'data' => $starkArray,
-                'supplierId' => 6,
-                'notAvailableIfExists' => false,
-            ]));
-        } catch(Exception $e) {
-            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }
-        ////////////////////////////////////////////////////////////////////////////////
-        /*try {
-            $svenson = simplexml_load_file('https://jorgen-svensson.com/ru/data.yml');
-            $svensonArray = [];
-
-            foreach($svenson->shop->offers->offer as $offer) {
-                $available = (string) $offer->param;
-                $artikul = (string) $offer->vendorCode;
-                $price = (int) $offer->price;
-
-                $svensonArray[$artikul]['price'] = $price;
-                $svensonArray[$artikul]['available'] = $available;
-            }
-
-            $xml->loadXml('jorgen-svensson', $svensonArray, 2);
-        } catch(Exception $e) {
-            Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
-        }*/
-        ////////////////////////////////////////////////////////////////////////////////
-        try {
-            $driada = simplexml_load_file('http://driada-sport.ru/data/files/XML_prise_s.xml');
-            $driadaArray = [];
-
-            foreach($driada->price as $offer) {
+            foreach($data->price as $offer) {
                 $values = $offer->attributes();
                 $available = (string) $values['Остаток'];
                 $artikul = (string) $values['Артикул'];
                 $price = (int) $values['Цена'];
 
-                $driadaArray[$artikul]['price'] = $price;
-                $driadaArray[$artikul]['available'] = $available;
+                $dataArray[$artikul]['price'] = $price;
+                $dataArray[$artikul]['available'] = $available;
             }
 
             Yii::$app->queue_default->push(new Xml([
-                'supplierName' => 'driada',
-                'data' => $driadaArray,
-                'supplierId' => 2,
+                'data' => $dataArray,
+                'supplierId' => $supplier->id,
                 'notAvailableIfExists' => false,
             ]));
         } catch(Exception $e) {
@@ -467,5 +257,38 @@ class Xml extends Model implements JobInterface
         }
 
         Yii::$app->queue_default->push(new UML());
+    }
+
+    public static function xmlYandex($suppliers) {
+        foreach($suppliers as $supplier) {
+            try {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $supplier->xml_url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                $result = curl_exec($ch);
+
+                $data = simplexml_load_string($result);
+                $dataArray = [];
+
+                foreach($data->shop->offers->offer as $offer) {
+                    $available = (string) $offer->attributes()->{'available'};
+                    $artikul = (string) $offer->vendorCode;
+                    $price = (int) $offer->price;
+
+                    $dataArray[$artikul]['price'] = $price;
+                    $dataArray[$artikul]['available'] = $available;
+                }
+
+                Yii::$app->queue_default->push(new Xml([
+                    'data' => $dataArray,
+                    'supplierId' => $supplier->id,
+                    'notAvailableIfExists' => false,
+                ]));
+            } catch(Exception $e) {
+                Xml::sendMessage("Ошибка при парсинге прайс листа KSG", $e->getMessage());
+            }
+        }
     }
 }
