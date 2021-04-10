@@ -236,7 +236,9 @@ $others = $array['Others'];
                         <div class="successOrder__lineRight"><?=number_format($order->costWithDiscount(), 0, '', ' ')?> <em class="rubl">₽</em></div>
                     </div>
                 </li>
-                <?php $iii++; ?>
+                <?php $iii++;
+                if ($order->hasAnyUnavailableProduct() === false) {
+                ?>
                 <li>
                     <div class="successOrder__line">
                         <div class="successOrder__lineLeft"><?=$iii?>. Статус оплаты</div>
@@ -263,7 +265,8 @@ $others = $array['Others'];
                             </div>
                         </div>
                     </li>
-                <?php } ?>
+                <?php }
+                }?>
             </ul>
         </div>
     </div>

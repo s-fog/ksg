@@ -13,6 +13,7 @@ use himiklab\sortablegrid\SortableGridBehavior;
  *
  * @property integer $id
  * @property string $name
+ * @property string $xml_url
  * @property integer $sort_order
  * @property integer $created_at
  * @property integer $updated_at
@@ -55,7 +56,8 @@ abstract class Supplier extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['sort_order'], 'integer'],
-            [['name'], 'string', 'max' => 255]
+            [['name'], 'string', 'max' => 255],
+            [['xml_url'], 'string']
         ];
     }
 
@@ -67,6 +69,7 @@ abstract class Supplier extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название',
+            'xml_url' => 'Xml ссылка',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'sort_order' => 'Sort Order',

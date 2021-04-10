@@ -32,7 +32,7 @@ if ($model->params[0]->available == 0) {
         <div class="addToCart__bottomTop">
             <button class="button button222 addToCart__tocart">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 34"><g><polygon points="7.07 0 0 7.07 0 34 211.93 34 219 26.93 219 0 7.07 0"></polygon></g></svg>
-                <span><?=$empty ? 'Предзаказ' : 'Добавить в корзину'?></span>
+                <span>Добавить в корзину</span>
             </button>
         </div>
         <div class="addToCart__bottomBottom">

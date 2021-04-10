@@ -40,19 +40,13 @@ $inFavourite = Favourite::inFavourite($model->id);
         </div>
         <a href="<?=$url?>" class="catalog__itemImage">
             <img src="/images/thumbs/<?=$filename[0]?>-350-300.<?=$filename[1]?>" alt="">
+            <?php if ($available) { ?>
+                <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.667 2.12908L4.64173 10.2351L0 5.59342L1.37924 4.21417L4.53969 7.37463L10.193 0.851608L11.667 2.12908Z" fill="#00C514"/>
+                </svg>
+            <?php } ?>
         </a>
         <div class="catalog__itemPrices">
-            <div class="catalog__itemAvailability">
-                <?php if ($available) { ?>
-                    <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.667 2.12908L4.64173 10.2351L0 5.59342L1.37924 4.21417L4.53969 7.37463L10.193 0.851608L11.667 2.12908Z" fill="#00C514"/>
-                    </svg>
-                    <span>В наличии</span>
-                <?php } else { ?>
-                    <div class="catalog__itemAvailabilityNone">x</div>
-                    <span>Нет в наличии</span>
-                <?php } ?>
-            </div>
             <div class="catalog__itemPrice"><?=number_format($model->price, 0, '', ' ')?> <span class="rubl">₽</span></div>
             <?php if (!empty($model->price_old)) { ?>
                 <div class="catalog__itemOldPrice"><?=number_format($model->price_old, 0, '', ' ')?> <span class="rubl">₽</span></div>

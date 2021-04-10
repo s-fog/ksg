@@ -42,6 +42,7 @@ use yii\helpers\StringHelper;
 
 <!-- attribute name -->
 			<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+			<?= $form->field($model, 'xml_url')->textInput(['maxlength' => true]) ?>
         </p>
         <?php $this->endBlock(); ?>
         

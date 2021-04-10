@@ -177,27 +177,29 @@ $others = $array['Others'];
                         </td>
                     </tr>
                     <?php } ?>
-                <tr>
-                    <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
-                        <div class="main__tableProduct">Статус оплаты</div>
-                    </td>
-                    <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">
-                        <?=($order->paid == 1) ? '<span style="color: #95c11f">Оплачен</span>' : '<span style="color: #e8394a">Не оплачен</span>'?>
-                    </td>
-                </tr>
-                <?php if ($order->paid != 1) {
-                    $payUrl = "{$host}/{$orderUrl}?pay=1";
-                    ?>
+                <?php if ($order->hasAnyUnavailableProduct() === false) { ?>
                     <tr>
                         <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
-                            <div class="main__tableProduct">Вы можете <a href="<?=$payUrl?>" target="_blank" style="color: #1f232f;">оплатить онлайн</a></div>
+                            <div class="main__tableProduct">Статус оплаты</div>
                         </td>
                         <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">
-                            <a href="<?=$payUrl?>" class="main__tablePayImageLink">
-                                <img src="<?=$host?>/img/mail/pay.png" alt="" class="main__tablePayImage">
-                            </a>
+                            <?=($order->paid == 1) ? '<span style="color: #95c11f">Оплачен</span>' : '<span style="color: #e8394a">Не оплачен</span>'?>
                         </td>
                     </tr>
+                    <?php if ($order->paid != 1) {
+                        $payUrl = "{$host}/{$orderUrl}?pay=1";
+                        ?>
+                        <tr>
+                            <td class="main__tableName" style="vertical-align: top;text-align: left;padding: 10px 0;">
+                                <div class="main__tableProduct">Вы можете <a href="<?=$payUrl?>" target="_blank" style="color: #1f232f;">оплатить онлайн</a></div>
+                            </td>
+                            <td class="main__tableValue" style="font-size: 14px;text-align: right;padding: 10px 0;">
+                                <a href="<?=$payUrl?>" class="main__tablePayImageLink">
+                                    <img src="<?=$host?>/img/mail/pay.png" alt="" class="main__tablePayImage">
+                                </a>
+                            </td>
+                        </tr>
+                    <?php } ?>
                 <?php } ?>
             </table>
         </div>

@@ -77,6 +77,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
 			'name',
+			'xml_url',
         ],
         ]); ?>
     </div>

@@ -151,4 +151,18 @@ class Order extends BaseOrder
             return false;
         }
     }
+
+    public function hasAnyUnavailableProduct() {
+        $products = unserialize(base64_decode($this->products));
+
+        foreach($products as $md5Id => $product) {
+            if ($product->hasProperty('available_p')) {
+                if ($product->available_p === false) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

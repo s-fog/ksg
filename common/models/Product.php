@@ -32,6 +32,7 @@ class Product extends BaseProduct implements CartPositionInterface
     public $present_artikul;
     public $delivery_date;
     public $artikul;
+    public $available_p;
     public $brothers_ids = [];
     public $selects = [];
     public $selectsDirty = [];

@@ -2,49 +2,21 @@
 
 namespace frontend\models;
 
+use common\models\ProductParam;
 use Yii;
 
 class Sort
 {
     public static function getOrderBy($model, $get) {
-        $orderBy = [];
+        $orderBy = ['price' => SORT_ASC];
 
-        if (
-            ($model::className() == 'common\models\Brand') ||
-            ($model::className() == 'common\models\Category' && ($model->level === 3 || in_array($model->type, [1, 2, 3, 4])))
-        ) {
-            if (isset($get['sort'])) {
-                $sort = explode('_', $get['sort']);
+        if (isset($get['sort'])) {
+            $sort = explode('_', $get['sort']);
 
-                if ($sort[0] == 'price') {
-                    if ($sort[1] == 'desc') {
-                        $orderBy = [$sort[0] => SORT_DESC];
-                    } else if ($sort[1] == 'asc') {
-                        $orderBy = [$sort[0] => SORT_ASC];
-                    }
-                } else if ($sort[0] == 'popular') {
-                    if ($sort[1] == 'desc') {
-                        $orderBy = [$sort[0] => SORT_DESC];
-                    } else if ($sort[1] == 'asc') {
-                        $orderBy = [$sort[0] => SORT_ASC];
-                    }
-                }
+            if ($get['sort'] === 'available') {
+                $orderBy = array_merge([ProductParam::tableName().'.available' => SORT_DESC], $orderBy);
             } else {
-                $orderBy = ['price' => SORT_ASC];
-            }
-        } else {
-            if (isset($get['sort'])) {
-                $sort = explode('_', $get['sort']);
-
-                if ($sort[0] == 'price') {
-                    if ($sort[1] == 'desc') {
-                        $orderBy = [$sort[0] => SORT_DESC];
-                    } else if ($sort[1] == 'asc') {
-                        $orderBy = [$sort[0] => SORT_ASC];
-                    }
-                }
-            } else {
-                $orderBy = ['price' => SORT_ASC];
+                $orderBy = [$sort[0] => $sort[1] == 'desc' ? SORT_DESC : SORT_ASC];
             }
         }
 

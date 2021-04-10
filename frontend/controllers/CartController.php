@@ -25,6 +25,7 @@ class CartController extends Controller
 
         $model = Product::findOne($id);
         $model->paramsV = $paramsV;
+        $model->available_p = $model->available;
 
         if (isset($_POST['presentArtikul'])) {
             $model->present_artikul = $_POST['presentArtikul'];
