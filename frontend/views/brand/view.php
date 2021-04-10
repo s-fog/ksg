@@ -62,6 +62,8 @@ $presents = \common\models\Present::find()->all();
                             сначала дешевле</option>
                         <option value="price_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? ' selected' : ''?>>
                             сначала дороже</option>
+                        <option value="available"<?=(isset($_GET['sort']) && $_GET['sort'] == 'available') ? ' selected' : ''?>>
+                            сначала в наличии</option>
                     <?php } ?>
                 </select>
             </div>

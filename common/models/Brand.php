@@ -59,9 +59,7 @@ class Brand extends BaseBrand
 
     public function getProducts () {
         return $this->hasMany(Product::className(), ['brand_id' => 'id'])
-            ->joinWith(['productParams' => function($q) {
-                $q->andWhere([ProductParam::tableName().'.available' => 10]);
-            }])
+            ->joinWith(['productParams'])
             ->with([
                 'category',
                 'category.features',

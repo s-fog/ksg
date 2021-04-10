@@ -32,9 +32,8 @@ class BrandController extends Controller
             throw new NotFoundHttpException;
         }
 
-        $orderBy = array_merge([ProductParam::tableName().'.available' => SORT_DESC], Sort::getOrderBy($model, $_GET));
         $productQuery = $model->getProducts()
-            ->orderBy($orderBy);
+            ->orderBy(Sort::getOrderBy($model, $_GET));
         /////////////////////////////////////////////////////////
         $defaultPageSize = 40;
         $countAllProducts = $productQuery->count();
