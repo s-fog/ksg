@@ -27,7 +27,7 @@ $firstUrl = Url::to([
     </div>
     <div class="survey__video">
         <div class="survey__videoBg"></div>
-        <div class="survey__iframe">
+        <div class="survey__iframe" style="text-align: center;">
             <?php if (empty($model->youtube)) { ?>
                 <img src="<?=$model->success_image?>" alt="">
             <?php } else { ?>
