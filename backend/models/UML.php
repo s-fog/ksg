@@ -17,6 +17,10 @@ use yii\queue\JobInterface;
 class UML extends Model implements JobInterface
 {
     public function execute($queue) {
+        self::doIt();
+    }
+
+    public static function doIt() {
         $dom = new DOMDocument('1.0', 'utf-8');
         $yml_catalog = $dom->createElement('yml_catalog');
         $date = $dom->createAttribute('date');
@@ -61,9 +65,9 @@ class UML extends Model implements JobInterface
             $categories->appendChild($categoryItem);
 
             foreach(Category::find()
-                ->where(['type' => 0, 'parent_id' => $level0Category->id])
-                ->orderBy('name')
-                ->all() as $level1Category) {
+                        ->where(['type' => 0, 'parent_id' => $level0Category->id])
+                        ->orderBy('name')
+                        ->all() as $level1Category) {
                 if ($level1Category->disallow_xml == 1) {
                     $categoriesDisallowIds[] = $level1Category->id;
                     break;
@@ -79,9 +83,9 @@ class UML extends Model implements JobInterface
                 $categories->appendChild($categoryItem);
 
                 foreach(Category::find()
-                    ->where(['type' => 0, 'parent_id' => $level1Category->id])
-                    ->orderBy('name')
-                    ->all() as $level2Category) {
+                            ->where(['type' => 0, 'parent_id' => $level1Category->id])
+                            ->orderBy('name')
+                            ->all() as $level2Category) {
                     if ($level2Category->disallow_xml == 1) {
                         $categoriesDisallowIds[] = $level2Category->id;
                         break;

@@ -4,6 +4,7 @@ namespace console\controllers;
 
 use backend\controllers\XmlController;
 use backend\models\CategoryCaching;
+use backend\models\UML;
 use backend\models\Xml;
 use common\models\Category;
 use common\models\Product;
@@ -72,6 +73,10 @@ class ConsoleController extends Controller {
 
     public function actionXmlImport() {
         Xml::doIt();
+    }
+
+    public function actionUml() {
+        UML::doIt();
     }
 
     public function actionClearEmptyElementsInDb() {
