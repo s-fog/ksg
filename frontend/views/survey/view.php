@@ -28,7 +28,11 @@ $firstUrl = Url::to([
     <div class="survey__video">
         <div class="survey__videoBg"></div>
         <div class="survey__iframe">
-            <iframe src="https://www.youtube.com/embed/<?=$model->youtube?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <?php if (empty($model->youtube)) { ?>
+                <img src="<?=$model->success_image?>" alt="">
+            <?php } else { ?>
+                <iframe src="https://www.youtube.com/embed/<?=$model->youtube?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <?php } ?>
         </div>
         <div class="survey__videoText"><?=$model->youtube_text?></div>
         <a href="<?=$firstUrl?>" class="button button3 survey__videoButton">
