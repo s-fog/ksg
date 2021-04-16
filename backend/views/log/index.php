@@ -60,7 +60,7 @@ $this->title = 'Логи';
                     <td><?=$date?></td>
                     <td><?=$errors?></td>
                     <td><?=$successes?></td>
-                    <td><a href="<?=$xmlUrl?>">Открыть XML</a></td>
+                    <td><a href="<?=$xmlUrl?>" target="_blank">Открыть XML</a></td>
                 </tr>
             <?php } ?>
         </table>
