@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Supplier;
 use yii\helpers\Url;
 
 $this->title = 'Логи';
@@ -19,6 +20,8 @@ $this->title = 'Логи';
                 <th>Кол-во успехов</th>
             </tr>
             <?php
+            $suppliers = Supplier::find()->all();
+            $supplierXmlUrls = \yii\helpers\ArrayHelper::map($suppliers, 'name', 'xml_url');
             $folder = Yii::getAlias('@backend').'/web/logs';
 
             foreach (glob("$folder/*.log") as $filename) {
@@ -28,6 +31,7 @@ $this->title = 'Логи';
                 $str = file_get_contents("$folder/$name.log");
                 $errors = 0;
                 $successes = 0;
+                $xmlUrl = $supplierXmlUrls[$name];
 
                 foreach(explode("\r\n", $str) as $index => $item) {
                     if ($index != 0 && !empty($item)) {
@@ -56,9 +60,9 @@ $this->title = 'Логи';
                     <td><?=$date?></td>
                     <td><?=$errors?></td>
                     <td><?=$successes?></td>
+                    <td><a href="<?=$xmlUrl?>">Открыть XML</a></td>
                 </tr>
             <?php } ?>
-
         </table>
     </div>
 </div>
