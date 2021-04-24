@@ -49,26 +49,8 @@ class ConsoleController extends Controller {
     }
 
     public function actionTest() {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://www.wellfitness.ru/index.php?route=feed/yandex_market');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $result = curl_exec($ch);
-        $wellFitness = simplexml_load_string($result);
-        $wellFitnessArray = [];
-
-        foreach($wellFitness->shop->offers->offer as $offer) {
-            $available = (string) $offer->attributes()->{'available'};
-            $artikul = (string) $offer->vendorCode;
-            $price = (int) $offer->price;
-
-            $wellFitnessArray[$artikul]['price'] = $price;
-            $wellFitnessArray[$artikul]['available'] = $available;
-        }
-
-
-        var_dump($wellFitnessArray);die();
+        $password = 'W~Yefn$ShdWG76%';
+        var_dump(Yii::$app->getSecurity()->generatePasswordHash($password));
     }
 
     public function actionXmlImport() {
