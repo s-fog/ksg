@@ -1,5 +1,5 @@
 #!/bin/bash
-ssh -i "~/.ssh/ksg_rsa" ubuntu@46.229.214.117 <<'ENDSSH'
+ssh -i "C:\Users\fog\.ssh\ksg_rsa" ubuntu@46.229.214.117 <<'ENDSSH'
 cd /var/www/ksg.ru
 git pull
 sudo systemctl restart ksg-queue.target
