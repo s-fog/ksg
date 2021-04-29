@@ -827,6 +827,18 @@ class SiteController extends Controller
                         $index === 'gclid'
                         ||
                         $index === 'page'
+                        ||
+                        $index === 'type'
+                        ||
+                        $index === 'source'
+                        ||
+                        $index === 'added'
+                        ||
+                        $index === 'block'
+                        ||
+                        $index === 'position'
+                        ||
+                        $index === 'keyword'
                     ) {
                         unset($parts[$index]);
                     }
