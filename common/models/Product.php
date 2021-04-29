@@ -808,9 +808,7 @@ class Product extends BaseProduct implements CartPositionInterface
 
                 $productQuery = Product::find()
                     ->select([Product::tableName().'.id'])
-                    ->joinWith(['productParams' => function($q) {
-                        $q->andWhere([ProductParam::tableName().'.available' => 10]);
-                    }]);
+                    ->with(['productParams']);
                 $productQuery = Filter::filter($productQuery, $get);
                 $productIdsBelongsToThisCategory = ArrayHelper::getColumn($productQuery->asArray()->all(), 'id');
 
