@@ -41,24 +41,14 @@ $detect = new Mobile_Detect();
                 'inCategories' => $inCategories,
             ])?>
             <select class="catalogTop__sort sort-select" name="sort" data-default-value="price_asc">
-                <?php if (($model::className() == 'common\models\Brand') ||
-                    ($model::className() == 'common\models\Category' && ($model->level === 3 || in_array($model->type, [1, 2, 3, 4])))) { ?>
-                    <option value="popular_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'popular_desc') ? ' selected' : ''?>>
-                        по популярности</option>
-                    <option value="price_asc"<?=((isset($_GET['sort']) && $_GET['sort'] == 'price_asc') || !isset($_GET['sort'])) ? ' selected' : ''?>>
-                        сначала дешевле</option>
-                    <option value="price_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? ' selected' : ''?>>
-                        сначала дороже</option>
-                <?php } else { ?>
-                    <option value="popular_desc"<?=((isset($_GET['sort']) && $_GET['sort'] == 'popular_desc')) ? ' selected' : ''?>>
-                        по популярности</option>
-                    <option value="price_asc"<?=((isset($_GET['sort']) && $_GET['sort'] == 'price_asc')  || !isset($_GET['sort'])) ? ' selected' : ''?>>
-                        сначала дешевле</option>
-                    <option value="price_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? ' selected' : ''?>>
-                        сначала дороже</option>
-                    <option value="available"<?=(isset($_GET['sort']) && $_GET['sort'] == 'available') ? ' selected' : ''?>>
-                        сначала в наличии</option>
-                <?php } ?>
+                <option value="popular_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'popular_desc') ? ' selected' : ''?>>
+                    по популярности</option>
+                <option value="price_asc"<?=((isset($_GET['sort']) && $_GET['sort'] == 'price_asc') || !isset($_GET['sort'])) ? ' selected' : ''?>>
+                    сначала дешевле</option>
+                <option value="price_desc"<?=(isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? ' selected' : ''?>>
+                    сначала дороже</option>
+                <option value="available"<?=(isset($_GET['sort']) && $_GET['sort'] == 'available') ? ' selected' : ''?>>
+                    сначала в наличии</option>
             </select>
         </div>
     </div>
